@@ -11,6 +11,7 @@ body {
   line-height: 1.5;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 body.menu-open { overflow: hidden; }
@@ -47,4 +48,6 @@ button:focus-visible, a:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .site-progress { display: none !important; }
 }

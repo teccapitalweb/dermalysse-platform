@@ -16,4 +16,6 @@
   --sans: 'Manrope Variable', 'Segoe UI', sans-serif;
   --content: min(1440px, calc(100vw - 72px));
   --ease: cubic-bezier(.2, .72, .25, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --header-height: 76px;
 }

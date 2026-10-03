@@ -48,8 +48,14 @@ export const renderLanding = (content: LandingContent): string => `
       </button>
     </header>
 
+    <aside class="site-progress" aria-hidden="true" data-site-progress>
+      <span data-progress-number>00</span>
+      <i><b data-progress-bar></b></i>
+      <em data-progress-label>Portada</em>
+    </aside>
+
     <main id="contenido">
-      <section class="hero" id="inicio">
+      <section class="hero" id="inicio" data-chapter="00" data-chapter-title="Portada" data-motion-section>
         <div class="hero__copy">
           <p class="eyebrow"><span>${icon('spark')}</span>${content.brand.eyebrow}</p>
           <h1>
@@ -71,7 +77,7 @@ export const renderLanding = (content: LandingContent): string => `
           </ul>
         </div>
 
-        <div class="hero__visual" aria-label="Editorial Dermalysse">
+        <div class="hero__visual" aria-label="Editorial Dermalysse" data-hero-visual>
           <div class="hero__arch">
             <img class="hero__backdrop" src="/media/hero-background.png" alt="" aria-hidden="true" width="1024" height="1536" />
             <img class="hero__model" src="/media/hero-model.png" alt="Retrato editorial de una joven profesional Dermalysse" width="1024" height="1536" />
@@ -85,32 +91,65 @@ export const renderLanding = (content: LandingContent): string => `
       </section>
 
       <section class="manifesto" id="mirada">
-        <div class="section-label"><span>01</span><p>Nuestra mirada</p></div>
-        <div class="manifesto__title" data-reveal>
-          <p class="eyebrow">Beauty, but make it smart</p>
-          <h2>No es solo <em>skincare.</em><br />Es criterio.</h2>
-        </div>
-        <div class="manifesto__copy" data-reveal>
-          <p>${content.brand.manifesto}</p>
-          <div class="manifesto__steps" aria-label="Enfoque Dermalysse">
-            <span>Observar</span><i></i><span>Comprender</span><i></i><span>Aplicar</span>
+        <div class="manifesto__stage" data-chapter="01" data-chapter-title="Nuestra mirada" data-motion-section>
+          <div class="section-label"><span>01</span><p>Nuestra mirada</p></div>
+          <div class="manifesto__title" data-reveal>
+            <p class="eyebrow">Beauty, but make it smart</p>
+            <h2>No es solo <em>skincare.</em><br />Es criterio.</h2>
           </div>
+          <div class="manifesto__copy" data-reveal>
+            <p>${content.brand.manifesto}</p>
+            <div class="manifesto__steps" aria-label="Enfoque Dermalysse">
+              <span>Observar</span><i></i><span>Comprender</span><i></i><span>Aplicar</span>
+            </div>
+          </div>
+          <div class="manifesto__letter" aria-hidden="true">D</div>
         </div>
-        <div class="manifesto__letter" aria-hidden="true">D</div>
       </section>
 
-      <section class="courses" id="formacion">
+      <section class="skin-intelligence" id="metodo" data-skin data-chapter="02" data-chapter-title="Método" data-motion-section>
+        <div class="skin-intelligence__stage">
+          <div class="skin-intelligence__intro" data-reveal>
+            <div class="section-label"><span>02</span><p>Skin intelligence</p></div>
+            <p class="eyebrow">A method you can feel</p>
+            <h2>Leer la piel<br /><em>antes de actuar.</em></h2>
+            <p>Dermalysse convierte información compleja en una secuencia clara: mirar con intención, conectar las señales y elegir con criterio.</p>
+          </div>
+
+          <div class="skin-intelligence__visual" aria-hidden="true">
+            <div class="skin-orbit skin-orbit--one"></div>
+            <div class="skin-orbit skin-orbit--two"></div>
+            <div class="skin-orbit skin-orbit--three"></div>
+            <div class="skin-core"><span data-skin-core>01</span><small>Dermalysse<br />method</small></div>
+            <span class="skin-intelligence__caption">Capas de observación</span>
+          </div>
+
+          <div class="skin-intelligence__steps" role="group" aria-label="Método Dermalysse">
+            <button class="skin-step is-active" type="button" aria-pressed="true" data-skin-step="0">
+              <span>01</span><strong>Observar</strong><small>Reconocer textura, contexto y cambios sin anticipar conclusiones.</small>
+            </button>
+            <button class="skin-step" type="button" aria-pressed="false" data-skin-step="1">
+              <span>02</span><strong>Comprender</strong><small>Relacionar cada señal con fundamentos claros y lenguaje preciso.</small>
+            </button>
+            <button class="skin-step" type="button" aria-pressed="false" data-skin-step="2">
+              <span>03</span><strong>Aplicar</strong><small>Transformar el conocimiento en decisiones profesionales conscientes.</small>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="courses" id="formacion" data-chapter="03" data-chapter-title="Formación" data-motion-section>
         <div class="section-heading" data-reveal>
-          <div class="section-label"><span>02</span><p>Formación</p></div>
+          <div class="section-label"><span>03</span><p>Formación</p></div>
           <div><p class="eyebrow">Curated for your practice</p><h2>The course <em>edit.</em></h2></div>
           <p>Recorre el enfoque de cada curso y abre su primera clase. El conocimiento empieza antes de la membresía.</p>
         </div>
         <div class="course-grid">${content.courses.map(courseCard).join('')}</div>
       </section>
 
-      <section class="club" id="club">
+      <section class="club" id="club" data-chapter="04" data-chapter-title="El club" data-motion-section>
         <div class="club__intro" data-reveal>
-          <div class="section-label section-label--light"><span>03</span><p>El club</p></div>
+          <div class="section-label section-label--light"><span>04</span><p>El club</p></div>
           <p class="eyebrow">Your beauty intelligence era</p>
           <h2>Todo tu aprendizaje,<br /><em>en un mismo lugar.</em></h2>
           <p>Explora cursos, materiales y herramientas educativas desde una experiencia organizada para acompañar tu evolución profesional.</p>
@@ -118,14 +157,14 @@ export const renderLanding = (content: LandingContent): string => `
         </div>
         <div class="club__experience" data-reveal>
           <div class="club-list">${content.club.map((item, index) => clubItem(item, index === 0)).join('')}</div>
-          <div class="club-focus" aria-live="polite">
+          <div class="club-focus" aria-live="polite" data-club-focus>
             <span data-club-number>${content.club[0].index}</span>
             <div><p>Dentro de Dermalysse</p><h3 data-club-title>${content.club[0].title}</h3><p data-club-summary>${content.club[0].summary}</p></div>
           </div>
         </div>
       </section>
 
-      <section class="closing">
+      <section class="closing" data-chapter="05" data-chapter-title="Siguiente era" data-motion-section>
         <div class="closing__visual" aria-hidden="true">
           <img src="/media/piel-sin-cicatrices.png" alt="" loading="lazy" width="1024" height="1536" />
         </div>
