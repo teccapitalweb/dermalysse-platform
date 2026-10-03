@@ -7,6 +7,7 @@ Reconstrucción independiente y unificada del ecosistema digital de Dermalysse.
 Primera base visual implementada y verificada localmente el 3 de octubre de 2026:
 
 - landing editorial responsive;
+- primera experiencia interna del club en modo local;
 - contenido confirmado de las fuentes oficiales;
 - cuatro rutas formativas destacadas;
 - explorador interactivo del club;
@@ -19,6 +20,11 @@ Primera base visual implementada y verificada localmente el 3 de octubre de 2026
 npm install
 npm run dev
 ```
+
+Rutas locales:
+
+- `/`: portada editorial.
+- `/club.html`: interior del club en modo local.
 
 Comandos de validación:
 

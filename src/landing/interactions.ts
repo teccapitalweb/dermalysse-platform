@@ -9,7 +9,6 @@ export const mountInteractions = (content: LandingContent): void => {
   const menuButton = qs<HTMLButtonElement>('[data-menu]');
   const dialog = qs<HTMLDialogElement>('[data-preview]');
   const video = dialog ? qs<HTMLVideoElement>('video', dialog) : null;
-  const toast = qs<HTMLElement>('[data-toast]');
 
   const closeMenu = (): void => {
     navigation?.classList.remove('is-open');
@@ -31,18 +30,6 @@ export const mountInteractions = (content: LandingContent): void => {
   };
   updateHeader();
   window.addEventListener('scroll', updateHeader, { passive: true });
-
-  const showToast = (message: string): void => {
-    if (!toast) return;
-    toast.textContent = message;
-    toast.hidden = false;
-    window.setTimeout(() => { toast.hidden = true; }, 4200);
-  };
-
-  qsa<HTMLButtonElement>('[data-local-cta]').forEach((button) => button.addEventListener('click', () => {
-    closeMenu();
-    showToast('Vista local: la conexión con cuentas y membresías se habilitará en la etapa de integración.');
-  }));
 
   qsa<HTMLButtonElement>('[data-preview-open]').forEach((button) => button.addEventListener('click', () => dialog?.showModal()));
   qs<HTMLButtonElement>('[data-preview-close]')?.addEventListener('click', () => dialog?.close());

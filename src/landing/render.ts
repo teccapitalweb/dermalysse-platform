@@ -40,7 +40,7 @@ export const renderLanding = (content: LandingContent): string => `
         <a href="#mirada">Nuestra mirada</a>
         <a href="#formacion">Formación</a>
         <a href="#club">El club</a>
-        <button class="button button--small" type="button" data-local-cta>Entrar al club ${icon('arrow')}</button>
+        <a class="button button--small" href="/club.html" data-local-cta>Entrar al club ${icon('arrow')}</a>
       </nav>
       <button class="menu-button" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="site-navigation" data-menu>
         <span class="menu-button__open">${icon('menu')}</span>
@@ -114,7 +114,7 @@ export const renderLanding = (content: LandingContent): string => `
           <p class="eyebrow">Your beauty intelligence era</p>
           <h2>Todo tu aprendizaje,<br /><em>en un mismo lugar.</em></h2>
           <p>Explora cursos, materiales y herramientas educativas desde una experiencia organizada para acompañar tu evolución profesional.</p>
-          <button class="button button--light" type="button" data-local-cta>Conocer el club ${icon('arrow')}</button>
+          <a class="button button--light" href="/club.html" data-local-cta>Conocer el club ${icon('arrow')}</a>
         </div>
         <div class="club__experience" data-reveal>
           <div class="club-list">${content.club.map((item, index) => clubItem(item, index === 0)).join('')}</div>
@@ -133,7 +133,7 @@ export const renderLanding = (content: LandingContent): string => `
           <p class="eyebrow">Your next era starts here</p>
           <h2>Conoce la piel.<br /><em>Cambia tu práctica.</em></h2>
           <p>Contenido educativo para ampliar tu criterio. No sustituye una valoración ni una consulta médica profesional.</p>
-          <button class="button" type="button" data-local-cta>Explorar Dermalysse ${icon('arrow')}</button>
+          <a class="button" href="/club.html" data-local-cta>Explorar Dermalysse ${icon('arrow')}</a>
         </div>
       </section>
     </main>
@@ -144,8 +144,6 @@ export const renderLanding = (content: LandingContent): string => `
       <nav aria-label="Navegación de pie"><a href="#mirada">Nuestra mirada</a><a href="#formacion">Formación</a><a href="#club">El club</a></nav>
       <small>Dermalysse · 2026 · Prototipo local</small>
     </footer>
-
-    <div class="toast" role="status" aria-live="polite" data-toast hidden></div>
 
     <dialog class="preview" data-preview aria-labelledby="preview-title">
       <div class="preview__visual"><img src="/media/hidrafacial.png" alt="Tratamiento hidrafacial profesional" width="1024" height="1536" /></div>
