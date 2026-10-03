@@ -1,0 +1,19 @@
+node_modules/
+dist/
+coverage/
+.vite/
+*.log
+
+# Configuracion local y secretos
+.env
+.env.*
+!.env.example
+
+# Archivos del sistema y editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Salidas temporales
+work/
