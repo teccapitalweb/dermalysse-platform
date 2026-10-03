@@ -5,11 +5,11 @@
 .certificate-page__bar .circle-btn .i { width: 15px; height: 15px; }
 
 .cert-final {
-  --cert-ink: #14261d;
-  --cert-green: #123f2a;
-  --cert-green-2: #1c6a48;
-  --cert-gold: #c89b32;
-  --cert-cream: #fbf8ef;
+  --cert-ink: #0b2435;
+  --cert-green: #681c31;
+  --cert-green-2: #8f4056;
+  --cert-gold: #d9a09b;
+  --cert-cream: #fffaf4;
   position: relative;
   isolation: isolate;
   display: grid;
@@ -20,7 +20,7 @@
   border: 1px solid #d8d0bc;
   color: var(--cert-ink);
   background: var(--cert-cream);
-  box-shadow: 0 34px 90px -36px rgba(15, 52, 35, .42);
+  box-shadow: 0 34px 90px -36px rgba(11, 36, 53, .42);
 }
 .cert-final::before { position: absolute; z-index: 8; inset: 11px; border: 1px solid rgba(200,155,50,.72); content: ''; pointer-events: none; }
 .cert-final::after { position: absolute; z-index: 8; inset: 16px; border: 1px solid rgba(18,63,42,.18); content: ''; pointer-events: none; }
@@ -30,7 +30,7 @@
 .cert-final__security--top { top: 17px; }
 .cert-final__security--bottom { bottom: 17px; transform: rotate(180deg); }
 
-.cert-final__rail { position: relative; z-index: 2; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; padding: clamp(30px, 4vw, 56px) 12px; overflow: hidden; color: #fff; background: linear-gradient(160deg, #0c3120 0%, #164d34 58%, #123c29 100%); }
+.cert-final__rail { position: relative; z-index: 2; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; padding: clamp(30px, 4vw, 56px) 12px; overflow: hidden; color: #fff; background: linear-gradient(160deg, #0b2435 0%, #315a76 56%, #681c31 100%); }
 .cert-final__rail::before { position: absolute; inset: -18% -90% 48% -50%; border: 1px solid rgba(255,255,255,.13); border-radius: 50%; content: ''; transform: rotate(18deg); }
 .cert-final__rail::after { position: absolute; right: -42px; bottom: 10%; width: 96px; aspect-ratio: 1; border: 1px solid rgba(200,155,50,.32); border-radius: 50%; box-shadow: 0 0 0 15px rgba(200,155,50,.06), 0 0 0 29px rgba(200,155,50,.035); content: ''; }
 .cert-final__monogram { position: relative; display: grid; width: clamp(48px, 6vw, 78px); aspect-ratio: 1; place-items: center; border: 1px solid rgba(255,255,255,.42); border-radius: 50%; background: rgba(255,255,255,.08); }

@@ -53,7 +53,7 @@ export function biblioteca(_: Record<string, string>, query: URLSearchParams) {
     <div class="section-head"><div><span class="chip chip--primary">Materiales</span><h1 class="display" style="font-size:var(--fs-2xl)">Tu biblioteca <em>Dermalysse</em></h1>
       <p class="muted" style="margin-top:6px">${materiales.length} recursos · guías, formatos, atlas y presentaciones de tus cursos.</p></div><div class="row">${chips}</div></div>
     ${destacado ? fichaLibro(destacado, true) : ''}
-    ${lista.length ? estante(lista) : `<div class="card card--pad" style="text-align:center;padding:56px"><h3>Sin resultados</h3><p class="muted">Prueba con otro tipo.</p></div>`}
+    ${lista.length ? estante(lista) : materiales.length ? `<div class="card card--pad" style="text-align:center;padding:56px"><h3>Sin resultados</h3><p class="muted">Prueba con otro tipo o limpia los filtros.</p></div>` : `<div class="card card--pad" style="text-align:center;padding:56px;display:grid;gap:10px;justify-items:center"><span class="circle-btn" style="background:var(--primary-soft);color:var(--primary)"><i data-lucide="library" class="i"></i></span><h3>Biblioteca en preparación</h3><p class="muted" style="max-width:46ch">Las guías, atlas y formatos aparecerán aquí cuando Dermalysse los publique.</p></div>`}
   </section>`;
 }
 

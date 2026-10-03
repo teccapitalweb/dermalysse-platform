@@ -64,7 +64,9 @@ export function shellHTML() {
 
 export function marcarNavActivo(path: string) {
   document.querySelectorAll<HTMLAnchorElement>('[data-nav]').forEach((a) => {
+    const esMas = a.getAttribute('href') === '#/mas';
+    const rutasMas = /^\/(mas|comunidad|en-vivo|herramientas|logros|certificados|recompensas|bienvenida|encuestas|perfil|suscripcion|configuracion)/;
     const item = NAV.find((n) => 'href' in n && n.href === a.getAttribute('href')) as any;
-    a.classList.toggle('is-active', item ? item.match.test(path) : false);
+    a.classList.toggle('is-active', esMas ? rutasMas.test(path) : item ? item.match.test(path) : false);
   });
 }

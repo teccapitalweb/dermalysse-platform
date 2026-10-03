@@ -25,6 +25,7 @@ export function envivo() {
   const pasados = eventosPublicados().filter((e) => new Date(e.fecha).getTime() <= ahora);
   const r = reservas();
   const prox = proximos[0];
+  const canal = BRAND.canalWhatsApp;
 
   const heroProx = prox ? `
     <div class="hero" style="min-height:300px;grid-template-columns:1fr">
@@ -41,14 +42,14 @@ export function envivo() {
     <div class="card" style="text-align:center;padding:56px 24px;display:grid;gap:12px;justify-items:center;background:var(--hero-gradient);color:#fff;border:0">
       <span class="circle-btn" style="width:64px;height:64px;background:rgba(255,255,255,.14)"><i data-lucide="radio" class="i" style="width:26px;height:26px"></i></span>
       <h1 class="display display--black" style="font-size:var(--fs-2xl)">Sin clases programadas</h1>
-      <p style="opacity:.85;max-width:46ch">Te avisamos en cuanto haya una nueva transmisión en vivo. Mientras, los cursos en vivo se anuncian primero en el canal de WhatsApp.</p>
-      <a class="btn btn--white btn--pill-arrow" href="${BRAND.canalWhatsApp}" target="_blank" rel="noopener">Seguir el canal de WhatsApp <span class="arrow" style="background:var(--brand-navy);color:#fff"><i data-lucide="arrow-up-right" class="i"></i></span></a>
+      <p style="opacity:.85;max-width:46ch">${canal ? 'Te avisamos en cuanto haya una nueva transmisión en vivo. Los anuncios también se publican en el canal de WhatsApp.' : 'Te avisamos dentro del club en cuanto haya una nueva transmisión en vivo.'}</p>
+      ${canal ? `<a class="btn btn--white btn--pill-arrow" href="${canal}" target="_blank" rel="noopener">Seguir el canal de WhatsApp <span class="arrow" style="background:var(--brand-navy);color:#fff"><i data-lucide="arrow-up-right" class="i"></i></span></a>` : '<span class="chip chip--glass">Agenda en preparación</span>'}
     </div>`;
 
   return `
   <section class="stack" style="gap:20px">
     <div class="section-head"><div><span class="chip chip--primary">En vivo</span><h1 class="display" style="font-size:var(--fs-2xl)">Clases <em>en vivo</em> y grabaciones</h1></div>
-      <a class="section-head__cta" href="${BRAND.canalWhatsApp}" target="_blank" rel="noopener">Canal de avisos <span class="circle-btn"><i data-lucide="arrow-up-right" class="i"></i></span></a></div>
+      ${canal ? `<a class="section-head__cta" href="${canal}" target="_blank" rel="noopener">Canal de avisos <span class="circle-btn"><i data-lucide="arrow-up-right" class="i"></i></span></a>` : ''}</div>
     ${heroProx}
     ${proximos.length > 1 ? `<div class="stack" style="gap:10px">${proximos.slice(1).map((e) => `
       <div class="upnext"><div class="upnext__thumb" style="background:var(--hero-gradient);display:grid;place-items:center;color:#fff"><i data-lucide="radio" class="i" style="position:static;filter:none"></i></div>

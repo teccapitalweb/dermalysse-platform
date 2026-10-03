@@ -62,7 +62,7 @@ const DEMO: Recompensa[] = [
   { id: 'aventurero', nombre: 'Aventurero', descripcion: 'Completa 15 niveles de historia', icono: 'map', progreso: 3, meta: 15, completado: false, canjeado: false, canjeadoEn: null, premio: { duracion: '15d', dias: null } },
   { id: 'participativo', nombre: 'Participativo', descripcion: 'Publica 3 hilos en el foro', icono: 'message-square', progreso: 0, meta: 3, completado: false, canjeado: false, canjeadoEn: null, premio: { duracion: 'personalizada', dias: 7 } },
   { id: 'certificado', nombre: 'Certificado', descripcion: 'Obtén tu primer certificado', icono: 'award', progreso: 0, meta: 1, completado: false, canjeado: false, canjeadoEn: null, premio: { duracion: '15d', dias: null } },
-  { id: 'maestro', nombre: 'Maestro Avícola', descripcion: 'Completa 5 cursos', icono: 'crown', progreso: 0, meta: 5, completado: false, canjeado: false, canjeadoEn: null, premio: { duracion: '1m', dias: null } },
+  { id: 'maestro', nombre: 'Criterio Dermalysse', descripcion: 'Completa 5 cursos', icono: 'crown', progreso: 0, meta: 5, completado: false, canjeado: false, canjeadoEn: null, premio: { duracion: '1m', dias: null } },
 ];
 
 export async function paginaRecompensas(): Promise<string> {

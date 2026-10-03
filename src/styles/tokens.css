@@ -13,7 +13,7 @@
   --brand-gold: #d9a09b;
   --brand-gradient: linear-gradient(120deg, #681c31, #315a76);
 
-  /* ── Escala verde (primario) ── */
+  /* ── Escala azul tinta ── */
   --blue-50: #f4f7f9;
   --blue-100: #e7eef2;
   --blue-200: #cbdbe4;
@@ -25,7 +25,7 @@
   --blue-800: #0b2435;
   --blue-900: #071923;
 
-  /* ── Escala verde fresco (secundario) ── */
+  /* ── Escala vino ── */
   --teal-50: #fbf3f5;
   --teal-100: #f3dfe5;
   --teal-300: #d9a0ad;
@@ -33,7 +33,7 @@
   --teal-500: #8f4056;
   --teal-600: #681c31;
 
-  /* ── Escala dorada (acento premium) ── */
+  /* ── Escala rosa mineral ── */
   --gold-50: #fff7f5;
   --gold-100: #f9e3df;
   --gold-300: #e9bab4;
@@ -42,11 +42,11 @@
   --gold-600: #a85f63;
 
   /* ── Semánticos ── */
-  --primary: var(--blue-500);
-  --primary-hover: var(--blue-600);
-  --primary-soft: var(--blue-50);
+  --primary: var(--teal-600);
+  --primary-hover: #501525;
+  --primary-soft: var(--teal-50);
   --primary-ink: #ffffff;
-  --accent: var(--gold-500);
+  --accent: var(--gold-400);
   --accent-soft: var(--gold-50);
   --success: #2e9e6b;
   --warning: #c7871a;
@@ -110,8 +110,8 @@
   --primary-hover: #efbfca;
   --primary-soft: rgba(229, 168, 181, .14);
   --primary-ink: #0d1220;
-  --accent: #e8c465;
-  --accent-soft: rgba(232, 196, 101, .14);
+  --accent: #d9a09b;
+  --accent-soft: rgba(217, 160, 155, .14);
   --success: #5cc590;
   --warning: #e0a63f;
   --danger: #ef7d74;
@@ -133,5 +133,5 @@
   --shadow-md: 0 8px 22px -8px rgba(0, 0, 0, .6);
   --shadow-lg: 0 28px 56px -20px rgba(0, 0, 0, .75);
   --shadow-cover: 0 30px 50px -18px rgba(0, 0, 0, .8);
-  --ring: 0 0 0 3px rgba(107, 191, 147, .35);
+  --ring: 0 0 0 3px rgba(217, 160, 155, .35);
 }

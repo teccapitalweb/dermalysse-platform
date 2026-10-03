@@ -117,7 +117,7 @@ export async function inicio() {
         <span>En vivo</span>
         ${ev ? `<span class="dash-qlink__tag">${fmtFecha(ev.fecha)}</span>` : ''}
       </a>
-      <a class="dash-qlink" href="${BRAND.canalWhatsApp}" target="_blank" rel="noopener">
+      <a class="dash-qlink" href="${BRAND.canalWhatsApp || '#/comunidad'}"${BRAND.canalWhatsApp ? ' target="_blank" rel="noopener"' : ''}>
         <span class="dash-qlink__icon dash-qlink__icon--wa"><i data-lucide="message-circle" class="i"></i></span>
         <span>Comunidad</span>
       </a>

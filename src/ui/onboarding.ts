@@ -20,7 +20,7 @@ const PASOS: Paso[] = [
   { titulo: '{{nombre}}', texto: 'Te damos un recorrido rápido para que conozcas todo lo que tienes disponible. Son solo 30 segundos.', icon: 'rocket', color: '#4a7fc1' },
   { target: '.nav [href="#/cursos"]', titulo: 'Cursos a tu ritmo', texto: 'Clases organizadas por módulos, seguimiento de progreso y espacios de repaso.', icon: 'graduation-cap', color: '#681c31', pos: 'right' },
   { target: '.nav [href="#/materiales"]', titulo: 'Biblioteca Dermalysse', texto: 'Guías, formatos, atlas y documentos educativos reunidos en un solo lugar.', icon: 'library', color: '#d9a09b', pos: 'right' },
-  { target: '.nav [href="#/retos"]', titulo: 'Aprende jugando', texto: 'Quiz Relámpago, Detective Pecuario, Flashcards y más. Gana XP y sube de nivel con cada acierto.', icon: 'gamepad-2', color: '#7c5cbf', pos: 'right' },
+  { target: '.nav [href="#/retos"]', titulo: 'Aprende practicando', texto: 'Quizzes de clase, casos Dermalysse y tarjetas de estudio. Refuerza conceptos y registra tu avance.', icon: 'gamepad-2', color: '#8f4056', pos: 'right' },
   { target: '.user-card', titulo: 'Tu espacio', texto: 'Desde aquí gestionas tu perfil, tu plan y accedes a tus certificados verificables.', icon: 'circle-user-round', color: '#e0a341', pos: 'right' },
   { titulo: '¡Listo para empezar!', texto: 'Te dejamos una lista de primeros pasos en tu inicio. Si necesitas este tour de nuevo, usa el botón de ayuda en la barra superior.', icon: 'circle-check-big', color: '#22c55e' },
 ];

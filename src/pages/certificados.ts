@@ -48,16 +48,16 @@ async function plantillaCertificado(d: CertData) {
     width: 320,
     margin: 1,
     errorCorrectionLevel: 'M',
-    color: { dark: '#123f2a', light: '#ffffff' },
+    color: { dark: '#0b2435', light: '#ffffff' },
   });
   const areaIcon = iconoArea(d.area);
-  const anio = /(?:ODT|VP)-(\d{4})/i.exec(d.folio)?.[1] || String(new Date().getFullYear());
+  const anio = /(?:DML|ODT|VP)-(\d{4})/i.exec(d.folio)?.[1] || String(new Date().getFullYear());
   return `<article class="cert-final ${d.muestra ? 'is-sample' : ''}" id="cert">
     <button class="cert-final__close" data-cert-close aria-label="Cerrar vista ampliada"><i data-lucide="x" class="i"></i></button>
     <div class="cert-final__security cert-final__security--top">DERMALYSSE · FORMACIÓN CONTINUA · CONOCIMIENTO QUE SE TRANSFORMA EN CRITERIO ·</div>
     <div class="cert-final__security cert-final__security--bottom">CERTIFICADO DIGITAL · AUTENTICIDAD VERIFICABLE · DERMALYSSE ·</div>
     <aside class="cert-final__rail">
-      <div class="cert-final__monogram"><img src="/brand/dermalysse-isotipo.svg" alt=""><span>VP</span></div>
+      <div class="cert-final__monogram"><img src="/brand/dermalysse-isotipo.svg" alt=""><span>DL</span></div>
       <div class="cert-final__rail-copy"><b>Excelencia</b><span>Formación Dermalysse</span></div>
       <div class="cert-final__rail-foot"><div class="cert-final__discipline"><i data-lucide="${areaIcon}" class="i"></i><span>${esc(d.area)}</span></div><div class="cert-final__rail-year">${anio.slice(0, 2)}<span>${anio.slice(2)}</span></div></div>
     </aside>

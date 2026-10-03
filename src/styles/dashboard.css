@@ -139,7 +139,7 @@
   border-radius: var(--r-full);
 }
 .dash-cta__bar .progress span {
-  background: linear-gradient(90deg, #7fd6c6, #f0d060);
+  background: linear-gradient(90deg, #f0b5be, #fff2ed);
   border-radius: var(--r-full);
 }
 .dash-cta__bar .mono {

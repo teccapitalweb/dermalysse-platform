@@ -41,7 +41,7 @@ const iconosOpcion: Record<string, string> = {
   ninguna: 'smiley', encontrar: 'magnifying-glass', video: 'video', movil: 'device-mobile', acceso: 'key', otra: 'question',
 };
 // Opciones de «origen» sin logotipo propio: colores de la marca Dermalysse.
-const FONDOS_ORIGEN: Record<string, string> = { recomendacion: '#2f6b4a', 'escuela-evento': '#c9a227', redes: '#3d5346', otro: '#14291e' };
+const FONDOS_ORIGEN: Record<string, string> = { recomendacion: '#681c31', 'escuela-evento': '#d9a09b', redes: '#315a76', otro: '#0b2435' };
 const iconosArea: Record<string, string> = {
   Dermatología: 'scan-face', Cosmetología: 'flask-conical', Cosmiatría: 'sparkles', Estética: 'wand-sparkles', Bienestar: 'heart-pulse', Nutrición: 'apple',
   'Ovinos y Caprinos': 'paw-print', Apicultura: 'hexagon', Cunicultura: 'rabbit', General: 'sparkle',
@@ -269,7 +269,7 @@ export function montarExperiencia(): () => void {
   function opcion(v: string, p: PreguntaExperiencia, i: number) {
     const actual = borrador[p.clave]; const elegida = p.multiple ? Array.isArray(actual) && actual.includes(v) : actual === v;
     // En «origen» todas las fichas van como icono de app: fondo de color y glifo blanco.
-    const logo = p.clave === 'origen' ? logoMarca(v) || { fondo: FONDOS_ORIGEN[v] || '#14291e', svg: iconoDuotono(iconosOpcion[v] || 'sparkle') } : null;
+    const logo = p.clave === 'origen' ? logoMarca(v) || { fondo: FONDOS_ORIGEN[v] || '#0b2435', svg: iconoDuotono(iconosOpcion[v] || 'sparkle') } : null;
     const icono = logo ? logo.svg : iconoDuotono(p.clave === 'areas' ? iconosArea[v] || 'leaf' : iconosOpcion[v] || 'sparkle');
     const estilo = logo ? ` style="--marca:${logo.fondo}"` : '';
     return `<button type="button" class="experience-option${p.multiple ? ' experience-option--multi' : ''}" style="--i:${i}" data-experience-option="${esc(v)}" aria-pressed="${elegida}"><span class="experience-option__icon${logo ? ` experience-option__icon--brand${logo.fondo === '#ffffff' ? ' is-light' : ''}` : ''}"${estilo} aria-hidden="true">${icono}</span><span class="experience-option__label">${esc(etiquetas[v] || v)}</span><span class="experience-option__mark" aria-hidden="true">${elegida ? ic('check') : i < 9 ? `<kbd>${i + 1}</kbd>` : ''}</span></button>`;

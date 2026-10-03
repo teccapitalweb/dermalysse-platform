@@ -170,7 +170,7 @@ export function registrarQuiz(puntaje: number) {
 }
 export const mejorQuiz = () => leer().quizBest;
 
-// ── Detective Pecuario (casos clínicos) ──
+// ── Casos Dermalysse (escenarios educativos) ──
 export interface Caso {
   id: string; area: string; titulo: string; paciente: string; presentacion: string; hallazgos: string[];
   diagnostico: { pregunta: string; opciones: string[]; correcta: number; explicacion: string };

@@ -49,9 +49,9 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
   <section class="community-page">
     <header class="community-hero">
       <div class="community-hero__copy">
-        <span class="community-kicker"><i data-lucide="sparkles" class="i"></i>Comunidad de Campo</span>
+        <span class="community-kicker"><i data-lucide="sparkles" class="i"></i>Comunidad Dermalysse</span>
         <h1 class="display">Aprender se vuelve mejor cuando es <em>compartido.</em></h1>
-        <p>Publica un caso, compara decisiones con otros productores y convierte cada respuesta en conocimiento práctico.</p>
+        <p>Publica un caso, compara criterios con otros profesionales y convierte cada respuesta en conocimiento práctico.</p>
         <div class="community-hero__actions">
           <button class="btn btn--brand btn--pill-arrow" data-nuevo-hilo>Compartir un caso <span class="arrow"><i data-lucide="plus" class="i"></i></span></button>
           <a class="community-hero__link" href="#/retos"><i data-lucide="trophy" class="i"></i>Ver práctica Dermalysse</a>
@@ -99,7 +99,7 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
         <div class="community-side-card community-side-card--wa">
           <span class="community-side-card__icon"><i data-lucide="message-circle" class="i"></i></span>
           <span class="eyebrow">Canal oficial</span><h3>Dermalysse en WhatsApp</h3><p>Avisos de clases, novedades y contenido educativo sin ruido.</p>
-          <a class="btn" href="${BRAND.canalWhatsApp}" target="_blank" rel="noopener">Abrir canal <i data-lucide="external-link" class="i"></i></a>
+          ${BRAND.canalWhatsApp ? `<a class="btn" href="${BRAND.canalWhatsApp}" target="_blank" rel="noopener">Abrir canal <i data-lucide="external-link" class="i"></i></a>` : '<span class="chip chip--outline">Canal por conectar</span>'}
         </div>
         <a class="community-side-card community-side-card--league" href="#/retos">
           <div class="community-league-orbit"><i data-lucide="trophy" class="i"></i></div>

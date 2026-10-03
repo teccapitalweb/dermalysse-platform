@@ -12,8 +12,8 @@
   padding: 42px;
   border-radius: var(--r-2xl);
   background:
-    radial-gradient(circle at 88% 10%, rgba(240, 208, 96, .24), transparent 30%),
-    radial-gradient(circle at 60% 110%, rgba(127, 214, 198, .2), transparent 38%),
+    radial-gradient(circle at 88% 10%, rgba(217, 160, 155, .28), transparent 30%),
+    radial-gradient(circle at 60% 110%, rgba(142, 41, 68, .24), transparent 38%),
     var(--hero-gradient);
   box-shadow: var(--shadow-lg);
   color: #fff;
@@ -58,7 +58,7 @@
 }
 
 .tools-hero h1 em {
-  background: linear-gradient(90deg, #7fd6c6, #f0d060);
+  background: linear-gradient(90deg, #f0b5be, #fff2ed);
   background-clip: text;
   color: transparent;
   -webkit-background-clip: text;
