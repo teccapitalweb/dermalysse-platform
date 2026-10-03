@@ -1,39 +1,60 @@
 # Dermalysse Platform
 
-Reconstruccion independiente y unificada del ecosistema digital de Dermalysse.
+Reconstrucción independiente y unificada del ecosistema digital de Dermalysse.
 
 ## Estado
 
-Repositorio local inicializado el 3 de octubre de 2026. Todavia no contiene una implementacion de producto ni esta conectado a servicios reales.
+Primera base visual implementada y verificada localmente el 3 de octubre de 2026:
+
+- landing editorial responsive;
+- contenido confirmado de las fuentes oficiales;
+- cuatro rutas formativas destacadas;
+- explorador interactivo del club;
+- vista previa de clase y navegación móvil accesibles;
+- sin cuentas, pagos ni servicios productivos conectados.
+
+## Uso local
+
+```powershell
+npm install
+npm run dev
+```
+
+Comandos de validación:
+
+```powershell
+npm test
+npm run build
+```
 
 ## Objetivo
 
 Unificar en una arquitectura mantenible:
 
-- el sitio publico de Dermalysse;
+- el sitio público de Dermalysse;
 - el club educativo para miembros;
-- la administracion de contenido y miembros;
-- las operaciones de servidor necesarias para autenticacion, membresias, video, progreso y certificados.
+- la administración de contenido y miembros;
+- las operaciones de servidor necesarias para autenticación, membresías, video, progreso y certificados.
 
-La experiencia conservara la identidad, el contenido y el modelo de negocio que puedan confirmarse en las fuentes oficiales. No se copiaran marcas, datos ni contenido de Elite Pecuario.
+La experiencia conservará la identidad, el contenido y el modelo de negocio que puedan confirmarse en las fuentes oficiales. No se copiarán marcas, datos ni contenido de Elite Pecuario.
 
 ## Fuentes confirmadas
 
-| Funcion | Fuente |
+| Función | Fuente |
 | --- | --- |
-| Sitio publico | `teccapitalweb/DERMALYSSE` y `https://www.dermalyssemx.com/` |
+| Sitio público | `teccapitalweb/DERMALYSSE` y `https://www.dermalyssemx.com/` |
 | Club | `teccapitalweb/Club-Dermalysse` y `https://club.dermalyssemx.com/` |
 | API | `teccapitalweb/dermalysse-webhook` |
-| Administracion | `teccapitalweb/admin_club_dermalysse` |
-| Referencia tecnica | `teccapitalweb/elite-pecuario`, sin copiar contenido ni datos |
+| Administración | `teccapitalweb/admin_club_dermalysse` |
+| Referencia técnica | `teccapitalweb/elite-pecuario`, sin copiar contenido ni datos |
 
 Las copias locales de las fuentes viven fuera de este repositorio, en `../_fuentes/`, para mantener intactos sus historiales.
 
-## Documentacion inicial
+## Documentación inicial
 
 - `docs/FUENTES-Y-ALCANCE.md`: inventario, procedencia y exclusiones.
-- `docs/DECISION-ARQUITECTURA.md`: arquitectura propuesta y limites de seguridad.
+- `docs/DECISION-ARQUITECTURA.md`: arquitectura propuesta y límites de seguridad.
 
-## Limites operativos
+## Límites operativos
 
 Este repositorio no tiene remoto configurado. No se han realizado pushes, despliegues, cambios de DNS ni conexiones a Firebase, Stripe, Bunny o Railway.

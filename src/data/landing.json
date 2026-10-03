@@ -1,0 +1,70 @@
+{
+  "brand": {
+    "name": "Dermalysse",
+    "eyebrow": "The Beauty Knowledge Club",
+    "headline": ["La belleza", "también", "se estudia."],
+    "intro": "Una experiencia educativa para mirar la piel con más criterio, sensibilidad y seguridad.",
+    "manifesto": "Dermalysse transforma conocimiento complejo en una práctica más consciente, elegante y humana."
+  },
+  "courses": [
+    {
+      "index": "01",
+      "title": "Piel sin cicatrices",
+      "tags": ["Dermapen", "Acné", "Reparación"],
+      "image": "/media/piel-sin-cicatrices.png",
+      "alt": "Retrato editorial con textura natural de piel",
+      "tone": "rose"
+    },
+    {
+      "index": "02",
+      "title": "Hidrafacial esencial",
+      "tags": ["Protocolos", "Cabina", "Técnica"],
+      "image": "/media/hidrafacial.png",
+      "alt": "Tratamiento hidrafacial profesional en cabina",
+      "tone": "blue"
+    },
+    {
+      "index": "03",
+      "title": "Manchas y discromías",
+      "tags": ["Valoración", "Activos", "Seguimiento"],
+      "image": "/media/manchas.png",
+      "alt": "Retrato editorial con pigmentación natural de la piel",
+      "tone": "wine"
+    },
+    {
+      "index": "04",
+      "title": "Cosmética natural",
+      "tags": ["Formulación", "Piel", "Bienestar"],
+      "image": "/media/cosmetica-natural.png",
+      "alt": "Modelo editorial con sérum y elementos botánicos",
+      "tone": "sage"
+    }
+  ],
+  "club": [
+    {
+      "index": "01",
+      "title": "Cursos on demand",
+      "summary": "Formación organizada para avanzar a tu ritmo, con una experiencia clara y enfocada."
+    },
+    {
+      "index": "02",
+      "title": "Primera clase abierta",
+      "summary": "Explora el enfoque de cada curso antes de decidir cómo continuar."
+    },
+    {
+      "index": "03",
+      "title": "Biblioteca clínica",
+      "summary": "Protocolos y materiales educativos reunidos en un espacio fácil de consultar."
+    },
+    {
+      "index": "04",
+      "title": "Encuentros en vivo",
+      "summary": "Sesiones para escuchar nuevas voces, resolver preguntas y ampliar perspectivas."
+    },
+    {
+      "index": "05",
+      "title": "Progreso y certificados",
+      "summary": "Una ruta documentada para reconocer lo que has aprendido y lo que sigue."
+    }
+  ]
+}

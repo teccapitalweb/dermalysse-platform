@@ -1,0 +1,19 @@
+:root {
+  --ink: #173448;
+  --ink-deep: #0b2435;
+  --ink-soft: #315a76;
+  --wine: #681c31;
+  --wine-bright: #8e2944;
+  --cream: #f5efe7;
+  --paper: #fffaf4;
+  --sand: #d8c5b1;
+  --sage: #91a99a;
+  --blue-mist: #cbd9e2;
+  --rose: #d9a09b;
+  --line: rgba(23, 52, 72, 0.18);
+  --shadow: 0 28px 70px rgba(20, 42, 56, 0.16);
+  --display: 'Fraunces Variable', Georgia, serif;
+  --sans: 'Manrope Variable', 'Segoe UI', sans-serif;
+  --content: min(1440px, calc(100vw - 72px));
+  --ease: cubic-bezier(.2, .72, .25, 1);
+}
