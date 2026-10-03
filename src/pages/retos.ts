@@ -1,0 +1,13 @@
+import { cursos } from '../core/catalogo';
+
+export function retos() {
+  const areas = [...new Set(cursos.map((curso) => curso.area))].filter(Boolean);
+  return `<section class="arcade-page"><div id="arcade" class="stack" style="gap:24px">
+    <header class="tools-hero"><div><span class="tools-hero__eyebrow"><i data-lucide="sparkles" class="i"></i>Práctica Dermalysse</span><h1 class="display display--black">Convierte cada clase en <em>criterio propio.</em></h1><p>Repasa por tema, registra tu avance y vuelve a los conceptos que quieras fortalecer.</p></div><div class="tools-hero__facts"><div><strong>${cursos.length}</strong><span>cursos</span></div><div><strong>${areas.length}</strong><span>áreas</span></div><div><strong>1</strong><span>ruta</span></div></div></header>
+    <div class="tools-grid"><article class="tool-card"><div class="tool-card__top"><span class="circle-btn" style="width:54px;height:54px;background:var(--primary-soft);color:var(--primary)"><i data-lucide="brain-circuit" class="i"></i></span><span class="tool-card__tag">Por curso</span></div><div class="tool-card__copy"><span class="eyebrow">Repaso guiado</span><h2 class="display">Quizzes de clase</h2><p>Los cuestionarios aparecerán dentro de cada clase cuando el equipo académico los publique.</p></div><div class="tool-card__actions"><a class="btn btn--brand" href="#/cursos">Elegir un curso <i data-lucide="arrow-right" class="i"></i></a></div></article>
+    <article class="tool-card"><div class="tool-card__top"><span class="circle-btn" style="width:54px;height:54px;background:var(--accent-soft);color:var(--accent)"><i data-lucide="layers-3" class="i"></i></span><span class="tool-card__tag">En preparación</span></div><div class="tool-card__copy"><span class="eyebrow">Memoria activa</span><h2 class="display">Tarjetas de estudio</h2><p>Una biblioteca de conceptos clave basada en los cursos oficiales de Dermalysse.</p></div><div class="tool-card__actions"><span class="faint">Se habilitará con contenido revisado.</span></div></article>
+    <article class="tool-card"><div class="tool-card__top"><span class="circle-btn" style="width:54px;height:54px;background:var(--surface-3);color:var(--text)"><i data-lucide="route" class="i"></i></span><span class="tool-card__tag">Próximamente</span></div><div class="tool-card__copy"><span class="eyebrow">Ruta interactiva</span><h2 class="display">Casos Dermalysse</h2><p>Escenarios educativos para practicar observación, análisis y comunicación responsable.</p></div><div class="tool-card__actions"><a class="btn btn--secondary" href="#/retos/historia">Ver avance</a></div></article></div>
+  </div></section>`;
+}
+
+export function montarArcade() {}

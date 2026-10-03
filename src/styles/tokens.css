@@ -1,19 +1,137 @@
+/* ═══════════════════════════════════════════════════════════════
+   Club Dermalysse · tokens de diseño
+   Marca: tinta #0B2435 · vino #681C31 · rosa mineral #D9A09B
+   Modo claro es el principal. Oscuro con [data-theme="dark"].
+   ═══════════════════════════════════════════════════════════════ */
 :root {
-  --ink: #173448;
-  --ink-deep: #0b2435;
-  --ink-soft: #315a76;
-  --wine: #681c31;
-  --wine-bright: #8e2944;
-  --cream: #f5efe7;
-  --paper: #fffaf4;
-  --sand: #d8c5b1;
-  --sage: #91a99a;
-  --blue-mist: #cbd9e2;
-  --rose: #d9a09b;
-  --line: rgba(23, 52, 72, 0.18);
-  --shadow: 0 28px 70px rgba(20, 42, 56, 0.16);
-  --display: 'Fraunces Variable', Georgia, serif;
-  --sans: 'Manrope Variable', 'Segoe UI', sans-serif;
-  --content: min(1440px, calc(100vw - 72px));
-  --ease: cubic-bezier(.2, .72, .25, 1);
+  color-scheme: light;
+
+  /* ── Marca ── */
+  --brand-navy: #0b2435;
+  --brand-blue: #315a76;
+  --brand-teal: #8f4056;
+  --brand-gold: #d9a09b;
+  --brand-gradient: linear-gradient(120deg, #681c31, #315a76);
+
+  /* ── Escala verde (primario) ── */
+  --blue-50: #f4f7f9;
+  --blue-100: #e7eef2;
+  --blue-200: #cbdbe4;
+  --blue-300: #9bb8ca;
+  --blue-400: #5f87a1;
+  --blue-500: #315a76;
+  --blue-600: #26485f;
+  --blue-700: #1a374b;
+  --blue-800: #0b2435;
+  --blue-900: #071923;
+
+  /* ── Escala verde fresco (secundario) ── */
+  --teal-50: #fbf3f5;
+  --teal-100: #f3dfe5;
+  --teal-300: #d9a0ad;
+  --teal-400: #b96a7f;
+  --teal-500: #8f4056;
+  --teal-600: #681c31;
+
+  /* ── Escala dorada (acento premium) ── */
+  --gold-50: #fff7f5;
+  --gold-100: #f9e3df;
+  --gold-300: #e9bab4;
+  --gold-400: #d9a09b;
+  --gold-500: #c88482;
+  --gold-600: #a85f63;
+
+  /* ── Semánticos ── */
+  --primary: var(--blue-500);
+  --primary-hover: var(--blue-600);
+  --primary-soft: var(--blue-50);
+  --primary-ink: #ffffff;
+  --accent: var(--gold-500);
+  --accent-soft: var(--gold-50);
+  --success: #2e9e6b;
+  --warning: #c7871a;
+  --danger: #c9463d;
+  --danger-soft: #fbeceb;
+
+  /* ── Neutros "papel" ── */
+  --bg: #f7f2ec;
+  --bg-elev: #fcf8f3;
+  --surface: #ffffff;
+  --surface-2: #f1efe9;
+  --surface-3: #e9e7df;
+  --line: #e5e2da;
+  --line-strong: #d3cfc4;
+  --text: #1b1f33;
+  --text-2: #545a72;
+  --text-3: #8b90a5;
+  --text-inverse: #ffffff;
+
+  /* ── Tipografía ── */
+  --font-display: 'Outfit Variable', 'Inter Variable', system-ui, sans-serif;
+  --font-body: 'Inter Variable', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-base: 0.9375rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.625rem;
+  --fs-2xl: clamp(2rem, 1.4rem + 2vw, 2.75rem);
+  --fs-3xl: clamp(2.5rem, 1.6rem + 3.4vw, 4.25rem);
+
+  /* ── Espaciado / forma ── */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px;
+  --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px; --sp-16: 64px;
+  --r-sm: 10px; --r-md: 14px; --r-lg: 18px; --r-xl: 24px; --r-2xl: 32px; --r-full: 999px;
+  --glass: rgba(255, 255, 255, .72);
+  --glass-line: rgba(255, 255, 255, .55);
+  --hero-gradient: linear-gradient(160deg, #0b2435 0%, #315a76 50%, #681c31 100%);
+
+  --shadow-sm: 0 1px 2px rgba(27, 31, 51, .06), 0 1px 1px rgba(27, 31, 51, .04);
+  --shadow-md: 0 6px 18px -6px rgba(27, 31, 51, .14), 0 2px 6px rgba(27, 31, 51, .05);
+  --shadow-lg: 0 24px 48px -18px rgba(27, 31, 51, .28), 0 8px 20px -10px rgba(27, 31, 51, .12);
+  --shadow-cover: 0 30px 50px -20px rgba(27, 31, 51, .45), 0 10px 18px -8px rgba(27, 31, 51, .2);
+  --ring: 0 0 0 3px rgba(104, 28, 49, .22);
+
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --t-fast: 140ms var(--ease);
+  --t-base: 220ms var(--ease);
+
+  --sidebar-w: 264px;
+  --topbar-h: 64px;
+  --content-max: 1440px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --primary: #e5a8b5;
+  --primary-hover: #efbfca;
+  --primary-soft: rgba(229, 168, 181, .14);
+  --primary-ink: #0d1220;
+  --accent: #e8c465;
+  --accent-soft: rgba(232, 196, 101, .14);
+  --success: #5cc590;
+  --warning: #e0a63f;
+  --danger: #ef7d74;
+  --danger-soft: rgba(239, 125, 116, .14);
+
+  --bg: #0d1220;
+  --bg-elev: #111828;
+  --surface: #151c2e;
+  --surface-2: #1b2338;
+  --surface-3: #232d45;
+  --line: #262f47;
+  --line-strong: #344060;
+  --text: #f1f3f8;
+  --text-2: #aeb6cb;
+  --text-3: #7b849c;
+  --text-inverse: #0d1220;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-md: 0 8px 22px -8px rgba(0, 0, 0, .6);
+  --shadow-lg: 0 28px 56px -20px rgba(0, 0, 0, .75);
+  --shadow-cover: 0 30px 50px -18px rgba(0, 0, 0, .8);
+  --ring: 0 0 0 3px rgba(107, 191, 147, .35);
 }

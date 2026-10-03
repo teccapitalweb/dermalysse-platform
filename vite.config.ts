@@ -6,8 +6,8 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       input: {
-        main: 'index.html',
-        club: 'club.html',
+        landing: 'index.html',
+        club: 'club/index.html',
       },
     },
   },

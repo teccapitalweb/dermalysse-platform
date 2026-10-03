@@ -1,4 +1,4 @@
-import type { LandingContent } from '../core/types';
+import type { LandingContent } from './types';
 
 const qs = <T extends Element>(selector: string, root: ParentNode = document): T | null => root.querySelector<T>(selector);
 const qsa = <T extends Element>(selector: string, root: ParentNode = document): T[] => Array.from(root.querySelectorAll<T>(selector));

@@ -1,0 +1,681 @@
+{
+  "libraryId": "",
+  "generado": "2026-10-03T19:28:55.996Z",
+  "cursos": [
+    {
+      "id": "course-uso-de-tecnologias-avanzadas-en-cosmiatria",
+      "titulo": "Uso de Tecnologías Avanzadas en Cosmiatría",
+      "area": "Cosmiatría",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/hidrafacial.png",
+      "descripcion": "Conoce tecnologías aplicadas a la cosmiatría, sus criterios de selección y su integración responsable en protocolos profesionales.",
+      "aprenderas": [],
+      "orden": 1,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesión 01",
+          "videoId": "",
+          "duracion": 111,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 01 del curso Uso de Tecnologías Avanzadas en Cosmiatría.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesión 02",
+          "videoId": "",
+          "duracion": 126,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 02 del curso Uso de Tecnologías Avanzadas en Cosmiatría.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-rejuvenecimiento-facial-eficaz-domina-el-electrolifting-con-plasma-pen",
+      "titulo": "Rejuvenecimiento Facial Eficaz - Domina el Electrolifting con Plasma Pen",
+      "area": "Estética facial",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/hero-background.png",
+      "descripcion": "Estudia la valoración, seguridad y aplicación profesional del electrolifting con Plasma Pen en protocolos de rejuvenecimiento facial.",
+      "aprenderas": [],
+      "orden": 2,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesión 01",
+          "videoId": "",
+          "duracion": 74,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 01 del curso Rejuvenecimiento Facial Eficaz - Domina el Electrolifting con Plasma Pen.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesión 02",
+          "videoId": "",
+          "duracion": 70,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 02 del curso Rejuvenecimiento Facial Eficaz - Domina el Electrolifting con Plasma Pen.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 3,
+          "titulo": "Sesión 03",
+          "videoId": "",
+          "duracion": 115,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 03 del curso Rejuvenecimiento Facial Eficaz - Domina el Electrolifting con Plasma Pen.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 4,
+          "titulo": "Sesión 04",
+          "videoId": "",
+          "duracion": 49,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 04 del curso Rejuvenecimiento Facial Eficaz - Domina el Electrolifting con Plasma Pen.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-tecnicas-avanzadas-en-rejuvenecimiento-facial-botox-y-rellenos-dermicos",
+      "titulo": "Técnicas Avanzadas en Rejuvenecimiento Facial - Botox y Rellenos Dérmicos",
+      "area": "Estética facial",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/hero-model.png",
+      "descripcion": "Profundiza en criterios de valoración y fundamentos de técnicas avanzadas de rejuvenecimiento facial con toxina botulínica y rellenos dérmicos.",
+      "aprenderas": [],
+      "orden": 3,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesión 01",
+          "videoId": "",
+          "duracion": 70,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 01 del curso Técnicas Avanzadas en Rejuvenecimiento Facial - Botox y Rellenos Dérmicos.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesión 02",
+          "videoId": "",
+          "duracion": 128,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 02 del curso Técnicas Avanzadas en Rejuvenecimiento Facial - Botox y Rellenos Dérmicos.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 3,
+          "titulo": "Sesión 03",
+          "videoId": "",
+          "duracion": 58,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 03 del curso Técnicas Avanzadas en Rejuvenecimiento Facial - Botox y Rellenos Dérmicos.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 4,
+          "titulo": "Sesión 04",
+          "videoId": "",
+          "duracion": 63,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 04 del curso Técnicas Avanzadas en Rejuvenecimiento Facial - Botox y Rellenos Dérmicos.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-tratamientos-faciales-anti-envejecimiento",
+      "titulo": "Tratamientos Faciales Anti-envejecimiento",
+      "area": "Estética facial",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/hero-background.png",
+      "descripcion": "Diseña protocolos faciales anti-envejecimiento a partir de una valoración profesional y una selección consciente de técnicas y activos.",
+      "aprenderas": [],
+      "orden": 4,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesión 01",
+          "videoId": "",
+          "duracion": 119,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 01 del curso Tratamientos Faciales Anti-envejecimiento.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesión 02",
+          "videoId": "",
+          "duracion": 60,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 02 del curso Tratamientos Faciales Anti-envejecimiento.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 3,
+          "titulo": "Sesión 03",
+          "videoId": "",
+          "duracion": 130,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 03 del curso Tratamientos Faciales Anti-envejecimiento.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada",
+      "titulo": "Microdermoabrasión y Dermaplaning - Técnicas de Exfoliación Avanzada",
+      "area": "Estética facial",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/hidrafacial.png",
+      "descripcion": "Domina criterios, preparación y técnicas de exfoliación avanzada con microdermoabrasión y dermaplaning.",
+      "aprenderas": [],
+      "orden": 5,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesión 01",
+          "videoId": "",
+          "duracion": 64,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 01 del curso Microdermoabrasión y Dermaplaning - Técnicas de Exfoliación Avanzada.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesión 02",
+          "videoId": "",
+          "duracion": 60,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 02 del curso Microdermoabrasión y Dermaplaning - Técnicas de Exfoliación Avanzada.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 3,
+          "titulo": "Sesión 03",
+          "videoId": "",
+          "duracion": 60,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 03 del curso Microdermoabrasión y Dermaplaning - Técnicas de Exfoliación Avanzada.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 4,
+          "titulo": "Sesión 04",
+          "videoId": "",
+          "duracion": 55,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 04 del curso Microdermoabrasión y Dermaplaning - Técnicas de Exfoliación Avanzada.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 5,
+          "titulo": "Sesión 05",
+          "videoId": "",
+          "duracion": 55,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 05 del curso Microdermoabrasión y Dermaplaning - Técnicas de Exfoliación Avanzada.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-formulacion-de-cosmetica-natural",
+      "titulo": "Formulación de Cosmética Natural",
+      "area": "Cosmetología",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/cosmetica-natural.png",
+      "descripcion": "Explora los fundamentos de la formulación cosmética natural, la selección de ingredientes y el desarrollo responsable de productos.",
+      "aprenderas": [],
+      "orden": 6,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesiones 01 y 02",
+          "videoId": "",
+          "duracion": 149,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesiones 01 y 02 del curso Formulación de Cosmética Natural.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesiones 03, 04 y 05",
+          "videoId": "",
+          "duracion": 151,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesiones 03, 04 y 05 del curso Formulación de Cosmética Natural.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-regulacion-cosmetica",
+      "titulo": "Regulación Cosmética",
+      "area": "Regulación",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/cosmetica-natural.png",
+      "descripcion": "Conoce el marco regulatorio aplicado a productos cosméticos, su documentación y las responsabilidades de una práctica profesional.",
+      "aprenderas": [],
+      "orden": 7,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesiones 01 y 02",
+          "videoId": "",
+          "duracion": 124,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesiones 01 y 02 del curso Regulación Cosmética.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesiones 03 y 04",
+          "videoId": "",
+          "duracion": 124,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesiones 03 y 04 del curso Regulación Cosmética.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 3,
+          "titulo": "Sesión 05",
+          "videoId": "",
+          "duracion": 72,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 05 del curso Regulación Cosmética.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion",
+      "titulo": "Estética Corporal - Técnicas de Contorno y Remodelación",
+      "area": "Estética corporal",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/hero-background.png",
+      "descripcion": "Conoce técnicas profesionales de valoración, contorno y remodelación corporal para diseñar protocolos seguros y personalizados.",
+      "aprenderas": [],
+      "orden": 8,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesión 01",
+          "videoId": "",
+          "duracion": 69,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 01 del curso Estética Corporal - Técnicas de Contorno y Remodelación.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesión 02",
+          "videoId": "",
+          "duracion": 61,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 02 del curso Estética Corporal - Técnicas de Contorno y Remodelación.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 3,
+          "titulo": "Sesión 03",
+          "videoId": "",
+          "duracion": 65,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 03 del curso Estética Corporal - Técnicas de Contorno y Remodelación.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 4,
+          "titulo": "Sesión 04",
+          "videoId": "",
+          "duracion": 59,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 04 del curso Estética Corporal - Técnicas de Contorno y Remodelación.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 5,
+          "titulo": "Sesión 05",
+          "videoId": "",
+          "duracion": 71,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 05 del curso Estética Corporal - Técnicas de Contorno y Remodelación.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-nutricion-clinica-para-enfermedades-cronicas",
+      "titulo": "Nutrición Clínica para Enfermedades Crónicas",
+      "area": "Nutrición",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/hero-model.png",
+      "descripcion": "Fortalece el abordaje nutricional de enfermedades crónicas mediante valoración, seguimiento y estrategias aplicables a la práctica.",
+      "aprenderas": [],
+      "orden": 9,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesión 01",
+          "videoId": "",
+          "duracion": 53,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 01 del curso Nutrición Clínica para Enfermedades Crónicas.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesión 02",
+          "videoId": "",
+          "duracion": 60,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 02 del curso Nutrición Clínica para Enfermedades Crónicas.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 3,
+          "titulo": "Sesión 03",
+          "videoId": "",
+          "duracion": 56,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 03 del curso Nutrición Clínica para Enfermedades Crónicas.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 4,
+          "titulo": "Sesión 04",
+          "videoId": "",
+          "duracion": 61,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 04 del curso Nutrición Clínica para Enfermedades Crónicas.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 5,
+          "titulo": "Sesión 05",
+          "videoId": "",
+          "duracion": 58,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 05 del curso Nutrición Clínica para Enfermedades Crónicas.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-nutricion-y-entrenamiento-para-estetica-corporal",
+      "titulo": "Nutrición y Entrenamiento para Estética Corporal",
+      "area": "Nutrición",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/hero-background.png",
+      "descripcion": "Relaciona nutrición, entrenamiento y composición corporal para construir planes estéticos integrales y sostenibles.",
+      "aprenderas": [],
+      "orden": 10,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesión 01",
+          "videoId": "",
+          "duracion": 64,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 01 del curso Nutrición y Entrenamiento para Estética Corporal.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesión 02",
+          "videoId": "",
+          "duracion": 81,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 02 del curso Nutrición y Entrenamiento para Estética Corporal.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 3,
+          "titulo": "Sesión 03",
+          "videoId": "",
+          "duracion": 60,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 03 del curso Nutrición y Entrenamiento para Estética Corporal.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 4,
+          "titulo": "Sesión 04",
+          "videoId": "",
+          "duracion": 68,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 04 del curso Nutrición y Entrenamiento para Estética Corporal.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 5,
+          "titulo": "Sesión 05",
+          "videoId": "",
+          "duracion": 64,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 05 del curso Nutrición y Entrenamiento para Estética Corporal.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-nutricion-para-la-prevencion-del-sobrepeso-y-la-obesidad",
+      "titulo": "Nutrición para la Prevención del Sobrepeso y la Obesidad",
+      "area": "Nutrición",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/hero-model.png",
+      "descripcion": "Comprende factores de riesgo y estrategias nutricionales para la prevención del sobrepeso y la obesidad.",
+      "aprenderas": [],
+      "orden": 11,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesión 01",
+          "videoId": "",
+          "duracion": 113,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 01 del curso Nutrición para la Prevención del Sobrepeso y la Obesidad.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesión 02",
+          "videoId": "",
+          "duracion": 114,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 02 del curso Nutrición para la Prevención del Sobrepeso y la Obesidad.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 3,
+          "titulo": "Sesión 03",
+          "videoId": "",
+          "duracion": 69,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 03 del curso Nutrición para la Prevención del Sobrepeso y la Obesidad.",
+            "conceptos": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "course-biohacking-para-la-salud-nutricion-y-metabolismo",
+      "titulo": "Biohacking para la Salud - Nutrición y Metabolismo",
+      "area": "Nutrición",
+      "nivel": "Profesional",
+      "instructor": "Equipo académico Dermalysse",
+      "portada": "/media/hero-background.png",
+      "descripcion": "Integra nutrición, metabolismo y hábitos basados en evidencia para comprender y mejorar el bienestar desde un enfoque integral.",
+      "aprenderas": [],
+      "orden": 12,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        {
+          "n": 1,
+          "titulo": "Sesión 01",
+          "videoId": "",
+          "duracion": 75,
+          "gratis": true,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 01 del curso Biohacking para la Salud - Nutrición y Metabolismo.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 2,
+          "titulo": "Sesión 02",
+          "videoId": "",
+          "duracion": 64,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 02 del curso Biohacking para la Salud - Nutrición y Metabolismo.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 3,
+          "titulo": "Sesión 03",
+          "videoId": "",
+          "duracion": 71,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 03 del curso Biohacking para la Salud - Nutrición y Metabolismo.",
+            "conceptos": []
+          }
+        },
+        {
+          "n": 4,
+          "titulo": "Sesión 04",
+          "videoId": "",
+          "duracion": 73,
+          "gratis": false,
+          "notas": {
+            "resumen": "Contenido audiovisual de sesión 04 del curso Biohacking para la Salud - Nutrición y Metabolismo.",
+            "conceptos": []
+          }
+        }
+      ]
+    }
+  ]
+}

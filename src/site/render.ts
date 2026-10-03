@@ -1,5 +1,5 @@
-import type { LandingContent } from '../core/types';
-import { icon } from '../ui/icons';
+import type { LandingContent } from './types';
+import { icon } from './icons';
 
 const courseCard = (course: LandingContent['courses'][number]): string => `
   <article class="course-card course-card--${course.tone}" data-reveal>
@@ -40,7 +40,7 @@ export const renderLanding = (content: LandingContent): string => `
         <a href="#mirada">Nuestra mirada</a>
         <a href="#formacion">Formación</a>
         <a href="#club">El club</a>
-        <a class="button button--small" href="/club.html" data-local-cta>Entrar al club ${icon('arrow')}</a>
+        <a class="button button--small" href="/club/" data-local-cta>Entrar al club ${icon('arrow')}</a>
       </nav>
       <button class="menu-button" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="site-navigation" data-menu>
         <span class="menu-button__open">${icon('menu')}</span>
@@ -114,7 +114,7 @@ export const renderLanding = (content: LandingContent): string => `
           <p class="eyebrow">Your beauty intelligence era</p>
           <h2>Todo tu aprendizaje,<br /><em>en un mismo lugar.</em></h2>
           <p>Explora cursos, materiales y herramientas educativas desde una experiencia organizada para acompañar tu evolución profesional.</p>
-          <a class="button button--light" href="/club.html" data-local-cta>Conocer el club ${icon('arrow')}</a>
+          <a class="button button--light" href="/club/" data-local-cta>Conocer el club ${icon('arrow')}</a>
         </div>
         <div class="club__experience" data-reveal>
           <div class="club-list">${content.club.map((item, index) => clubItem(item, index === 0)).join('')}</div>
@@ -133,7 +133,7 @@ export const renderLanding = (content: LandingContent): string => `
           <p class="eyebrow">Your next era starts here</p>
           <h2>Conoce la piel.<br /><em>Cambia tu práctica.</em></h2>
           <p>Contenido educativo para ampliar tu criterio. No sustituye una valoración ni una consulta médica profesional.</p>
-          <a class="button" href="/club.html" data-local-cta>Explorar Dermalysse ${icon('arrow')}</a>
+          <a class="button" href="/club/" data-local-cta>Explorar Dermalysse ${icon('arrow')}</a>
         </div>
       </section>
     </main>

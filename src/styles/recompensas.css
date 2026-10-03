@@ -1,0 +1,212 @@
+/* ═══ Recompensas — Achievement Cards ═══ */
+
+/* ── Banner ── */
+.rew-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 32px;
+  background: var(--brand-gradient); color: #fff;
+  border-radius: var(--r-2xl); padding: 36px 40px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.15);
+  position: relative; overflow: hidden;
+}
+.rew-banner::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 85% 20%, rgba(255,255,255,.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.rew-banner__content { position: relative; flex: 1; display: grid; gap: 10px; }
+.rew-banner__chip {
+  display: inline-flex; align-items: center; gap: 6px; width: fit-content;
+  padding: 5px 14px; border-radius: var(--r-full);
+  background: rgba(255,255,255,.18); backdrop-filter: blur(6px);
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+}
+.rew-banner__chip .i { width: 13px; height: 13px; }
+.rew-banner__title {
+  font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight: 800; line-height: 1.1; letter-spacing: -.02em;
+}
+.rew-banner__sub { opacity: .82; font-size: var(--fs-sm); max-width: 46ch; line-height: 1.5; }
+
+.rew-banner__meters {
+  position: relative; display: flex; gap: 20px; flex-shrink: 0;
+}
+
+/* ── Meter rings ── */
+.rew-meter { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.rew-meter__ring {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: conic-gradient(rgba(255,255,255,.9) calc(var(--pct) * 1%), rgba(255,255,255,.15) 0%);
+  display: grid; place-items: center; position: relative;
+}
+.rew-meter__ring::after {
+  content: ''; position: absolute;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--primary);
+}
+.rew-meter--ready .rew-meter__ring::after { background: color-mix(in srgb, var(--primary) 85%, var(--brand-teal)); }
+.rew-meter--progress .rew-meter__ring::after { background: color-mix(in srgb, var(--primary) 70%, var(--brand-teal) 30%); }
+.rew-meter__val {
+  position: relative; z-index: 1;
+  font-family: var(--font-display); font-size: var(--fs-lg); font-weight: 800;
+}
+.rew-meter__val small { font-size: .55em; font-weight: 500; opacity: .7; }
+.rew-meter__label { font-size: 11px; font-weight: 600; opacity: .8; text-transform: uppercase; letter-spacing: .03em; }
+
+/* ── Alert ── */
+.rew-alert {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 18px; border-radius: var(--r-lg);
+  background: var(--primary-soft); color: var(--primary);
+  font-size: var(--fs-sm); font-weight: 650;
+}
+.rew-alert .i { width: 16px; height: 16px; }
+
+/* ── Grid ── */
+.rew-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* ── Achievement card ── */
+.rew-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: 28px 22px 22px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.05);
+  transition: transform .3s var(--ease), box-shadow .3s, border-color .25s;
+}
+.rew-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 36px rgba(0,0,0,.1);
+}
+
+/* Ribbon */
+.rew-card__ribbon {
+  position: absolute; top: 14px; right: 14px;
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; border-radius: var(--r-full);
+  background: linear-gradient(135deg, #f5c842, #d4a017);
+  color: #3e2c00; font-size: 10px; font-weight: 750; letter-spacing: .02em;
+  box-shadow: 0 2px 8px rgba(212,160,23,.3);
+}
+.rew-card__ribbon .i { width: 11px; height: 11px; }
+
+/* Medal */
+.rew-card__medal {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--brand-gradient); color: #fff;
+  box-shadow: 0 6px 20px rgba(var(--primary-rgb, 46,125,50), .25),
+              inset 0 -2px 4px rgba(0,0,0,.1);
+  transition: transform .35s var(--ease), box-shadow .35s;
+}
+.rew-card:hover .rew-card__medal {
+  transform: scale(1.08);
+  box-shadow: 0 8px 28px rgba(var(--primary-rgb, 46,125,50), .3),
+              inset 0 -2px 4px rgba(0,0,0,.1);
+}
+.rew-card__medal .i { width: 28px; height: 28px; }
+
+.rew-card__title {
+  font-family: var(--font-display); font-size: var(--fs-base); font-weight: 750;
+  letter-spacing: -.01em; color: var(--text); margin-top: 2px;
+}
+.rew-card__desc {
+  font-size: var(--fs-xs); color: var(--text-3); line-height: 1.4;
+  max-width: 22ch;
+}
+
+/* Progress */
+.rew-card__progress {
+  width: 100%; display: flex; align-items: center; gap: 10px;
+  margin-top: 4px;
+}
+.rew-card__track {
+  flex: 1; height: 6px; border-radius: 99px;
+  background: var(--surface-2); overflow: hidden;
+}
+.rew-card__fill {
+  height: 100%; border-radius: inherit;
+  background: var(--brand-gradient);
+  transition: width .5s cubic-bezier(.4,0,.2,1);
+}
+.rew-card__count {
+  font-family: var(--font-display); font-size: var(--fs-sm); font-weight: 700;
+  color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.rew-card__count small { font-weight: 500; color: var(--text-3); }
+
+/* Footer */
+.rew-card__foot { margin-top: auto; padding-top: 4px; }
+
+.rew-card__badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: var(--fs-xs); font-weight: 650;
+  padding: 5px 14px; border-radius: var(--r-full);
+}
+.rew-card__badge .i { width: 13px; height: 13px; }
+.rew-card__badge--lock {
+  background: var(--surface-2); color: var(--text-3);
+}
+.rew-card__badge--done {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+}
+
+/* ── States ── */
+.rew-card.is-locked {
+  opacity: .6;
+}
+.rew-card.is-locked .rew-card__medal {
+  background: var(--surface-2); color: var(--text-3);
+  box-shadow: 0 4px 12px rgba(0,0,0,.06), inset 0 -2px 4px rgba(0,0,0,.05);
+}
+.rew-card.is-locked .rew-card__ribbon {
+  background: linear-gradient(135deg, var(--surface-2), color-mix(in srgb, var(--line) 80%, transparent));
+  color: var(--text-3); box-shadow: none;
+}
+.rew-card.is-locked:hover { opacity: .75; }
+
+.rew-card.is-ready {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent),
+              0 4px 20px rgba(0,0,0,.08);
+}
+.rew-card.is-ready .rew-card__medal { animation: rew-glow 2.5s ease-in-out infinite; }
+
+.rew-card.is-claimed {
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.rew-card.is-claimed .rew-card__medal {
+  background: var(--accent);
+}
+.rew-card.is-claimed .rew-card__ribbon {
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 80%, #c49000));
+  color: #fff;
+}
+
+@keyframes rew-glow {
+  0%, 100% { box-shadow: 0 6px 20px rgba(var(--primary-rgb, 46,125,50), .25), inset 0 -2px 4px rgba(0,0,0,.1); }
+  50% { box-shadow: 0 6px 28px rgba(var(--primary-rgb, 46,125,50), .4), inset 0 -2px 4px rgba(0,0,0,.1); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+  .rew-banner { flex-direction: column; padding: 28px 22px; gap: 24px; text-align: center; }
+  .rew-banner__sub { max-width: none; }
+  .rew-banner__chip { margin: 0 auto; }
+  .rew-banner__meters { justify-content: center; }
+  .rew-meter__ring { width: 60px; height: 60px; }
+  .rew-meter__ring::after { width: 46px; height: 46px; }
+  .rew-meter__val { font-size: var(--fs-base); }
+  .rew-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .rew-card { padding: 22px 16px 18px; }
+  .rew-card__medal { width: 52px; height: 52px; }
+  .rew-card__medal .i { width: 22px; height: 22px; }
+  .rew-card__ribbon { font-size: 9px; padding: 3px 8px; top: 10px; right: 10px; }
+}
