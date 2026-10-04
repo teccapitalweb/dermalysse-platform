@@ -91,7 +91,6 @@ export const mountInteractions = (content: LandingContent): void => {
 
   const skinSection = qs<HTMLElement>('[data-skin]');
   const skinSteps = qsa<HTMLButtonElement>('[data-skin-step]');
-  const skinCore = qs<HTMLElement>('[data-skin-core]');
   let activeSkinStep = -1;
   const activateSkinStep = (index: number): void => {
     if (!skinSteps[index] || index === activeSkinStep) return;
@@ -102,7 +101,6 @@ export const mountInteractions = (content: LandingContent): void => {
       step.classList.toggle('is-active', active);
       step.setAttribute('aria-pressed', String(active));
     });
-    if (skinCore) skinCore.textContent = String(index + 1).padStart(2, '0');
   };
   activateSkinStep(0);
   skinSteps.forEach((step, index) => step.addEventListener('click', () => activateSkinStep(index)));
@@ -165,7 +163,7 @@ export const mountInteractions = (content: LandingContent): void => {
       const progress = clamp(-rect.top / travel);
       skinSection.style.setProperty('--skin-progress', progress.toFixed(4));
       if (rect.top < viewportHeight * .7 && rect.bottom > viewportHeight * .3) {
-        activateSkinStep(Math.min(2, Math.floor(progress * 3)));
+        activateSkinStep(Math.min(skinSteps.length - 1, Math.floor(progress * skinSteps.length)));
       }
     }
   };

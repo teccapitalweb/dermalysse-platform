@@ -3,9 +3,9 @@ import { icon } from './icons';
 
 const courseCard = (course: LandingContent['courses'][number]): string => `
   <article class="course-card course-card--${course.tone}" data-reveal>
-    <div class="course-card__media">
-      <img src="${course.image}" alt="${course.alt}" loading="lazy" width="1024" height="1536" />
+    <div class="course-card__media" aria-hidden="true">
       <span class="course-card__index">${course.index}</span>
+      <span class="course-card__mark">D</span>
       <span class="course-card__access">Clase inicial abierta</span>
     </div>
     <div class="course-card__body">
@@ -58,6 +58,7 @@ export const renderLanding = (content: LandingContent): string => `
       <section class="hero" id="inicio" data-chapter="00" data-chapter-title="Portada" data-motion-section>
         <div class="hero__copy">
           <p class="eyebrow"><span>${icon('spark')}</span>${content.brand.eyebrow}</p>
+          <p class="hero__quote">“Science becomes intuition.”</p>
           <h1>
             <span>${content.brand.headline[0]}</span>
             <em>${content.brand.headline[1]}</em>
@@ -77,14 +78,9 @@ export const renderLanding = (content: LandingContent): string => `
           </ul>
         </div>
 
-        <div class="hero__visual" aria-label="Editorial Dermalysse" data-hero-visual>
-          <div class="hero__arch">
-            <img class="hero__backdrop" src="/media/hero-background.png" alt="" aria-hidden="true" width="1024" height="1536" />
-            <img class="hero__model" src="/media/hero-model.png" alt="Retrato editorial de una joven profesional Dermalysse" width="1024" height="1536" />
-          </div>
-          <div class="hero__issue" aria-hidden="true"><span>THE</span><strong>SKIN</strong><em>EDIT</em></div>
-          <div class="hero__note"><span>01</span><p>Ciencia que se vuelve intuición.</p></div>
-          <div class="hero__orbit" aria-hidden="true"></div>
+        <div class="hero__visual" data-hero-visual>
+          <img class="hero__campaign" src="/media/dermalysse-hero-rose.jpg" alt="Retrato editorial Dermalysse de una mujer con los ojos cerrados" width="2752" height="1536" />
+          <div class="hero__note"><span>01</span><p>The skin edit<br />Dermalysse 2026</p></div>
         </div>
 
         <a class="hero__scroll" href="#mirada"><span>Desliza para explorar</span><i></i></a>
@@ -109,32 +105,29 @@ export const renderLanding = (content: LandingContent): string => `
 
       <section class="skin-intelligence" id="metodo" data-skin data-chapter="02" data-chapter-title="Método" data-motion-section>
         <div class="skin-intelligence__stage">
+          <img class="skin-intelligence__image" src="/media/dermalysse-learning-rose.jpg" alt="Mujer tocando suavemente su rostro" loading="lazy" width="1376" height="768" />
+          <div class="skin-intelligence__veil" aria-hidden="true"></div>
           <div class="skin-intelligence__intro" data-reveal>
             <div class="section-label"><span>02</span><p>Skin intelligence</p></div>
-            <p class="eyebrow">A method you can feel</p>
-            <h2>Leer la piel<br /><em>antes de actuar.</em></h2>
-            <p>Dermalysse convierte información compleja en una secuencia clara: mirar con intención, conectar las señales y elegir con criterio.</p>
-          </div>
-
-          <div class="skin-intelligence__visual" aria-hidden="true">
-            <div class="skin-orbit skin-orbit--one"></div>
-            <div class="skin-orbit skin-orbit--two"></div>
-            <div class="skin-orbit skin-orbit--three"></div>
-            <div class="skin-core"><span data-skin-core>01</span><small>Dermalysse<br />method</small></div>
-            <span class="skin-intelligence__caption">Capas de observación</span>
+            <p class="eyebrow">Learning in layers</p>
+            <h2>Aprender a mirar<br /><em>cambia todo.</em></h2>
           </div>
 
           <div class="skin-intelligence__steps" role="group" aria-label="Método Dermalysse">
             <button class="skin-step is-active" type="button" aria-pressed="true" data-skin-step="0">
-              <span>01</span><strong>Observar</strong><small>Reconocer textura, contexto y cambios sin anticipar conclusiones.</small>
+              <span>01</span><strong>Lectura de la piel</strong><small>Textura, contexto y señales visibles.</small>
             </button>
             <button class="skin-step" type="button" aria-pressed="false" data-skin-step="1">
-              <span>02</span><strong>Comprender</strong><small>Relacionar cada señal con fundamentos claros y lenguaje preciso.</small>
+              <span>02</span><strong>Activos con intención</strong><small>Comprende qué elegir y por qué.</small>
             </button>
             <button class="skin-step" type="button" aria-pressed="false" data-skin-step="2">
-              <span>03</span><strong>Aplicar</strong><small>Transformar el conocimiento en decisiones profesionales conscientes.</small>
+              <span>03</span><strong>Protocolos seguros</strong><small>Ordena cada paso con criterio.</small>
+            </button>
+            <button class="skin-step" type="button" aria-pressed="false" data-skin-step="3">
+              <span>04</span><strong>Seguimiento real</strong><small>Evalúa cambios y ajusta decisiones.</small>
             </button>
           </div>
+          <p class="skin-intelligence__caption">Una secuencia clara para convertir información en decisiones profesionales.</p>
         </div>
       </section>
 
@@ -165,13 +158,12 @@ export const renderLanding = (content: LandingContent): string => `
       </section>
 
       <section class="closing" data-chapter="05" data-chapter-title="Siguiente era" data-motion-section>
-        <div class="closing__visual" aria-hidden="true">
-          <img src="/media/piel-sin-cicatrices.png" alt="" loading="lazy" width="1024" height="1536" />
-        </div>
+        <img class="closing__image" src="/media/dermalysse-paper-rose.jpg" alt="Primer plano editorial de piel visto a través de papel rasgado" loading="lazy" width="2752" height="1536" />
+        <div class="closing__veil" aria-hidden="true"></div>
         <div class="closing__copy" data-reveal>
-          <p class="eyebrow">Your next era starts here</p>
-          <h2>Conoce la piel.<br /><em>Cambia tu práctica.</em></h2>
-          <p>Contenido educativo para ampliar tu criterio. No sustituye una valoración ni una consulta médica profesional.</p>
+          <p class="eyebrow">From knowledge to practice</p>
+          <h2>Del conocimiento<br /><em>a tu práctica.</em></h2>
+          <p>Aprende a observar, comprender y decidir con mayor criterio profesional. Contenido educativo que no sustituye una valoración médica.</p>
           <a class="button" href="/club/" data-local-cta>Explorar Dermalysse ${icon('arrow')}</a>
         </div>
       </section>
