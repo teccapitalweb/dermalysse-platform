@@ -107,6 +107,11 @@ export const renderLanding = (content: LandingContent): string => `
         <div class="skin-intelligence__stage">
           <img class="skin-intelligence__image" src="/media/dermalysse-learning-rose.jpg" alt="Mujer tocando suavemente su rostro" loading="lazy" width="1376" height="768" />
           <div class="skin-intelligence__veil" aria-hidden="true"></div>
+          <div class="skin-intelligence__layer" aria-hidden="true">
+            <span>02</span>
+            <i></i>
+            <small>Skin intelligence</small>
+          </div>
           <div class="skin-intelligence__intro" data-reveal>
             <div class="section-label"><span>02</span><p>Skin intelligence</p></div>
             <p class="eyebrow">Learning in layers</p>

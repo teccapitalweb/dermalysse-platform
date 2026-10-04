@@ -78,6 +78,8 @@
   .skin-intelligence__stage { min-height: auto; padding: 0 18px 78px; display: grid; grid-template-columns: 1fr; position: relative; top: auto; overflow: visible; }
   .skin-intelligence__image { grid-row: 2; position: relative; inset: auto; width: calc(100% + 36px); height: 440px; margin-left: -18px; object-position: 54% center; transform: none; }
   .skin-intelligence__veil { display: none; }
+  .skin-intelligence__layer { grid-row: 2; position: relative; inset: auto; z-index: 4; width: calc(100% + 36px); height: 54px; margin: 0 -18px -54px; padding: 0 18px; gap: 12px; transform: none; }
+  .skin-intelligence__layer small { font-size: 7px; }
   .skin-intelligence__intro { grid-row: 1; position: relative; inset: auto; width: 100%; padding: 78px 0 42px; }
   .skin-intelligence__intro .section-label { color: var(--ink-deep); }
   .skin-intelligence__intro .eyebrow { margin-top: 42px; color: var(--wine); }
