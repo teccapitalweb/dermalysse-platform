@@ -79,7 +79,7 @@ export const renderLanding = (content: LandingContent): string => `
         </div>
 
         <div class="hero__visual" data-hero-visual>
-          <img class="hero__campaign" src="/media/dermalysse-hero-rose.jpg" alt="Retrato editorial Dermalysse de una mujer con los ojos cerrados" width="2752" height="1536" />
+          <img class="hero__campaign" src="/media/dermalysse-hero-selected.png" alt="Retrato editorial Dermalysse de una mujer con diadema rosa y los ojos cerrados" width="1376" height="768" />
           <div class="hero__note"><span>01</span><p>The skin edit<br />Dermalysse 2026</p></div>
         </div>
 

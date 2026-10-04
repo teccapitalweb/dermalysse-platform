@@ -13,24 +13,24 @@
   background: var(--wine);
   box-shadow: 0 28px 80px rgba(57,12,27,.18);
 }
-.hero__copy { padding: clamp(48px, 6vw, 92px) clamp(36px, 5vw, 74px) 58px; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
+.hero__copy { padding: clamp(64px, 7vw, 108px) clamp(42px, 5.5vw, 82px) clamp(72px, 6vw, 92px); display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
 .hero__copy::after { content: ''; position: absolute; right: 0; top: 8%; bottom: 8%; border-right: 1px solid rgba(255,255,255,.18); }
 .hero__quote { margin: 24px 0 0; color: #f5cbc7; font: italic 400 clamp(18px, 1.8vw, 29px)/1.2 var(--display); letter-spacing: -.025em; }
 .hero h1 {
-  margin: 22px 0 28px;
-  font: 610 clamp(58px, 5.6vw, 96px)/.8 var(--display);
+  margin: 30px 0 38px;
+  font: 610 clamp(58px, 5.3vw, 92px)/.86 var(--display);
   letter-spacing: -.068em;
 }
 .hero h1 span, .hero h1 em { display: block; }
 .hero h1 em { margin-left: 12%; color: #f3beba; font-weight: 350; }
 .hero h1 span:last-child { margin-left: 2%; }
 .hero__intro { max-width: 600px; }
-.hero__intro > p { margin: 0; max-width: 480px; color: rgba(255,255,255,.74); font-size: 15px; line-height: 1.7; }
-.hero__actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
+.hero__intro > p { margin: 0; max-width: 500px; color: rgba(255,255,255,.74); font-size: 15px; line-height: 1.82; }
+.hero__actions { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 14px; }
 .hero__actions .button { color: var(--ink-deep); background: var(--paper); border-color: var(--paper); }
 .hero__actions .button:hover { color: white; background: var(--ink-deep); border-color: var(--ink-deep); }
 .hero__actions .button--ghost { color: white; background: transparent; border-color: rgba(255,255,255,.5); }
-.hero__proof { margin: 32px 0 0; padding: 20px 0 0; border-top: 1px solid rgba(255,255,255,.18); display: flex; flex-wrap: wrap; gap: 14px 24px; list-style: none; }
+.hero__proof { margin: 44px 0 0; padding: 26px 0 0; border-top: 1px solid rgba(255,255,255,.18); display: flex; flex-wrap: wrap; gap: 16px 28px; list-style: none; }
 .hero__proof li { display: flex; align-items: center; gap: 7px; color: rgba(255,255,255,.65); font-size: 9px; font-weight: 750; text-transform: uppercase; letter-spacing: .07em; }
 .hero__proof .icon { color: var(--rose); }
 
@@ -133,12 +133,12 @@
 .skin-step.is-active small { max-height: 48px; opacity: 1; transform: none; }
 .skin-intelligence__caption { position: absolute; z-index: 2; left: 50%; bottom: 28px; width: min(520px, 52vw); margin: 0; color: rgba(255,255,255,.72); font-size: 10px; font-weight: 750; letter-spacing: .1em; text-align: center; text-transform: uppercase; transform: translateX(-50%); }
 
-.courses { width: var(--content); margin: 0 auto; padding: 120px 0 140px; }
-.section-heading { margin-bottom: 62px; display: grid; grid-template-columns: .55fr 1.15fr .8fr; gap: 36px; align-items: end; }
+.courses { width: var(--content); margin: 0 auto; padding: 154px 0 172px; }
+.section-heading { margin-bottom: 84px; display: grid; grid-template-columns: .55fr 1.15fr .8fr; gap: 52px; align-items: end; }
 .section-heading h2 { margin: 8px 0 0; font: 600 clamp(52px, 5.8vw, 92px)/.9 var(--display); letter-spacing: -.06em; }
 .section-heading h2 em { color: var(--wine); font-weight: 360; }
 .section-heading > p { margin: 0; max-width: 430px; color: var(--ink-soft); line-height: 1.75; }
-.course-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; align-items: start; }
+.course-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 26px; align-items: start; }
 .course-card { grid-column: span 3; margin: 0; }
 .course-card:nth-child(2), .course-card:nth-child(4) { margin-top: 66px; }
 .course-card__media { aspect-ratio: .78; overflow: hidden; position: relative; color: white; background: linear-gradient(145deg, #8e2944, #4f1427); clip-path: inset(0); transition: clip-path .7s var(--ease-out), transform .7s var(--ease-out), box-shadow .7s var(--ease-out); }
@@ -162,7 +162,7 @@
 
 .club {
   min-height: 850px;
-  padding: 110px max(36px, calc((100vw - min(1440px, calc(100vw - 72px))) / 2));
+  padding: 142px max(36px, calc((100vw - min(1440px, calc(100vw - 72px))) / 2));
   color: white;
   background: var(--wine);
   display: grid;
