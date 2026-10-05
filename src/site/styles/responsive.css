@@ -2,14 +2,14 @@
   :root { --content: min(100% - 48px, 1000px); }
   .site-header { padding-inline: 24px; }
   .hero { grid-template-columns: minmax(350px, .78fr) minmax(0, 1.22fr); }
-  .hero__copy { padding: 58px 42px 72px; }
-  .hero h1 { font-size: clamp(52px, 6vw, 72px); }
+  .hero__copy { padding: 44px 34px 56px; }
+  .hero h1 { font-size: clamp(50px, 5.7vw, 66px); }
   .hero__actions { max-width: 320px; display: grid; grid-template-columns: 1fr; }
   .hero__actions .button { width: 100%; }
   .hero__proof { display: grid; grid-template-columns: 1fr 1fr; }
   .hero__proof li:last-child { grid-column: 1 / -1; }
-  .hero__visual { min-height: 700px; }
-  .hero__campaign { object-position: 63% center; }
+  .hero__visual { min-height: 610px; }
+  .hero__campaign { object-position: 62% center; }
   .hero__note { right: 18px; bottom: 18px; }
   .hero__scroll { display: none; }
   .course-card { grid-column: span 6; }
@@ -58,18 +58,18 @@
   .site-progress { display: none; }
 
   .hero { min-height: auto; grid-template-columns: 1fr; }
-  .hero__copy { padding: 72px clamp(26px, 5vw, 46px) 88px; }
+  .hero__copy { padding: 56px clamp(24px, 5vw, 42px) 66px; }
   .hero__copy::after { display: none; }
-  .hero__quote { margin-top: 32px; }
-  .hero h1 { margin: 32px 0 40px; font-size: clamp(54px, 12.5vw, 78px); line-height: .9; letter-spacing: -.055em; }
+  .hero__quote { margin-top: 24px; }
+  .hero h1 { margin: 24px 0 32px; font-size: clamp(50px, 11.5vw, 70px); line-height: .91; letter-spacing: -.055em; }
   .hero h1 em { margin-left: 6%; }
   .hero__intro { display: block; }
   .hero__intro > p { max-width: 540px; font-size: 15px; line-height: 1.85; }
-  .hero__actions { max-width: none; margin-top: 34px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .hero__actions .button { min-height: 56px; padding-inline: 18px; }
-  .hero__proof { margin-top: 44px; padding-top: 26px; gap: 16px 28px; }
+  .hero__actions { max-width: none; margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .hero__actions .button { min-height: 52px; padding-inline: 16px; }
+  .hero__proof { margin-top: 34px; padding-top: 21px; gap: 14px 24px; }
   .hero__proof li { line-height: 1.5; }
-  .hero__visual { min-height: 560px; }
+  .hero__visual { min-height: 500px; }
   .hero__campaign { object-position: 64% center; }
   .hero__note { right: 14px; bottom: 14px; }
   .hero__scroll { display: none; }
@@ -136,13 +136,13 @@
 }
 
 @media (max-width: 480px) {
-  .hero__copy { padding: 58px 20px 76px; }
+  .hero__copy { padding: 48px 20px 58px; }
   .hero__quote { margin-top: 28px; }
-  .hero h1 { margin: 28px 0 34px; font-size: clamp(52px, 14.5vw, 68px); line-height: .91; }
+  .hero h1 { margin: 24px 0 30px; font-size: clamp(48px, 13.5vw, 62px); line-height: .92; }
   .hero__actions { grid-template-columns: 1fr; }
   .hero__actions .button { width: 100%; }
   .hero__proof { display: grid; grid-template-columns: 1fr 1fr; margin-top: 38px; }
-  .hero__visual { min-height: 450px; }
+  .hero__visual { min-height: 410px; }
   .hero__campaign { object-position: 66% center; }
   .hero__note { width: 175px; padding: 14px; }
   .hero__note p { font-size: 8px; }
