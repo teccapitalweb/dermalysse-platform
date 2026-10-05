@@ -18,11 +18,11 @@
   .section-heading { grid-template-columns: .45fr 1.1fr; }
   .section-heading > p { grid-column: 2; }
   .manifesto__stage { grid-template-columns: .24fr 1fr .76fr; gap: 32px; }
-  .skin-intelligence__stage { grid-template-columns: minmax(0, 1fr) minmax(340px, .82fr); }
-  .skin-intelligence__intro { width: auto; padding-inline: 38px; }
-  .skin-intelligence__intro h2 { font-size: clamp(44px, 5vw, 60px); }
-  .skin-intelligence__steps { padding-inline: 38px; }
-  .skin-intelligence__caption { padding-inline: 38px; }
+  .skin-intelligence__stage { min-height: 740px; }
+  .skin-intelligence__intro { left: 30px; top: 118px; width: 29%; padding: 0; }
+  .skin-intelligence__intro h2 { font-size: clamp(42px, 5vw, 58px); }
+  .skin-intelligence__steps { right: 28px; top: 118px; width: 34%; padding: 0; }
+  .skin-intelligence__caption { right: 28px; width: 34%; padding: 18px 0 0; }
   .club { grid-template-columns: 1fr; gap: 84px; }
   .club__experience { width: min(100%, 760px); }
 }
@@ -93,10 +93,12 @@
   .skin-intelligence__intro .eyebrow { margin-top: 52px; color: var(--wine); }
   .skin-intelligence__intro h2 { margin-top: 28px; color: var(--ink-deep); font-size: clamp(52px, 12vw, 76px); line-height: .96; text-shadow: none; }
   .skin-intelligence__intro h2 em { color: var(--wine); }
-  .skin-intelligence__steps { grid-row: 3; grid-column: 1; position: relative; inset: auto; margin-top: -14px; padding: 0; display: grid; gap: 12px; }
+  .skin-intelligence__steps { grid-row: 3; grid-column: 1; position: relative; inset: auto; width: 100%; margin-top: -14px; padding: 0; display: grid; gap: 12px; }
   .skin-step, .skin-step:nth-child(n) { width: 100%; min-height: 92px; margin: 0; padding: 20px; position: relative; inset: auto; color: white; border: 0; background: rgba(104,28,49,.92); }
   .skin-step.is-active { margin: 0; padding: 20px; transform: none; background: var(--ink-deep); }
   .skin-step small { color: rgba(255,255,255,.74); }
+  .skin-step.is-active > span,
+  .skin-step.is-active small { color: rgba(255,255,255,.78); }
   .skin-intelligence__caption { grid-row: 4; grid-column: 1; position: relative; inset: auto; width: 100%; margin: 38px 0 0; padding: 0; color: var(--ink-soft); line-height: 1.75; transform: none; }
 
   .courses { padding: 120px 0 132px; }
