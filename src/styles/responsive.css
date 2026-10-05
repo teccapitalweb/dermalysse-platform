@@ -313,7 +313,7 @@
   white-space: nowrap;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 920px) {
   .topbar__logout {
     display: inline-grid;
   }

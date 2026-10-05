@@ -112,11 +112,11 @@ textarea.input { padding: 10px 14px; resize: vertical; }
 .login__demo { display: flex; gap: 12px; padding: 14px; border-radius: var(--r-lg); background: var(--primary-soft); font-size: var(--fs-sm); line-height: 1.45; }
 .login__demo .i { color: var(--primary); flex-shrink: 0; }
 
-@media (max-width: 1024px) {
+@media (max-width: 920px) {
   .admin-grid, .admin-grid--even, .form-grid--3 { grid-template-columns: 1fr; }
   .bottom-nav--admin { display: flex; }
   .app--admin .bottom-nav { display: none; }
 }
 @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } .hbar { grid-template-columns: 1fr 80px 24px; } }
 .bottom-nav--admin { display: none; }
-@media (max-width: 1024px) { .bottom-nav--admin { display: flex; } }
+@media (max-width: 920px) { .bottom-nav--admin { display: flex; } }

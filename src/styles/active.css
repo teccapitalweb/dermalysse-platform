@@ -233,7 +233,7 @@
 .bottom-nav a.is-active { background: var(--brand-navy); color: #fff; }
 .bottom-nav .i { width: 20px; height: 20px; }
 
-@media (max-width: 1024px) {
+@media (max-width: 920px) {
   .hero { grid-template-columns: 1fr; min-height: 0; }
   .hero__visual { display: none; }
   .hero__body { padding: 30px 24px; }
