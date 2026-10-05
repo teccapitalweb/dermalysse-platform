@@ -148,18 +148,7 @@
 [data-reveal].is-visible { opacity: 1; transform: none; }
 
 .site-progress {
-  position: fixed;
-  z-index: 45;
-  right: 16px;
-  top: 50%;
-  width: 24px;
-  display: grid;
-  justify-items: center;
-  gap: 10px;
-  color: var(--ink);
-  transform: translateY(-50%);
-  mix-blend-mode: multiply;
-  pointer-events: none;
+  display: none;
 }
 .site-progress > span { font: 650 11px/1 var(--display); }
 .site-progress > i { width: 1px; height: 88px; background: rgba(23,52,72,.2); position: relative; overflow: hidden; }

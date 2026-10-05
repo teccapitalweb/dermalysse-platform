@@ -1,26 +1,30 @@
 @media (max-width: 1100px) {
   :root { --content: min(100% - 48px, 1000px); }
   .site-header { padding-inline: 24px; }
-  .hero { grid-template-columns: minmax(330px, .82fr) 1.18fr; }
-  .hero__copy { padding-inline: 38px; }
-  .hero h1 { font-size: clamp(54px, 6.2vw, 76px); }
-  .hero__visual { min-height: 620px; }
+  .hero { grid-template-columns: minmax(350px, .78fr) minmax(0, 1.22fr); }
+  .hero__copy { padding: 58px 42px 72px; }
+  .hero h1 { font-size: clamp(52px, 6vw, 72px); }
+  .hero__actions { max-width: 320px; display: grid; grid-template-columns: 1fr; }
+  .hero__actions .button { width: 100%; }
+  .hero__proof { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero__proof li:last-child { grid-column: 1 / -1; }
+  .hero__visual { min-height: 700px; }
   .hero__campaign { object-position: 63% center; }
   .hero__note { right: 18px; bottom: 18px; }
-  .course-card { grid-column: span 3; }
-  .course-card:nth-child(2), .course-card:nth-child(4) { margin-top: 42px; }
-  .course-card__media { aspect-ratio: .7; }
+  .hero__scroll { display: none; }
+  .course-card { grid-column: span 6; }
+  .course-card:nth-child(2), .course-card:nth-child(4) { margin-top: 0; }
+  .course-card__media { aspect-ratio: .82; }
   .section-heading { grid-template-columns: .45fr 1.1fr; }
   .section-heading > p { grid-column: 2; }
-  .manifesto__stage { grid-template-columns: .35fr 1.25fr .9fr; }
-  .skin-intelligence__intro { width: min(330px, 34vw); }
-  .skin-intelligence__intro h2 { font-size: clamp(44px, 5.4vw, 66px); }
-  .skin-step { width: min(240px, 25vw); }
-  .skin-step:nth-child(1) { left: 4%; }
-  .skin-step:nth-child(3) { left: 7%; }
-  .skin-step:nth-child(2) { right: 3%; }
-  .skin-step:nth-child(4) { right: 4%; }
-  .club { grid-template-columns: .88fr 1.12fr; gap: 60px; }
+  .manifesto__stage { grid-template-columns: .24fr 1fr .76fr; gap: 32px; }
+  .skin-intelligence__stage { grid-template-columns: minmax(0, 1fr) minmax(340px, .82fr); }
+  .skin-intelligence__intro { width: auto; padding-inline: 38px; }
+  .skin-intelligence__intro h2 { font-size: clamp(44px, 5vw, 60px); }
+  .skin-intelligence__steps { padding-inline: 38px; }
+  .skin-intelligence__caption { padding-inline: 38px; }
+  .club { grid-template-columns: 1fr; gap: 84px; }
+  .club__experience { width: min(100%, 760px); }
 }
 
 @media (max-width: 800px) {
@@ -61,7 +65,7 @@
   .hero h1 em { margin-left: 6%; }
   .hero__intro { display: block; }
   .hero__intro > p { max-width: 540px; font-size: 15px; line-height: 1.85; }
-  .hero__actions { margin-top: 34px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .hero__actions { max-width: none; margin-top: 34px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .hero__actions .button { min-height: 56px; padding-inline: 18px; }
   .hero__proof { margin-top: 44px; padding-top: 26px; gap: 16px 28px; }
   .hero__proof li { line-height: 1.5; }
@@ -70,7 +74,7 @@
   .hero__note { right: 14px; bottom: 14px; }
   .hero__scroll { display: none; }
 
-  .manifesto { min-height: auto; }
+  .manifesto { min-height: auto; padding: 0; }
   .manifesto__stage { min-height: auto; padding: 112px 24px 128px; display: block; position: relative; top: auto; }
   .manifesto .section-label { margin-bottom: 90px; }
   .manifesto__title h2 { margin-top: 34px; font-size: clamp(54px, 13vw, 84px); line-height: .95; }
@@ -78,8 +82,8 @@
   .manifesto__copy > p { margin-bottom: 52px; line-height: 1.9; }
   .manifesto__letter { right: -25%; bottom: -12%; font-size: 390px; }
 
-  .skin-intelligence { min-height: auto; color: var(--ink-deep); background: linear-gradient(180deg, #fff7f2, #f3d8d5); }
-  .skin-intelligence__stage { min-height: auto; padding: 0 24px 112px; display: grid; grid-template-columns: 1fr; position: relative; top: auto; overflow: visible; }
+  .skin-intelligence { min-height: auto; padding: 0; color: var(--ink-deep); background: linear-gradient(180deg, #fff7f2, #f3d8d5); }
+  .skin-intelligence__stage { width: 100%; min-height: auto; padding: 0 24px 112px; display: grid; grid-template-columns: 1fr; position: relative; top: auto; overflow: visible; box-shadow: none; }
   .skin-intelligence__image { grid-row: 2; grid-column: 1; position: relative; inset: auto; width: calc(100% + 48px); max-width: none; height: 500px; margin-left: -24px; object-position: 54% center; transform: none; }
   .skin-intelligence__veil { display: none; }
   .skin-intelligence__layer { grid-row: 2; grid-column: 1; position: relative; inset: auto; z-index: 4; width: calc(100% + 48px); height: 58px; margin: 0 -24px -58px; padding: 0 24px; gap: 14px; transform: none; }
@@ -89,10 +93,11 @@
   .skin-intelligence__intro .eyebrow { margin-top: 52px; color: var(--wine); }
   .skin-intelligence__intro h2 { margin-top: 28px; color: var(--ink-deep); font-size: clamp(52px, 12vw, 76px); line-height: .96; text-shadow: none; }
   .skin-intelligence__intro h2 em { color: var(--wine); }
-  .skin-intelligence__steps { grid-row: 3; grid-column: 1; position: relative; inset: auto; margin-top: -14px; display: grid; gap: 12px; }
-  .skin-step, .skin-step:nth-child(n) { width: 100%; min-height: 92px; padding: 20px; position: relative; inset: auto; color: white; background: rgba(104,28,49,.92); }
-  .skin-step.is-active { transform: none; background: var(--ink-deep); }
-  .skin-intelligence__caption { grid-row: 4; grid-column: 1; position: relative; inset: auto; width: 100%; margin: 38px 0 0; color: var(--ink-soft); line-height: 1.75; transform: none; }
+  .skin-intelligence__steps { grid-row: 3; grid-column: 1; position: relative; inset: auto; margin-top: -14px; padding: 0; display: grid; gap: 12px; }
+  .skin-step, .skin-step:nth-child(n) { width: 100%; min-height: 92px; margin: 0; padding: 20px; position: relative; inset: auto; color: white; border: 0; background: rgba(104,28,49,.92); }
+  .skin-step.is-active { margin: 0; padding: 20px; transform: none; background: var(--ink-deep); }
+  .skin-step small { color: rgba(255,255,255,.74); }
+  .skin-intelligence__caption { grid-row: 4; grid-column: 1; position: relative; inset: auto; width: 100%; margin: 38px 0 0; padding: 0; color: var(--ink-soft); line-height: 1.75; transform: none; }
 
   .courses { padding: 120px 0 132px; }
   .section-heading { margin-bottom: 68px; display: block; }
