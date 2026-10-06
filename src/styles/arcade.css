@@ -1,5 +1,5 @@
 /* ═══ Retos · arcade del club ═══ */
-.arcade-page { max-width: 1180px; margin: 0 auto; width: 100%; }
+.arcade-page { width: 100%; margin: 0 auto; }
 .arcade-page #arcade { scroll-margin-top: 82px; }
 .ar-empty { text-align: center; padding: 48px 24px; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-xl); }
 .ar-head { text-align: center; display: grid; gap: 6px; }

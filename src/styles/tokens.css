@@ -100,7 +100,7 @@
 
   --sidebar-w: 264px;
   --topbar-h: 64px;
-  --content-max: 1440px;
+  --content-max: 1600px;
 }
 
 :root[data-theme="dark"] {
