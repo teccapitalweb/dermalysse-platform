@@ -103,6 +103,17 @@
 .nfeed__sep { opacity: .4; }
 .nfeed__card--feat .nfeed__badge { color: rgba(255,255,255,.75); }
 .nfeed__card--row .nfeed__badge { color: var(--text-3); }
+.nfeed__badge--demo {
+  align-self: flex-start;
+  margin-top: 10px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
 
 /* ── Compact row cards ── */
 .nfeed__card--row {
