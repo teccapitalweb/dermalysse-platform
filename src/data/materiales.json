@@ -1,1 +1,67 @@
-[]
+[
+  {
+    "id": "ficha-valoracion-inicial-piel",
+    "titulo": "Ficha de valoración inicial de la piel",
+    "tipo": "Guía",
+    "categoria": "Formato de trabajo",
+    "area": "Cosmiatría",
+    "autor": "Equipo académico Dermalysse",
+    "paginas": 4,
+    "portada": "/media/cosmetica-natural.png",
+    "cursoId": null,
+    "descripcion": "Plantilla editable para documentar la primera consulta: antecedentes, autocuidado y objetivos a discutir con el profesional. Pensada como estructura de registro, no como diagnóstico.",
+    "estado": "proximamente"
+  },
+  {
+    "id": "glosario-dermocosmetico-esencial",
+    "titulo": "Glosario dermocosmético esencial",
+    "tipo": "Guía",
+    "categoria": "Referencia",
+    "area": "Cosmetología",
+    "autor": "Equipo académico Dermalysse",
+    "paginas": 6,
+    "portada": "/media/dermalysse-paper-rose.jpg",
+    "cursoId": null,
+    "descripcion": "Vocabulario profesional de ingredientes, presentaciones y categorías regulatorias. Útil para construir un lenguaje claro con pacientes y colegas.",
+    "estado": "proximamente"
+  },
+  {
+    "id": "checklist-higiene-cabina",
+    "titulo": "Checklist de higiene y bioseguridad en cabina",
+    "tipo": "Guía",
+    "categoria": "Formato",
+    "area": "Estética facial",
+    "autor": "Equipo académico Dermalysse",
+    "paginas": 2,
+    "portada": "/media/hidrafacial.png",
+    "cursoId": null,
+    "descripcion": "Lista de verificación de preparación de cabina, materiales y desinfección antes de cada atención. Base para construir el protocolo del propio consultorio.",
+    "estado": "proximamente"
+  },
+  {
+    "id": "tabla-fitzpatrick-fototipos",
+    "titulo": "Tabla Fitzpatrick de fototipos",
+    "tipo": "Guía",
+    "categoria": "Referencia",
+    "area": "Estética facial",
+    "autor": "Equipo académico Dermalysse",
+    "paginas": 2,
+    "portada": "/media/manchas.png",
+    "cursoId": null,
+    "descripcion": "Resumen visual de la clasificación clásica de fototipos cutáneos para apoyar decisiones de fotoprotección en la consulta.",
+    "estado": "proximamente"
+  },
+  {
+    "id": "plantilla-seguimiento-tratamiento",
+    "titulo": "Plantilla de seguimiento de tratamiento",
+    "tipo": "Guía",
+    "categoria": "Formato",
+    "area": "Cosmiatría",
+    "autor": "Equipo académico Dermalysse",
+    "paginas": 2,
+    "portada": "/media/piel-sin-cicatrices.png",
+    "cursoId": null,
+    "descripcion": "Formato en blanco para registrar objetivos, pasos del plan y revisiones de cada sesión. Pensado para personalizarse con la metodología de cada profesional.",
+    "estado": "proximamente"
+  }
+]
