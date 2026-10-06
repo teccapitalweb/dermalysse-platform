@@ -1,1 +1,1397 @@
-[]
+[
+  {
+    "id": "course-uso-de-tecnologias-avanzadas-en-cosmiatria_1",
+    "cursoId": "course-uso-de-tecnologias-avanzadas-en-cosmiatria",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Antes de incorporar una tecnología estética a tu práctica, el criterio profesional sugiere priorizar:",
+        "opciones": [
+          "Comprender el principio físico, la evidencia disponible y las contraindicaciones documentadas",
+          "Elegir la que esté de moda en redes sociales",
+          "Comprar primero y aprender a usarla después",
+          "Fijar precio alto para que proyecte prestigio"
+        ],
+        "correcta": 0,
+        "explicacion": "La integración responsable de cualquier tecnología requiere entender su mecanismo, respaldo clínico y los perfiles en los que no debe aplicarse."
+      },
+      {
+        "q": "¿Cuál es el objetivo principal de una valoración inicial antes de aplicar una tecnología estética?",
+        "opciones": [
+          "Identificar fototipo, antecedentes, expectativas y posibles contraindicaciones",
+          "Elegir el equipo más costoso disponible",
+          "Grabar contenido para marketing",
+          "Terminar la sesión en el menor tiempo posible"
+        ],
+        "correcta": 0,
+        "explicacion": "La valoración define si el procedimiento es seguro, personaliza el plan y permite comunicar expectativas realistas."
+      }
+    ]
+  },
+  {
+    "id": "course-uso-de-tecnologias-avanzadas-en-cosmiatria_2",
+    "cursoId": "course-uso-de-tecnologias-avanzadas-en-cosmiatria",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "¿Qué documento clínico-administrativo debe acompañar siempre a un procedimiento estético?",
+        "opciones": [
+          "Consentimiento informado firmado por la persona atendida",
+          "Un recibo verbal",
+          "Solo un comprobante de pago",
+          "Nada, basta con la confianza del paciente"
+        ],
+        "correcta": 0,
+        "explicacion": "El consentimiento informado documenta que la persona comprende el procedimiento, sus riesgos y alternativas, y respeta su derecho a decidir."
+      },
+      {
+        "q": "La integración responsable de tecnologías implica saber también:",
+        "opciones": [
+          "Reconocer cuándo derivar a otro profesional",
+          "Aplicar siempre el máximo de intensidad para resultados rápidos",
+          "Omitir anamnesis para ahorrar tiempo",
+          "Prometer resultados definitivos"
+        ],
+        "correcta": 0,
+        "explicacion": "Una práctica profesional sabe reconocer sus límites y referir a especialidad médica cuando el caso lo requiere."
+      }
+    ]
+  },
+  {
+    "id": "course-rejuvenecimiento-facial-eficaz-domina-el-electrolifting-con-plasma-pen_1",
+    "cursoId": "course-rejuvenecimiento-facial-eficaz-domina-el-electrolifting-con-plasma-pen",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "El Plasma Pen actúa mediante:",
+        "opciones": [
+          "Un arco de plasma que genera micro-sublimación controlada en la epidermis",
+          "Inyección subcutánea de medicamento",
+          "Ondas de ultrasonido profundas",
+          "Luz pulsada intensa"
+        ],
+        "correcta": 0,
+        "explicacion": "El Plasma Pen produce un arco ionizado que crea puntos controlados de sublimación en superficie, estimulando contracción tisular."
+      },
+      {
+        "q": "Antes de un procedimiento con Plasma Pen, un criterio de seguridad clave es:",
+        "opciones": [
+          "Verificar fototipo, antecedentes de cicatrización y expectativas realistas",
+          "Omitir la valoración si el cliente lo pide",
+          "Aplicar sin anestésico tópico siempre",
+          "Trabajar en piel con lesiones activas"
+        ],
+        "correcta": 0,
+        "explicacion": "Los fototipos altos tienen mayor riesgo de hiperpigmentación y los antecedentes de queloides contraindican la técnica."
+      }
+    ]
+  },
+  {
+    "id": "course-rejuvenecimiento-facial-eficaz-domina-el-electrolifting-con-plasma-pen_2",
+    "cursoId": "course-rejuvenecimiento-facial-eficaz-domina-el-electrolifting-con-plasma-pen",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "¿Qué parámetro NO depende del operador en un procedimiento con Plasma Pen?",
+        "opciones": [
+          "La predisposición individual del paciente a cicatrizar",
+          "La distancia del arco",
+          "El patrón de puntos aplicados",
+          "La selección del equipo"
+        ],
+        "correcta": 0,
+        "explicacion": "La respuesta cicatricial es individual: por eso se evalúan antecedentes antes de proponer la técnica."
+      },
+      {
+        "q": "La hiperpigmentación post-inflamatoria tras un tratamiento ablativo se asocia principalmente a:",
+        "opciones": [
+          "Exposición solar sin fotoprotección adecuada y fototipos altos",
+          "Beber poca agua",
+          "Dormir boca abajo",
+          "Comer sal"
+        ],
+        "correcta": 0,
+        "explicacion": "La fotoprotección estricta posterior y la selección del fototipo son determinantes para prevenir discromías."
+      }
+    ]
+  },
+  {
+    "id": "course-rejuvenecimiento-facial-eficaz-domina-el-electrolifting-con-plasma-pen_3",
+    "cursoId": "course-rejuvenecimiento-facial-eficaz-domina-el-electrolifting-con-plasma-pen",
+    "n": 3,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Las indicaciones post-tratamiento más importantes incluyen:",
+        "opciones": [
+          "Fotoprotección, hidratación y evitar manipular las costras",
+          "Exfoliar con fuerza al día siguiente",
+          "Aplicar maquillaje inmediatamente",
+          "Suspender toda hidratación"
+        ],
+        "correcta": 0,
+        "explicacion": "Mantener la zona hidratada, cubrir del sol y respetar la caída natural de las costras favorece una cicatrización óptima."
+      },
+      {
+        "q": "El seguimiento tras un procedimiento es útil porque:",
+        "opciones": [
+          "Permite detectar temprano cualquier reacción adversa y ajustar cuidados",
+          "Solo sirve para vender más sesiones",
+          "No aporta información nueva",
+          "Es opcional si el paciente se siente bien"
+        ],
+        "correcta": 0,
+        "explicacion": "El seguimiento documenta la evolución y permite intervenir a tiempo si surge una complicación."
+      }
+    ]
+  },
+  {
+    "id": "course-rejuvenecimiento-facial-eficaz-domina-el-electrolifting-con-plasma-pen_4",
+    "cursoId": "course-rejuvenecimiento-facial-eficaz-domina-el-electrolifting-con-plasma-pen",
+    "n": 4,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Comunicar expectativas realistas significa:",
+        "opciones": [
+          "Explicar beneficios probables, tiempos y limitaciones del procedimiento",
+          "Prometer resultados idénticos a los de redes sociales",
+          "Garantizar que no habrá ningún efecto adverso",
+          "Omitir riesgos para no asustar"
+        ],
+        "correcta": 0,
+        "explicacion": "La comunicación honesta de resultados, tiempos y riesgos es parte del consentimiento informado."
+      },
+      {
+        "q": "La trazabilidad en estética profesional implica:",
+        "opciones": [
+          "Registrar lote, equipo, parámetros, zona tratada y evolución",
+          "Guardar solo el comprobante de pago",
+          "Confiar en la memoria",
+          "Documentar únicamente al primer paciente"
+        ],
+        "correcta": 0,
+        "explicacion": "El registro trazable protege al paciente y al profesional ante cualquier evento adverso."
+      }
+    ]
+  },
+  {
+    "id": "course-tecnicas-avanzadas-en-rejuvenecimiento-facial-botox-y-rellenos-dermicos_1",
+    "cursoId": "course-tecnicas-avanzadas-en-rejuvenecimiento-facial-botox-y-rellenos-dermicos",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La toxina botulínica tipo A actúa inhibiendo:",
+        "opciones": [
+          "La liberación de acetilcolina en la unión neuromuscular",
+          "La producción de melanina",
+          "La síntesis de colágeno",
+          "La vascularización local"
+        ],
+        "correcta": 0,
+        "explicacion": "Al bloquear la liberación de acetilcolina, relaja temporalmente el músculo tratado."
+      },
+      {
+        "q": "La aplicación de toxina botulínica es un acto:",
+        "opciones": [
+          "Médico, reservado a profesionales con cédula habilitante",
+          "Que puede realizar cualquier esteticista",
+          "Que no requiere formación específica",
+          "Que puede delegarse por teléfono"
+        ],
+        "correcta": 0,
+        "explicacion": "En la mayoría de marcos regulatorios (incluido México), es un procedimiento médico. El estudio del tema desde estética cumple fines educativos y de referencia."
+      }
+    ]
+  },
+  {
+    "id": "course-tecnicas-avanzadas-en-rejuvenecimiento-facial-botox-y-rellenos-dermicos_2",
+    "cursoId": "course-tecnicas-avanzadas-en-rejuvenecimiento-facial-botox-y-rellenos-dermicos",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Los rellenos dérmicos a base de ácido hialurónico suelen caracterizarse por:",
+        "opciones": [
+          "Ser biocompatibles y reabsorbibles con el tiempo",
+          "Ser permanentes e irreversibles",
+          "No requerir ninguna valoración previa",
+          "Aplicarse en cualquier plano sin diferenciarse"
+        ],
+        "correcta": 0,
+        "explicacion": "Los rellenos de ácido hialurónico se reabsorben progresivamente, lo que ofrece reversibilidad relativa y mayor margen de seguridad."
+      },
+      {
+        "q": "Un elemento clave de seguridad antes de un relleno es:",
+        "opciones": [
+          "Conocer la anatomía vascular de la zona a tratar",
+          "Trabajar sin iluminación directa",
+          "Omitir el consentimiento",
+          "No considerar antecedentes del paciente"
+        ],
+        "correcta": 0,
+        "explicacion": "La familiaridad con la anatomía reduce el riesgo de complicaciones vasculares, una de las más serias de la técnica."
+      }
+    ]
+  },
+  {
+    "id": "course-tecnicas-avanzadas-en-rejuvenecimiento-facial-botox-y-rellenos-dermicos_3",
+    "cursoId": "course-tecnicas-avanzadas-en-rejuvenecimiento-facial-botox-y-rellenos-dermicos",
+    "n": 3,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Las contraindicaciones generalmente aceptadas incluyen:",
+        "opciones": [
+          "Embarazo, lactancia, infección activa en la zona y trastornos de coagulación no controlados",
+          "Tener cabello corto",
+          "Haber comido pescado",
+          "Vivir en clima cálido"
+        ],
+        "correcta": 0,
+        "explicacion": "Son contraindicaciones reconocidas en la literatura y guías profesionales habituales."
+      },
+      {
+        "q": "El manejo de un evento adverso incluye:",
+        "opciones": [
+          "Documentar, comunicar al paciente y, cuando aplica, derivar a especialidad médica",
+          "Ocultar el evento para no preocupar",
+          "Culpar al paciente",
+          "Repetir el procedimiento inmediatamente"
+        ],
+        "correcta": 0,
+        "explicacion": "La transparencia y la derivación oportuna son parte del estándar profesional."
+      }
+    ]
+  },
+  {
+    "id": "course-tecnicas-avanzadas-en-rejuvenecimiento-facial-botox-y-rellenos-dermicos_4",
+    "cursoId": "course-tecnicas-avanzadas-en-rejuvenecimiento-facial-botox-y-rellenos-dermicos",
+    "n": 4,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La formación continua en este campo es importante porque:",
+        "opciones": [
+          "Las técnicas, materiales y marcos regulatorios evolucionan constantemente",
+          "No hay nada nuevo que aprender",
+          "Las guías no cambian",
+          "La experiencia inicial basta de por vida"
+        ],
+        "correcta": 0,
+        "explicacion": "La práctica responsable exige actualización periódica en técnicas, evidencia y regulación."
+      },
+      {
+        "q": "El valor de la trazabilidad de materiales (lote, caducidad, origen) es:",
+        "opciones": [
+          "Permite responder ante cualquier incidente y protege al paciente",
+          "Es un trámite innecesario",
+          "Solo importa al vendedor",
+          "Se puede improvisar al cierre del día"
+        ],
+        "correcta": 0,
+        "explicacion": "La trazabilidad es exigencia regulatoria y mejor práctica para la seguridad del paciente."
+      }
+    ]
+  },
+  {
+    "id": "course-tratamientos-faciales-anti-envejecimiento_1",
+    "cursoId": "course-tratamientos-faciales-anti-envejecimiento",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "El envejecimiento cutáneo tiene componentes:",
+        "opciones": [
+          "Intrínsecos (genéticos y hormonales) y extrínsecos (sol, tabaco, contaminación)",
+          "Solo genéticos",
+          "Únicamente por falta de cremas",
+          "Causados por la temperatura ambiente"
+        ],
+        "correcta": 0,
+        "explicacion": "La literatura distingue envejecimiento intrínseco (cronológico) del extrínseco, principalmente fotoenvejecimiento."
+      },
+      {
+        "q": "El principal factor extrínseco modificable del envejecimiento cutáneo es:",
+        "opciones": [
+          "La exposición solar sin fotoprotección",
+          "El color de los ojos",
+          "El tipo de almohada",
+          "El idioma hablado"
+        ],
+        "correcta": 0,
+        "explicacion": "La radiación ultravioleta acumulada es el principal factor extrínseco de envejecimiento cutáneo."
+      }
+    ]
+  },
+  {
+    "id": "course-tratamientos-faciales-anti-envejecimiento_2",
+    "cursoId": "course-tratamientos-faciales-anti-envejecimiento",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Un protocolo responsable de cuidado antienvejecimiento integra:",
+        "opciones": [
+          "Limpieza adecuada, hidratación, antioxidantes y fotoprotección diaria",
+          "Un solo producto milagroso",
+          "Nada antes de los 40 años",
+          "Agua con hielo únicamente"
+        ],
+        "correcta": 0,
+        "explicacion": "Las guías dermocosméticas coinciden en la combinación básica de limpieza, hidratación, antioxidantes y SPF."
+      },
+      {
+        "q": "El uso diario de protector solar en adultos tiene como objetivo:",
+        "opciones": [
+          "Prevenir fotoenvejecimiento y reducir riesgo de cáncer de piel",
+          "Mejorar únicamente el bronceado",
+          "Sustituir cualquier otro cuidado",
+          "Oler bien"
+        ],
+        "correcta": 0,
+        "explicacion": "Autoridades sanitarias recomiendan la fotoprotección diaria como medida preventiva clave."
+      }
+    ]
+  },
+  {
+    "id": "course-tratamientos-faciales-anti-envejecimiento_3",
+    "cursoId": "course-tratamientos-faciales-anti-envejecimiento",
+    "n": 3,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La valoración de la piel antes de proponer un protocolo debe considerar:",
+        "opciones": [
+          "Tipo de piel, fototipo, sensibilidades, estilo de vida y expectativas",
+          "Solo la edad del paciente",
+          "El precio que el cliente puede pagar",
+          "Únicamente la zona del rostro con molestia"
+        ],
+        "correcta": 0,
+        "explicacion": "Una valoración integral permite diseñar un plan personalizado, seguro y realista."
+      },
+      {
+        "q": "La comunicación con el paciente debe aclarar que los resultados estéticos:",
+        "opciones": [
+          "Son progresivos, individuales y requieren constancia",
+          "Son inmediatos y permanentes para todos",
+          "Están garantizados sin importar los hábitos",
+          "No dependen del cuidado posterior"
+        ],
+        "correcta": 0,
+        "explicacion": "Resultados realistas y adherencia a cuidados posteriores son parte del acuerdo profesional."
+      }
+    ]
+  },
+  {
+    "id": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada_1",
+    "cursoId": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La microdermoabrasión es un procedimiento de:",
+        "opciones": [
+          "Exfoliación mecánica superficial controlada",
+          "Inyección profunda",
+          "Terapia hormonal",
+          "Cirugía plástica"
+        ],
+        "correcta": 0,
+        "explicacion": "Trabaja la capa córnea mediante cristales o puntas abrasivas que remueven células superficiales."
+      },
+      {
+        "q": "El dermaplaning utiliza:",
+        "opciones": [
+          "Una hoja estéril para eliminar vello velloso y células superficiales",
+          "Láser Nd:YAG",
+          "Peelings químicos profundos",
+          "Ultrasonido focalizado"
+        ],
+        "correcta": 0,
+        "explicacion": "Es una técnica mecánica superficial que afeita el vello velloso y exfolia la capa más externa."
+      }
+    ]
+  },
+  {
+    "id": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada_2",
+    "cursoId": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Una contraindicación relativa habitual es:",
+        "opciones": [
+          "Lesiones activas, infecciones o uso reciente de isotretinoína sistémica",
+          "Haber tomado café en el día",
+          "Usar lentes de contacto",
+          "Tener cabello teñido"
+        ],
+        "correcta": 0,
+        "explicacion": "Trabajar sobre lesiones activas o piel con uso reciente de isotretinoína aumenta el riesgo de complicaciones."
+      },
+      {
+        "q": "La preparación de cabina incluye como mínimo:",
+        "opciones": [
+          "Material estéril o desechable, superficies desinfectadas y EPP del profesional",
+          "Música agradable únicamente",
+          "Lámpara apagada",
+          "Nada en particular"
+        ],
+        "correcta": 0,
+        "explicacion": "Las medidas de bioseguridad protegen al paciente y al profesional en cada atención."
+      }
+    ]
+  },
+  {
+    "id": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada_3",
+    "cursoId": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada",
+    "n": 3,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "El cuidado posterior a una exfoliación avanzada incluye:",
+        "opciones": [
+          "Fotoprotección estricta, hidratación y evitar activos irritantes 24-48 h",
+          "Exposición solar prolongada",
+          "Exfoliación química inmediata",
+          "Uso intensivo de retinoides el mismo día"
+        ],
+        "correcta": 0,
+        "explicacion": "La piel queda sensibilizada; la fotoprotección y el descanso de activos irritantes son esenciales."
+      },
+      {
+        "q": "La frecuencia de sesiones adecuada se define principalmente por:",
+        "opciones": [
+          "La respuesta individual de la piel y la recuperación entre sesiones",
+          "La disponibilidad de agenda del profesional",
+          "Un número fijo igual para todos",
+          "La preferencia estética del operador"
+        ],
+        "correcta": 0,
+        "explicacion": "El criterio clínico ajusta frecuencia según respuesta y tolerancia del paciente."
+      }
+    ]
+  },
+  {
+    "id": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada_4",
+    "cursoId": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada",
+    "n": 4,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Combinar exfoliación con otros procedimientos requiere:",
+        "opciones": [
+          "Evaluar sinergias y tiempos de recuperación para no sobre-estresar la piel",
+          "Hacer todo en la misma sesión sin importar la respuesta",
+          "Ignorar la secuencia",
+          "Aplicar la máxima intensidad siempre"
+        ],
+        "correcta": 0,
+        "explicacion": "La planificación profesional respeta ventanas de recuperación entre técnicas."
+      },
+      {
+        "q": "Un signo que exige detener el procedimiento es:",
+        "opciones": [
+          "Dolor desproporcionado, eritema severo o lesión no esperada",
+          "Que el paciente comente que le gusta",
+          "El reloj marcar el tiempo previsto",
+          "La luz exterior cambiar"
+        ],
+        "correcta": 0,
+        "explicacion": "La evaluación continua durante la sesión permite detener a tiempo ante cualquier señal de alarma."
+      }
+    ]
+  },
+  {
+    "id": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada_5",
+    "cursoId": "course-microdermoabrasion-y-dermaplaning-tecnicas-de-exfoliacion-avanzada",
+    "n": 5,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La ficha de seguimiento sirve para:",
+        "opciones": [
+          "Comparar evolución, ajustar protocolo y documentar incidencias",
+          "Rellenar el expediente sin leerlo",
+          "Impresionar al paciente",
+          "No tiene utilidad clínica"
+        ],
+        "correcta": 0,
+        "explicacion": "El seguimiento documentado permite tomar decisiones basadas en datos y no en impresiones."
+      },
+      {
+        "q": "La fotoprotección post-tratamiento debe mantenerse:",
+        "opciones": [
+          "De forma diaria durante toda la fase de recuperación y preferentemente siempre",
+          "Solo los días soleados",
+          "Un par de horas tras la sesión",
+          "Nunca si el paciente usa gorra"
+        ],
+        "correcta": 0,
+        "explicacion": "La radiación UV traspasa días nublados y techos; la fotoprotección debe ser hábito constante."
+      }
+    ]
+  },
+  {
+    "id": "course-formulacion-de-cosmetica-natural_1",
+    "cursoId": "course-formulacion-de-cosmetica-natural",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "En formulación cosmética, un conservante tiene como función principal:",
+        "opciones": [
+          "Evitar la contaminación microbiana del producto durante su vida útil",
+          "Dar color atractivo",
+          "Perfumar el producto",
+          "Aumentar el precio"
+        ],
+        "correcta": 0,
+        "explicacion": "Sin sistema conservante adecuado, el producto se contamina y puede causar daño al usuario."
+      },
+      {
+        "q": "La elección de un ingrediente activo responsable considera:",
+        "opciones": [
+          "Evidencia, concentración segura, estabilidad y compatibilidad con el resto de la fórmula",
+          "Solo el precio por kilo",
+          "Si suena en tendencias",
+          "Nada en especial"
+        ],
+        "correcta": 0,
+        "explicacion": "Formular con criterio exige entender el activo y validar su desempeño en la base."
+      }
+    ]
+  },
+  {
+    "id": "course-formulacion-de-cosmetica-natural_2",
+    "cursoId": "course-formulacion-de-cosmetica-natural",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "El término \"natural\" aplicado a un cosmético:",
+        "opciones": [
+          "No implica automáticamente seguridad total: también debe cumplir buenas prácticas",
+          "Garantiza ausencia de alergias en toda persona",
+          "Hace innecesaria la rotulación",
+          "Permite omitir conservantes"
+        ],
+        "correcta": 0,
+        "explicacion": "Ingredientes naturales también pueden causar reacciones y requieren fabricación controlada."
+      },
+      {
+        "q": "La estabilidad de un cosmético se valida mediante:",
+        "opciones": [
+          "Pruebas de estabilidad en diversas condiciones de temperatura y tiempo",
+          "La opinión de una sola persona",
+          "El olor al abrirlo",
+          "El color del envase"
+        ],
+        "correcta": 0,
+        "explicacion": "Las pruebas estandarizadas aseguran que el producto se mantiene seguro y funcional durante su vida útil."
+      }
+    ]
+  },
+  {
+    "id": "course-regulacion-cosmetica_1",
+    "cursoId": "course-regulacion-cosmetica",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "En México, el organismo encargado del control sanitario de cosméticos es:",
+        "opciones": [
+          "COFEPRIS, dependiente de la Secretaría de Salud",
+          "La Secretaría de Economía",
+          "La Secretaría de Turismo",
+          "El Instituto Nacional Electoral"
+        ],
+        "correcta": 0,
+        "explicacion": "COFEPRIS regula insumos y productos cosméticos como parte de su mandato sanitario."
+      },
+      {
+        "q": "Un producto cosmético legalmente no debe:",
+        "opciones": [
+          "Atribuirse propiedades terapéuticas o curativas",
+          "Tener etiqueta",
+          "Indicar sus ingredientes",
+          "Mencionar su uso cosmético"
+        ],
+        "correcta": 0,
+        "explicacion": "Un cosmético que afirma \"curar\" o \"tratar\" se mueve a la categoría farmacéutica, con otro marco legal."
+      }
+    ]
+  },
+  {
+    "id": "course-regulacion-cosmetica_2",
+    "cursoId": "course-regulacion-cosmetica",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La etiqueta cosmética debe incluir:",
+        "opciones": [
+          "Lista de ingredientes INCI, fabricante, lote, caducidad y modo de uso",
+          "Únicamente el nombre comercial",
+          "Solo el precio",
+          "Un diseño vistoso sin información obligatoria"
+        ],
+        "correcta": 0,
+        "explicacion": "La información obligatoria permite trazabilidad, informar al consumidor y responder ante incidentes."
+      },
+      {
+        "q": "La responsabilidad legal del producto recae principalmente en:",
+        "opciones": [
+          "Fabricante y, en su caso, distribuidor y titular del registro",
+          "La persona que lo usa en casa",
+          "El vecino de la fábrica",
+          "El transportista exclusivamente"
+        ],
+        "correcta": 0,
+        "explicacion": "El marco regulatorio distribuye responsabilidades entre quienes ponen el producto en el mercado."
+      }
+    ]
+  },
+  {
+    "id": "course-regulacion-cosmetica_3",
+    "cursoId": "course-regulacion-cosmetica",
+    "n": 3,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La publicidad de cosméticos debe:",
+        "opciones": [
+          "Ser clara, veraz y basada en evidencia; sin claims curativos",
+          "Prometer resultados milagrosos",
+          "Imitar estudios médicos sin referencia",
+          "Usar testimonios inventados"
+        ],
+        "correcta": 0,
+        "explicacion": "Las guías regulatorias exigen que las afirmaciones sean sustentables y no induzcan a error."
+      },
+      {
+        "q": "Un evento adverso por un cosmético debe:",
+        "opciones": [
+          "Documentarse y, cuando corresponda, notificarse al sistema de farmacovigilancia / vigilancia sanitaria",
+          "Esconderse",
+          "Resolverse sin registrarlo",
+          "Ignorarse"
+        ],
+        "correcta": 0,
+        "explicacion": "La notificación es parte de la responsabilidad sanitaria compartida en el mercado cosmético."
+      }
+    ]
+  },
+  {
+    "id": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion_1",
+    "cursoId": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Una valoración corporal profesional incluye:",
+        "opciones": [
+          "Antecedentes, mediciones objetivas, hábitos y expectativas",
+          "Solo peso",
+          "Únicamente la zona que preocupa al paciente",
+          "La opinión de un influencer"
+        ],
+        "correcta": 0,
+        "explicacion": "La valoración integral permite diseñar un plan realista y seguro."
+      },
+      {
+        "q": "Las expectativas de resultados en estética corporal deben:",
+        "opciones": [
+          "Comunicarse como progresivas y dependientes de hábitos",
+          "Prometerse como instantáneas",
+          "Ser garantizadas sin importar el estilo de vida",
+          "Omitirse para no desalentar"
+        ],
+        "correcta": 0,
+        "explicacion": "Los resultados dependen de la respuesta individual y de la adherencia a hábitos saludables."
+      }
+    ]
+  },
+  {
+    "id": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion_2",
+    "cursoId": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La radiofrecuencia aplicada en estética corporal se asocia principalmente a:",
+        "opciones": [
+          "Elevación controlada de temperatura dérmica/hipodérmica",
+          "Congelación profunda",
+          "Inyección subcutánea",
+          "Terapia con rayos X"
+        ],
+        "correcta": 0,
+        "explicacion": "La radiofrecuencia genera calor controlado en el tejido para estimular distintas respuestas."
+      },
+      {
+        "q": "Un criterio de seguridad en técnicas con calor es:",
+        "opciones": [
+          "Monitorear temperatura y tolerancia del paciente a lo largo de la sesión",
+          "Trabajar a la máxima potencia desde el inicio",
+          "Omitir la medición de temperatura",
+          "Dejar al paciente sin supervisión"
+        ],
+        "correcta": 0,
+        "explicacion": "El control continuo evita quemaduras y maximiza la seguridad del procedimiento."
+      }
+    ]
+  },
+  {
+    "id": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion_3",
+    "cursoId": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion",
+    "n": 3,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Las contraindicaciones comunes de muchas técnicas corporales incluyen:",
+        "opciones": [
+          "Embarazo, marcapasos, implantes metálicos en la zona o enfermedad oncológica activa",
+          "Tener piel seca",
+          "Caminar diariamente",
+          "Tomar agua"
+        ],
+        "correcta": 0,
+        "explicacion": "Son contraindicaciones ampliamente documentadas que deben descartarse antes del procedimiento."
+      },
+      {
+        "q": "La hidratación y actividad física complementan el tratamiento porque:",
+        "opciones": [
+          "Favorecen el metabolismo general y la respuesta esperada",
+          "No tienen ningún efecto",
+          "Son requisito legal",
+          "Son opcionales y sin impacto"
+        ],
+        "correcta": 0,
+        "explicacion": "Los hábitos saludables sostienen los resultados y mejoran la adherencia del paciente."
+      }
+    ]
+  },
+  {
+    "id": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion_4",
+    "cursoId": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion",
+    "n": 4,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La documentación fotográfica estándar debe:",
+        "opciones": [
+          "Hacerse con misma distancia, luz y encuadre antes/después",
+          "Usar filtros que mejoren el resultado",
+          "Hacerse solo cuando conviene",
+          "No tener consentimiento"
+        ],
+        "correcta": 0,
+        "explicacion": "La estandarización evita sesgos y la autorización garantiza respeto a la imagen del paciente."
+      },
+      {
+        "q": "Un plan de sesiones responsable:",
+        "opciones": [
+          "Se ajusta en función de la respuesta observada y objetivos del paciente",
+          "Se vende cerrado sin importar la respuesta",
+          "Se diseña sin valoración",
+          "Es el mismo para todos"
+        ],
+        "correcta": 0,
+        "explicacion": "El plan clínico es dinámico, no un paquete comercial inflexible."
+      }
+    ]
+  },
+  {
+    "id": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion_5",
+    "cursoId": "course-estetica-corporal-tecnicas-de-contorno-y-remodelacion",
+    "n": 5,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Comunicar un resultado parcial o distinto al esperado requiere:",
+        "opciones": [
+          "Honestidad, revisión del plan y, si corresponde, derivación",
+          "Negar la situación",
+          "Vender sesiones extra sin análisis",
+          "Culpar al paciente"
+        ],
+        "correcta": 0,
+        "explicacion": "La comunicación transparente mantiene la confianza y permite ajustar el plan con criterio."
+      },
+      {
+        "q": "El mantenimiento de resultados en estética corporal depende en gran medida de:",
+        "opciones": [
+          "Hábitos sostenidos del paciente y seguimiento profesional",
+          "Suerte",
+          "Un único activo en spray",
+          "El estado del clima"
+        ],
+        "correcta": 0,
+        "explicacion": "Los hábitos (alimentación, actividad, sueño) sostienen cualquier intervención estética."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-clinica-para-enfermedades-cronicas_1",
+    "cursoId": "course-nutricion-clinica-para-enfermedades-cronicas",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Las enfermedades crónicas no transmisibles comparten como factores modificables:",
+        "opciones": [
+          "Alimentación, actividad física, consumo de tabaco y alcohol",
+          "El tipo de ropa que usas",
+          "El clima de la ciudad",
+          "La hora de ver televisión"
+        ],
+        "correcta": 0,
+        "explicacion": "La OMS identifica estos factores como los principales determinantes modificables."
+      },
+      {
+        "q": "El tamizaje nutricional sirve para:",
+        "opciones": [
+          "Detectar riesgo nutricional y priorizar atención",
+          "Dar un diagnóstico médico definitivo",
+          "Vender suplementos",
+          "Reemplazar la consulta médica"
+        ],
+        "correcta": 0,
+        "explicacion": "El tamizaje es un filtro inicial para priorizar valoraciones nutricionales profundas."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-clinica-para-enfermedades-cronicas_2",
+    "cursoId": "course-nutricion-clinica-para-enfermedades-cronicas",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La valoración antropométrica incluye como mínimo:",
+        "opciones": [
+          "Peso, talla, IMC y perímetro de cintura",
+          "Solo peso",
+          "Edad",
+          "Número de calzado"
+        ],
+        "correcta": 0,
+        "explicacion": "Estas medidas básicas permiten estratificar riesgo y planear la intervención."
+      },
+      {
+        "q": "Un plan nutricional personalizado se construye a partir de:",
+        "opciones": [
+          "Diagnóstico, hábitos, cultura alimentaria y objetivos del paciente",
+          "Una copia de internet",
+          "La dieta del profesional",
+          "La moda del mes"
+        ],
+        "correcta": 0,
+        "explicacion": "La personalización mejora la adherencia y respeta la realidad del paciente."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-clinica-para-enfermedades-cronicas_3",
+    "cursoId": "course-nutricion-clinica-para-enfermedades-cronicas",
+    "n": 3,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Un consejo general reconocido para reducir riesgo cardiovascular es:",
+        "opciones": [
+          "Favorecer frutas, verduras, cereales integrales y limitar sal añadida",
+          "Consumir solo bebidas azucaradas",
+          "Eliminar el agua",
+          "Comer siempre lo mismo"
+        ],
+        "correcta": 0,
+        "explicacion": "Es un consenso de guías internacionales de salud pública."
+      },
+      {
+        "q": "Los suplementos nutricionales deben:",
+        "opciones": [
+          "Indicarse con criterio profesional y basados en necesidad detectada",
+          "Recomendarse a todos sin valoración",
+          "Reemplazar alimentos siempre",
+          "Comprarse por recomendación de redes sociales"
+        ],
+        "correcta": 0,
+        "explicacion": "El uso indiscriminado puede ser costoso, ineficaz o incluso riesgoso."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-clinica-para-enfermedades-cronicas_4",
+    "cursoId": "course-nutricion-clinica-para-enfermedades-cronicas",
+    "n": 4,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La educación nutricional al paciente debe:",
+        "opciones": [
+          "Ser clara, basada en evidencia y adaptada a su contexto",
+          "Hacerse en lenguaje técnico impenetrable",
+          "Omitir dudas del paciente",
+          "Prohibir alimentos sin explicación"
+        ],
+        "correcta": 0,
+        "explicacion": "La educación efectiva mejora adherencia y resultados a mediano plazo."
+      },
+      {
+        "q": "Los interrogantes del paciente sobre su diagnóstico médico deben:",
+        "opciones": [
+          "Resolverse en colaboración con el médico tratante cuando corresponda",
+          "Responderse inventando",
+          "Ignorarse",
+          "Minimizarse"
+        ],
+        "correcta": 0,
+        "explicacion": "El trabajo interdisciplinar protege la seguridad y la coherencia del plan integral."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-clinica-para-enfermedades-cronicas_5",
+    "cursoId": "course-nutricion-clinica-para-enfermedades-cronicas",
+    "n": 5,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "El seguimiento nutricional permite:",
+        "opciones": [
+          "Evaluar adherencia, resultados y ajustar el plan",
+          "Solo registrar peso",
+          "Repetir indicaciones sin análisis",
+          "Nada relevante"
+        ],
+        "correcta": 0,
+        "explicacion": "El seguimiento convierte el plan en un proceso continuo y adaptativo."
+      },
+      {
+        "q": "Al identificar signos de alarma clínica, el nutriólogo debe:",
+        "opciones": [
+          "Derivar a atención médica inmediata",
+          "Automedicar",
+          "Esperar a la siguiente consulta",
+          "Minimizar los signos"
+        ],
+        "correcta": 0,
+        "explicacion": "La derivación oportuna es parte de la práctica profesional segura."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-y-entrenamiento-para-estetica-corporal_1",
+    "cursoId": "course-nutricion-y-entrenamiento-para-estetica-corporal",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La composición corporal se refiere principalmente a:",
+        "opciones": [
+          "Proporción de masa muscular, grasa, hueso y agua corporal",
+          "Solo el peso",
+          "Únicamente el IMC",
+          "El color de piel"
+        ],
+        "correcta": 0,
+        "explicacion": "Entender composición corporal es más útil que el peso aislado para objetivos estéticos."
+      },
+      {
+        "q": "Un plan de ejercicio responsable considera:",
+        "opciones": [
+          "Nivel inicial, antecedentes, objetivos y progresión gradual",
+          "El mismo plan para todos",
+          "Máxima intensidad desde el primer día",
+          "Nada en especial"
+        ],
+        "correcta": 0,
+        "explicacion": "La individualización reduce riesgo de lesión y mejora adherencia."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-y-entrenamiento-para-estetica-corporal_2",
+    "cursoId": "course-nutricion-y-entrenamiento-para-estetica-corporal",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Un consumo adecuado de proteína es relevante porque:",
+        "opciones": [
+          "Favorece mantenimiento y síntesis de tejido muscular",
+          "Reemplaza al agua",
+          "Es irrelevante para quien hace ejercicio",
+          "Debe evitarse"
+        ],
+        "correcta": 0,
+        "explicacion": "La proteína es un macronutriente clave para el músculo, con requerimientos individualizados."
+      },
+      {
+        "q": "La hidratación durante el entrenamiento debe:",
+        "opciones": [
+          "Ajustarse a duración, intensidad, temperatura y pérdida por sudoración",
+          "Ser siempre la misma",
+          "Ignorarse",
+          "Depender del color de la ropa"
+        ],
+        "correcta": 0,
+        "explicacion": "La hidratación afecta rendimiento, termorregulación y recuperación."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-y-entrenamiento-para-estetica-corporal_3",
+    "cursoId": "course-nutricion-y-entrenamiento-para-estetica-corporal",
+    "n": 3,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La recuperación muscular depende sobre todo de:",
+        "opciones": [
+          "Sueño adecuado, alimentación y manejo de la carga de entrenamiento",
+          "Un solo suplemento mágico",
+          "Entrenar más duro siempre",
+          "No hacer nada"
+        ],
+        "correcta": 0,
+        "explicacion": "Sueño y nutrición son pilares; la carga debe planearse con criterio."
+      },
+      {
+        "q": "Un déficit calórico sostenido muy agresivo puede provocar:",
+        "opciones": [
+          "Pérdida de masa muscular, fatiga, alteraciones hormonales y menor adherencia",
+          "Mejor salud siempre",
+          "Más energía garantizada",
+          "No tener ningún efecto"
+        ],
+        "correcta": 0,
+        "explicacion": "Un plan sostenible evita déficits extremos para proteger salud y adherencia."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-y-entrenamiento-para-estetica-corporal_4",
+    "cursoId": "course-nutricion-y-entrenamiento-para-estetica-corporal",
+    "n": 4,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "El trabajo interdisciplinar en estética corporal involucra idealmente a:",
+        "opciones": [
+          "Nutriólogo, entrenador y, cuando corresponda, médico",
+          "Un solo profesional sin diálogo con otros",
+          "Vendedores de suplementos",
+          "Influencers"
+        ],
+        "correcta": 0,
+        "explicacion": "El plan integral se enriquece con miradas complementarias y seguras."
+      },
+      {
+        "q": "Documentar progreso y adherencia permite:",
+        "opciones": [
+          "Ajustar el plan con datos y motivar al paciente con hitos",
+          "Nada en especial",
+          "Agobiar al paciente",
+          "Juzgar al paciente"
+        ],
+        "correcta": 0,
+        "explicacion": "La objetividad del registro mejora decisiones y la relación terapéutica."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-y-entrenamiento-para-estetica-corporal_5",
+    "cursoId": "course-nutricion-y-entrenamiento-para-estetica-corporal",
+    "n": 5,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La prevención de lesiones en entrenamiento incluye:",
+        "opciones": [
+          "Progresión adecuada, técnica correcta, descanso y variación",
+          "Entrenar siempre con dolor",
+          "Levantar lo máximo cada día",
+          "Ignorar molestias"
+        ],
+        "correcta": 0,
+        "explicacion": "La buena planificación reduce lesiones y sostiene el progreso a largo plazo."
+      },
+      {
+        "q": "La imagen corporal saludable implica:",
+        "opciones": [
+          "Objetivos realistas, respeto por el cuerpo y evitar discursos nocivos",
+          "Compararse constantemente con otros",
+          "Buscar perfección imposible",
+          "Entrenar hasta agotarse"
+        ],
+        "correcta": 0,
+        "explicacion": "La salud mental es parte integral del trabajo en estética corporal responsable."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-para-la-prevencion-del-sobrepeso-y-la-obesidad_1",
+    "cursoId": "course-nutricion-para-la-prevencion-del-sobrepeso-y-la-obesidad",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La obesidad se considera una enfermedad crónica porque:",
+        "opciones": [
+          "Es multifactorial, persistente y asociada a complicaciones a largo plazo",
+          "Es una cuestión de voluntad únicamente",
+          "Es temporal siempre",
+          "No afecta la salud"
+        ],
+        "correcta": 0,
+        "explicacion": "La OMS la clasifica como enfermedad crónica con determinantes biológicos, sociales y ambientales."
+      },
+      {
+        "q": "El entorno obesogénico incluye factores como:",
+        "opciones": [
+          "Disponibilidad de ultraprocesados, sedentarismo y publicidad agresiva",
+          "El color favorito",
+          "La música escuchada",
+          "El idioma"
+        ],
+        "correcta": 0,
+        "explicacion": "La literatura de salud pública describe el entorno como motor del aumento del sobrepeso."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-para-la-prevencion-del-sobrepeso-y-la-obesidad_2",
+    "cursoId": "course-nutricion-para-la-prevencion-del-sobrepeso-y-la-obesidad",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Una estrategia de prevención eficaz es:",
+        "opciones": [
+          "Educación alimentaria, cambio de entorno y promoción de actividad física",
+          "Dietas extremas y restrictivas",
+          "Culpar al paciente",
+          "Hacer nada"
+        ],
+        "correcta": 0,
+        "explicacion": "La OMS recomienda combinar educación, política pública y acción individual."
+      },
+      {
+        "q": "El etiquetado frontal de advertencia busca:",
+        "opciones": [
+          "Facilitar al consumidor identificar excesos de nutrientes críticos",
+          "Confundir al comprador",
+          "Dar más publicidad al producto",
+          "Reemplazar la lista de ingredientes"
+        ],
+        "correcta": 0,
+        "explicacion": "El etiquetado busca una decisión informada y rápida ante el producto en anaquel."
+      }
+    ]
+  },
+  {
+    "id": "course-nutricion-para-la-prevencion-del-sobrepeso-y-la-obesidad_3",
+    "cursoId": "course-nutricion-para-la-prevencion-del-sobrepeso-y-la-obesidad",
+    "n": 3,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "Un abordaje respetuoso del paciente con sobrepeso evita:",
+        "opciones": [
+          "El estigma, el juicio moral y los apodos descalificativos",
+          "Hablar con empatía",
+          "Preguntar objetivos del paciente",
+          "Trabajar en conjunto"
+        ],
+        "correcta": 0,
+        "explicacion": "Un trato respetuoso favorece adherencia y resultados sostenibles."
+      },
+      {
+        "q": "La indicación de intervenciones médicas o farmacológicas para el peso:",
+        "opciones": [
+          "Es competencia del médico tratante",
+          "La define el entrenador",
+          "La decide el paciente sin asesoría",
+          "La determina el vendedor"
+        ],
+        "correcta": 0,
+        "explicacion": "Las intervenciones médicas requieren prescripción profesional habilitada."
+      }
+    ]
+  },
+  {
+    "id": "course-biohacking-para-la-salud-nutricion-y-metabolismo_1",
+    "cursoId": "course-biohacking-para-la-salud-nutricion-y-metabolismo",
+    "n": 1,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "El término \"biohacking\" en salud se refiere comúnmente a:",
+        "opciones": [
+          "Aplicar cambios medibles de hábitos para optimizar bienestar",
+          "Intervenciones ilegales",
+          "Cualquier moda digital",
+          "Técnicas quirúrgicas"
+        ],
+        "correcta": 0,
+        "explicacion": "Es un concepto amplio centrado en la observación de datos personales y hábitos."
+      },
+      {
+        "q": "Al proponer cambios metabólicos relevantes, el criterio responsable es:",
+        "opciones": [
+          "Basarse en evidencia y, cuando aplica, acompañar con profesional de la salud",
+          "Experimentar sin cuidado",
+          "Ignorar antecedentes clínicos",
+          "Confiar solo en anécdotas"
+        ],
+        "correcta": 0,
+        "explicacion": "Cambios metabólicos agresivos pueden interactuar con enfermedades y medicación."
+      }
+    ]
+  },
+  {
+    "id": "course-biohacking-para-la-salud-nutricion-y-metabolismo_2",
+    "cursoId": "course-biohacking-para-la-salud-nutricion-y-metabolismo",
+    "n": 2,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "El sueño adecuado tiene impacto directo en:",
+        "opciones": [
+          "Regulación hormonal, metabolismo y función cognitiva",
+          "Solo el estado de ánimo",
+          "Nada relevante",
+          "El color de la piel"
+        ],
+        "correcta": 0,
+        "explicacion": "La evidencia es amplia sobre el papel central del sueño en la salud integral."
+      },
+      {
+        "q": "El uso de dispositivos de medición personal (wearables) ayuda cuando:",
+        "opciones": [
+          "Los datos se interpretan con criterio y se usan para mejorar hábitos",
+          "Se convierten en obsesión",
+          "Reemplazan al profesional",
+          "Se ignoran por completo"
+        ],
+        "correcta": 0,
+        "explicacion": "Los datos son útiles si informan decisiones, no si generan ansiedad o reemplazan atención profesional."
+      }
+    ]
+  },
+  {
+    "id": "course-biohacking-para-la-salud-nutricion-y-metabolismo_3",
+    "cursoId": "course-biohacking-para-la-salud-nutricion-y-metabolismo",
+    "n": 3,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La exposición solar matinal breve y responsable se asocia con:",
+        "opciones": [
+          "Regulación del ritmo circadiano",
+          "Hiperpigmentación garantizada",
+          "Deshidratación obligatoria",
+          "Pérdida de masa muscular"
+        ],
+        "correcta": 0,
+        "explicacion": "La luz natural de la mañana es un sincronizador circadiano reconocido."
+      },
+      {
+        "q": "Antes de probar un protocolo de ayuno intermitente, el consejo responsable incluye:",
+        "opciones": [
+          "Valorar con un profesional si existen condiciones que lo contraindican",
+          "Iniciar sin considerar diagnóstico médico",
+          "Hacerlo en personas con trastornos alimentarios activos",
+          "Combinarlo con restricción severa"
+        ],
+        "correcta": 0,
+        "explicacion": "Hay contextos clínicos y personales en los que el ayuno no es apropiado."
+      }
+    ]
+  },
+  {
+    "id": "course-biohacking-para-la-salud-nutricion-y-metabolismo_4",
+    "cursoId": "course-biohacking-para-la-salud-nutricion-y-metabolismo",
+    "n": 4,
+    "estado": "aprobado",
+    "actualizado": "2026-10-06T00:00:00Z",
+    "preguntas": [
+      {
+        "q": "La integración de hábitos (alimentación, sueño, movimiento y manejo del estrés) es clave porque:",
+        "opciones": [
+          "Operan de forma sinérgica sobre la salud metabólica",
+          "Son independientes entre sí",
+          "Solo uno es importante",
+          "Son irrelevantes"
+        ],
+        "correcta": 0,
+        "explicacion": "La evidencia muestra que ningún pilar aislado reemplaza al conjunto."
+      },
+      {
+        "q": "El marketing de biohacking debe comunicarse:",
+        "opciones": [
+          "Sin promesas milagrosas y con base en evidencia",
+          "Con afirmaciones curativas sin respaldo",
+          "Prometiendo transformaciones radicales",
+          "Omitiendo riesgos y limitaciones"
+        ],
+        "correcta": 0,
+        "explicacion": "La comunicación responsable protege al público y la reputación profesional."
+      }
+    ]
+  }
+]
