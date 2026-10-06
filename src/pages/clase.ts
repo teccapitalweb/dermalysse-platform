@@ -133,9 +133,18 @@ export function clase(params: Record<string, string>) {
 
   // Provisional: embed directo. En Fase 2 el backend firma la URL (token + expires).
   const embed = `https://iframe.mediadelivery.net/embed/${LIBRARY_ID}/${k.videoId}?autoplay=false&preload=true&responsive=true`;
-  const reproductor = Datos.modo === 'demo' && (!LIBRARY_ID || !k.videoId)
-    ? `<video controls preload="metadata" poster="${c.portada}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><source src="/media/preview.mp4" type="video/mp4">Tu navegador no puede reproducir esta vista previa.</video>`
-    : `<iframe ${Datos.modo === 'demo' ? `src="${embed}"` : ''} data-video="${c.id}:${n}" loading="lazy" style="border:0;position:absolute;inset:0;width:100%;height:100%" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen></iframe>`;
+  const videoDisponible = Boolean(LIBRARY_ID && k.videoId);
+  const reproductor = videoDisponible
+    ? `<iframe ${Datos.modo === 'demo' ? `src="${embed}"` : ''} data-video="${c.id}:${n}" loading="lazy" style="border:0;position:absolute;inset:0;width:100%;height:100%" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen></iframe>`
+    : `<div class="player__pending" style="position:absolute;inset:0;background:#0a0d18 center/cover no-repeat;background-image:url('${c.portada}')">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,13,24,.35) 0%, rgba(10,13,24,.86) 70%)"></div>
+        <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;text-align:center;padding:24px;color:#fff">
+          <span class="circle-btn" style="width:64px;height:64px;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.24);backdrop-filter:blur(6px)"><i data-lucide="clapperboard" class="i" style="width:28px;height:28px"></i></span>
+          <span class="eyebrow" style="color:rgba(255,255,255,.78)">Vista previa · ${esc(c.titulo)}</span>
+          <h3 style="font-family:var(--font-display);font-size:clamp(1.25rem, 2vw, 1.6rem);max-width:28ch;margin:0">Video en preparación</h3>
+          <p style="color:rgba(255,255,255,.85);font-size:var(--fs-sm);max-width:40ch;margin:0;line-height:1.5">El video final de esta clase se publica cuando el equipo académico de Dermalysse revisa el contenido. Mientras tanto, consulta el temario, tus notas y el quiz.</p>
+        </div>
+      </div>`;
 
   const temario = c.clases.map((x) => {
     const v = Progreso.de(c.id).vistas.includes(x.n);
