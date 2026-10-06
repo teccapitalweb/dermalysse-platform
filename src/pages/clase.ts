@@ -31,7 +31,10 @@ function notasHTML(k: Clase, cursoId: string, n: number) {
       <ul class="notas__list">
         ${k.notas.conceptos.map((x, i) => { const d = leerDominio(cursoId, n, i); return `<li><span class="notas__num">${i + 1}</span><div class="notas__contenido"><span class="notas__texto">${esc(x.texto)}</span><button class="notas__t" data-seek-time="${x.t}" title="Ir a ${x.t} en el video"><i data-lucide="play" class="i"></i>${esc(x.t)}</button></div><div class="notas__dominio"><button class="dom dom--no${d === 0 ? ' is-active' : ''}" data-dom-set="${cursoId}:${n}:${i}:0" title="No lo sé"><i data-lucide="circle-x" class="i"></i></button><button class="dom dom--rep${d === 1 ? ' is-active' : ''}" data-dom-set="${cursoId}:${n}:${i}:1" title="Repasando"><i data-lucide="rotate-ccw" class="i"></i></button><button class="dom dom--ok${d === 2 ? ' is-active' : ''}" data-dom-set="${cursoId}:${n}:${i}:2" title="Dominado"><i data-lucide="circle-check" class="i"></i></button></div></li>`; }).join('')}
       </ul>
-    </div>` : ''}
+    </div>` : `<div class="notas__seccion notas__seccion--pending">
+      <div class="notas__seccion-head"><span class="notas__seccion-ic"><i data-lucide="list-checks" class="i"></i></span><span class="eyebrow">Conceptos clave</span></div>
+      <p class="muted" style="font-size:var(--fs-sm);line-height:1.5;padding:4px 0 2px"><i data-lucide="shield-check" class="i" style="width:14px;height:14px;vertical-align:-2px;margin-right:6px;color:var(--primary)"></i>Los conceptos con marca de tiempo se publican cuando el equipo académico de Dermalysse revisa la transcripción del video. Mientras tanto, usa tus apuntes abajo.</p>
+    </div>`}
     <div class="notas__seccion">
       <div class="notas__seccion-head"><span class="notas__seccion-ic" style="background:var(--surface-3);color:var(--text-3)"><i data-lucide="pen-line" class="i"></i></span><span class="eyebrow">Mis apuntes</span><span class="notas__guardado" data-apuntes-status></span></div>
       <textarea class="notas__textarea" data-apuntes="${cursoId}:${n}" placeholder="Escribe aquí tus notas personales de esta clase…">${esc(apuntes)}</textarea>
