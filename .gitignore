@@ -14,6 +14,7 @@ coverage/
 Thumbs.db
 .idea/
 .vscode/
+.claude/
 
 # Salidas temporales
 work/
