@@ -4,27 +4,89 @@ import { BRAND, wa } from '../core/brand';
 import { Datos } from '../core/datos';
 import { iniciales, esc, placeholder } from '../ui/partials';
 
+// Paleta por área para dar lectura visual rápida en chips, rings y acentos.
+const COLOR_AREA: Record<string, string> = {
+  'Cosmiatría': '#8e4466',
+  'Estética facial': '#c76a7a',
+  'Cosmetología': '#b58a63',
+  'Estética corporal': '#4a7fc1',
+  'Nutrición': '#4fa899',
+  'Regulación': '#5c6b8a',
+  'General': '#681c31',
+};
+const colorArea = (area: string) => COLOR_AREA[area] || '#681c31';
+
 function tarjetaHilo(h: Hilo) {
   const c = h.cursoId ? getCurso(h.cursoId) : null;
+  const area = c?.area || 'General';
+  const color = colorArea(area);
   const activo = h.respuestasTotal > 0;
+  const reciente = (Date.now() - new Date(h.fecha).getTime()) < 1000 * 60 * 60 * 48;
+  // Respuesta destacada: la primera (coincide con el detalle del hilo).
+  const destacada = h.respuestas[0];
+  // Avatar stack: hasta 4 respondedores únicos.
+  const respondedores = [...new Map(h.respuestas.map((r) => [r.autor, r])).values()].slice(0, 4);
+  const extras = h.respuestas.length > respondedores.length ? h.respuestas.length - respondedores.length : 0;
+
   return `
-  <a class="community-thread" href="#/comunidad/${h.id}">
+  <a class="community-thread" href="#/comunidad/${h.id}" style="--area:${color}">
+    <span class="community-thread__accent" aria-hidden="true"></span>
     <div class="community-thread__top">
-      <div class="avatar">${iniciales(h.autor)}</div>
-      <div class="community-thread__author"><strong>${esc(h.autor)}</strong><span>${hace(h.fecha)}</span></div>
-      <span class="community-status ${activo ? 'is-solved' : ''}"><i data-lucide="${activo ? 'badge-check' : 'message-circle'}" class="i"></i>${activo ? 'Con respuestas' : 'Nuevo caso'}</span>
+      <div class="community-thread__who">
+        <div class="avatar community-thread__avatar">${iniciales(h.autor)}</div>
+        <div class="community-thread__author">
+          <strong>${esc(h.autor)}</strong>
+          <span>${reciente ? '<i data-lucide="dot" class="i community-thread__dot" aria-hidden="true"></i>' : ''}${hace(h.fecha)}</span>
+        </div>
+      </div>
+      <span class="community-thread__topic"><span class="community-thread__topic-dot" aria-hidden="true"></span>${esc(area)}</span>
+      <span class="community-status ${activo ? 'is-solved' : 'is-fresh'}">
+        <i data-lucide="${activo ? 'messages-square' : 'sparkle'}" class="i"></i>
+        ${activo ? `${h.respuestasTotal} ${h.respuestasTotal === 1 ? 'respuesta' : 'respuestas'}` : 'Nuevo caso'}
+      </span>
     </div>
     <div class="community-thread__body">
-      ${c ? `<span class="community-topic">${esc(c.area)} · ${esc(c.titulo)}</span>` : '<span class="community-topic">Conversación general</span>'}
       <h3>${esc(h.titulo)}</h3>
       <p>${esc(h.texto)}</p>
     </div>
+    ${destacada ? `
+    <div class="community-thread__preview">
+      <div class="avatar community-thread__preview-avatar" style="--area:${color}">${iniciales(destacada.autor)}</div>
+      <div class="community-thread__preview-body">
+        <span><strong>${esc(destacada.autor)}</strong> · ${hace(destacada.fecha)}</span>
+        <p>${esc(destacada.texto)}</p>
+      </div>
+    </div>` : ''}
     <div class="community-thread__foot">
-      <span><i data-lucide="messages-square" class="i"></i><strong>${h.respuestasTotal}</strong> respuestas</span>
-      <span><i data-lucide="thumbs-up" class="i"></i><strong>${h.util}</strong> lo encontraron útil</span>
+      ${respondedores.length ? `
+      <div class="community-thread__stack" aria-label="Colegas que respondieron">
+        ${respondedores.map((r) => `<span class="avatar community-thread__stack-item" title="${esc(r.autor)}">${iniciales(r.autor)}</span>`).join('')}
+        ${extras ? `<span class="community-thread__stack-more">+${extras}</span>` : ''}
+      </div>` : '<span class="community-thread__hint"><i data-lucide="hand" class="i"></i>Sé la primera voz</span>'}
+      <span class="community-thread__kudos"><i data-lucide="thumbs-up" class="i"></i><strong>${h.util}</strong> útiles</span>
       <span class="community-thread__open">Ver conversación <i data-lucide="arrow-up-right" class="i"></i></span>
     </div>
   </a>`;
+}
+
+// Top voces de la última semana — ordenadas por aportes, cursos no cuentan aquí.
+function vocesSemana(hilos: Hilo[]): { nombre: string; aportes: number; util: number; ultimo: string }[] {
+  const map = new Map<string, { nombre: string; aportes: number; util: number; ultimo: string }>();
+  const semana = Date.now() - 7 * 86400000;
+  const sumar = (nombre: string, util: number, fecha: string) => {
+    const t = new Date(fecha).getTime();
+    if (!Number.isFinite(t) || t < semana) return;
+    const prev = map.get(nombre) || { nombre, aportes: 0, util: 0, ultimo: fecha };
+    prev.aportes += 1;
+    prev.util += util;
+    if (fecha > prev.ultimo) prev.ultimo = fecha;
+    map.set(nombre, prev);
+  };
+  hilos.forEach((h) => {
+    sumar(h.autor, h.util, h.fecha);
+    h.respuestas.forEach((r) => sumar(r.autor, 0, r.fecha));
+  });
+  return [...map.values()].sort((a, b) => b.aportes - a.aportes || b.util - a.util).slice(0, 4);
 }
 
 function cargando() {
@@ -45,6 +107,14 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
   const fechaEnVivo = siguienteEnVivo
     ? new Date(siguienteEnVivo.fecha).toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' })
     : '';
+  const voces = vocesSemana(todos);
+  const areasActivas = new Set(todos.map((h) => (h.cursoId ? getCurso(h.cursoId)?.area : null)).filter(Boolean));
+  const normas = [
+    { icon: 'eye', titulo: 'Observa primero', texto: 'Describe lo que ves antes de pedir una conclusión.' },
+    { icon: 'file-text', titulo: 'Documenta sin exponer', texto: 'Comparte contexto profesional sin datos personales.' },
+    { icon: 'users', titulo: 'Respeta el criterio ajeno', texto: 'Hay más de un camino profesional válido.' },
+    { icon: 'shield-check', titulo: 'Deriva cuando toca', texto: 'Si el caso rebasa tu alcance, señálalo.' },
+  ];
   return `
   <section class="community-page">
     <header class="community-hero">
@@ -56,11 +126,25 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
           <button class="btn btn--brand btn--pill-arrow" data-nuevo-hilo>Compartir un caso <span class="arrow"><i data-lucide="plus" class="i"></i></span></button>
           <a class="community-hero__link" href="#/retos"><i data-lucide="trophy" class="i"></i>Ver práctica Dermalysse</a>
         </div>
+        ${voces.length ? `
+        <div class="community-hero__voices" aria-label="Voces activas esta semana">
+          <div class="community-hero__voices-stack">
+            ${voces.slice(0, 4).map((v) => `<span class="avatar community-hero__voice" title="${esc(v.nombre)}">${iniciales(v.nombre)}</span>`).join('')}
+          </div>
+          <div class="community-hero__voices-copy">
+            <span>Voces activas esta semana</span>
+            <strong>${voces.map((v) => esc(v.nombre.split(' ')[0])).slice(0, 3).join(', ')}${voces.length > 3 ? ' y más' : ''}</strong>
+          </div>
+        </div>` : ''}
       </div>
       <div class="community-hero__pulse" aria-label="Actividad de la comunidad">
-        <div class="community-pulse__ring"><i data-lucide="radio" class="i"></i></div>
-        <div><span>Comunidad activa</span><strong>${autores || '—'} colegas aportando</strong></div>
-        <div class="community-pulse__stats"><span><strong>${respuestas}</strong> respuestas</span><span><strong>${utiles}</strong> votos útiles</span></div>
+        <div class="community-pulse__ring"><span class="community-pulse__wave" aria-hidden="true"></span><i data-lucide="activity" class="i"></i></div>
+        <div><span>Comunidad activa</span><strong>${autores || '—'} ${autores === 1 ? 'colega aportando' : 'colegas aportando'}</strong></div>
+        <div class="community-pulse__stats">
+          <span><strong>${respuestas}</strong>respuestas</span>
+          <span><strong>${utiles}</strong>votos útiles</span>
+          <span><strong>${areasActivas.size || '—'}</strong>áreas activas</span>
+        </div>
       </div>
     </header>
 
@@ -105,7 +189,27 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
           <div class="community-league-orbit"><i data-lucide="trophy" class="i"></i></div>
           <span class="eyebrow">Comunidad activa</span><h3>Tu aporte también cuenta</h3><p>Aprende, participa y fortalece tu ruta con actividad verificada.</p><span class="community-side-link">Ver práctica <i data-lucide="arrow-right" class="i"></i></span>
         </a>
-        <div class="community-side-card community-side-card--guide"><span class="eyebrow">Una buena consulta incluye</span><ul><li><i data-lucide="check" class="i"></i>Contexto productivo</li><li><i data-lucide="check" class="i"></i>Signos y cambios recientes</li><li><i data-lucide="check" class="i"></i>Qué ya se revisó</li></ul></div>
+        <div class="community-side-card community-side-card--guide">
+          <span class="eyebrow">Cómo participamos</span>
+          <ul>
+            ${normas.map((n) => `<li><span class="community-norma__icon"><i data-lucide="${n.icon}" class="i"></i></span><div><strong>${n.titulo}</strong><small>${n.texto}</small></div></li>`).join('')}
+          </ul>
+        </div>
+        ${voces.length ? `
+        <div class="community-side-card community-side-card--voices">
+          <div class="community-side-head"><span class="eyebrow">Voces de la semana</span><span class="chip chip--primary" style="padding:3px 9px;font-size:10px">${voces.reduce((a, v) => a + v.aportes, 0)} aportes</span></div>
+          <ul class="community-voices-list">
+            ${voces.map((v, i) => `
+              <li>
+                <span class="community-voices__rank">#${i + 1}</span>
+                <div class="avatar community-voices__avatar">${iniciales(v.nombre)}</div>
+                <div class="community-voices__meta">
+                  <strong>${esc(v.nombre)}</strong>
+                  <small>${v.aportes} ${v.aportes === 1 ? 'aporte' : 'aportes'}${v.util ? ` · ${v.util} útiles` : ''}</small>
+                </div>
+              </li>`).join('')}
+          </ul>
+        </div>` : ''}
         <div class="community-side-card community-side-card--vip"><i data-lucide="badge-percent" class="i"></i><div><strong>${BRAND.descuentoVIP}% VIP</strong><span>en cursos en vivo</span></div><a href="${wa(`Hola Dermalysse, soy miembro VIP del club y quiero aplicar mi ${BRAND.descuentoVIP}% de descuento en un curso en vivo.`)}" target="_blank" rel="noopener">Solicitar</a></div>
       </aside>
     </div>
