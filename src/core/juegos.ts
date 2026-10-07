@@ -4,6 +4,7 @@
 import { Datos } from './datos';
 import { cursos, curso as getCurso } from './catalogo';
 import { puntos as puntosProgreso } from './logros';
+import { esc } from '../ui/partials';
 import casosSeed from '../data/casos.json';
 
 const KEY = 'dermalysse:retos:v1';
@@ -97,18 +98,20 @@ export interface Flashcard { id: string; area: string; curso: string; frente: st
 
 export function mazoCompleto(): Flashcard[] {
   const cards: Flashcard[] = [];
-  // 1) De cada pregunta de quiz: frente = pregunta, reverso = respuesta + explicación
+  // 1) De cada pregunta de quiz: frente = pregunta, reverso = respuesta + explicación.
+  //    El wrapper HTML es confiable; los valores dinámicos van escapados para evitar
+  //    inyecciones en el modo API, donde los textos vienen del backend.
   for (const p of bancoPreguntas()) {
     cards.push({ id: 'q:' + p.id, area: p.area, curso: p.curso,
-      frente: p.q, reverso: `<strong>${p.opciones[p.correcta]}</strong><br>${p.explicacion}` });
+      frente: p.q, reverso: `<strong>${esc(p.opciones[p.correcta])}</strong><br>${esc(p.explicacion)}` });
   }
-  // 2) De las notas de clase: concepto (con su marca de tiempo) como repaso
+  // 2) De las notas de clase: concepto (con su marca de tiempo) como repaso.
   for (const c of cursos) {
     for (const k of c.clases) {
       if (!k.notas) continue;
       k.notas.conceptos?.forEach((x, i) => cards.push({
         id: `n:${c.id}:${k.n}:${i}`, area: c.area, curso: c.titulo,
-        frente: `${x.texto}`, reverso: `<span class="faint">${c.titulo} · clase ${k.n} · ${x.t}</span>` }));
+        frente: `${x.texto}`, reverso: `<span class="faint">${esc(c.titulo)} · clase ${k.n} · ${esc(x.t)}</span>` }));
     }
   }
   return cards;
