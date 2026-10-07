@@ -180,6 +180,44 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
   .community-answer .btn { width: 100%; }
 }
 
+/* ═══ Comunidad — tema Editorial Rosé ═══ */
+
+/* Hilo dorado 1px en el borde superior del hero (acento foil de revista) */
+.community-hero { position: relative; }
+.community-hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 42px; right: 42px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #c89b3e 30%, #e8c8c7 50%, #c89b3e 70%, transparent 100%);
+  opacity: .55;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Chips de área: fondo sólido color del área (en lugar de tintado) */
+.community-thread__topic {
+  background: var(--area, var(--primary));
+  color: #fdfaf6;
+  font-weight: 700;
+}
+.community-thread__topic-dot {
+  background: #fdfaf6;
+  opacity: .72;
+}
+
+/* Chip de estado "Con respuestas" más editorial */
+.community-status {
+  border: 1px solid var(--line);
+  font-weight: 650;
+  letter-spacing: .02em;
+}
+.community-status.is-solved {
+  background: var(--primary);
+  color: #faf5ef;
+  border-color: var(--primary);
+}
+
 /* ═══ Comunidad v2 — rediseño editorial ═══ */
 
 /* Hero · voces activas */
@@ -247,12 +285,12 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
 .community-thread__topic {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 5px 11px; border-radius: 999px;
-  background: color-mix(in srgb, var(--area, var(--primary)) 10%, transparent);
-  color: var(--area, var(--primary));
+  background: var(--area, var(--primary));
+  color: #fdfaf6;
   font-size: 10px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase;
 }
 .community-thread__topic-dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--area, var(--primary));
+  width: 6px; height: 6px; border-radius: 50%; background: #fdfaf6; opacity: .78;
 }
 .community-status.is-fresh {
   background: color-mix(in srgb, var(--accent) 14%, var(--surface));

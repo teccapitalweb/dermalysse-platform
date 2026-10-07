@@ -499,24 +499,24 @@
   .flashcard__actions { grid-template-columns: 1fr; }
 }
 
-/* ═══ Retos · versión sobria ═══ */
+/* ═══ Retos · tema Clínico Minimal ═══ */
 .retos-head {
   display: grid; grid-template-columns: minmax(0,1.4fr) minmax(260px,1fr);
   gap: 24px; align-items: center;
   padding: 22px 24px;
-  border: 1px solid var(--line); border-radius: 18px;
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--line); border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(10,15,25,.04);
 }
 .retos-head__kicker {
   display: inline-flex; align-items: center;
-  color: var(--primary); font-size: 10.5px; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--text-3); font-size: 10px; font-weight: 650;
+  letter-spacing: .16em; text-transform: uppercase;
 }
 .retos-head__intro h1 {
   margin: 6px 0 2px; font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1.1;
-  letter-spacing: -.02em; color: var(--text);
+  font-size: clamp(1.4rem, 2vw, 1.8rem); line-height: 1.1;
+  letter-spacing: -.02em; color: var(--text); font-weight: 600;
 }
 .retos-head__intro p {
   color: var(--text-2); font-size: 13px; line-height: 1.5; margin: 0;
@@ -573,15 +573,16 @@
 
 .retos-chip {
   display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 9px; border-radius: 99px;
-  background: var(--surface-2); color: var(--text-2);
-  font-size: 10.5px; font-weight: 650;
+  padding: 3px 9px; border-radius: 99px;
+  background: transparent; color: var(--text-2);
+  border: 1px solid var(--line);
+  font-size: 10.5px; font-weight: 600;
 }
 .retos-chip .i { width: 12px; height: 12px; }
-.retos-chip--primary { background: color-mix(in srgb, var(--primary) 10%, var(--surface)); color: var(--primary); }
-.retos-chip--ok { background: color-mix(in srgb, var(--success) 12%, var(--surface)); color: var(--success); }
-.retos-chip--xp { background: color-mix(in srgb, var(--accent) 14%, var(--surface)); color: var(--accent); font-family: var(--font-display); font-weight: 700; }
-.retos-chip--muted { background: var(--surface-2); color: var(--text-3); }
+.retos-chip--primary { color: var(--primary); border-color: color-mix(in srgb, var(--primary) 32%, var(--line)); }
+.retos-chip--ok { color: var(--success); border-color: color-mix(in srgb, var(--success) 32%, var(--line)); }
+.retos-chip--xp { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 34%, var(--line)); font-family: var(--font-display); font-weight: 700; }
+.retos-chip--muted { color: var(--text-3); }
 
 .retos-daily {
   display: grid; grid-template-columns: auto minmax(0,1fr) auto;
