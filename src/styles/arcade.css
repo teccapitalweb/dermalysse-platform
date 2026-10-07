@@ -444,3 +444,58 @@
   .league-row { padding-inline: 6px; }
   .weekly-mission, .league-path, .league-achievements { padding: 18px; }
 }
+
+/* ═══ Casos — vista de detalle ═══ */
+.case-detail__head { display: grid; gap: 6px; }
+.case-findings {
+  display: grid; gap: 6px; padding: 0; margin: 4px 0 0; list-style: none;
+}
+.case-findings li {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--text-2); font-size: 13px; line-height: 1.5;
+}
+.case-findings li .i { width: 16px; height: 16px; color: #4fa899; flex: 0 0 auto; }
+
+/* ═══ Flashcards ═══ */
+.flashcard-stage { perspective: 1200px; }
+.flashcard {
+  position: relative; min-height: 320px;
+  transform-style: preserve-3d; transition: transform .55s cubic-bezier(.4, 0, .2, 1);
+  cursor: pointer;
+}
+.flashcard.is-flipped { transform: rotateY(180deg); }
+.flashcard__face {
+  position: absolute; inset: 0;
+  display: grid; grid-template-rows: auto 1fr auto; gap: 14px;
+  padding: 32px 28px; border-radius: 24px;
+  border: 1px solid var(--line); background: var(--surface);
+  box-shadow: var(--shadow-md);
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  overflow: auto;
+}
+.flashcard__face > .chip { justify-self: center; }
+.flashcard__face > small { justify-self: center; }
+.flashcard__face--front { background: linear-gradient(145deg, var(--surface), color-mix(in srgb, var(--primary-soft) 42%, var(--surface))); }
+.flashcard__face--back {
+  background: linear-gradient(145deg, #fff6ef, color-mix(in srgb, #c98a5b 14%, var(--surface)));
+  transform: rotateY(180deg);
+}
+.flashcard__content {
+  text-align: center; color: var(--text);
+  font-family: var(--font-display); font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.3;
+}
+.flashcard__face small {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-3); font-size: 11px;
+}
+.flashcard__face small .i { width: 14px; height: 14px; }
+.flashcard__actions {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.flashcard__actions .btn { justify-content: center; }
+@media (max-width: 520px) {
+  .flashcard { min-height: 320px; }
+  .flashcard__face { padding: 24px 20px; }
+  .flashcard__actions { grid-template-columns: 1fr; }
+}

@@ -1,1 +1,352 @@
-[]
+[
+  {
+    "id": "fototipo-ii-fotoproteccion",
+    "area": "Estética facial",
+    "titulo": "Fotoprotección en piel que se enrojece fácil",
+    "paciente": "Mujer de 32 años, oficinista. Nunca se broncea, siempre se enrojece y después se despigmenta. Nota manchas aparecer tras cada verano.",
+    "presentacion": "Acude pidiendo un \"tratamiento para quitar las manchas\". No usa protector solar diario; sólo en playa. Se maquilla todos los días con base con SPF 15. Trabaja en interiores con grandes ventanales.",
+    "hallazgos": [
+      "Piel clara, muy reactiva al calor",
+      "Manchas difusas en pómulos y frente",
+      "Sin lesiones activas al examen visual",
+      "Refiere escozor con productos nuevos"
+    ],
+    "diagnostico": {
+      "pregunta": "¿Qué fototipo describe mejor a esta paciente según la clasificación de Fitzpatrick?",
+      "opciones": [
+        "Fototipo II",
+        "Fototipo IV",
+        "Fototipo V",
+        "Fototipo VI"
+      ],
+      "correcta": 0,
+      "explicacion": "La escala Fitzpatrick clasifica como II a pieles claras que casi nunca se broncean y se queman fácilmente — exactamente lo que describe la paciente."
+    },
+    "plan": {
+      "pregunta": "¿Cuál es el primer paso profesional responsable antes de proponer cualquier tratamiento despigmentante?",
+      "opciones": [
+        "Educar sobre fotoprotección diaria FPS 50+ y suspender agresiones mientras se valora",
+        "Comenzar peelings químicos agresivos de inmediato",
+        "Prometer ausencia de manchas en 4 semanas",
+        "Derivar sin más al estilista"
+      ],
+      "correcta": 0,
+      "explicacion": "Sin fotoprotección sostenida, ningún despigmentante funciona; corregir el hábito es la base y evita empeorar la hiperpigmentación por el propio procedimiento."
+    }
+  },
+  {
+    "id": "primera-consulta-cosmiatria",
+    "area": "Cosmiatría",
+    "titulo": "La paciente llega sin cita y pide \"algo rápido\"",
+    "paciente": "Hombre de 41 años, se casa en dos semanas. Llega sin cita a pedir un procedimiento facial para \"verse descansado\" el día de la boda.",
+    "presentacion": "Nunca ha hecho un tratamiento estético. No sabe si es alérgico a ingredientes cosméticos. Toma medicamento para la presión. Pregunta por microagujas y por un procedimiento con luz pulsada que vio en TikTok.",
+    "hallazgos": [
+      "Piel con fatiga visible y poros marcados",
+      "Nunca ha completado una ficha de valoración",
+      "Expectativa fuerte: \"irreconocible\" para la foto",
+      "Dos semanas al evento"
+    ],
+    "diagnostico": {
+      "pregunta": "¿Cuál es el riesgo principal de aceptar el procedimiento el mismo día?",
+      "opciones": [
+        "No hay anamnesis, sin registro de contraindicaciones ni expectativas realistas documentadas",
+        "La luz de la cabina no es ideal",
+        "La música puede distraer al paciente",
+        "No se le puede cobrar el mismo día"
+      ],
+      "correcta": 0,
+      "explicacion": "Un procedimiento sin valoración ni consentimiento informado expone al paciente y al profesional, especialmente con medicación y expectativas poco realistas."
+    },
+    "plan": {
+      "pregunta": "¿Cómo responde el profesional con criterio?",
+      "opciones": [
+        "Agendar valoración completa, explicar la ventana de 2 semanas y proponer un protocolo seguro ajustado al tiempo",
+        "Hacer microagujas sin ficha para no perder la venta",
+        "Prometer resultados idénticos a los de redes sociales",
+        "Vender un paquete sin consultar"
+      ],
+      "correcta": 0,
+      "explicacion": "Priorizar valoración y expectativas realistas protege al paciente, cuida al profesional y suele resultar en un plan mejor adaptado al tiempo disponible."
+    }
+  },
+  {
+    "id": "etiqueta-cosmetica-incompleta",
+    "area": "Regulación",
+    "titulo": "Una paciente trae un producto que compró por internet",
+    "paciente": "Mujer de 28 años. Trae un producto para \"borrar manchas en 7 días\" comprado en una tienda en línea. Pide opinión profesional.",
+    "presentacion": "El envase sólo tiene marca, el claim en inglés y una lista parcial de ingredientes. No tiene lote, no tiene caducidad y no indica fabricante o importador. El claim promete resultados en días.",
+    "hallazgos": [
+      "Sin número de lote",
+      "Sin fecha de caducidad",
+      "Sin domicilio de fabricante o importador",
+      "Claim curativo (\"borra las manchas\")"
+    ],
+    "diagnostico": {
+      "pregunta": "¿Qué incumplimientos regulatorios se identifican en la etiqueta?",
+      "opciones": [
+        "Falta trazabilidad (lote, caducidad, fabricante) y hace un claim no permitido",
+        "Sólo falta el precio",
+        "Nada, el producto es correcto",
+        "La etiqueta debe estar en japonés"
+      ],
+      "correcta": 0,
+      "explicacion": "La normativa cosmética exige datos mínimos de trazabilidad y prohíbe atribuir propiedades terapéuticas o curativas a un producto cosmético."
+    },
+    "plan": {
+      "pregunta": "¿Cuál es la recomendación responsable para la paciente?",
+      "opciones": [
+        "No usar el producto, explicar por qué y sugerir alternativas con etiqueta regulada",
+        "Usarlo igual, probablemente funcione",
+        "Denunciar a la paciente",
+        "Comprarle más del mismo"
+      ],
+      "correcta": 0,
+      "explicacion": "Priorizar la seguridad del paciente implica evitar productos sin trazabilidad y educar sobre cómo reconocer una etiqueta cosmética bien hecha."
+    }
+  },
+  {
+    "id": "limpieza-piel-sensibilizada",
+    "area": "Estética facial",
+    "titulo": "La piel \"se puso roja después del tratamiento del mes pasado\"",
+    "paciente": "Mujer de 36 años. Se hizo un peeling el mes pasado. Desde entonces siente la piel tirante, con enrojecimiento al tocarla y le arden casi todos sus productos.",
+    "presentacion": "Antes del peeling usaba una rutina estable. Después del procedimiento comenzó a usar vitamina C, retinol y un sérum exfoliante al mismo tiempo que recomendó una amiga. Lleva 3 semanas con ardor.",
+    "hallazgos": [
+      "Eritema persistente",
+      "Barrera cutánea comprometida",
+      "Uso simultáneo de varios activos irritantes",
+      "No hubo seguimiento después del peeling"
+    ],
+    "diagnostico": {
+      "pregunta": "¿Qué proceso explica mejor el cuadro?",
+      "opciones": [
+        "Alteración de la barrera cutánea por sobreexposición a activos tras un procedimiento ablativo",
+        "Reacción autoinmune aguda",
+        "Infección bacteriana sin signos",
+        "Hiperpigmentación residual"
+      ],
+      "correcta": 0,
+      "explicacion": "La combinación de peeling reciente y múltiples activos irritantes compromete la barrera y provoca el cuadro de sensibilización que describe la paciente."
+    },
+    "plan": {
+      "pregunta": "¿Qué plan de corto plazo es más adecuado?",
+      "opciones": [
+        "Suspender activos irritantes, enfocar en reparación de barrera y fotoprotección estricta",
+        "Añadir un retinol más fuerte para \"normalizar\"",
+        "Repetir el peeling de inmediato",
+        "Exfoliar mecánicamente a diario"
+      ],
+      "correcta": 0,
+      "explicacion": "La reparación de la barrera es la prioridad; agregar más activos sólo prolongaría el daño."
+    }
+  },
+  {
+    "id": "expectativas-corporal",
+    "area": "Estética corporal",
+    "titulo": "\"Quiero bajar 10 cm en 2 sesiones\"",
+    "paciente": "Mujer de 29 años. Pide un paquete de dos sesiones de radiofrecuencia para \"bajar 10 cm de cintura antes de un viaje en una semana\".",
+    "presentacion": "Es la primera vez que considera un procedimiento. No practica actividad física. Alimentación irregular. Trabajo sedentario. Expectativa fija en centímetros, no en bienestar.",
+    "hallazgos": [
+      "Objetivo numérico muy ambicioso",
+      "Sin valoración previa",
+      "Sin hábitos complementarios",
+      "Plazo muy corto"
+    ],
+    "diagnostico": {
+      "pregunta": "¿Cuál es el problema principal del escenario?",
+      "opciones": [
+        "La expectativa no es realista para la técnica, el tiempo y los hábitos actuales",
+        "La radiofrecuencia no existe",
+        "La paciente es muy joven",
+        "La ciudad no permite el procedimiento"
+      ],
+      "correcta": 0,
+      "explicacion": "Los procedimientos de contorno trabajan sobre hábitos sostenidos; un resultado tan específico en una semana sin cambios de estilo de vida no es realista."
+    },
+    "plan": {
+      "pregunta": "¿Cómo responder con criterio profesional?",
+      "opciones": [
+        "Explicar expectativas realistas, proponer plan a 8-12 semanas con hábitos y seguimiento",
+        "Vender el paquete sin matices para no perder la venta",
+        "Prometer el resultado y descargar la responsabilidad después",
+        "Rechazar sin explicar"
+      ],
+      "correcta": 0,
+      "explicacion": "La honestidad sobre lo que la técnica puede y no puede hacer construye confianza y adherencia a largo plazo."
+    }
+  },
+  {
+    "id": "bioseguridad-cabina-contratiempo",
+    "area": "Cosmiatría",
+    "titulo": "El equipo estéril se cayó al suelo antes de empezar",
+    "paciente": "Paciente ya en cabina, lista para su protocolo. Durante la preparación, la pieza estéril del equipo cae al suelo. La agenda está apretada y hay otra persona esperando.",
+    "presentacion": "El profesional considera tres opciones: continuar porque \"se ve limpio\", limpiar rápido con solución y usarlo, o detener el procedimiento y reponer material estéril aunque atrase la agenda.",
+    "hallazgos": [
+      "Material estéril contaminado",
+      "Presión de tiempo",
+      "Otra persona esperando",
+      "Protocolo de bioseguridad definido"
+    ],
+    "diagnostico": {
+      "pregunta": "¿Qué principio de bioseguridad aplica?",
+      "opciones": [
+        "Un insumo que pierde su cadena de esterilidad deja de ser utilizable, sin excepciones por tiempo",
+        "La contaminación visual es lo único que importa",
+        "Depende del color del piso",
+        "No aplica porque el paciente no vio"
+      ],
+      "correcta": 0,
+      "explicacion": "La bioseguridad protege al paciente aunque implique perder tiempo o reprogramar; es un principio no negociable."
+    },
+    "plan": {
+      "pregunta": "¿Qué debe hacer el profesional?",
+      "opciones": [
+        "Detener, reponer con material estéril nuevo, explicar la situación y reprogramar si no alcanza",
+        "Limpiar con alcohol y seguir",
+        "Usar el material igual, nadie lo verá",
+        "Culpar al asistente"
+      ],
+      "correcta": 0,
+      "explicacion": "Reponer y explicar transparentemente al paciente refuerza la confianza y la seguridad clínica."
+    }
+  },
+  {
+    "id": "etiquetado-frontal-nutricion",
+    "area": "Nutrición",
+    "titulo": "El paciente lee la etiqueta y se confunde",
+    "paciente": "Hombre de 45 años, con diagnóstico médico de hipertensión. Trae un producto que compró \"porque dice bajo en grasa\" en el frente del empaque.",
+    "presentacion": "El empaque dice \"BAJO EN GRASA\" en grande. El etiquetado frontal muestra sellos de \"EXCESO SODIO\" y \"EXCESO AZÚCARES\". El paciente los ignoró.",
+    "hallazgos": [
+      "Alto en sodio",
+      "Alto en azúcares añadidos",
+      "Claim parcial \"bajo en grasa\" al frente",
+      "Paciente con hipertensión"
+    ],
+    "diagnostico": {
+      "pregunta": "¿Qué información debe guiar la decisión del paciente?",
+      "opciones": [
+        "Los sellos de advertencia frontal son más relevantes que el claim de marketing",
+        "El claim grande siempre es más confiable",
+        "Sólo importa la lista de ingredientes",
+        "Nada, cualquier producto está bien"
+      ],
+      "correcta": 0,
+      "explicacion": "El etiquetado frontal de advertencia está diseñado para destacar excesos de nutrientes críticos; los claims comerciales pueden ser parciales."
+    },
+    "plan": {
+      "pregunta": "¿Qué recomendación es más útil para la consulta?",
+      "opciones": [
+        "Enseñarle a leer sellos primero y después la lista de ingredientes",
+        "Prohibirle todos los productos empacados",
+        "Decirle que confíe en el frente del paquete",
+        "No comentar porque no es su área"
+      ],
+      "correcta": 0,
+      "explicacion": "La educación nutricional práctica mejora la adherencia y protege al paciente de decisiones basadas sólo en publicidad."
+    }
+  },
+  {
+    "id": "formulacion-incompatibilidad",
+    "area": "Cosmetología",
+    "titulo": "La cliente pide una fórmula \"con todo\"",
+    "paciente": "Clienta de 34 años. Pide un sérum \"con todo lo mejor\": retinol, vitamina C, ácido glicólico, niacinamida alta, péptidos y aceites esenciales.",
+    "presentacion": "La cliente ha visto esos ingredientes elogiados por separado en redes y los quiere todos en el mismo producto para \"ahorrar pasos\".",
+    "hallazgos": [
+      "Mezcla de activos de pH y comportamiento diferentes",
+      "Riesgo real de irritación",
+      "Riesgo de inestabilidad de la fórmula",
+      "Expectativa comercial \"más es mejor\""
+    ],
+    "diagnostico": {
+      "pregunta": "¿Qué principio de formulación aplica?",
+      "opciones": [
+        "No todo activo es compatible con otro en una misma base; algunos pierden actividad o irritan",
+        "Entre más ingredientes, mejor efecto",
+        "El pH no importa en cosmética",
+        "La estabilidad es un trámite"
+      ],
+      "correcta": 0,
+      "explicacion": "La formulación responsable considera compatibilidad química, pH, estabilidad y tolerancia; apilar activos sin criterio reduce eficacia y aumenta riesgos."
+    },
+    "plan": {
+      "pregunta": "¿Cómo orientar a la cliente?",
+      "opciones": [
+        "Explicar incompatibilidades, proponer rutina por fases y productos separados por horario",
+        "Hacerle la fórmula como pide para no perder el cliente",
+        "Prometer que todo cabe en un solo frasco",
+        "Decirle que cualquier formulador podría"
+      ],
+      "correcta": 0,
+      "explicacion": "Educar a la cliente sobre cómo funcionan los activos refuerza la relación profesional y entrega un producto que realmente funcione."
+    }
+  },
+  {
+    "id": "derivacion-medico",
+    "area": "Cosmiatría",
+    "titulo": "Un lunar cambió de forma en el último mes",
+    "paciente": "Paciente de 52 años. Durante la limpieza facial, la profesional nota un lunar en el pómulo que la paciente describe como \"nuevo o más grande\" respecto a su última visita hace dos meses.",
+    "presentacion": "El lunar tiene bordes irregulares, color desigual y supera los 6 mm. La paciente no lo había notado. Pide que se lo \"quiten con láser\".",
+    "hallazgos": [
+      "Lesión asimétrica",
+      "Bordes irregulares",
+      "Color no uniforme",
+      "Diámetro > 6 mm"
+    ],
+    "diagnostico": {
+      "pregunta": "¿Cuál es el alcance profesional en este caso?",
+      "opciones": [
+        "La valoración de lesiones pigmentarias con signos de alarma es competencia médica",
+        "Cualquier estetista puede quitar lunares con láser",
+        "Es sólo un lunar común, se puede ignorar",
+        "Depende del precio del láser"
+      ],
+      "correcta": 0,
+      "explicacion": "Lesiones con signos ABCDE deben valorarse por dermatología; actuar fuera del alcance pone en riesgo al paciente."
+    },
+    "plan": {
+      "pregunta": "¿Qué debe hacer la profesional?",
+      "opciones": [
+        "Documentar en la ficha, explicar la razón y derivar a dermatología sin alarmar",
+        "Quitarlo igual, es rápido",
+        "Decirle que no es nada",
+        "Ignorarlo y seguir con la limpieza"
+      ],
+      "correcta": 0,
+      "explicacion": "La derivación oportuna, comunicada con calma y por escrito, puede salvar vidas y es parte del alcance profesional responsable."
+    }
+  },
+  {
+    "id": "documentacion-foto-consentimiento",
+    "area": "Regulación",
+    "titulo": "La paciente quiere ver su \"antes y después\" para compartirlo",
+    "paciente": "Paciente de 24 años terminó un plan de 6 sesiones. Pide las fotos de antes y después para subirlas a sus redes sociales como testimonio.",
+    "presentacion": "Las fotos existen porque forman parte de la ficha de seguimiento. La paciente firmó el consentimiento general del tratamiento pero no uno específico para el uso de imagen en publicidad.",
+    "hallazgos": [
+      "Fotos clínicas existentes",
+      "Consentimiento general firmado",
+      "Sin consentimiento específico para uso publicitario",
+      "Paciente mayor de edad"
+    ],
+    "diagnostico": {
+      "pregunta": "¿Qué distinción legal importa aquí?",
+      "opciones": [
+        "El consentimiento clínico y el consentimiento publicitario son dos documentos distintos",
+        "Son lo mismo, basta uno",
+        "La paciente puede subir lo que quiera sin firmar",
+        "Nunca se usan fotos en estética"
+      ],
+      "correcta": 0,
+      "explicacion": "El uso de imagen con fines publicitarios requiere un consentimiento específico, aun cuando exista el de registro clínico."
+    },
+    "plan": {
+      "pregunta": "¿Cuál es el paso adecuado?",
+      "opciones": [
+        "Entregar las fotos a la paciente para su uso personal y, si la clínica desea publicarlas, firmar un consentimiento específico",
+        "Publicar sin consultar porque es su cliente",
+        "Negar las fotos de su propio tratamiento",
+        "Cobrar extra por entregarlas"
+      ],
+      "correcta": 0,
+      "explicacion": "Separar el uso personal del uso publicitario respeta el derecho de imagen y evita riesgos legales para ambas partes."
+    }
+  }
+]
