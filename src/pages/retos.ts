@@ -87,152 +87,135 @@ function hub() {
   const cursosCompletos = Progreso.completados().length;
   const mision = [d.hechoHoy, miRacha.activaEstaSemana, em.estudiadas > 0];
   const misionHechas = mision.filter(Boolean).length;
-  const misionPct = Math.round(misionHechas / mision.length * 100);
   const lider = liga.clasificacion[0]?.xp || 1;
   const casosOk = casosResueltos();
   const record = mejorQuiz();
-  const pctCasos = totalCasos ? Math.round(casosOk / totalCasos * 100) : 0;
-  const pctFlash = em.total ? Math.round(em.dominadas / em.total * 100) : 0;
-  const pctQuiz = Math.min(100, Math.round(record / 10));
   const dias = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
   pinta(`
-    <header class="league-hero">
-      <div class="league-hero__glow"></div>
-      <div class="league-hero__copy">
-        <span class="league-kicker"><i data-lucide="sparkles" class="i"></i>Liga Dermalysse</span>
-        <h1 class="display">Aprende. Practica. <em>Afina tu criterio.</em></h1>
-        <p>Cada clase vista, concepto dominado y caso resuelto suma a tu avance como profesional.</p>
-        <div class="league-level" style="--c:${nv.color}">
-          <div class="league-ring">
-            <svg class="league-ring__svg" viewBox="0 0 120 120"><circle class="league-ring__bg" cx="60" cy="60" r="52"/><circle class="league-ring__fg" cx="60" cy="60" r="52" style="stroke-dashoffset:${(326.7 * (1 - nv.pct / 100)).toFixed(1)}"/></svg>
-            <i data-lucide="${nv.icon}" class="i"></i>
-          </div>
-          <div class="league-level__info">
-            <span>Nivel ${nv.indice + 1} · ${nv.xp.toLocaleString('es-MX')} XP</span>
-            <strong>${nv.nombre}</strong>
-            <div class="ar-xp__bar"><span style="width:${nv.pct}%"></span></div>
-            <small>${nv.siguiente ? `Faltan <b>${nv.faltan.toLocaleString('es-MX')} XP</b> para ${nv.siguiente.nombre.split(' ')[0]}` : 'Nivel máximo alcanzado'}</small>
-          </div>
-        </div>
-        <ol class="league-track">${NIVELES.map((n, i) => `<li class="${i < nv.indice ? 'is-done' : i === nv.indice ? 'is-current' : ''}" style="--c:${n.color}"><i data-lucide="${n.icon}" class="i"></i><span>${n.nombre.split(' ')[0]}</span></li>`).join('')}</ol>
+    <header class="retos-head">
+      <div class="retos-head__intro">
+        <span class="retos-head__kicker">Liga Dermalysse</span>
+        <h1>Retos</h1>
+        <p>Practica criterio profesional con los contenidos del club.</p>
       </div>
-      <div class="league-rank-card">
-        <span class="league-rank-card__label"><i data-lucide="medal" class="i"></i>Tu posición</span>
-        <strong>${liga.yo ? `#${liga.yo.puesto}` : '—'}</strong>
-        <span>de ${liga.participantes} en la liga</span>
-        <div class="league-rank-card__mini"><span><b>${cursosCompletos}</b> cursos</span><span><b>${vistas}</b> clases</span><span><b>${d.racha}</b> racha</span></div>
-        ${d.racha > 0 ? `<span class="league-rank-card__streak"><i data-lucide="flame" class="i"></i>${d.racha} ${d.racha === 1 ? 'día' : 'días'} seguidos</span>` : '<span class="league-rank-card__streak is-off"><i data-lucide="flame" class="i"></i>Enciende tu racha hoy</span>'}
+      <div class="retos-head__meta">
+        <div class="retos-head__level">
+          <span class="retos-head__level-label">${nv.nombre}</span>
+          <div class="retos-head__level-bar"><span style="width:${nv.pct}%;background:${nv.color}"></span></div>
+          <span class="retos-head__level-sub">${nv.xp.toLocaleString('es-MX')} XP${nv.siguiente ? ` · faltan ${nv.faltan.toLocaleString('es-MX')} para ${nv.siguiente.nombre.split(' ')[0]}` : ' · nivel máximo'}</span>
+        </div>
+        <div class="retos-head__stats">
+          <span><b>${liga.yo ? '#' + liga.yo.puesto : '—'}</b>posición</span>
+          <span><b>${cursosCompletos}</b>cursos</span>
+          <span><b>${vistas}</b>clases</span>
+          <span><b>${d.racha}</b>racha</span>
+        </div>
       </div>
     </header>
 
-    <div class="league-dashboard">
-      <section class="league-main">
-        <div class="league-section-head"><div><span class="eyebrow">Entrena tu criterio</span><h2>Zona de retos</h2></div><span><i data-lucide="sparkles" class="i"></i>${nv.xp.toLocaleString('es-MX')} XP acumulados</span></div>
+    <div class="retos-grid">
+      <section class="retos-main">
+        <div class="retos-section-head">
+          <h2>Zona de retos</h2>
+          <span class="retos-xp">${nv.xp.toLocaleString('es-MX')} XP</span>
+        </div>
 
-        <section class="story-entry">
-          <div class="story-entry__copy">
-            <span>Ruta interactiva · Casos Dermalysse</span>
-            <h2 class="display">Aprender también es <em>conectar.</em></h2>
-            <p>Escenarios editoriales para practicar observación, análisis y comunicación responsable con tus pacientes.</p>
-            <a class="btn btn--light" href="#/retos/historia">Ver avance <i data-lucide="arrow-right" class="i"></i></a>
-          </div>
-          <div class="story-entry__visual">
-            <div class="story-character story-character--mateo"><span style="background:linear-gradient(135deg,#f0b5be,#681c31);display:grid;place-items:center;color:#fff;font-weight:700;font-size:28px">D</span><b>Dermalysse</b></div>
-            <div class="story-character story-character--pico"><span style="background:linear-gradient(135deg,#8ad7b5,#4fa899);display:grid;place-items:center;color:#fff"><i data-lucide="sparkles" class="i" style="width:28px;height:28px"></i></span><b>Guía</b></div>
-          </div>
-        </section>
-
-        <button class="ar-daily ${d.hechoHoy ? 'is-done' : ''}" data-a="ir-diaria" ${d.hechoHoy || !banco ? 'disabled' : ''}>
-          <span class="ar-daily__ic"><i data-lucide="${d.hechoHoy ? 'check-check' : 'calendar-days'}" class="i"></i></span>
-          <span class="ar-daily__tx">
+        <button class="retos-daily ${d.hechoHoy ? 'is-done' : ''}" data-a="ir-diaria" ${d.hechoHoy || !banco ? 'disabled' : ''}>
+          <span class="retos-daily__ic"><i data-lucide="${d.hechoHoy ? 'check' : 'calendar-days'}" class="i"></i></span>
+          <span class="retos-daily__body">
             <strong>Reto diario</strong>
-            <span class="faint">${d.hechoHoy ? '¡Listo por hoy! Vuelve mañana para mantener tu racha.' : banco ? 'Una pregunta rápida · responde y suma XP' : 'Se activa cuando se publique al menos un quiz revisado.'}</span>
+            <small>${d.hechoHoy ? 'Listo por hoy · vuelve mañana para mantener la racha' : banco ? 'Una pregunta rápida · suma XP y mantiene tu racha' : 'En preparación · se activa cuando se publique un quiz revisado'}</small>
           </span>
-          <span class="ar-daily__meta">
-            ${d.racha > 0 ? `<span class="ar-daily__streak"><i data-lucide="flame" class="i"></i>${d.racha}</span>` : ''}
-            ${d.hechoHoy ? '<span class="league-done"><i data-lucide="check" class="i"></i>Completado</span>' : banco ? '<span class="ar-daily__xp">+30 XP</span><span class="ar-daily__go"><i data-lucide="arrow-right" class="i"></i></span>' : '<span class="chip" style="background:rgba(104,28,49,.08);color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 20%,transparent)">En preparación</span>'}
+          <span class="retos-daily__right">
+            ${d.hechoHoy ? '<span class="retos-chip retos-chip--ok">Completado</span>' : banco ? '<span class="retos-chip retos-chip--xp">+30 XP</span>' : '<span class="retos-chip retos-chip--muted">En preparación</span>'}
           </span>
         </button>
 
-        <div class="ar-grid league-games">
-          ${tile('ir-quiz', 'zap', 'Quiz Relámpago', `Preguntas rápidas de cursos · ${banco} ${banco === 1 ? 'pregunta' : 'preguntas'}`, '#4a7fc1', 'Récord', String(record), pctQuiz, banco === 0)}
-          ${tile('ir-caso', 'briefcase-medical', 'Casos Dermalysse', 'Diagnóstico educativo y comunicación responsable', '#4fa899', 'Resueltos', `${casosOk}/${totalCasos}`, pctCasos, totalCasos === 0)}
-          ${tile('ir-flash', 'brain', 'Flashcards', 'Memoria activa por área y curso', '#c98a5b', 'Dominadas', `${em.dominadas}/${em.total}`, pctFlash, em.total === 0)}
+        <div class="retos-tiles">
+          ${tile('ir-quiz', 'zap', 'Quiz Relámpago', `${banco} preguntas · 6 áreas`, '#4a7fc1', 'Récord', String(record), banco === 0)}
+          ${tile('ir-caso', 'briefcase-medical', 'Casos Dermalysse', `${totalCasos} casos de criterio profesional`, '#4fa899', 'Resueltos', `${casosOk}/${totalCasos}`, totalCasos === 0)}
+          ${tile('ir-flash', 'brain', 'Flashcards', `${em.total} tarjetas con repetición espaciada`, '#c98a5b', 'Dominadas', `${em.dominadas}/${em.total}`, em.total === 0)}
+          ${tile('historia', 'route', 'Modo historia', 'Casos narrativos con decisiones guiadas', '#8e4466', 'Mundos', '0/1', false, '#/retos/historia')}
         </div>
 
-        <section class="league-ranking">
-          <div class="league-section-head"><div><span class="eyebrow">Avance verificado</span><h2>Clasificación del club</h2></div>${liga.esDemo ? '<span class="chip" style="background:rgba(104,28,49,.08);color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 20%,transparent)"><i data-lucide="flask-conical" class="i"></i>Ejemplo</span>' : '<span class="league-live"><i data-lucide="shield-check" class="i"></i>Datos del club</span>'}</div>
-          <p class="league-ranking__intro">${liga.esDemo ? 'Vista previa de cómo lucirá la clasificación cuando más colegas estén avanzando con cursos y retos reales.' : 'Aquí se reconoce a quienes convierten la constancia en resultados. Las clases y cursos terminados valen más que una visita.'}</p>
-          ${podio(liga.clasificacion.slice(0, 3))}
-          <div class="league-table">${liga.clasificacion.slice(3, 10).map((f) => filaLiga(f, lider)).join('') || '<p class="league-ranking__empty">Las siguientes posiciones aparecerán conforme más colegas avancen.</p>'}</div>
-          ${liga.yo && liga.yo.puesto > 10 ? `<div class="league-you"><span>Tu posición actual</span>${filaLiga(liga.yo, lider)}</div>` : ''}
-          <p class="league-privacy"><i data-lucide="lock-keyhole" class="i"></i>La clasificación solo muestra nombre y logros de aprendizaje. Nunca datos de contacto ni información clínica.</p>
+        <section class="retos-ranking">
+          <div class="retos-section-head">
+            <h2>Clasificación del club</h2>
+            ${liga.esDemo ? '<span class="retos-chip retos-chip--muted"><i data-lucide="flask-conical" class="i"></i>Ejemplo</span>' : '<span class="retos-chip retos-chip--ok"><i data-lucide="shield-check" class="i"></i>Datos del club</span>'}
+          </div>
+          <p class="retos-ranking__intro">${liga.esDemo ? 'Vista previa; se llena con el avance real cuando el club entre en operación.' : 'Avance verificado por cursos terminados y aportes útiles.'}</p>
+          <ol class="retos-ranking__list">${liga.clasificacion.slice(0, 10).map((f) => filaLigaCompacta(f, lider)).join('')}</ol>
+          ${liga.yo && liga.yo.puesto > 10 ? `<div class="retos-ranking__you"><span>Tu posición</span>${filaLigaCompacta(liga.yo, lider)}</div>` : ''}
+          <p class="retos-ranking__note"><i data-lucide="lock-keyhole" class="i"></i>Solo nombre y logros de aprendizaje. Nunca datos de contacto ni información clínica.</p>
         </section>
       </section>
 
-      <aside class="league-side">
-        <section class="weekly-mission">
-          <div class="weekly-mission__head">
-            <div class="weekly-mission__ring"><svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="34"/><circle class="fg" cx="40" cy="40" r="34" style="stroke-dashoffset:${(213.6 * (1 - misionPct / 100)).toFixed(1)}"/></svg><b>${misionHechas}<i>/3</i></b></div>
-            <div><small>Misión semanal</small><strong>${misionPct === 100 ? 'Semana dominada' : `${misionPct}% completada`}</strong></div>
-          </div>
-          <div class="weekly-mission__days">${dias.map((l, i) => `<span class="${miRacha.dias[i] ? 'is-on' : ''}${i === (new Date().getDay() + 6) % 7 ? ' is-today' : ''}">${l}</span>`).join('')}</div>
-          <ul>
+      <aside class="retos-side">
+        <section class="retos-card">
+          <header>
+            <h3>Misión semanal</h3>
+            <span class="retos-chip retos-chip--primary">${misionHechas}/3</span>
+          </header>
+          <div class="retos-week">${dias.map((l, i) => `<span class="${miRacha.dias[i] ? 'is-on' : ''}${i === (new Date().getDay() + 6) % 7 ? ' is-today' : ''}">${l}</span>`).join('')}</div>
+          <ul class="retos-list">
             ${misionItem('Reto diario', 'Suma XP hoy', mision[0])}
             ${misionItem('Constancia', 'Mira una clase esta semana', mision[1])}
             ${misionItem('Memoria activa', 'Repasa tus flashcards', mision[2])}
           </ul>
-          <span class="weekly-mission__reward"><i data-lucide="gift" class="i"></i>Completa las 3 para dominar la semana</span>
         </section>
 
-        <section class="league-path">
-          <div><span class="eyebrow">Camino a Maestro</span><h3>Seis niveles de dominio</h3></div>
-          <ol>${NIVELES.map((n, i) => `<li class="${i < nv.indice ? 'is-done' : i === nv.indice ? 'is-current' : ''}" style="--c:${n.color}"><span>${i < nv.indice ? '<i data-lucide="check" class="i"></i>' : `<i data-lucide="${n.icon}" class="i"></i>`}</span><div><strong>${n.nombre.split(' ')[0]}</strong><small>${n.min.toLocaleString('es-MX')} XP</small></div>${i === nv.indice ? '<em>Estás aquí</em>' : ''}</li>`).join('')}</ol>
+        <section class="retos-card">
+          <header><h3>Camino a Maestro</h3></header>
+          <ol class="retos-levels">${NIVELES.map((n, i) => `<li class="${i < nv.indice ? 'is-done' : i === nv.indice ? 'is-current' : ''}"><span style="color:${n.color}"><i data-lucide="${i < nv.indice ? 'check' : n.icon}" class="i"></i></span><div><strong>${n.nombre.split(' ')[0]}</strong><small>${n.min.toLocaleString('es-MX')} XP</small></div>${i === nv.indice ? '<em>Aquí</em>' : ''}</li>`).join('')}</ol>
         </section>
 
-        <section class="league-achievements"><span class="eyebrow">Tu tablero</span><div><span style="--c:#4a7fc1"><i data-lucide="zap" class="i"></i><b>${record}</b><small>récord quiz</small></span><span style="--c:#4fa899"><i data-lucide="briefcase-medical" class="i"></i><b>${casosOk}</b><small>casos</small></span><span style="--c:#c98a5b"><i data-lucide="brain" class="i"></i><b>${em.dominadas}</b><small>dominadas</small></span></div></section>
+        <section class="retos-card">
+          <header><h3>Tu tablero</h3></header>
+          <div class="retos-board">
+            <span><i data-lucide="zap" class="i" style="color:#4a7fc1"></i><b>${record}</b><small>Récord quiz</small></span>
+            <span><i data-lucide="briefcase-medical" class="i" style="color:#4fa899"></i><b>${casosOk}</b><small>Casos</small></span>
+            <span><i data-lucide="brain" class="i" style="color:#c98a5b"></i><b>${em.dominadas}</b><small>Dominadas</small></span>
+          </div>
+        </section>
       </aside>
     </div>
   `);
 }
 
-function podio(filas: FilaLiga[]) {
-  if (!filas.length) return '<div class="league-ranking__empty">La liga se arma con la primera clase terminada.</div>';
-  const orden = filas.length >= 3 ? [filas[1], filas[0], filas[2]] : filas;
-  return `<div class="league-podium">${orden.map((f) => `<div class="league-podium__place place-${f.puesto} ${f.esYo ? 'is-you' : ''}">
-    <span class="league-podium__medal">${f.puesto === 1 ? '<i data-lucide="crown" class="i"></i>' : `#${f.puesto}`}</span>
-    <span class="league-podium__ring">${avatarLiga(f)}</span>
-    <strong>${esc(f.nombre)}${f.esYo ? ' <em>Tú</em>' : ''}</strong>
-    <small>${f.cursos} cursos · ${f.clases} clases</small>
-    <b>${f.xp.toLocaleString('es-MX')} XP</b>
-    <span class="league-podium__step"></span>
-  </div>`).join('')}</div>`;
+function filaLigaCompacta(f: FilaLiga, lider: number) {
+  const w = Math.max(5, Math.round(f.xp / lider * 100));
+  return `<li class="retos-row ${f.esYo ? 'is-you' : ''}" style="--w:${w}%">
+    <span class="retos-row__rank">${f.puesto}</span>
+    <div class="avatar retos-row__avatar">${f.foto ? `<img src="${esc(f.foto)}" alt="" referrerpolicy="no-referrer" loading="lazy">` : iniciales(f.nombre)}</div>
+    <div class="retos-row__name"><strong>${esc(f.nombre)}${f.esYo ? ' <em>Tú</em>' : ''}</strong><small>${esc(f.nivel)} · ${f.cursos} cursos · ${f.clases} clases</small></div>
+    <b class="retos-row__xp">${f.xp.toLocaleString('es-MX')} XP</b>
+  </li>`;
 }
 
-function filaLiga(f: FilaLiga, lider: number) {
-  const w = Math.max(4, Math.round(f.xp / lider * 100));
-  return `<div class="league-row ${f.esYo ? 'is-you' : ''}" style="--w:${w}%"><span class="league-row__rank">${f.puesto}</span>${avatarLiga(f)}<div class="league-row__name"><strong>${esc(f.nombre)}${f.esYo ? ' <em>Tú</em>' : ''}</strong><span>${f.nivel} · ${f.cursos} cursos completados</span></div><span class="league-row__classes">${f.clases}<small>clases</small></span><b>${f.xp.toLocaleString('es-MX')} XP</b></div>`;
-}
+// (podio y filaLiga antiguos eliminados; se usa filaLigaCompacta más abajo).
 
-const avatarLiga = (f: FilaLiga) => `<div class="avatar">${f.foto ? `<img src="${esc(f.foto)}" alt="Foto de ${esc(f.nombre)}" referrerpolicy="no-referrer" loading="lazy">` : iniciales(f.nombre)}</div>`;
+const misionItem = (titulo: string, sub: string, ok: boolean) => `<li class="${ok ? 'is-done' : ''}"><span class="retos-check"><i data-lucide="${ok ? 'check' : 'circle'}" class="i"></i></span><div><strong>${titulo}</strong><small>${sub}</small></div></li>`;
 
-const misionItem = (titulo: string, sub: string, ok: boolean) => `<li class="${ok ? 'is-done' : ''}"><span><i data-lucide="${ok ? 'check' : 'circle'}" class="i"></i></span><div><strong>${titulo}</strong><small>${sub}</small></div></li>`;
-
-function tile(a: string, icono: string, tit: string, sub: string, color: string, kpiLabel: string, kpi: string, pct: number, pendiente: boolean) {
-  const chip = pendiente
-    ? '<span class="chip" style="background:rgba(104,28,49,.08);color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);font-size:10px;margin-top:4px">En preparación</span>'
-    : '';
-  const tag = pendiente ? 'div' : 'button';
+function tile(a: string, icono: string, tit: string, sub: string, color: string, kpiLabel: string, kpi: string, pendiente: boolean, href?: string) {
+  const tag = pendiente ? 'div' : href ? 'a' : 'button';
   const attrs = pendiente
-    ? ` class="ar-tile is-pending" style="--c:${color}" aria-disabled="true" title="Se activa cuando se publique el contenido revisado."`
-    : ` class="ar-tile" data-a="${a}" style="--c:${color}"`;
+    ? ` class="retos-tile is-pending" aria-disabled="true"`
+    : href
+      ? ` class="retos-tile" href="${href}"`
+      : ` class="retos-tile" data-a="${a}"`;
+  const chip = pendiente ? '<span class="retos-chip retos-chip--muted">En preparación</span>' : '';
   return `
-  <${tag}${attrs}>
-    <span class="ar-tile__mascot" style="background:color-mix(in srgb,${color} 18%,transparent);display:grid;place-items:center;color:${color}"><i data-lucide="${icono}" class="i" style="width:34px;height:34px"></i></span>
-    <span class="ar-tile__body"><strong>${tit}</strong><span class="faint">${sub}</span>${chip}</span>
-    <span class="ar-tile__kpi"><span><small>${kpiLabel}</small><b>${kpi}</b></span><i style="--p:${pct}%"></i></span>
-    <span class="ar-tile__go"><i data-lucide="${pendiente ? 'clock' : 'arrow-up-right'}" class="i"></i></span>
+  <${tag}${attrs} style="--c:${color}">
+    <div class="retos-tile__head">
+      <span class="retos-tile__ic"><i data-lucide="${icono}" class="i"></i></span>
+      ${chip || `<span class="retos-tile__kpi"><small>${kpiLabel}</small><b>${kpi}</b></span>`}
+    </div>
+    <div class="retos-tile__body">
+      <strong>${tit}</strong>
+      <small>${sub}</small>
+    </div>
+    <span class="retos-tile__cta">${pendiente ? 'Pronto' : 'Abrir'}<i data-lucide="${pendiente ? 'clock' : 'arrow-right'}" class="i"></i></span>
   </${tag}>`;
 }
 
