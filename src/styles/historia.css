@@ -298,14 +298,14 @@ a.story-step:hover .story-step__card { border-color:var(--primary); }
 .story-locked p { color:var(--text-2); }
 
 /* Entrada desde Retos */
-.story-entry { position:relative; display:grid; grid-template-columns:minmax(0,1fr) 210px; align-items:center; min-height:225px; overflow:hidden; padding:30px; border-radius:27px; color:#fff; background:linear-gradient(100deg,rgba(11,36,53,.95),rgba(49,90,118,.8) 62%,rgba(104,28,49,.4)),url('/media/hero-background.png') center/cover; box-shadow:var(--shadow-md); }
+.story-entry { position:relative; display:grid; grid-template-columns:minmax(0,1fr) 160px; align-items:center; min-height:170px; overflow:hidden; padding:22px 26px; border-radius:22px; color:#fff; background:linear-gradient(100deg,rgba(11,36,53,.95),rgba(49,90,118,.8) 62%,rgba(104,28,49,.4)),url('/media/hero-background.png') center/cover; box-shadow:var(--shadow-md); }
 .story-entry::before { position:absolute; inset:0; opacity:.13; background:repeating-linear-gradient(120deg,transparent 0 45px,#fff 46px 47px); content:''; }
 .story-entry__copy,.story-entry__visual { position:relative; z-index:1; }
-.story-entry__copy { display:grid; justify-items:start; gap:9px; }
+.story-entry__copy { display:grid; justify-items:start; gap:7px; }
 .story-entry__copy>span { color:#f0b5be; font-size:9px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
-.story-entry h2 { max-width:12ch; font-size:clamp(2rem,4vw,3.4rem); line-height:.95; }
+.story-entry h2 { max-width:16ch; font-size:clamp(1.4rem,2.2vw,1.9rem); line-height:1.05; margin:0; }
 .story-entry h2 em { color:#f0b5be; font-style:normal; }
-.story-entry p { max-width:52ch; color:rgba(255,255,255,.7); font-size:11px; }
+.story-entry p { max-width:52ch; color:rgba(255,255,255,.72); font-size:12px; line-height:1.45; margin:0; }
 .story-entry .btn { margin-top:7px; }
 .story-entry__visual { display:grid; grid-template-columns:repeat(2,66px); justify-content:end; align-items:end; }
 .story-entry__visual .story-character { color:#fff; }

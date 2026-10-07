@@ -209,41 +209,40 @@
 @keyframes league-ring-in { from { stroke-dashoffset: 326.7 } }
 @keyframes league-ring-in-sm { from { stroke-dashoffset: 213.6 } }
 
-.league-hero { position: relative; display: grid; grid-template-columns: minmax(0,1.3fr) minmax(260px,.7fr); align-items: center; gap: 36px; min-height: 380px; padding: 44px 46px; overflow: hidden; isolation: isolate; border-radius: 32px; color: #fff;
+.league-hero { position: relative; display: grid; grid-template-columns: minmax(0,1.5fr) minmax(220px,.5fr); align-items: center; gap: 26px; padding: 28px 32px; overflow: hidden; isolation: isolate; border-radius: 26px; color: #fff;
   background: radial-gradient(circle at 92% 8%, rgba(217,160,155,.3), transparent 26%), radial-gradient(circle at 55% 110%, rgba(142,41,68,.34), transparent 42%), linear-gradient(135deg, #0b2435, #315a76 52%, #681c31);
   box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.12); animation: reveal .5s var(--ease) both; }
-/* sin mask-image: en Chromium rompe el pintado del contenido posterior */
 .league-hero::before { position: absolute; inset: 0; z-index: -1; content: '';
   background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 44px 44px; }
-.league-hero::after { position: absolute; right: -90px; top: -110px; z-index: -1; width: 380px; height: 380px; border: 1px solid rgba(255,255,255,.1); border-radius: 50%; box-shadow: inset 0 0 0 60px rgba(255,255,255,.025), 0 0 0 70px rgba(255,255,255,.03); content: ''; }
-.league-hero__glow { position: absolute; z-index: -1; right: 18%; top: 50%; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(217,160,155,.35), transparent 65%); filter: blur(40px); transform: translateY(-50%); pointer-events: none; }
+.league-hero::after { position: absolute; right: -90px; top: -110px; z-index: -1; width: 300px; height: 300px; border: 1px solid rgba(255,255,255,.1); border-radius: 50%; box-shadow: inset 0 0 0 50px rgba(255,255,255,.025), 0 0 0 60px rgba(255,255,255,.03); content: ''; }
+.league-hero__glow { position: absolute; z-index: -1; right: 18%; top: 50%; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(217,160,155,.32), transparent 65%); filter: blur(40px); transform: translateY(-50%); pointer-events: none; }
 .league-hero__copy, .league-rank-card { position: relative; z-index: 1; }
-.league-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px 7px 9px; border: 1px solid rgba(217,160,155,.3); border-radius: 99px; background: rgba(217,160,155,.1); color: #f0b5be; font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
-.league-kicker .i { width: 15px; height: 15px; }
-.league-hero h1 { max-width: 14ch; margin-top: 18px; font-size: clamp(2.7rem, 4.4vw, 4.4rem); line-height: .94; letter-spacing: -.035em; text-wrap: balance; }
+.league-kicker { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px 5px 8px; border: 1px solid rgba(217,160,155,.3); border-radius: 99px; background: rgba(217,160,155,.1); color: #f0b5be; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.league-kicker .i { width: 13px; height: 13px; }
+.league-hero h1 { max-width: 24ch; margin-top: 10px; font-size: clamp(1.75rem, 2.8vw, 2.6rem); line-height: 1.05; letter-spacing: -.02em; text-wrap: balance; }
 .league-hero h1 em { color: #f0b5be; font-style: normal; }
-.league-hero__copy > p { max-width: 50ch; margin-top: 16px; color: rgba(255,255,255,.72); font-size: 14px; line-height: 1.65; }
+.league-hero__copy > p { max-width: 54ch; margin-top: 8px; color: rgba(255,255,255,.74); font-size: 13px; line-height: 1.55; }
 
-.league-level { display: grid; grid-template-columns: 82px minmax(0,1fr); align-items: center; gap: 16px; max-width: 540px; margin-top: 26px; padding: 14px 18px 14px 14px; border: 1px solid rgba(255,255,255,.14); border-radius: 22px; background: rgba(255,255,255,.07); backdrop-filter: blur(12px); box-shadow: inset 0 1px 0 rgba(255,255,255,.12); }
-.league-ring { position: relative; display: grid; place-items: center; width: 82px; height: 82px; }
+.league-level { display: grid; grid-template-columns: 64px minmax(0,1fr); align-items: center; gap: 14px; max-width: 540px; margin-top: 16px; padding: 12px 16px 12px 12px; border: 1px solid rgba(255,255,255,.14); border-radius: 18px; background: rgba(255,255,255,.07); backdrop-filter: blur(12px); box-shadow: inset 0 1px 0 rgba(255,255,255,.12); }
+.league-ring { position: relative; display: grid; place-items: center; width: 64px; height: 64px; }
 .league-ring__svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
 .league-ring__svg circle { fill: none; stroke-width: 8; }
 .league-ring__bg { stroke: rgba(255,255,255,.14); }
 .league-ring__fg { stroke: var(--c); stroke-linecap: round; stroke-dasharray: 326.7; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--c) 70%, transparent)); animation: league-ring-in 1.2s cubic-bezier(.22,1,.36,1) both; }
-.league-ring .i { position: relative; width: 30px; height: 30px; color: var(--c); filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
-.league-level__info { display: grid; gap: 4px; min-width: 0; }
-.league-level__info > span { color: rgba(255,255,255,.62); font-size: 10px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
-.league-level__info > strong { font-family: var(--font-display); font-size: 19px; letter-spacing: -.01em; line-height: 1.1; }
-.league-level__info small { color: rgba(255,255,255,.7); font-size: 11px; }
+.league-ring .i { position: relative; width: 24px; height: 24px; color: var(--c); filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
+.league-level__info { display: grid; gap: 3px; min-width: 0; }
+.league-level__info > span { color: rgba(255,255,255,.62); font-size: 9.5px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+.league-level__info > strong { font-family: var(--font-display); font-size: 16px; letter-spacing: -.01em; line-height: 1.1; }
+.league-level__info small { color: rgba(255,255,255,.7); font-size: 10.5px; }
 .league-level__info small b { color: #e9bab4; font-weight: 800; }
-.league-level .ar-xp__bar { position: relative; height: 7px; margin-top: 4px; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.16); }
+.league-level .ar-xp__bar { position: relative; height: 6px; margin-top: 3px; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.16); }
 .league-level .ar-xp__bar span { position: relative; display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f0b5be, #fff2ed); transition: width .9s var(--ease); overflow: hidden; }
 .league-level .ar-xp__bar span::after { position: absolute; inset: 0; width: 40%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent); animation: league-shimmer 2.6s ease-in-out infinite; content: ''; }
 
-.league-track { display: flex; gap: 6px; margin: 18px 0 0; padding: 0; list-style: none; }
-.league-track li { display: grid; justify-items: center; gap: 5px; flex: 1; min-width: 0; color: rgba(255,255,255,.4); font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
-.league-track li::before { display: block; width: 100%; height: 4px; border-radius: 99px; background: rgba(255,255,255,.14); content: ''; }
-.league-track li .i { width: 15px; height: 15px; }
+.league-track { display: flex; gap: 5px; margin: 12px 0 0; padding: 0; list-style: none; }
+.league-track li { display: grid; justify-items: center; gap: 4px; flex: 1; min-width: 0; color: rgba(255,255,255,.4); font-size: 8.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.league-track li::before { display: block; width: 100%; height: 3px; border-radius: 99px; background: rgba(255,255,255,.14); content: ''; }
+.league-track li .i { width: 13px; height: 13px; }
 .league-track li span { overflow: hidden; max-width: 100%; text-overflow: ellipsis; white-space: nowrap; }
 .league-track li.is-done { color: rgba(255,255,255,.75); }
 .league-track li.is-done::before { background: rgba(217,160,155,.82); }
@@ -251,18 +250,18 @@
 .league-track li.is-current::before { background: var(--c); box-shadow: 0 0 12px color-mix(in srgb, var(--c) 70%, transparent); }
 .league-track li.is-current .i { color: var(--c); }
 
-.league-rank-card { display: grid; justify-items: center; gap: 2px; padding: 28px 22px 22px; border: 1px solid rgba(255,255,255,.22); border-radius: 28px; background: linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,.06)); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 24px 48px -20px rgba(0,0,0,.5); text-align: center; backdrop-filter: blur(18px); overflow: hidden; }
+.league-rank-card { display: grid; justify-items: center; gap: 2px; padding: 18px 18px 16px; border: 1px solid rgba(255,255,255,.22); border-radius: 22px; background: linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,.06)); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 18px 40px -20px rgba(0,0,0,.5); text-align: center; backdrop-filter: blur(18px); overflow: hidden; }
 .league-rank-card::before { position: absolute; inset: -40% -20% auto; height: 70%; background: radial-gradient(ellipse at top, rgba(240,203,99,.22), transparent 60%); content: ''; pointer-events: none; }
 .league-rank-card > * { position: relative; }
-.league-rank-card__label { display: inline-flex; align-items: center; gap: 6px; color: rgba(255,255,255,.68); font-size: 10px; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
-.league-rank-card__label .i { width: 14px; height: 14px; color: #f0cb63; }
-.league-rank-card > strong { margin-top: 6px; background: linear-gradient(180deg, #fff2c2, #f0cb63 60%, #d4a017); -webkit-background-clip: text; background-clip: text; color: transparent; font-family: var(--font-display); font-size: 74px; font-weight: 800; line-height: .95; letter-spacing: -.04em; filter: drop-shadow(0 8px 18px rgba(212,160,23,.35)); }
-.league-rank-card > span:nth-child(3) { color: rgba(255,255,255,.72); font-size: 12px; }
-.league-rank-card__mini { display: grid; grid-template-columns: repeat(3,1fr); width: 100%; gap: 6px; margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.14); }
-.league-rank-card__mini span { display: grid; gap: 3px; color: rgba(255,255,255,.58); font-size: 9px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
-.league-rank-card__mini b { color: #fff; font-family: var(--font-display); font-size: 20px; font-variant-numeric: tabular-nums; }
-.league-rank-card__streak { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 7px 12px; border-radius: 99px; background: rgba(232,132,47,.22); color: #ffc38a; font-size: 11px; font-weight: 750; }
-.league-rank-card__streak .i { width: 14px; height: 14px; animation: league-float 2.2s ease-in-out infinite; }
+.league-rank-card__label { display: inline-flex; align-items: center; gap: 6px; color: rgba(255,255,255,.68); font-size: 9.5px; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
+.league-rank-card__label .i { width: 13px; height: 13px; color: #f0cb63; }
+.league-rank-card > strong { margin-top: 2px; background: linear-gradient(180deg, #fff2c2, #f0cb63 60%, #d4a017); -webkit-background-clip: text; background-clip: text; color: transparent; font-family: var(--font-display); font-size: 46px; font-weight: 800; line-height: 1; letter-spacing: -.04em; filter: drop-shadow(0 6px 14px rgba(212,160,23,.3)); }
+.league-rank-card > span:nth-child(3) { color: rgba(255,255,255,.72); font-size: 11px; }
+.league-rank-card__mini { display: grid; grid-template-columns: repeat(3,1fr); width: 100%; gap: 6px; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.14); }
+.league-rank-card__mini span { display: grid; gap: 2px; color: rgba(255,255,255,.58); font-size: 8.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.league-rank-card__mini b { color: #fff; font-family: var(--font-display); font-size: 16px; font-variant-numeric: tabular-nums; }
+.league-rank-card__streak { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 5px 11px; border-radius: 99px; background: rgba(232,132,47,.22); color: #ffc38a; font-size: 10.5px; font-weight: 750; }
+.league-rank-card__streak .i { width: 13px; height: 13px; animation: league-float 2.2s ease-in-out infinite; }
 .league-rank-card__streak.is-off { background: rgba(255,255,255,.08); color: rgba(255,255,255,.6); }
 .league-rank-card__streak.is-off .i { animation: none; }
 
@@ -273,7 +272,7 @@
 .league-side > :nth-child(2) { animation-delay: .1s } .league-side > :nth-child(3) { animation-delay: .2s }
 .league-side { position: sticky; top: 84px; }
 .league-section-head { display: flex; align-items: end; justify-content: space-between; gap: 14px; }
-.league-section-head h2 { margin-top: 4px; font-family: var(--font-display); font-size: 26px; letter-spacing: -.02em; }
+.league-section-head h2 { margin-top: 3px; font-family: var(--font-display); font-size: 20px; letter-spacing: -.02em; }
 .league-section-head > span { display: inline-flex; align-items: center; gap: 6px; padding: 7px 11px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); color: var(--text-2); font-size: 10px; font-weight: 700; }
 .league-section-head > span .i { width: 13px; height: 13px; color: var(--accent); }
 .league-games { grid-template-columns: repeat(3,minmax(0,1fr)); }
