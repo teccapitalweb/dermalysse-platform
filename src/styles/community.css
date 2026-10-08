@@ -384,3 +384,266 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
   .community-thread__foot { gap: 12px; flex-wrap: wrap; }
   .community-hero__voices { align-self: flex-start; margin-top: 20px; }
 }
+
+/* ═══ Comunidad v3 — inspirado en social dashboard ═══ */
+
+/* Tarjeta de hilo con wash pastel completo (reemplaza el acento lateral) */
+.community-thread {
+  background: var(--wash, var(--surface)) !important;
+  border: 1px solid color-mix(in srgb, var(--area, var(--primary)) 10%, var(--line)) !important;
+  border-radius: 22px !important;
+  padding: 22px 24px !important;
+  position: relative;
+}
+.community-thread:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--area, var(--primary)) 32%, var(--line)) !important;
+  box-shadow: 0 10px 32px -16px color-mix(in srgb, var(--area, var(--primary)) 40%, transparent) !important;
+}
+/* Oculta la barra lateral de acento (ya no la necesitamos con wash completo) */
+.community-thread__accent { display: none; }
+
+/* Avatar más editorial, con sombra sutil (sin ring) */
+.community-thread__avatar {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .6);
+}
+
+/* Chip de área: más suave sobre el wash */
+.community-thread__topic {
+  background: rgba(255, 255, 255, .72) !important;
+  color: var(--area, var(--primary)) !important;
+  padding: 4px 10px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+  border: 1px solid color-mix(in srgb, var(--area, var(--primary)) 12%, transparent);
+}
+.community-thread__topic-dot { display: none; }
+
+/* Menú ⋮ en la esquina */
+.community-thread__menu {
+  margin-left: auto;
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: background .2s;
+}
+.community-thread__menu:hover { background: rgba(255, 255, 255, .5); }
+.community-thread__menu .i { width: 16px; height: 16px; }
+
+/* Oculta el status "N respuestas" / "Nuevo caso" porque ya hay stats abajo */
+.community-status { display: none; }
+
+/* Preview sin borde-left vino (ya no hace falta con el wash) */
+.community-thread__preview {
+  background: rgba(255, 255, 255, .7) !important;
+  border: 1px solid rgba(0, 0, 0, .04) !important;
+  border-radius: 14px !important;
+  padding: 12px 14px !important;
+}
+
+/* Foot: stats tipo views/like/comment estilo social (ref Dribbble) */
+.community-thread__foot {
+  padding-top: 14px !important;
+  border-top: 1px solid rgba(0, 0, 0, .06) !important;
+  gap: 16px !important;
+  align-items: center;
+}
+.community-thread__stat {
+  display: inline-flex; align-items: center; gap: 5px;
+  color: var(--text-3); font-size: 11.5px; font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.community-thread__stat .i { width: 14px; height: 14px; }
+.community-thread__stat--like .i { color: #e95373; fill: currentColor; }
+
+/* Reacción flotante tipo "Woow!!!" */
+.community-thread__reaction {
+  margin-left: auto;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffd3dc, #ffe8c7);
+  color: #7a2d4a;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .02em;
+  box-shadow: 0 4px 14px -4px rgba(201, 83, 115, .3);
+}
+.community-thread__reaction span { font-size: 13px; line-height: 1; }
+
+/* Avatar stack a la derecha después de la reacción */
+.community-thread__foot .community-thread__stack {
+  margin-left: 0;
+}
+.community-thread__reaction + .community-thread__stack {
+  margin-left: 4px;
+}
+.community-thread__stack-item {
+  background: #fff;
+  color: var(--text-2);
+}
+
+/* Filtros horizontales con pill activo oscuro */
+.community-filters {
+  gap: 4px !important;
+  padding: 4px !important;
+  background: rgba(0, 0, 0, .04);
+  border-radius: 999px;
+  width: fit-content;
+  max-width: 100%;
+  flex-wrap: nowrap;
+}
+.community-filter {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center;
+  padding: 7px 14px;
+  border-radius: 999px;
+  color: var(--text-2);
+  font-size: 12px; font-weight: 600;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+}
+.community-filter:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+.community-filter.is-active {
+  background: #0b2435;
+  color: #fff;
+  box-shadow: 0 2px 8px -2px rgba(11, 36, 53, .3);
+}
+
+/* Compositor rápido estilo "Share something" */
+.community-quick {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 10px 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px -14px rgba(104, 28, 49, .18);
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s;
+}
+.community-quick:hover {
+  border-color: color-mix(in srgb, var(--primary) 32%, var(--line));
+  box-shadow: 0 12px 32px -12px rgba(104, 28, 49, .24);
+}
+.community-quick__avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--brand-gradient);
+  color: #fff;
+  display: grid; place-items: center;
+  font-size: 12px; font-weight: 700;
+}
+.community-quick__input {
+  text-align: left;
+  color: var(--text-3);
+  font-size: 13.5px;
+}
+.community-quick__tools {
+  display: flex; gap: 2px;
+}
+.community-quick__tool {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  color: var(--text-3);
+}
+.community-quick__tool .i { width: 15px; height: 15px; }
+.community-quick__send {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #0b2435;
+  color: #fff;
+  font-size: 12.5px; font-weight: 650;
+}
+.community-quick__send .i { width: 14px; height: 14px; }
+
+/* Voces de la semana con botón "Saludar" tipo Follow */
+.community-side-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.community-side-head__count {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 10px; font-weight: 700;
+}
+.community-voices-list li {
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+}
+.community-voices__rank { display: none; }
+.community-follow {
+  padding: 5px 14px;
+  border: 1px solid var(--text);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-size: 11px; font-weight: 650;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+  white-space: nowrap;
+}
+.community-follow:hover {
+  background: var(--text);
+  color: var(--surface);
+}
+
+/* Explora por tema (chips circulares pastel) */
+.community-side-card--explore { gap: 12px; }
+.community-explore {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  margin-top: 4px;
+}
+.community-explore__item {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 4px;
+  padding: 14px 12px;
+  border-radius: 18px;
+  background: var(--wash, var(--surface-2));
+  color: var(--c, var(--text));
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+}
+.community-explore__item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -10px color-mix(in srgb, var(--c, var(--primary)) 45%, transparent);
+  text-decoration: none;
+}
+.community-explore__ic {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--c, var(--primary));
+  opacity: .9;
+}
+.community-explore__item strong {
+  color: var(--c);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+.community-explore__item small {
+  color: color-mix(in srgb, var(--c) 70%, var(--text-3));
+  font-size: 10.5px;
+  font-weight: 650;
+}
+
+/* Toque adicional al hero: fondo con bordes más generosos */
+.community-hero { border-radius: 28px; }
+
+@media (max-width: 720px) {
+  .community-quick { grid-template-columns: auto 1fr auto; }
+  .community-quick__tools { display: none; }
+  .community-explore { grid-template-columns: 1fr; }
+}

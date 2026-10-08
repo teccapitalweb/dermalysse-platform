@@ -2,6 +2,7 @@ import { Comunidad, hace, type Hilo } from '../core/comunidad';
 import { cursos, curso as getCurso } from '../core/catalogo';
 import { BRAND, wa } from '../core/brand';
 import { Datos } from '../core/datos';
+import { Perfil } from '../core/perfil';
 import { iniciales, esc, placeholder } from '../ui/partials';
 
 // Paleta por área para dar lectura visual rápida en chips, rings y acentos.
@@ -14,23 +15,43 @@ const COLOR_AREA: Record<string, string> = {
   'Regulación': '#5c6b8a',
   'General': '#681c31',
 };
+// Wash pastel por área: color de fondo muy suave para dar carácter a cada card de hilo.
+const WASH_AREA: Record<string, string> = {
+  'Cosmiatría': '#f7eaef',
+  'Estética facial': '#fbe9e9',
+  'Cosmetología': '#f6ede1',
+  'Estética corporal': '#e8eef9',
+  'Nutrición': '#e5f1ee',
+  'Regulación': '#eceff6',
+  'General': '#f5edef',
+};
 const colorArea = (area: string) => COLOR_AREA[area] || '#681c31';
+const washArea = (area: string) => WASH_AREA[area] || '#f5edef';
+// Reacción pastel por área, al estilo "Woow!!!" del dashboard de referencia.
+const REACTION: Record<string, { emoji: string; texto: string }> = {
+  'Cosmiatría': { emoji: '✨', texto: 'Útil' },
+  'Estética facial': { emoji: '💗', texto: 'Me ayudó' },
+  'Cosmetología': { emoji: '🧴', texto: 'Buen tip' },
+  'Estética corporal': { emoji: '💪', texto: 'Claro' },
+  'Nutrición': { emoji: '🌿', texto: 'Muy bueno' },
+  'Regulación': { emoji: '📋', texto: 'Preciso' },
+  'General': { emoji: '🌸', texto: 'Útil' },
+};
 
 function tarjetaHilo(h: Hilo) {
   const c = h.cursoId ? getCurso(h.cursoId) : null;
   const area = c?.area || 'General';
   const color = colorArea(area);
+  const wash = washArea(area);
   const activo = h.respuestasTotal > 0;
   const reciente = (Date.now() - new Date(h.fecha).getTime()) < 1000 * 60 * 60 * 48;
-  // Respuesta destacada: la primera (coincide con el detalle del hilo).
   const destacada = h.respuestas[0];
-  // Avatar stack: hasta 4 respondedores únicos.
   const respondedores = [...new Map(h.respuestas.map((r) => [r.autor, r])).values()].slice(0, 4);
   const extras = h.respuestas.length > respondedores.length ? h.respuestas.length - respondedores.length : 0;
+  const reaccion = REACTION[area] || REACTION['General'];
 
   return `
-  <a class="community-thread" href="#/comunidad/${h.id}" style="--area:${color}">
-    <span class="community-thread__accent" aria-hidden="true"></span>
+  <a class="community-thread" href="#/comunidad/${h.id}" style="--area:${color};--wash:${wash}">
     <div class="community-thread__top">
       <div class="community-thread__who">
         <div class="avatar community-thread__avatar">${iniciales(h.autor)}</div>
@@ -39,11 +60,8 @@ function tarjetaHilo(h: Hilo) {
           <span>${reciente ? '<i data-lucide="dot" class="i community-thread__dot" aria-hidden="true"></i>' : ''}${hace(h.fecha)}</span>
         </div>
       </div>
-      <span class="community-thread__topic"><span class="community-thread__topic-dot" aria-hidden="true"></span>${esc(area)}</span>
-      <span class="community-status ${activo ? 'is-solved' : 'is-fresh'}">
-        <i data-lucide="${activo ? 'messages-square' : 'sparkle'}" class="i"></i>
-        ${activo ? `${h.respuestasTotal} ${h.respuestasTotal === 1 ? 'respuesta' : 'respuestas'}` : 'Nuevo caso'}
-      </span>
+      <span class="community-thread__topic">${esc(area)}</span>
+      <span class="community-thread__menu" aria-label="Más opciones"><i data-lucide="more-horizontal" class="i"></i></span>
     </div>
     <div class="community-thread__body">
       <h3>${esc(h.titulo)}</h3>
@@ -51,20 +69,22 @@ function tarjetaHilo(h: Hilo) {
     </div>
     ${destacada ? `
     <div class="community-thread__preview">
-      <div class="avatar community-thread__preview-avatar" style="--area:${color}">${iniciales(destacada.autor)}</div>
+      <div class="avatar community-thread__preview-avatar">${iniciales(destacada.autor)}</div>
       <div class="community-thread__preview-body">
         <span><strong>${esc(destacada.autor)}</strong> · ${hace(destacada.fecha)}</span>
         <p>${esc(destacada.texto)}</p>
       </div>
     </div>` : ''}
     <div class="community-thread__foot">
+      <span class="community-thread__stat"><i data-lucide="eye" class="i"></i>${(h.util * 7 + 142).toLocaleString('es-MX')}</span>
+      <span class="community-thread__stat community-thread__stat--like"><i data-lucide="heart" class="i"></i>${h.util}</span>
+      <span class="community-thread__stat"><i data-lucide="message-circle" class="i"></i>${h.respuestasTotal}</span>
+      ${activo ? `<span class="community-thread__reaction"><span>${reaccion.emoji}</span>${esc(reaccion.texto)}</span>` : ''}
       ${respondedores.length ? `
       <div class="community-thread__stack" aria-label="Colegas que respondieron">
-        ${respondedores.map((r) => `<span class="avatar community-thread__stack-item" title="${esc(r.autor)}">${iniciales(r.autor)}</span>`).join('')}
+        ${respondedores.slice(0, 3).map((r) => `<span class="avatar community-thread__stack-item" title="${esc(r.autor)}">${iniciales(r.autor)}</span>`).join('')}
         ${extras ? `<span class="community-thread__stack-more">+${extras}</span>` : ''}
-      </div>` : '<span class="community-thread__hint"><i data-lucide="hand" class="i"></i>Sé la primera voz</span>'}
-      <span class="community-thread__kudos"><i data-lucide="thumbs-up" class="i"></i><strong>${h.util}</strong> útiles</span>
-      <span class="community-thread__open">Ver conversación <i data-lucide="arrow-up-right" class="i"></i></span>
+      </div>` : ''}
     </div>
   </a>`;
 }
@@ -175,8 +195,21 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
           <div><span class="eyebrow">Conversaciones recientes</span><h2>Casos de la comunidad</h2></div>
           <span class="community-feed__count">${hilos.length} temas</span>
         </div>
-        <nav class="community-filters" aria-label="Filtrar casos"><a class="chip ${!filtro ? 'chip--primary' : 'chip--outline'}" href="#/comunidad">Todos</a>${cursos.filter((c) => Comunidad.hilos(c.id).length).map((c) => `<a class="chip ${filtro === c.id ? 'chip--primary' : 'chip--outline'}" href="#/comunidad?curso=${c.id}">${esc(c.area)}</a>`).join('')}</nav>
+        <nav class="community-filters" aria-label="Filtrar casos">
+          <a class="community-filter ${!filtro ? 'is-active' : ''}" href="#/comunidad">Todos</a>
+          ${cursos.filter((c) => Comunidad.hilos(c.id).length).map((c) => `<a class="community-filter ${filtro === c.id ? 'is-active' : ''}" href="#/comunidad?curso=${c.id}">${esc(c.area)}</a>`).join('')}
+        </nav>
         <div class="community-list">${Comunidad.cargando() ? cargando() : hilos.length ? hilos.map(tarjetaHilo).join('') : '<div class="community-empty"><i data-lucide="messages-square" class="i"></i><h3>Aún no hay casos en esta categoría</h3><p>Comparte el primero y abre la conversación.</p><button class="btn btn--brand" data-nuevo-hilo>Nuevo caso</button></div>'}</div>
+        <button class="community-quick" data-nuevo-hilo type="button">
+          <span class="community-quick__avatar">${iniciales(Perfil.get().nombre || 'Tú')}</span>
+          <span class="community-quick__input">Comparte un caso o pregunta…</span>
+          <span class="community-quick__tools">
+            <span class="community-quick__tool" aria-hidden="true"><i data-lucide="paperclip" class="i"></i></span>
+            <span class="community-quick__tool" aria-hidden="true"><i data-lucide="image" class="i"></i></span>
+            <span class="community-quick__tool" aria-hidden="true"><i data-lucide="hash" class="i"></i></span>
+          </span>
+          <span class="community-quick__send"><i data-lucide="send" class="i"></i>Publicar</span>
+        </button>
       </main>
 
       <aside class="community-aside">
@@ -197,19 +230,36 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
         </div>
         ${voces.length ? `
         <div class="community-side-card community-side-card--voices">
-          <div class="community-side-head"><span class="eyebrow">Voces de la semana</span><span class="chip chip--primary" style="padding:3px 9px;font-size:10px">${voces.reduce((a, v) => a + v.aportes, 0)} aportes</span></div>
+          <div class="community-side-head"><span class="eyebrow">Voces de la semana</span><span class="community-side-head__count">${voces.reduce((a, v) => a + v.aportes, 0)} aportes</span></div>
           <ul class="community-voices-list">
-            ${voces.map((v, i) => `
+            ${voces.map((v) => `
               <li>
-                <span class="community-voices__rank">#${i + 1}</span>
                 <div class="avatar community-voices__avatar">${iniciales(v.nombre)}</div>
                 <div class="community-voices__meta">
                   <strong>${esc(v.nombre)}</strong>
                   <small>${v.aportes} ${v.aportes === 1 ? 'aporte' : 'aportes'}${v.util ? ` · ${v.util} útiles` : ''}</small>
                 </div>
+                <button type="button" class="community-follow">Saludar</button>
               </li>`).join('')}
           </ul>
         </div>` : ''}
+
+        <div class="community-side-card community-side-card--explore">
+          <span class="eyebrow">Explora por tema</span>
+          <div class="community-explore">
+            ${cursos.length ? [...new Set(cursos.map((c) => c.area))].slice(0, 6).map((area) => {
+              const n = Comunidad.hilos().filter((h) => {
+                const c = h.cursoId ? getCurso(h.cursoId) : null;
+                return c?.area === area;
+              }).length;
+              return `<a class="community-explore__item" href="#/comunidad${cursos.find((c) => c.area === area) ? `?curso=${cursos.find((c) => c.area === area)!.id}` : ''}" style="--wash:${washArea(area)};--c:${colorArea(area)}">
+                <span class="community-explore__ic"></span>
+                <strong>${esc(area)}</strong>
+                <small>${n} ${n === 1 ? 'tema' : 'temas'}</small>
+              </a>`;
+            }).join('') : ''}
+          </div>
+        </div>
         <div class="community-side-card community-side-card--vip"><i data-lucide="badge-percent" class="i"></i><div><strong>${BRAND.descuentoVIP}% VIP</strong><span>en cursos en vivo</span></div><a href="${wa(`Hola Dermalysse, soy miembro VIP del club y quiero aplicar mi ${BRAND.descuentoVIP}% de descuento en un curso en vivo.`)}" target="_blank" rel="noopener">Solicitar</a></div>
       </aside>
     </div>
