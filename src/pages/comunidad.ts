@@ -3,6 +3,9 @@ import { cursos, curso as getCurso } from '../core/catalogo';
 import { BRAND, wa } from '../core/brand';
 import { Datos } from '../core/datos';
 import { Perfil } from '../core/perfil';
+import { Progreso } from '../core/progreso';
+import { nivel } from '../core/juegos';
+import { racha } from '../core/logros';
 import { iniciales, esc, placeholder } from '../ui/partials';
 
 // Paleta por área para dar lectura visual rápida en chips, rings y acentos.
@@ -206,40 +209,16 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
       </main>
 
       <aside class="community-aside">
-        <div class="community-side-card community-side-card--me">
-          <div class="community-me__avatar">${iniciales(Perfil.get().nombre || 'Tú')}</div>
-          <div class="community-me__info">
-            <strong>${esc(Perfil.get().nombre || 'Modo demo')}</strong>
-            <small>Miembro Dermalysse</small>
-          </div>
-          <a class="community-me__switch" href="#/perfil">Perfil</a>
-        </div>
-
-        ${siguienteEnVivo ? `
-        <a class="community-side-card community-side-card--live" href="#/en-vivo">
-          <div class="community-live-mini">
-            <span class="community-live-mini__dot" aria-hidden="true"></span>
-            <span class="community-live-mini__label">En vivo próximamente</span>
-          </div>
-          <h3>${esc(siguienteEnVivo.titulo)}</h3>
-          <small>${esc(fechaEnVivo)}${siguienteEnVivo.ponente ? ` · ${esc(siguienteEnVivo.ponente)}` : ''}</small>
-        </a>` : `
-        <a class="community-side-card community-side-card--live" href="#/en-vivo">
-          <div class="community-live-mini">
-            <span class="community-live-mini__dot community-live-mini__dot--off" aria-hidden="true"></span>
-            <span class="community-live-mini__label">Agenda de En vivo</span>
-          </div>
-          <h3>Próximas transmisiones</h3>
-          <small>Reserva lugar cuando se publiquen los eventos.</small>
-        </a>`}
-
+        ${renderPerfilCard()}
+        ${renderContinuarCard()}
+        ${renderEnVivoCard(siguienteEnVivo, fechaEnVivo)}
+        ${renderNovedadesCard()}
         ${BRAND.canalWhatsApp ? `
         <a class="community-side-card community-side-card--wa" href="${BRAND.canalWhatsApp}" target="_blank" rel="noopener">
           <span class="community-side-card__icon"><i data-lucide="message-circle" class="i"></i></span>
           <div><strong>Dermalysse en WhatsApp</strong><small>Avisos sin ruido</small></div>
           <i data-lucide="arrow-up-right" class="i community-side-card__arrow"></i>
         </a>` : ''}
-
         <div class="community-side-card community-side-card--guide">
           <span class="eyebrow">Cómo participamos</span>
           <ul>
@@ -303,4 +282,116 @@ export function hilo(params: Record<string, string>) {
     </div>
     <form class="community-answer" data-form-respuesta="${h.id}"><div><span class="community-compose__icon"><i data-lucide="message-square-reply" class="i"></i></span><div><h3>Suma tu experiencia</h3><p>Responde con claridad y respeto.</p></div></div><textarea class="input" name="texto" rows="4" placeholder="Comparte qué revisarías, por qué y qué resultado esperarías…" required></textarea><button class="btn btn--brand btn--pill-arrow">Publicar respuesta <span class="arrow"><i data-lucide="send" class="i"></i></span></button></form>
   </section>`;
+}
+
+// ═══════════ Cards del aside ═══════════
+
+// Mini perfil con nivel + XP + racha reales del usuario
+function renderPerfilCard(): string {
+  const p = Perfil.get();
+  const nv = nivel();
+  const r = racha();
+  const completados = Progreso.completados().length;
+  const vistas = Progreso.totalVistas();
+  return `
+  <div class="community-side-card community-perfil">
+    <div class="community-perfil__top">
+      <div class="community-perfil__avatar">${iniciales(p.nombre || 'Tú')}</div>
+      <div class="community-perfil__info">
+        <strong>${esc(p.nombre || 'Modo demo')}</strong>
+        <small>Nivel ${esc(nv.nombre)}</small>
+      </div>
+      <a class="community-perfil__link" href="#/perfil" aria-label="Ir a mi perfil"><i data-lucide="arrow-up-right" class="i"></i></a>
+    </div>
+    <div class="community-perfil__bar">
+      <span style="width:${nv.pct}%;background:${nv.color}"></span>
+    </div>
+    <small class="community-perfil__sub">${nv.xp} XP${nv.siguiente ? ` · faltan ${nv.faltan} para ${esc(nv.siguiente.nombre.split(' ')[0])}` : ' · nivel máximo'}</small>
+    <div class="community-perfil__stats">
+      <span><b>${completados}</b>cursos</span>
+      <span><b>${vistas}</b>clases</span>
+      <span><b>${r.semanas}</b>racha</span>
+    </div>
+  </div>`;
+}
+
+// Continuar donde te quedaste: último curso en marcha o recomendación de arranque
+function renderContinuarCard(): string {
+  const reciente = Progreso.reciente();
+  if (reciente) {
+    const n = Progreso.siguiente(reciente);
+    const clase = reciente.clases.find((k) => k.n === n);
+    const pct = Progreso.porcentaje(reciente);
+    return `
+    <a class="community-side-card community-continuar" href="#/curso/${reciente.id}/clase/${n}">
+      <div class="community-continuar__thumb" style="background-image:url(${esc(reciente.portada)})"></div>
+      <div class="community-continuar__body">
+        <span class="eyebrow"><i data-lucide="play" class="i"></i>Continúa donde te quedaste</span>
+        <strong>${esc(reciente.titulo)}</strong>
+        <small>${clase ? `Clase ${n} · ${esc(clase.titulo)}` : `Clase ${n}`}</small>
+        <div class="community-continuar__bar"><span style="width:${pct}%"></span></div>
+      </div>
+    </a>`;
+  }
+  const primero = cursos[0];
+  if (!primero) return '';
+  return `
+  <a class="community-side-card community-continuar" href="#/curso/${primero.id}/clase/1">
+    <div class="community-continuar__thumb" style="background-image:url(${esc(primero.portada)})"></div>
+    <div class="community-continuar__body">
+      <span class="eyebrow"><i data-lucide="sparkles" class="i"></i>Tu primera clase te espera</span>
+      <strong>${esc(primero.titulo)}</strong>
+      <small>${cursos.length} cursos en el catálogo</small>
+      <span class="community-continuar__cta">Empezar <i data-lucide="arrow-right" class="i"></i></span>
+    </div>
+  </a>`;
+}
+
+function renderEnVivoCard(ev: ReturnType<typeof Datos.eventos>[number] | undefined, fecha: string): string {
+  if (ev) {
+    return `
+    <a class="community-side-card community-side-card--live" href="#/en-vivo">
+      <div class="community-live-mini">
+        <span class="community-live-mini__dot" aria-hidden="true"></span>
+        <span class="community-live-mini__label">En vivo próximamente</span>
+      </div>
+      <h3>${esc(ev.titulo)}</h3>
+      <small>${esc(fecha)}${ev.ponente ? ` · ${esc(ev.ponente)}` : ''}</small>
+      <span class="community-live-cta">Reservar lugar <i data-lucide="arrow-right" class="i"></i></span>
+    </a>`;
+  }
+  return `
+  <a class="community-side-card community-side-card--live" href="#/en-vivo">
+    <div class="community-live-mini">
+      <span class="community-live-mini__dot community-live-mini__dot--off" aria-hidden="true"></span>
+      <span class="community-live-mini__label">Agenda de En vivo</span>
+    </div>
+    <h3>Próximas transmisiones</h3>
+    <small>Reserva lugar cuando se publiquen los eventos.</small>
+  </a>`;
+}
+
+// Novedades del club: últimos materiales + último post del equipo
+function renderNovedadesCard(): string {
+  const materiales = Datos.materiales().filter((m) => m.estado !== 'oculto').slice(0, 2);
+  if (!materiales.length) return '';
+  return `
+  <div class="community-side-card community-novedades">
+    <div class="community-side-head">
+      <span class="eyebrow">Novedades del club</span>
+      <a class="community-novedades__all" href="#/materiales">Ver todo</a>
+    </div>
+    <ul class="community-novedades__list">
+      ${materiales.map((m) => `
+        <li>
+          <a href="#/materiales/${m.id}">
+            <div class="community-novedades__thumb" style="background-image:url(${esc(m.portada)})"></div>
+            <div class="community-novedades__meta">
+              <strong>${esc(m.titulo)}</strong>
+              <small>${esc(m.tipo)} · ${esc(m.area)}</small>
+            </div>
+          </a>
+        </li>`).join('')}
+    </ul>
+  </div>`;
 }
