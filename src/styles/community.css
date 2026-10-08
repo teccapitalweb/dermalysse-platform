@@ -867,10 +867,13 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
 .community-story--new small { color: var(--primary); font-weight: 700; }
 .community-story:hover .community-story__ring { transform: scale(1.03); transition: transform .18s; }
 
-/* Lista de posts como feed */
+/* Lista de posts como feed (ancho IG real: 470px max) */
 .community-list {
   display: grid;
-  gap: 18px;
+  gap: 14px;
+  max-width: 470px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* Post estilo Instagram */
@@ -878,35 +881,34 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
   display: grid;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 10px;
   background: var(--surface);
-  transition: border-color .2s, box-shadow .2s;
+  transition: border-color .2s;
 }
 .post:hover {
-  border-color: color-mix(in srgb, var(--area, var(--primary)) 30%, var(--line));
-  box-shadow: 0 8px 24px -16px color-mix(in srgb, var(--area, var(--primary)) 40%, transparent);
+  border-color: color-mix(in srgb, var(--area, var(--primary)) 24%, var(--line));
 }
 
-/* Header del post */
+/* Header del post — compacto como IG */
 .post__head {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: 10px;
+  padding: 10px 12px;
 }
 .post__who {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   color: inherit;
   text-decoration: none;
   min-width: 0;
 }
 .post__who:hover { text-decoration: none; }
 .post__avatar {
-  width: 36px; height: 36px;
-  font-size: 11px; font-weight: 700;
-  padding: 2px;
+  width: 32px; height: 32px;
+  font-size: 10px; font-weight: 700;
+  padding: 1.5px;
   background: linear-gradient(135deg, var(--area, var(--primary)), #f0b5be);
 }
 .post__avatar--official {
@@ -935,20 +937,21 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
 }
 .post__meta {
   display: grid;
-  gap: 1px;
+  gap: 0;
   min-width: 0;
+  line-height: 1.25;
 }
 .post__meta strong {
   color: var(--text);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 650;
 }
 .post__meta small {
   color: var(--text-3);
-  font-size: 11px;
+  font-size: 10.5px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 .post__area {
   color: var(--area, var(--primary));
@@ -962,7 +965,7 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
 }
 .post__menu {
   margin-left: auto;
-  width: 32px; height: 32px;
+  width: 28px; height: 28px;
   display: grid; place-items: center;
   border: 0;
   background: transparent;
@@ -971,7 +974,7 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
   cursor: pointer;
 }
 .post__menu:hover { background: var(--surface-2); color: var(--text); }
-.post__menu .i { width: 18px; height: 18px; }
+.post__menu .i { width: 16px; height: 16px; }
 
 /* Media del post: imagen cuadrada o placeholder gráfico */
 .post__media {
@@ -1033,15 +1036,15 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
   font-weight: 600;
 }
 
-/* Barra de acciones (❤ 💬 📤 🔖) */
+/* Barra de acciones (❤ 💬 📤 🔖) — compacta como IG */
 .post__actions {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 8px 10px 2px;
+  gap: 0;
+  padding: 6px 8px 0;
 }
 .post__action {
-  width: 38px; height: 38px;
+  width: 34px; height: 34px;
   display: grid;
   place-items: center;
   border: 0;
@@ -1057,7 +1060,7 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
   text-decoration: none;
 }
 .post__action:active { transform: scale(.92); }
-.post__action .i { width: 22px; height: 22px; stroke-width: 2; }
+.post__action .i { width: 20px; height: 20px; stroke-width: 1.8; }
 .post__action--like.is-liked .i,
 .post__action--like:hover .i { color: #e95373; fill: currentColor; }
 .post__action--save { margin-left: auto; }
@@ -1067,16 +1070,16 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
 .post__likes {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 2px 14px 6px;
+  gap: 6px;
+  padding: 2px 12px 4px;
 }
 .post__likes-avatar {
-  width: 22px; height: 22px;
-  font-size: 9px; font-weight: 700;
+  width: 18px; height: 18px;
+  font-size: 8px; font-weight: 700;
 }
 .post__likes small {
   color: var(--text);
-  font-size: 12.5px;
+  font-size: 11.5px;
   line-height: 1.3;
 }
 .post__likes small strong {
@@ -1085,9 +1088,9 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
 
 /* Caption principal */
 .post__caption {
-  padding: 2px 14px 4px;
+  padding: 2px 12px 2px;
   display: grid;
-  gap: 4px;
+  gap: 2px;
 }
 .post__caption a {
   color: inherit;
@@ -1096,26 +1099,26 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
 .post__caption a:hover { text-decoration: none; }
 .post__caption strong {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: 13.5px;
   font-weight: 650;
   color: var(--text);
   letter-spacing: -.01em;
 }
 .post__caption p {
   color: var(--text-2);
-  font-size: 12.5px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.45;
   margin: 0;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
 }
 
 .post__comments {
-  padding: 2px 14px 14px;
+  padding: 2px 12px 12px;
   color: var(--text-3);
-  font-size: 12px;
+  font-size: 11.5px;
   text-decoration: none;
 }
 .post__comments:hover { color: var(--area, var(--primary)); text-decoration: none; }
