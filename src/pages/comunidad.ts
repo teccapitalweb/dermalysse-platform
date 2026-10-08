@@ -36,16 +36,22 @@ function tarjetaHilo(h: Hilo) {
   const reciente = (Date.now() - new Date(h.fecha).getTime()) < 1000 * 60 * 60 * 48;
   const respondedores = [...new Map(h.respuestas.map((r) => [r.autor, r])).values()];
   const primerRespondedor = respondedores[0];
-  const imagen = c?.portada || null;
+  // Prioridad para la imagen del post:
+  // 1) imagen propia del post (equipo oficial),
+  // 2) portada del curso asociado,
+  // 3) placeholder gráfico.
+  const imagen = h.imagen || c?.portada || null;
+  const tag = h.imagen ? 'Publicación del equipo' : c?.titulo;
+  const esOficial = h.verificado === true || h.tipo === 'post';
 
   return `
-  <article class="post" style="--area:${color};--wash:${wash}">
+  <article class="post${esOficial ? ' post--official' : ''}" style="--area:${color};--wash:${wash}">
     <header class="post__head">
       <a class="post__who" href="#/comunidad/${h.id}">
-        <span class="avatar post__avatar">${iniciales(h.autor)}</span>
+        <span class="avatar post__avatar${esOficial ? ' post__avatar--official' : ''}">${esOficial ? '<i data-lucide="droplet" class="i" aria-hidden="true"></i>' : iniciales(h.autor)}</span>
         <span class="post__meta">
-          <strong>${esc(h.autor)}</strong>
-          <small>${reciente ? '<span class="post__dot" aria-hidden="true"></span>' : ''}${hace(h.fecha)} · <span class="post__area">${esc(area)}</span></small>
+          <strong>${esc(h.autor)}${esOficial ? '<span class="post__verified" title="Voz oficial del club"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 .5l1.98 2.29 3.03-.3.3 3.03L17.5 7.5l-1.24 1.98.98 2.9-2.9.98L13.98 15.5l-2.98-.3-1 2.3-1-2.3-2.98.3-.3-2.98-2.74-1.24.98-2.9L2.5 7.5l2.19-1.98.3-3.03 3.03.3L10 .5zm-1.5 10.9l5.1-5.1-1.2-1.2-3.9 3.9-1.6-1.6-1.2 1.2 2.8 2.8z"/></svg></span>' : ''}</strong>
+          <small>${reciente ? '<span class="post__dot" aria-hidden="true"></span>' : ''}${hace(h.fecha)}${area !== 'General' || !esOficial ? ' · <span class="post__area">' + esc(area) + '</span>' : ''}</small>
         </span>
       </a>
       <button type="button" class="post__menu" aria-label="Más opciones" tabindex="-1"><i data-lucide="more-horizontal" class="i"></i></button>
@@ -54,7 +60,7 @@ function tarjetaHilo(h: Hilo) {
     ${imagen ? `
     <a class="post__media" href="#/comunidad/${h.id}" aria-label="Abrir ${esc(h.titulo)}">
       <img src="${esc(imagen)}" alt="" loading="lazy">
-      ${c ? `<span class="post__media-tag">${esc(c.titulo)}</span>` : ''}
+      ${tag ? `<span class="post__media-tag">${esc(tag)}</span>` : ''}
     </a>` : `
     <a class="post__media post__media--text" href="#/comunidad/${h.id}" aria-label="Abrir ${esc(h.titulo)}">
       <div class="post__media-glyph" aria-hidden="true">

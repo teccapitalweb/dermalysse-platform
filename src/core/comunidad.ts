@@ -17,6 +17,9 @@ export interface Hilo {
   util: number;
   marcadoUtil?: boolean;
   oculto?: boolean;
+  imagen?: string; // Imagen propia del post (equipo oficial). Si falta, se usa la portada del curso o un placeholder gráfico.
+  verificado?: boolean; // Marca al autor como voz oficial del club (chip ✓ tipo IG verified).
+  tipo?: 'post' | 'pregunta'; // "post" = publicación editorial del equipo, "pregunta" = hilo de un miembro.
 }
 
 interface HiloRemoto extends Omit<Hilo, 'respuestas' | 'respuestasTotal'> { respuestas: number }
@@ -30,6 +33,74 @@ let cargandoListado: Promise<void> | null = null;
 const cargandoDetalle = new Map<string, Promise<void>>();
 
 const SEMILLA: Hilo[] = [
+  // ═══ Publicaciones del equipo oficial Dermalysse (voz institucional) ═══
+  {
+    id: 'post-ruta-interactiva',
+    tipo: 'post', verificado: true,
+    titulo: 'Nueva ruta interactiva: Observación de la piel',
+    texto: 'Estamos puliendo la primera ruta de casos del club. Un recorrido guiado para entrenar la mirada antes de proponer protocolos, con contenido académico revisado por el equipo. Pronto estará disponible dentro de Retos. ✨',
+    autor: 'Equipo Dermalysse', fecha: '2026-10-06T14:30:00.000Z', cursoId: null,
+    imagen: '/media/dermalysse-learning-rose.jpg',
+    respuestas: [
+      { id: 'r1', autor: 'Natalia M.', fecha: '2026-10-06T15:12:00.000Z', texto: 'Qué buena noticia. ¿Van a cubrir también casos de fototipos altos? Es donde más necesitamos criterio.' },
+      { id: 'r2', autor: 'Equipo Dermalysse', fecha: '2026-10-06T16:00:00.000Z', texto: 'Sí, Natalia. La ruta parte justo desde ahí porque es donde más fallan los protocolos genéricos. Avisamos en cuanto publiquemos el primer mundo.' },
+    ],
+    respuestasTotal: 2, util: 58,
+  },
+  {
+    id: 'post-tip-fotoproteccion',
+    tipo: 'post', verificado: true,
+    titulo: 'Recordatorio editorial: la fotoprotección no cambia por el clima',
+    texto: 'SPF 50+ cada día del año, también en días nublados y en interiores con grandes ventanales. Es la indicación con mayor evidencia dermatológica para prevenir fotoenvejecimiento. Compártelo con tus pacientes cuando apliques cualquier procedimiento ablativo. ☀️',
+    autor: 'Equipo Dermalysse', fecha: '2026-10-05T09:15:00.000Z', cursoId: null,
+    imagen: '/media/manchas.png',
+    respuestas: [
+      { id: 'r1', autor: 'Carla P.', fecha: '2026-10-05T10:45:00.000Z', texto: 'Lo tengo impreso en cabina y lo entrego al cierre de cada sesión. Mejor que repetirlo verbal.' },
+      { id: 'r2', autor: 'Jimena O.', fecha: '2026-10-05T12:20:00.000Z', texto: 'Agrego: insistir en el reaplicar cada 2 h si hay exposición directa. Es lo que más se olvida.' },
+      { id: 'r3', autor: 'Equipo Dermalysse', fecha: '2026-10-05T13:00:00.000Z', texto: 'Excelentes dos tips. Ambos van al checklist de post-procedimiento que estamos preparando para Biblioteca.' },
+    ],
+    respuestasTotal: 3, util: 94,
+  },
+  {
+    id: 'post-catalogo-2026',
+    tipo: 'post', verificado: true,
+    titulo: 'Catálogo 2026 confirmado: 12 cursos listos para tu avance',
+    texto: 'Cerramos el catálogo oficial de este año con 12 cursos en cosmiatría, estética facial, estética corporal, cosmetología, regulación y nutrición. Puedes revisarlos y planear tu ruta desde la sección Cursos. Si te interesa un tema que no está, respóndenos aquí: la lista 2027 se arma con lo que ustedes pidan.',
+    autor: 'Equipo Dermalysse', fecha: '2026-10-03T11:00:00.000Z', cursoId: null,
+    imagen: '/media/cosmetica-natural.png',
+    respuestas: [
+      { id: 'r1', autor: 'Sofía E.', fecha: '2026-10-03T12:30:00.000Z', texto: '¿Habrá algo específico sobre protocolos combinados (plasma + mesoterapia)? Es la pregunta más común en mis consultas.' },
+      { id: 'r2', autor: 'Rodrigo A.', fecha: '2026-10-03T14:10:00.000Z', texto: 'Yo pediría más de regulación para quienes abrimos cabina nueva. Las normas cambian cada año y es difícil mantenerse al día.' },
+      { id: 'r3', autor: 'Equipo Dermalysse', fecha: '2026-10-03T18:45:00.000Z', texto: 'Guardadas las dos. El criterio editorial es cubrir temas con suficiente evidencia pública; para ambos lo revisamos con el equipo académico.' },
+    ],
+    respuestasTotal: 3, util: 71,
+  },
+  {
+    id: 'post-material-ficha',
+    tipo: 'post', verificado: true,
+    titulo: 'Ya disponible: Ficha de valoración inicial de la piel',
+    texto: 'Plantilla editable para documentar la primera consulta: antecedentes, autocuidado, objetivos y pendientes. No reemplaza tu propia metodología; es un formato de trabajo para que lo personalices con tu criterio. En Biblioteca → Materiales. 📋',
+    autor: 'Equipo Dermalysse', fecha: '2026-09-29T16:20:00.000Z', cursoId: null,
+    imagen: '/media/hidrafacial.png',
+    respuestas: [
+      { id: 'r1', autor: 'Alejandra T.', fecha: '2026-09-29T17:00:00.000Z', texto: 'La estoy adaptando a mi consultorio. Agradezco mucho que el bloque de consentimiento esté separado del clínico; evita confusiones.' },
+    ],
+    respuestasTotal: 1, util: 48,
+  },
+  {
+    id: 'post-detras-camaras',
+    tipo: 'post', verificado: true,
+    titulo: 'Detrás de cada clase hay horas de revisión académica',
+    texto: 'Antes de que llegue un módulo al catálogo, pasa por lectura, verificación de referencias, grabación, edición y una última revisión con el equipo académico. Por eso tardamos: queremos que cada clase que vean sea criterio profesional sostenido, no contenido rápido.',
+    autor: 'Equipo Dermalysse', fecha: '2026-09-25T10:00:00.000Z', cursoId: null,
+    imagen: '/media/dermalysse-paper-rose.jpg',
+    respuestas: [
+      { id: 'r1', autor: 'Mariana R.', fecha: '2026-09-25T11:30:00.000Z', texto: 'Se nota la diferencia con otros cursos online que solo repiten tendencias de redes. Gracias por sostener la línea editorial.' },
+      { id: 'r2', autor: 'Daniela V.', fecha: '2026-09-25T13:45:00.000Z', texto: 'Me quedo con la frase "criterio profesional sostenido". Perfecta para explicarlo a colegas que preguntan por qué me formo aquí.' },
+    ],
+    respuestasTotal: 2, util: 132,
+  },
+
   {
     id: 'bienvenida',
     titulo: 'Bienvenidas y bienvenidos a la comunidad Dermalysse',
@@ -145,6 +216,9 @@ function normalizar(h: Partial<Hilo> & { id: string }): Hilo {
     fecha: h.fecha || new Date().toISOString(), cursoId: h.cursoId || null,
     respuestas, respuestasTotal: Number(h.respuestasTotal ?? respuestas.length) || 0,
     util: Number(h.util) || 0, marcadoUtil: h.marcadoUtil === true, oculto: h.oculto === true,
+    imagen: typeof h.imagen === 'string' ? h.imagen : undefined,
+    verificado: h.verificado === true,
+    tipo: h.tipo === 'post' ? 'post' : 'pregunta',
   };
 }
 
