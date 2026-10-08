@@ -6,7 +6,7 @@ import { createIcons, icons } from 'lucide';
 import { esc, iniciales } from '../ui/partials';
 import {
   nivel, NIVELES, retoDiario, completarDiaria, bancoPreguntas, barajar, type Pregunta,
-  mazoFiltrado, mazoCompleto, repasarCarta, estatsMazo, estatsMazoFiltrado, type Flashcard, type TipoCarta,
+  mazoFiltrado, mazoCompleto, mazoDeHoy, repasarCarta, estatsMazo, estatsMazoFiltrado, type Flashcard, type TipoCarta,
   casos, resolverCaso, casosResueltos, idsCasosResueltos, registrarQuiz, mejorQuiz, type Caso,
 } from '../core/juegos';
 import { Liga, type FilaLiga } from '../core/liga';
@@ -91,96 +91,241 @@ function hub() {
   const casosOk = casosResueltos();
   const record = mejorQuiz();
   const dias = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+  const porVencer = mazoDeHoy(99).length;
+  const casosPend = totalCasos - casosOk;
+  const focos = focusItems({ d, banco, porVencer, casosPend, casosTotal: totalCasos, record });
+  const anillo = ringXP(nv.pct, nv.color);
+  const yoFila = liga.yo || liga.clasificacion.find((f) => f.esYo);
+  const top3 = liga.clasificacion.slice(0, 3);
+  const resto = liga.clasificacion.slice(3, 10);
+  const horasHastaManana = (() => {
+    const ahora = new Date();
+    const manana = new Date(ahora); manana.setHours(24, 0, 0, 0);
+    const ms = manana.getTime() - ahora.getTime();
+    const h = Math.floor(ms / 3600000); const m = Math.floor((ms % 3600000) / 60000);
+    return h >= 1 ? `${h} h` : `${m} min`;
+  })();
 
   pinta(`
-    <header class="retos-head">
-      <div class="retos-head__intro">
-        <span class="retos-head__kicker">Liga Dermalysse</span>
-        <h1>Retos</h1>
-        <p>Practica criterio profesional con los contenidos del club.</p>
+    <header class="retos-hero">
+      <div class="retos-hero__left">
+        <span class="retos-hero__kicker"><i data-lucide="shield" class="i"></i>Liga Dermalysse</span>
+        <h1 class="retos-hero__title">Retos</h1>
+        <p class="retos-hero__sub">Practica criterio profesional con el contenido real del club. Suma XP, mantén tu racha y escala en el ranking.</p>
+        ${focos[0] ? `<button class="retos-hero__cta" data-a="${focos[0].action}" ${focos[0].href ? `data-href="${focos[0].href}"` : ''}>
+          <span class="retos-hero__cta-ic"><i data-lucide="${focos[0].icon}" class="i"></i></span>
+          <span class="retos-hero__cta-body">
+            <small>Siguiente acción · ${focos[0].time}</small>
+            <strong>${focos[0].title}</strong>
+          </span>
+          <span class="retos-hero__cta-xp">${focos[0].reward}</span>
+          <i data-lucide="arrow-right" class="i retos-hero__cta-go"></i>
+        </button>` : ''}
       </div>
-      <div class="retos-head__meta">
-        <div class="retos-head__level">
-          <span class="retos-head__level-label">${nv.nombre}</span>
-          <div class="retos-head__level-bar"><span style="width:${nv.pct}%;background:${nv.color}"></span></div>
-          <span class="retos-head__level-sub">${nv.xp.toLocaleString('es-MX')} XP${nv.siguiente ? ` · faltan ${nv.faltan.toLocaleString('es-MX')} para ${nv.siguiente.nombre.split(' ')[0]}` : ' · nivel máximo'}</span>
+      <div class="retos-hero__right">
+        <div class="retos-hero__ring" style="--ring:${nv.color}">
+          ${anillo}
+          <div class="retos-hero__ring-center">
+            <small>Nivel</small>
+            <strong>${esc(nv.nombre.split(' ')[0])}</strong>
+            <em>${nv.xp.toLocaleString('es-MX')} XP</em>
+          </div>
         </div>
-        <div class="retos-head__stats">
-          <span><b>${liga.yo ? '#' + liga.yo.puesto : '—'}</b>posición</span>
-          <span><b>${cursosCompletos}</b>cursos</span>
-          <span><b>${vistas}</b>clases</span>
-          <span><b>${d.racha}</b>racha</span>
+        <div class="retos-hero__next">
+          ${nv.siguiente
+            ? `<span><i data-lucide="chevrons-up" class="i"></i>Faltan <b>${nv.faltan.toLocaleString('es-MX')} XP</b> para ${esc(nv.siguiente.nombre.split(' ')[0])}</span>`
+            : '<span><i data-lucide="crown" class="i"></i>Has alcanzado el nivel máximo</span>'}
+        </div>
+        <div class="retos-hero__stats">
+          <span><b>${liga.yo ? '#' + liga.yo.puesto : '—'}</b><small>Posición</small></span>
+          <span><b>${d.racha}</b><small>Racha ${d.racha === 1 ? 'día' : 'días'}</small></span>
+          <span><b>${cursosCompletos}</b><small>Cursos</small></span>
+          <span><b>${vistas}</b><small>Clases</small></span>
         </div>
       </div>
     </header>
 
     <div class="retos-grid">
       <section class="retos-main">
-        <div class="retos-section-head">
-          <h2>Zona de retos</h2>
-          <span class="retos-xp">${nv.xp.toLocaleString('es-MX')} XP</span>
-        </div>
 
-        <button class="retos-daily ${d.hechoHoy ? 'is-done' : ''}" data-a="ir-diaria" ${d.hechoHoy || !banco ? 'disabled' : ''}>
-          <span class="retos-daily__ic"><i data-lucide="${d.hechoHoy ? 'check' : 'calendar-days'}" class="i"></i></span>
-          <span class="retos-daily__body">
-            <strong>Reto diario</strong>
-            <small>${d.hechoHoy ? 'Listo por hoy · vuelve mañana para mantener la racha' : banco ? 'Una pregunta rápida · suma XP y mantiene tu racha' : 'En preparación · se activa cuando se publique un quiz revisado'}</small>
-          </span>
-          <span class="retos-daily__right">
-            ${d.hechoHoy ? '<span class="retos-chip retos-chip--ok">Completado</span>' : banco ? '<span class="retos-chip retos-chip--xp">+30 XP</span>' : '<span class="retos-chip retos-chip--muted">En preparación</span>'}
-          </span>
-        </button>
+        <section class="retos-focus">
+          <div class="retos-focus__head">
+            <div>
+              <span class="eyebrow"><i data-lucide="target" class="i"></i>Enfócate hoy</span>
+              <h2>Tres pasos cortos para seguir avanzando</h2>
+            </div>
+            <span class="retos-focus__time"><i data-lucide="clock" class="i"></i>${focos.reduce((a, f) => a + f.minutes, 0)} min en total</span>
+          </div>
+          <div class="retos-focus__grid">
+            ${focos.map((f, i) => focusCard(f, i)).join('')}
+          </div>
+        </section>
 
-        <div class="retos-tiles">
-          ${tile('ir-quiz', 'zap', 'Quiz Relámpago', `${banco} preguntas · 6 áreas`, '#4a7fc1', 'Récord', String(record), banco === 0)}
-          ${tile('ir-caso', 'briefcase-medical', 'Casos Dermalysse', `${totalCasos} casos de criterio profesional`, '#4fa899', 'Resueltos', `${casosOk}/${totalCasos}`, totalCasos === 0)}
-          ${tile('ir-flash', 'brain', 'Flashcards', `${em.total} tarjetas con repetición espaciada`, '#c98a5b', 'Dominadas', `${em.dominadas}/${em.total}`, em.total === 0)}
-          ${tile('historia', 'route', 'Modo historia', 'Casos narrativos con decisiones guiadas', '#8e4466', 'Mundos', '0/1', false, '#/retos/historia')}
-        </div>
+        <section class="retos-arena">
+          <div class="retos-section-head">
+            <h2>Zona de retos</h2>
+            <span class="retos-xp"><i data-lucide="sparkles" class="i"></i>${nv.xp.toLocaleString('es-MX')} XP acumulado</span>
+          </div>
+
+          <button class="retos-daily ${d.hechoHoy ? 'is-done' : ''}" data-a="ir-diaria" ${d.hechoHoy || !banco ? 'disabled' : ''}>
+            <span class="retos-daily__ic"><i data-lucide="${d.hechoHoy ? 'check-check' : 'calendar-days'}" class="i"></i></span>
+            <div class="retos-daily__body">
+              <div class="retos-daily__row">
+                <strong>Reto diario</strong>
+                ${d.racha > 0 ? `<span class="retos-flame"><i data-lucide="flame" class="i"></i>${d.racha} ${d.racha === 1 ? 'día' : 'días'}</span>` : ''}
+              </div>
+              <small>${d.hechoHoy ? `Listo por hoy · renueva en ${horasHastaManana}` : banco ? 'Una pregunta tomada del banco revisado · 30 segundos' : 'En preparación · se activa cuando se publique un quiz revisado'}</small>
+              <div class="retos-week retos-daily__week" aria-hidden="true">${dias.map((l, i) => `<span class="${miRacha.dias[i] ? 'is-on' : ''}${i === (new Date().getDay() + 6) % 7 ? ' is-today' : ''}" title="${l}">${l}</span>`).join('')}</div>
+            </div>
+            <div class="retos-daily__right">
+              ${d.hechoHoy ? '<span class="retos-chip retos-chip--ok"><i data-lucide="check" class="i"></i>Completado</span>' : banco ? '<span class="retos-chip retos-chip--xp">+30 XP</span>' : '<span class="retos-chip retos-chip--muted">En preparación</span>'}
+              ${d.hechoHoy ? '' : '<span class="retos-daily__arrow"><i data-lucide="arrow-right" class="i"></i></span>'}
+            </div>
+          </button>
+
+          <div class="retos-tiles">
+            ${tile({ a: 'ir-quiz', ic: 'zap', tit: 'Quiz Relámpago', sub: 'Contrarreloj con combos y vidas', color: '#4a7fc1', kpiLabel: 'Récord', kpi: String(record), pendiente: banco === 0, meta: `${banco} preguntas · 6 áreas`, chip: record > 0 ? `${record} pts` : '15 s/pregunta' })}
+            ${tile({ a: 'ir-caso', ic: 'briefcase-medical', tit: 'Casos Dermalysse', sub: 'Observa, analiza y decide', color: '#4fa899', kpiLabel: 'Resueltos', kpi: `${casosOk}/${totalCasos}`, pct: totalCasos ? Math.round(casosOk / totalCasos * 100) : 0, pendiente: totalCasos === 0, meta: `${totalCasos} casos revisados`, chip: casosPend > 0 ? `${casosPend} pendientes` : '¡Al día!' })}
+            ${tile({ a: 'ir-flash', ic: 'brain', tit: 'Flashcards', sub: 'Repetición espaciada diaria', color: '#c98a5b', kpiLabel: 'Dominadas', kpi: `${em.dominadas}/${em.total}`, pct: em.total ? Math.round(em.dominadas / em.total * 100) : 0, pendiente: em.total === 0, meta: `${em.total} tarjetas totales`, chip: porVencer > 0 ? `${porVencer} para hoy` : '0 vencidas' })}
+            ${tile({ a: 'historia', ic: 'route', tit: 'Modo historia', sub: 'Casos narrativos guiados', color: '#8e4466', kpiLabel: 'Mundos', kpi: '0/1', pct: 0, pendiente: false, href: '#/retos/historia', meta: 'Un mundo disponible', chip: 'Nuevo' })}
+          </div>
+        </section>
 
         <section class="retos-ranking">
           <div class="retos-section-head">
-            <h2>Clasificación del club</h2>
+            <h2><i data-lucide="trophy" class="i" style="color:#d4a017"></i>Clasificación del club</h2>
             ${liga.esDemo ? '<span class="retos-chip retos-chip--muted"><i data-lucide="flask-conical" class="i"></i>Ejemplo</span>' : '<span class="retos-chip retos-chip--ok"><i data-lucide="shield-check" class="i"></i>Datos del club</span>'}
           </div>
           <p class="retos-ranking__intro">${liga.esDemo ? 'Vista previa; se llena con el avance real cuando el club entre en operación.' : 'Avance verificado por cursos terminados y aportes útiles.'}</p>
-          <ol class="retos-ranking__list">${liga.clasificacion.slice(0, 10).map((f) => filaLigaCompacta(f, lider)).join('')}</ol>
-          ${liga.yo && liga.yo.puesto > 10 ? `<div class="retos-ranking__you"><span>Tu posición</span>${filaLigaCompacta(liga.yo, lider)}</div>` : ''}
+          ${top3.length >= 3 ? renderPodio(top3) : ''}
+          <ol class="retos-ranking__list">${resto.map((f) => filaLigaCompacta(f, lider)).join('')}</ol>
+          ${yoFila && yoFila.puesto > 10 ? `<div class="retos-ranking__you"><span><i data-lucide="user" class="i"></i>Tu posición</span><ol>${filaLigaCompacta(yoFila, lider)}</ol></div>` : ''}
           <p class="retos-ranking__note"><i data-lucide="lock-keyhole" class="i"></i>Solo nombre y logros de aprendizaje. Nunca datos de contacto ni información clínica.</p>
         </section>
       </section>
 
       <aside class="retos-side">
+        <section class="retos-card retos-card--path">
+          <header>
+            <h3>Camino a Maestro</h3>
+            <span class="retos-chip retos-chip--primary">${nv.pct}%</span>
+          </header>
+          <ol class="retos-path">
+            ${NIVELES.map((n, i) => {
+              const estado = i < nv.indice ? 'is-done' : i === nv.indice ? 'is-current' : '';
+              const fill = i < nv.indice ? 100 : i === nv.indice ? nv.pct : 0;
+              const corto = n.nombre.split(' ')[0];
+              return `<li class="retos-path__step ${estado}" style="--step:${n.color}">
+                <span class="retos-path__dot"><i data-lucide="${i < nv.indice ? 'check' : n.icon}" class="i"></i></span>
+                <div class="retos-path__body">
+                  <strong>${esc(corto)}</strong>
+                  <small>${n.min.toLocaleString('es-MX')} XP</small>
+                </div>
+                ${i < NIVELES.length - 1 ? `<span class="retos-path__rail"><span style="height:${fill}%"></span></span>` : ''}
+                ${i === nv.indice ? '<em class="retos-path__here">Aquí</em>' : ''}
+              </li>`;
+            }).join('')}
+          </ol>
+        </section>
+
         <section class="retos-card">
           <header>
             <h3>Misión semanal</h3>
             <span class="retos-chip retos-chip--primary">${misionHechas}/3</span>
           </header>
-          <div class="retos-week">${dias.map((l, i) => `<span class="${miRacha.dias[i] ? 'is-on' : ''}${i === (new Date().getDay() + 6) % 7 ? ' is-today' : ''}">${l}</span>`).join('')}</div>
+          <div class="retos-mweek">
+            <div class="retos-mweek__bar"><span style="width:${(misionHechas / 3) * 100}%"></span></div>
+            <small>${misionHechas === 3 ? '¡Semana completa! Vuelve el lunes para la siguiente.' : `Faltan ${3 - misionHechas} misiones esta semana.`}</small>
+          </div>
           <ul class="retos-list">
-            ${misionItem('Reto diario', 'Suma XP hoy', mision[0])}
-            ${misionItem('Constancia', 'Mira una clase esta semana', mision[1])}
-            ${misionItem('Memoria activa', 'Repasa tus flashcards', mision[2])}
+            ${misionItem('Reto diario', 'Suma XP hoy', mision[0], 'calendar-days')}
+            ${misionItem('Constancia', 'Mira una clase esta semana', mision[1], 'book-open')}
+            ${misionItem('Memoria activa', 'Repasa tus flashcards', mision[2], 'brain')}
           </ul>
-        </section>
-
-        <section class="retos-card">
-          <header><h3>Camino a Maestro</h3></header>
-          <ol class="retos-levels">${NIVELES.map((n, i) => `<li class="${i < nv.indice ? 'is-done' : i === nv.indice ? 'is-current' : ''}"><span style="color:${n.color}"><i data-lucide="${i < nv.indice ? 'check' : n.icon}" class="i"></i></span><div><strong>${n.nombre.split(' ')[0]}</strong><small>${n.min.toLocaleString('es-MX')} XP</small></div>${i === nv.indice ? '<em>Aquí</em>' : ''}</li>`).join('')}</ol>
         </section>
 
         <section class="retos-card">
           <header><h3>Tu tablero</h3></header>
           <div class="retos-board">
-            <span><i data-lucide="zap" class="i" style="color:#4a7fc1"></i><b>${record}</b><small>Récord quiz</small></span>
-            <span><i data-lucide="briefcase-medical" class="i" style="color:#4fa899"></i><b>${casosOk}</b><small>Casos</small></span>
-            <span><i data-lucide="brain" class="i" style="color:#c98a5b"></i><b>${em.dominadas}</b><small>Dominadas</small></span>
+            <span style="--k:#4a7fc1"><i data-lucide="zap" class="i"></i><b>${record}</b><small>Récord quiz</small></span>
+            <span style="--k:#4fa899"><i data-lucide="briefcase-medical" class="i"></i><b>${casosOk}</b><small>Casos resueltos</small></span>
+            <span style="--k:#c98a5b"><i data-lucide="brain" class="i"></i><b>${em.dominadas}</b><small>Dominadas</small></span>
+            <span style="--k:#d39a19"><i data-lucide="flame" class="i"></i><b>${d.racha}</b><small>Racha</small></span>
           </div>
         </section>
       </aside>
     </div>
   `);
+
+  // Wire del CTA del hero cuando lleva href externo (Modo historia).
+  const cta = root()?.querySelector<HTMLButtonElement>('.retos-hero__cta');
+  if (cta && cta.dataset.href) cta.addEventListener('click', (e) => { e.preventDefault(); location.hash = cta.dataset.href!; });
+}
+
+type Foco = { title: string; action: string; icon: string; time: string; minutes: number; reward: string; note: string; color: string; href?: string };
+function focusItems(ctx: { d: ReturnType<typeof retoDiario>; banco: number; porVencer: number; casosPend: number; casosTotal: number; record: number }): Foco[] {
+  const out: Foco[] = [];
+  if (!ctx.d.hechoHoy && ctx.banco > 0) {
+    out.push({ title: 'Reto diario de hoy', action: 'ir-diaria', icon: 'calendar-days', time: '~1 min', minutes: 1, reward: '+30 XP', note: ctx.d.racha > 0 ? `Mantén tu racha de ${ctx.d.racha} ${ctx.d.racha === 1 ? 'día' : 'días'}` : 'Empieza una nueva racha', color: '#681c31' });
+  }
+  if (ctx.porVencer > 0) {
+    out.push({ title: `${ctx.porVencer} ${ctx.porVencer === 1 ? 'tarjeta' : 'tarjetas'} para repasar`, action: 'ir-flash', icon: 'brain', time: '~5 min', minutes: 5, reward: '+3 XP ×', note: 'Repetición espaciada · fija lo esencial', color: '#c98a5b' });
+  }
+  if (ctx.casosPend > 0) {
+    out.push({ title: `${ctx.casosPend} ${ctx.casosPend === 1 ? 'caso' : 'casos'} esperando criterio`, action: 'ir-caso', icon: 'briefcase-medical', time: '~5 min', minutes: 5, reward: '+50 XP', note: 'Dos pasos: observa y decide', color: '#4fa899' });
+  }
+  if (out.length < 3) {
+    out.push({ title: 'Quiz Relámpago en modo libre', action: 'ir-quiz', icon: 'zap', time: '~3 min', minutes: 3, reward: ctx.record ? `Rompe tu récord de ${ctx.record}` : '+XP por acierto', note: 'Elige el área que quieras entrenar', color: '#4a7fc1' });
+  }
+  if (out.length < 3) {
+    out.push({ title: 'Explora el Modo historia', action: 'historia', icon: 'route', time: '~8 min', minutes: 8, reward: 'Narrativa guiada', note: 'Un mundo nuevo cada entrega', color: '#8e4466', href: '#/retos/historia' });
+  }
+  return out.slice(0, 3);
+}
+
+function focusCard(f: Foco, i: number) {
+  const tag = f.href ? 'a' : 'button';
+  const attrs = f.href ? `href="${f.href}"` : `data-a="${f.action}"`;
+  return `<${tag} class="retos-focus__card ${i === 0 ? 'is-primary' : ''}" ${attrs} style="--f:${f.color}">
+    <span class="retos-focus__num">${i + 1}</span>
+    <span class="retos-focus__ic"><i data-lucide="${f.icon}" class="i"></i></span>
+    <div class="retos-focus__body">
+      <strong>${esc(f.title)}</strong>
+      <small>${esc(f.note)}</small>
+      <div class="retos-focus__meta"><span><i data-lucide="clock" class="i"></i>${f.time}</span><span class="retos-focus__xp">${f.reward}</span></div>
+    </div>
+    <i data-lucide="arrow-right" class="i retos-focus__go"></i>
+  </${tag}>`;
+}
+
+// Anillo SVG de progreso del nivel actual (CSP-safe: inline SVG, sin scripts).
+function ringXP(pct: number, color: string): string {
+  const r = 54; const c = 2 * Math.PI * r;
+  const off = c - (Math.max(0, Math.min(100, pct)) / 100) * c;
+  return `<svg class="retos-hero__ring-svg" viewBox="0 0 128 128" aria-hidden="true">
+    <circle cx="64" cy="64" r="${r}" fill="none" stroke="var(--line)" stroke-width="8"/>
+    <circle cx="64" cy="64" r="${r}" fill="none" stroke="${esc(color)}" stroke-width="8" stroke-linecap="round"
+      stroke-dasharray="${c.toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}"
+      transform="rotate(-90 64 64)"/>
+  </svg>`;
+}
+
+function renderPodio(top: FilaLiga[]) {
+  // Orden visual: 2 · 1 · 3 (como un podio).
+  const orden = [top[1], top[0], top[2]];
+  const altura = [78, 110, 62];
+  const medalla = ['silver', 'gold', 'bronze'];
+  return `<div class="retos-podium">
+    ${orden.map((f, i) => `<div class="retos-podium__slot retos-podium__slot--${medalla[i]}">
+      <div class="avatar retos-podium__avatar">${f.foto ? `<img src="${esc(f.foto)}" alt="" referrerpolicy="no-referrer" loading="lazy">` : iniciales(f.nombre)}</div>
+      <strong class="retos-podium__name">${esc(f.nombre)}${f.esYo ? ' <em>Tú</em>' : ''}</strong>
+      <small class="retos-podium__xp">${f.xp.toLocaleString('es-MX')} XP</small>
+      <div class="retos-podium__block" style="height:${altura[i]}px">
+        <span class="retos-podium__pos">${f.puesto}</span>
+        <i data-lucide="${i === 1 ? 'crown' : 'medal'}" class="i"></i>
+      </div>
+    </div>`).join('')}
+  </div>`;
 }
 
 function filaLigaCompacta(f: FilaLiga, lider: number) {
@@ -193,29 +338,33 @@ function filaLigaCompacta(f: FilaLiga, lider: number) {
   </li>`;
 }
 
-// (podio y filaLiga antiguos eliminados; se usa filaLigaCompacta más abajo).
+const misionItem = (titulo: string, sub: string, ok: boolean, icon = 'circle') => `<li class="${ok ? 'is-done' : ''}"><span class="retos-check"><i data-lucide="${ok ? 'check' : icon}" class="i"></i></span><div><strong>${titulo}</strong><small>${sub}</small></div></li>`;
 
-const misionItem = (titulo: string, sub: string, ok: boolean) => `<li class="${ok ? 'is-done' : ''}"><span class="retos-check"><i data-lucide="${ok ? 'check' : 'circle'}" class="i"></i></span><div><strong>${titulo}</strong><small>${sub}</small></div></li>`;
-
-function tile(a: string, icono: string, tit: string, sub: string, color: string, kpiLabel: string, kpi: string, pendiente: boolean, href?: string) {
-  const tag = pendiente ? 'div' : href ? 'a' : 'button';
-  const attrs = pendiente
+type TileOpts = { a: string; ic: string; tit: string; sub: string; color: string; kpiLabel: string; kpi: string; pct?: number; pendiente: boolean; href?: string; meta?: string; chip?: string };
+function tile(o: TileOpts) {
+  const tag = o.pendiente ? 'div' : o.href ? 'a' : 'button';
+  const attrs = o.pendiente
     ? ` class="retos-tile is-pending" aria-disabled="true"`
-    : href
-      ? ` class="retos-tile" href="${href}"`
-      : ` class="retos-tile" data-a="${a}"`;
-  const chip = pendiente ? '<span class="retos-chip retos-chip--muted">En preparación</span>' : '';
+    : o.href
+      ? ` class="retos-tile" href="${o.href}"`
+      : ` class="retos-tile" data-a="${o.a}"`;
+  const chip = o.pendiente ? '<span class="retos-chip retos-chip--muted">En preparación</span>' : (o.chip ? `<span class="retos-tile__chip">${esc(o.chip)}</span>` : '');
+  const barra = typeof o.pct === 'number' ? `<div class="retos-tile__bar" aria-hidden="true"><span style="width:${o.pct}%"></span></div>` : '';
   return `
-  <${tag}${attrs} style="--c:${color}">
+  <${tag}${attrs} style="--c:${o.color}">
     <div class="retos-tile__head">
-      <span class="retos-tile__ic"><i data-lucide="${icono}" class="i"></i></span>
-      ${chip || `<span class="retos-tile__kpi"><small>${kpiLabel}</small><b>${kpi}</b></span>`}
+      <span class="retos-tile__ic"><i data-lucide="${o.ic}" class="i"></i></span>
+      <span class="retos-tile__kpi"><small>${o.kpiLabel}</small><b>${o.kpi}</b></span>
     </div>
     <div class="retos-tile__body">
-      <strong>${tit}</strong>
-      <small>${sub}</small>
+      <strong>${o.tit}</strong>
+      <small>${o.sub}</small>
     </div>
-    <span class="retos-tile__cta">${pendiente ? 'Pronto' : 'Abrir'}<i data-lucide="${pendiente ? 'clock' : 'arrow-right'}" class="i"></i></span>
+    ${barra}
+    <div class="retos-tile__foot">
+      ${chip || `<span class="retos-tile__meta">${esc(o.meta || '')}</span>`}
+      <span class="retos-tile__cta">${o.pendiente ? 'Pronto' : 'Abrir'}<i data-lucide="${o.pendiente ? 'clock' : 'arrow-right'}" class="i"></i></span>
+    </div>
   </${tag}>`;
 }
 
