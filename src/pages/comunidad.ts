@@ -34,37 +34,68 @@ function tarjetaHilo(h: Hilo) {
   const color = colorArea(area);
   const wash = washArea(area);
   const reciente = (Date.now() - new Date(h.fecha).getTime()) < 1000 * 60 * 60 * 48;
-  const respondedores = [...new Map(h.respuestas.map((r) => [r.autor, r])).values()].slice(0, 4);
-  const extras = h.respuestas.length > respondedores.length ? h.respuestas.length - respondedores.length : 0;
+  const respondedores = [...new Map(h.respuestas.map((r) => [r.autor, r])).values()];
+  const primerRespondedor = respondedores[0];
+  const imagen = c?.portada || null;
 
   return `
-  <a class="community-thread" href="#/comunidad/${h.id}" style="--area:${color};--wash:${wash}">
-    <div class="community-thread__top">
-      <div class="community-thread__who">
-        <div class="avatar community-thread__avatar">${iniciales(h.autor)}</div>
-        <div class="community-thread__author">
+  <article class="post" style="--area:${color};--wash:${wash}">
+    <header class="post__head">
+      <a class="post__who" href="#/comunidad/${h.id}">
+        <span class="avatar post__avatar">${iniciales(h.autor)}</span>
+        <span class="post__meta">
           <strong>${esc(h.autor)}</strong>
-          <span>${reciente ? '<i data-lucide="dot" class="i community-thread__dot" aria-hidden="true"></i>' : ''}${hace(h.fecha)}</span>
-        </div>
+          <small>${reciente ? '<span class="post__dot" aria-hidden="true"></span>' : ''}${hace(h.fecha)} · <span class="post__area">${esc(area)}</span></small>
+        </span>
+      </a>
+      <button type="button" class="post__menu" aria-label="Más opciones" tabindex="-1"><i data-lucide="more-horizontal" class="i"></i></button>
+    </header>
+
+    ${imagen ? `
+    <a class="post__media" href="#/comunidad/${h.id}" aria-label="Abrir ${esc(h.titulo)}">
+      <img src="${esc(imagen)}" alt="" loading="lazy">
+      ${c ? `<span class="post__media-tag">${esc(c.titulo)}</span>` : ''}
+    </a>` : `
+    <a class="post__media post__media--text" href="#/comunidad/${h.id}" aria-label="Abrir ${esc(h.titulo)}">
+      <div class="post__media-glyph" aria-hidden="true">
+        <svg viewBox="0 0 120 120"><circle cx="40" cy="60" r="22" fill="currentColor" opacity=".32"/><circle cx="78" cy="48" r="14" fill="currentColor" opacity=".52"/><circle cx="86" cy="78" r="18" fill="currentColor" opacity=".22"/></svg>
       </div>
-      <span class="community-thread__topic">${esc(area)}</span>
-      <span class="community-thread__menu" aria-label="Más opciones"><i data-lucide="more-horizontal" class="i"></i></span>
+      <span class="post__media-text">${esc(h.titulo)}</span>
+    </a>`}
+
+    <div class="post__actions">
+      <button type="button" class="post__action post__action--like" data-util="${h.id}" aria-label="Me resultó útil">
+        <i data-lucide="heart" class="i"></i>
+      </button>
+      <a class="post__action" href="#/comunidad/${h.id}" aria-label="Comentar">
+        <i data-lucide="message-circle" class="i"></i>
+      </a>
+      <a class="post__action" href="#/comunidad/${h.id}" aria-label="Compartir">
+        <i data-lucide="send" class="i"></i>
+      </a>
+      <button type="button" class="post__action post__action--save" aria-label="Guardar" tabindex="-1">
+        <i data-lucide="bookmark" class="i"></i>
+      </button>
     </div>
-    <div class="community-thread__body">
-      <h3>${esc(h.titulo)}</h3>
+
+    <div class="post__likes">
+      ${primerRespondedor ? `<span class="avatar post__likes-avatar">${iniciales(primerRespondedor.autor)}</span>` : ''}
+      ${h.util > 0
+        ? `<small><strong>${esc(primerRespondedor?.autor || 'Colegas del club')}</strong> y <strong>${h.util} colegas</strong> lo encontraron útil</small>`
+        : `<small>Sé la primera persona en marcar útil</small>`}
+    </div>
+
+    <div class="post__caption">
+      <a href="#/comunidad/${h.id}"><strong>${esc(h.titulo)}</strong></a>
       <p>${esc(h.texto)}</p>
     </div>
-    <div class="community-thread__foot">
-      ${respondedores.length ? `
-      <div class="community-thread__stack" aria-label="Colegas que respondieron">
-        ${respondedores.slice(0, 3).map((r) => `<span class="avatar community-thread__stack-item" title="${esc(r.autor)}">${iniciales(r.autor)}</span>`).join('')}
-        ${extras ? `<span class="community-thread__stack-more">+${extras}</span>` : ''}
-      </div>` : '<span class="community-thread__hint">Sé la primera voz</span>'}
-      <span class="community-thread__stat"><i data-lucide="message-circle" class="i"></i>${h.respuestasTotal}</span>
-      <span class="community-thread__stat"><i data-lucide="heart" class="i"></i>${h.util}</span>
-      <span class="community-thread__open">Abrir <i data-lucide="arrow-right" class="i"></i></span>
-    </div>
-  </a>`;
+
+    <a class="post__comments" href="#/comunidad/${h.id}">
+      ${h.respuestasTotal > 0
+        ? `Ver las <strong>${h.respuestasTotal}</strong> ${h.respuestasTotal === 1 ? 'respuesta' : 'respuestas'}`
+        : 'Sé la primera voz en responder'}
+    </a>
+  </article>`;
 }
 
 // Top voces de la última semana — ordenadas por aportes, cursos no cuentan aquí.
@@ -166,6 +197,19 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
       <label><span>Contexto y observaciones</span><textarea class="input" name="texto" rows="5" placeholder="Especie, edad o etapa productiva, signos, cambios recientes y qué ya revisaste. Sin datos sensibles." required></textarea></label>
       <div class="community-compose__actions"><select class="input" name="cursoId"><option value="">Tema general</option>${opciones}</select><div><button type="button" class="btn btn--ghost" data-cancelar-hilo>Cancelar</button><button class="btn btn--brand"><i data-lucide="send" class="i"></i>Publicar caso</button></div></div>
     </form>
+
+    ${voces.length ? `
+    <section class="community-stories" aria-label="Voces activas esta semana">
+      <button type="button" class="community-story community-story--new" data-nuevo-hilo>
+        <span class="community-story__ring community-story__ring--new"><i data-lucide="plus" class="i"></i></span>
+        <small>Publicar</small>
+      </button>
+      ${voces.slice(0, 8).map((v) => `
+        <div class="community-story">
+          <span class="community-story__ring"><span class="community-story__avatar">${iniciales(v.nombre)}</span></span>
+          <small>${esc(v.nombre.split(' ')[0])}</small>
+        </div>`).join('')}
+    </section>` : ''}
 
     <div class="community-layout">
       <main class="community-feed">
