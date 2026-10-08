@@ -137,7 +137,6 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
     ? new Date(siguienteEnVivo.fecha).toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' })
     : '';
   const voces = vocesSemana(todos);
-  const areasActivas = new Set(todos.map((h) => (h.cursoId ? getCurso(h.cursoId)?.area : null)).filter(Boolean));
   const normas = [
     { icon: 'eye', titulo: 'Observa primero', texto: 'Describe lo que ves antes de pedir una conclusión.' },
     { icon: 'file-text', titulo: 'Documenta sin exponer', texto: 'Comparte contexto profesional sin datos personales.' },
@@ -145,51 +144,21 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
     { icon: 'shield-check', titulo: 'Deriva cuando toca', texto: 'Si el caso rebasa tu alcance, señálalo.' },
   ];
   return `
-  <section class="community-page">
-    <header class="community-hero">
-      <div class="community-hero__copy">
-        <span class="community-kicker"><i data-lucide="sparkles" class="i"></i>Comunidad Dermalysse</span>
-        <h1 class="display">Aprender se vuelve mejor cuando es <em>compartido.</em></h1>
-        <p>Publica un caso, compara criterios con otros profesionales y convierte cada respuesta en conocimiento práctico.</p>
-        <div class="community-hero__actions">
-          <button class="btn btn--brand btn--pill-arrow" data-nuevo-hilo>Compartir un caso <span class="arrow"><i data-lucide="plus" class="i"></i></span></button>
-          <a class="community-hero__link" href="#/retos"><i data-lucide="trophy" class="i"></i>Ver práctica Dermalysse</a>
-        </div>
-        ${voces.length ? `
-        <div class="community-hero__voices" aria-label="Voces activas esta semana">
-          <div class="community-hero__voices-stack">
-            ${voces.slice(0, 4).map((v) => `<span class="avatar community-hero__voice" title="${esc(v.nombre)}">${iniciales(v.nombre)}</span>`).join('')}
-          </div>
-          <div class="community-hero__voices-copy">
-            <span>Voces activas esta semana</span>
-            <strong>${voces.map((v) => esc(v.nombre.split(' ')[0])).slice(0, 3).join(', ')}${voces.length > 3 ? ' y más' : ''}</strong>
-          </div>
-        </div>` : ''}
+  <section class="community-page community-page--social">
+    <div class="community-topbar">
+      <div class="community-topbar__brand">
+        <span class="community-topbar__kicker">Comunidad</span>
+        <h1>Dermalysse</h1>
       </div>
-      <div class="community-hero__pulse" aria-label="Actividad de la comunidad">
-        <div class="community-pulse__ring"><span class="community-pulse__wave" aria-hidden="true"></span><i data-lucide="activity" class="i"></i></div>
-        <div><span>Comunidad activa</span><strong>${autores || '—'} ${autores === 1 ? 'colega aportando' : 'colegas aportando'}</strong></div>
-        <div class="community-pulse__stats">
-          <span><strong>${respuestas}</strong>respuestas</span>
-          <span><strong>${utiles}</strong>votos útiles</span>
-          <span><strong>${areasActivas.size || '—'}</strong>áreas activas</span>
-        </div>
+      <div class="community-topbar__meta">
+        <span><b>${autores || '—'}</b> aportando</span>
+        <span><b>${respuestas}</b> respuestas</span>
+        <span><b>${utiles}</b> útiles</span>
       </div>
-    </header>
-
-    <section class="community-live" aria-label="Clases en vivo">
-      <div class="community-live__signal"><span></span><i data-lucide="radio" class="i"></i></div>
-      <div class="community-live__copy">
-        <span class="eyebrow">Dentro de Comunidad · En vivo</span>
-        ${siguienteEnVivo
-          ? `<h2>${esc(siguienteEnVivo.titulo)}</h2><p>${esc(fechaEnVivo)}${siguienteEnVivo.ponente ? ` · ${esc(siguienteEnVivo.ponente)}` : ''}</p>`
-          : `<h2>Aprende y conversa en tiempo real</h2><p>Aquí encontrarás las próximas clases, transmisiones y grabaciones de la comunidad.</p>`}
-      </div>
-      <div class="community-live__actions">
-        ${siguienteEnVivo ? `<span class="community-live__date"><i data-lucide="calendar-days" class="i"></i>${esc(fechaEnVivo)}</span>` : ''}
-        <a class="btn btn--white btn--pill-arrow" href="#/en-vivo">${siguienteEnVivo ? 'Reservar lugar' : 'Ir a En vivo'} <span class="arrow"><i data-lucide="arrow-right" class="i"></i></span></a>
-      </div>
-    </section>
+      <button class="community-topbar__cta" type="button" data-nuevo-hilo>
+        <i data-lucide="plus" class="i"></i>Publicar
+      </button>
+    </div>
 
     <form class="community-compose" data-form-hilo hidden>
       <div class="community-compose__head"><span class="community-compose__icon"><i data-lucide="notebook-pen" class="i"></i></span><div><h2>Comparte lo que estás aprendiendo</h2><p>El contexto correcto atrae mejores respuestas.</p></div></div>
@@ -213,10 +182,6 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
 
     <div class="community-layout">
       <main class="community-feed">
-        <div class="community-feed__head">
-          <div><span class="eyebrow">Conversaciones recientes</span><h2>Casos de la comunidad</h2></div>
-          <span class="community-feed__count">${hilos.length} temas</span>
-        </div>
         <nav class="community-filters" aria-label="Filtrar casos">
           <a class="community-filter ${!filtro ? 'is-active' : ''}" href="#/comunidad">Todos</a>
           ${cursos.filter((c) => Comunidad.hilos(c.id).length).map((c) => `<a class="community-filter ${filtro === c.id ? 'is-active' : ''}" href="#/comunidad?curso=${c.id}">${esc(c.area)}</a>`).join('')}
@@ -235,15 +200,40 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
       </main>
 
       <aside class="community-aside">
-        <div class="community-side-card community-side-card--wa">
-          <span class="community-side-card__icon"><i data-lucide="message-circle" class="i"></i></span>
-          <span class="eyebrow">Canal oficial</span><h3>Dermalysse en WhatsApp</h3><p>Avisos de clases, novedades y contenido educativo sin ruido.</p>
-          ${BRAND.canalWhatsApp ? `<a class="btn" href="${BRAND.canalWhatsApp}" target="_blank" rel="noopener">Abrir canal <i data-lucide="external-link" class="i"></i></a>` : '<span class="chip chip--outline">Canal por conectar</span>'}
+        <div class="community-side-card community-side-card--me">
+          <div class="community-me__avatar">${iniciales(Perfil.get().nombre || 'Tú')}</div>
+          <div class="community-me__info">
+            <strong>${esc(Perfil.get().nombre || 'Modo demo')}</strong>
+            <small>Miembro Dermalysse</small>
+          </div>
+          <a class="community-me__switch" href="#/perfil">Perfil</a>
         </div>
-        <a class="community-side-card community-side-card--league" href="#/retos">
-          <div class="community-league-orbit"><i data-lucide="trophy" class="i"></i></div>
-          <span class="eyebrow">Comunidad activa</span><h3>Tu aporte también cuenta</h3><p>Aprende, participa y fortalece tu ruta con actividad verificada.</p><span class="community-side-link">Ver práctica <i data-lucide="arrow-right" class="i"></i></span>
-        </a>
+
+        ${siguienteEnVivo ? `
+        <a class="community-side-card community-side-card--live" href="#/en-vivo">
+          <div class="community-live-mini">
+            <span class="community-live-mini__dot" aria-hidden="true"></span>
+            <span class="community-live-mini__label">En vivo próximamente</span>
+          </div>
+          <h3>${esc(siguienteEnVivo.titulo)}</h3>
+          <small>${esc(fechaEnVivo)}${siguienteEnVivo.ponente ? ` · ${esc(siguienteEnVivo.ponente)}` : ''}</small>
+        </a>` : `
+        <a class="community-side-card community-side-card--live" href="#/en-vivo">
+          <div class="community-live-mini">
+            <span class="community-live-mini__dot community-live-mini__dot--off" aria-hidden="true"></span>
+            <span class="community-live-mini__label">Agenda de En vivo</span>
+          </div>
+          <h3>Próximas transmisiones</h3>
+          <small>Reserva lugar cuando se publiquen los eventos.</small>
+        </a>`}
+
+        ${BRAND.canalWhatsApp ? `
+        <a class="community-side-card community-side-card--wa" href="${BRAND.canalWhatsApp}" target="_blank" rel="noopener">
+          <span class="community-side-card__icon"><i data-lucide="message-circle" class="i"></i></span>
+          <div><strong>Dermalysse en WhatsApp</strong><small>Avisos sin ruido</small></div>
+          <i data-lucide="arrow-up-right" class="i community-side-card__arrow"></i>
+        </a>` : ''}
+
         <div class="community-side-card community-side-card--guide">
           <span class="eyebrow">Cómo participamos</span>
           <ul>
