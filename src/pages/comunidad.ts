@@ -15,40 +15,27 @@ const COLOR_AREA: Record<string, string> = {
   'Regulación': '#5c6b8a',
   'General': '#681c31',
 };
-// Wash pastel por área: color de fondo muy suave para dar carácter a cada card de hilo.
+// Wash pastel muy sutil por área (solo da un tinte apenas perceptible).
 const WASH_AREA: Record<string, string> = {
-  'Cosmiatría': '#f7eaef',
-  'Estética facial': '#fbe9e9',
-  'Cosmetología': '#f6ede1',
-  'Estética corporal': '#e8eef9',
-  'Nutrición': '#e5f1ee',
-  'Regulación': '#eceff6',
-  'General': '#f5edef',
+  'Cosmiatría': '#fbf5f8',
+  'Estética facial': '#fdf4f4',
+  'Cosmetología': '#faf6ef',
+  'Estética corporal': '#f3f6fc',
+  'Nutrición': '#f1f8f6',
+  'Regulación': '#f5f6fa',
+  'General': '#faf5f6',
 };
 const colorArea = (area: string) => COLOR_AREA[area] || '#681c31';
-const washArea = (area: string) => WASH_AREA[area] || '#f5edef';
-// Reacción pastel por área, al estilo "Woow!!!" del dashboard de referencia.
-const REACTION: Record<string, { emoji: string; texto: string }> = {
-  'Cosmiatría': { emoji: '✨', texto: 'Útil' },
-  'Estética facial': { emoji: '💗', texto: 'Me ayudó' },
-  'Cosmetología': { emoji: '🧴', texto: 'Buen tip' },
-  'Estética corporal': { emoji: '💪', texto: 'Claro' },
-  'Nutrición': { emoji: '🌿', texto: 'Muy bueno' },
-  'Regulación': { emoji: '📋', texto: 'Preciso' },
-  'General': { emoji: '🌸', texto: 'Útil' },
-};
+const washArea = (area: string) => WASH_AREA[area] || '#faf5f6';
 
 function tarjetaHilo(h: Hilo) {
   const c = h.cursoId ? getCurso(h.cursoId) : null;
   const area = c?.area || 'General';
   const color = colorArea(area);
   const wash = washArea(area);
-  const activo = h.respuestasTotal > 0;
   const reciente = (Date.now() - new Date(h.fecha).getTime()) < 1000 * 60 * 60 * 48;
-  const destacada = h.respuestas[0];
   const respondedores = [...new Map(h.respuestas.map((r) => [r.autor, r])).values()].slice(0, 4);
   const extras = h.respuestas.length > respondedores.length ? h.respuestas.length - respondedores.length : 0;
-  const reaccion = REACTION[area] || REACTION['General'];
 
   return `
   <a class="community-thread" href="#/comunidad/${h.id}" style="--area:${color};--wash:${wash}">
@@ -67,24 +54,15 @@ function tarjetaHilo(h: Hilo) {
       <h3>${esc(h.titulo)}</h3>
       <p>${esc(h.texto)}</p>
     </div>
-    ${destacada ? `
-    <div class="community-thread__preview">
-      <div class="avatar community-thread__preview-avatar">${iniciales(destacada.autor)}</div>
-      <div class="community-thread__preview-body">
-        <span><strong>${esc(destacada.autor)}</strong> · ${hace(destacada.fecha)}</span>
-        <p>${esc(destacada.texto)}</p>
-      </div>
-    </div>` : ''}
     <div class="community-thread__foot">
-      <span class="community-thread__stat"><i data-lucide="eye" class="i"></i>${(h.util * 7 + 142).toLocaleString('es-MX')}</span>
-      <span class="community-thread__stat community-thread__stat--like"><i data-lucide="heart" class="i"></i>${h.util}</span>
-      <span class="community-thread__stat"><i data-lucide="message-circle" class="i"></i>${h.respuestasTotal}</span>
-      ${activo ? `<span class="community-thread__reaction"><span>${reaccion.emoji}</span>${esc(reaccion.texto)}</span>` : ''}
       ${respondedores.length ? `
       <div class="community-thread__stack" aria-label="Colegas que respondieron">
         ${respondedores.slice(0, 3).map((r) => `<span class="avatar community-thread__stack-item" title="${esc(r.autor)}">${iniciales(r.autor)}</span>`).join('')}
         ${extras ? `<span class="community-thread__stack-more">+${extras}</span>` : ''}
-      </div>` : ''}
+      </div>` : '<span class="community-thread__hint">Sé la primera voz</span>'}
+      <span class="community-thread__stat"><i data-lucide="message-circle" class="i"></i>${h.respuestasTotal}</span>
+      <span class="community-thread__stat"><i data-lucide="heart" class="i"></i>${h.util}</span>
+      <span class="community-thread__open">Abrir <i data-lucide="arrow-right" class="i"></i></span>
     </div>
   </a>`;
 }

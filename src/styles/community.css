@@ -1,38 +1,37 @@
 /* ═══ Comunidad Dermalysse ═══ */
 .community-page { display: grid; gap: 26px; width: 100%; }
-.community-live { position: relative; display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 20px; padding: 20px 22px; overflow: hidden; border: 1px solid rgba(255,255,255,.15); border-radius: var(--r-xl); color: #fff; background: linear-gradient(112deg,#0b2435 0%,#315a76 56%,#681c31 100%); box-shadow: 0 20px 48px -34px rgba(11,36,53,.78); }
+.community-live { position: relative; display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 16px; padding: 14px 18px; overflow: hidden; border: 1px solid rgba(255,255,255,.15); border-radius: 16px; color: #fff; background: linear-gradient(112deg,#0b2435 0%,#315a76 56%,#681c31 100%); box-shadow: 0 12px 32px -22px rgba(11,36,53,.6); }
 .community-live::after { position: absolute; top: -80px; right: 15%; width: 220px; aspect-ratio: 1; border: 1px solid rgba(255,255,255,.11); border-radius: 50%; box-shadow: 0 0 0 34px rgba(255,255,255,.035),0 0 0 68px rgba(255,255,255,.02); content: ''; pointer-events: none; }
-.community-live__signal { position: relative; z-index: 1; display: grid; width: 58px; height: 58px; place-items: center; border: 1px solid rgba(255,255,255,.22); border-radius: 18px; background: rgba(255,255,255,.1); }
-.community-live__signal .i { width: 25px; height: 25px; }
+.community-live__signal { position: relative; z-index: 1; display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(255,255,255,.22); border-radius: 12px; background: rgba(255,255,255,.1); }
+.community-live__signal .i { width: 20px; height: 20px; }
 .community-live__signal span { position: absolute; top: 9px; right: 9px; width: 8px; height: 8px; border: 2px solid #fff; border-radius: 50%; background: #35dc82; box-shadow: 0 0 0 5px rgba(53,220,130,.16); }
 .community-live__copy { position: relative; z-index: 1; min-width: 0; }
 .community-live__copy .eyebrow { color: #f0b5be; }
-.community-live__copy h2 { margin-top: 3px; font-size: clamp(1.05rem,2vw,1.35rem); }
+.community-live__copy h2 { margin-top: 2px; font-size: clamp(.95rem,1.6vw,1.15rem); }
 .community-live__copy p { margin-top: 3px; color: rgba(255,255,255,.72); font-size: var(--fs-sm); }
 .community-live__actions { position: relative; z-index: 1; display: flex; align-items: center; gap: 14px; }
 .community-live__date { display: inline-flex; max-width: 220px; align-items: center; gap: 7px; color: rgba(255,255,255,.82); font-size: var(--fs-xs); font-weight: 650; }
 .community-live__date .i { width: 17px; height: 17px; flex: 0 0 auto; }
-.community-hero { position: relative; display: grid; grid-template-columns: minmax(0,1.5fr) minmax(260px,.5fr); gap: 28px; padding: 30px 34px; overflow: hidden; border-radius: 26px; background: radial-gradient(circle at 85% 15%,rgba(217,160,155,.28),transparent 26%), linear-gradient(135deg,#0b2435 0%,#315a76 48%,#681c31 100%); color: #fff; box-shadow: var(--shadow-lg); align-items: center; }
+.community-hero { position: relative; display: grid; grid-template-columns: minmax(0,1.6fr) minmax(220px,.4fr); gap: 20px; padding: 22px 26px; overflow: hidden; border-radius: 20px; background: radial-gradient(circle at 85% 15%,rgba(217,160,155,.26),transparent 26%), linear-gradient(135deg,#0b2435 0%,#315a76 48%,#681c31 100%); color: #fff; box-shadow: var(--shadow-md); align-items: center; }
 .community-hero::before { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px); background-size: 38px 38px; mask-image: linear-gradient(90deg,transparent,black); content: ''; }
 .community-hero__copy,.community-hero__pulse { position: relative; z-index: 1; }
 .community-hero__copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
-.community-kicker { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 10px; color: #f0b5be; font-size: 11.5px; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; }
-.community-kicker .i { width: 15px; height: 15px; }
-.community-hero h1 { max-width: 22ch; margin: 0; font-size: clamp(1.9rem,3vw,2.9rem); line-height: 1.04; letter-spacing: -.015em; }
+.community-kicker { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 6px; color: #f0b5be; font-size: 10.5px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.community-kicker .i { width: 13px; height: 13px; }
+.community-hero h1 { max-width: 24ch; margin: 0; font-size: clamp(1.4rem,2vw,1.9rem); line-height: 1.1; letter-spacing: -.015em; }
 .community-hero h1 em { color: #f0b5be; font-style: normal; }
-.community-hero__copy > p { max-width: 56ch; margin-top: 10px; color: rgba(255,255,255,.78); font-size: 13.5px; line-height: 1.55; }
-.community-hero__actions { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+.community-hero__copy > p { max-width: 56ch; margin-top: 6px; color: rgba(255,255,255,.76); font-size: 12.5px; line-height: 1.5; }
+.community-hero__actions { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
 .community-hero__link { display: inline-flex; align-items: center; gap: 7px; color: #fff; font-size: 13px; font-weight: 700; }
 .community-hero__link .i { width: 17px; height: 17px; color: #e9bab4; }
-.community-hero__pulse { align-self: center; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 12px; padding: 16px 18px; border: 1px solid rgba(255,255,255,.2); border-radius: 20px; background: rgba(255,255,255,.1); box-shadow: inset 0 1px 0 rgba(255,255,255,.12); backdrop-filter: blur(14px); }
-.community-pulse__ring { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(217,160,155,.16); color: #f0b5be; box-shadow: 0 0 0 6px rgba(217,160,155,.07); }
-.community-pulse__ring .i { width: 20px; height: 20px; }
-.community-hero__pulse > div:nth-child(2) { display: grid; gap: 2px; }
-.community-hero__pulse span { color: rgba(255,255,255,.65); font-size: 10.5px; }
-.community-hero__pulse strong { font-family: var(--font-display); font-size: 15px; }
-.community-pulse__stats { grid-column: 1/-1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding-top: 12px; margin-top: 2px; border-top: 1px solid rgba(255,255,255,.13); }
+.community-hero__pulse { align-self: center; display: grid; gap: 10px; padding: 12px 14px; border: 1px solid rgba(255,255,255,.18); border-radius: 14px; background: rgba(255,255,255,.08); backdrop-filter: blur(12px); }
+.community-hero__pulse > div:first-child { display: none; }
+.community-hero__pulse > div:nth-child(2) { display: grid; gap: 1px; }
+.community-hero__pulse span { color: rgba(255,255,255,.6); font-size: 9.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.community-hero__pulse strong { font-family: var(--font-display); font-size: 13px; }
+.community-pulse__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.12); }
 .community-pulse__stats span { display: grid; gap: 1px; }
-.community-pulse__stats strong { color: #fff; font-size: 17px; }
+.community-pulse__stats strong { color: #fff; font-family: var(--font-display); font-size: 16px; font-weight: 700; }
 
 .community-compose { display: grid; gap: 16px; padding: 24px; border: 1px solid color-mix(in srgb,var(--primary) 28%,var(--line)); border-radius: 24px; background: var(--surface); box-shadow: var(--shadow-md); }
 .community-compose__head,.community-answer > div:first-child { display: flex; align-items: center; gap: 12px; }
@@ -385,103 +384,114 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
   .community-hero__voices { align-self: flex-start; margin-top: 20px; }
 }
 
-/* ═══ Comunidad v3 — inspirado en social dashboard ═══ */
+/* ═══ Comunidad v3 — minimal con wash tenue ═══ */
 
-/* Tarjeta de hilo con wash pastel completo (reemplaza el acento lateral) */
+/* Tarjeta de hilo: wash muy sutil + borde fino neutro */
 .community-thread {
   background: var(--wash, var(--surface)) !important;
-  border: 1px solid color-mix(in srgb, var(--area, var(--primary)) 10%, var(--line)) !important;
-  border-radius: 22px !important;
-  padding: 22px 24px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 16px !important;
+  padding: 18px 20px !important;
   position: relative;
+  gap: 12px !important;
 }
 .community-thread:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   border-color: color-mix(in srgb, var(--area, var(--primary)) 32%, var(--line)) !important;
-  box-shadow: 0 10px 32px -16px color-mix(in srgb, var(--area, var(--primary)) 40%, transparent) !important;
+  box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--area, var(--primary)) 35%, transparent) !important;
 }
-/* Oculta la barra lateral de acento (ya no la necesitamos con wash completo) */
 .community-thread__accent { display: none; }
 
-/* Avatar más editorial, con sombra sutil (sin ring) */
 .community-thread__avatar {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, .6);
+  width: 36px !important; height: 36px !important;
+  font-size: 11px !important;
+  box-shadow: none !important;
 }
 
-/* Chip de área: más suave sobre el wash */
+.community-thread__top {
+  gap: 10px !important;
+  align-items: center !important;
+}
+
+/* Chip de área simple */
 .community-thread__topic {
-  background: rgba(255, 255, 255, .72) !important;
+  background: transparent !important;
   color: var(--area, var(--primary)) !important;
-  padding: 4px 10px !important;
+  padding: 2px 8px !important;
+  font-size: 9.5px !important;
   font-weight: 700 !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
-  border: 1px solid color-mix(in srgb, var(--area, var(--primary)) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--area, var(--primary)) 28%, transparent);
+  box-shadow: none !important;
 }
 .community-thread__topic-dot { display: none; }
 
-/* Menú ⋮ en la esquina */
+/* Menú ⋮ sutil */
 .community-thread__menu {
   margin-left: auto;
-  width: 28px; height: 28px;
+  width: 26px; height: 26px;
   display: grid; place-items: center;
   border-radius: 50%;
   color: var(--text-3);
   cursor: pointer;
-  transition: background .2s;
 }
-.community-thread__menu:hover { background: rgba(255, 255, 255, .5); }
-.community-thread__menu .i { width: 16px; height: 16px; }
+.community-thread__menu:hover { background: rgba(255, 255, 255, .6); color: var(--text); }
+.community-thread__menu .i { width: 15px; height: 15px; }
 
-/* Oculta el status "N respuestas" / "Nuevo caso" porque ya hay stats abajo */
 .community-status { display: none; }
 
-/* Preview sin borde-left vino (ya no hace falta con el wash) */
-.community-thread__preview {
-  background: rgba(255, 255, 255, .7) !important;
-  border: 1px solid rgba(0, 0, 0, .04) !important;
-  border-radius: 14px !important;
-  padding: 12px 14px !important;
+/* Body más compacto */
+.community-thread__body { gap: 4px !important; }
+.community-thread h3 { font-size: 15.5px !important; line-height: 1.3 !important; font-weight: 650 !important; }
+.community-thread__body p {
+  font-size: 12.5px !important;
+  color: var(--text-2) !important;
+  -webkit-line-clamp: 2;
 }
 
-/* Foot: stats tipo views/like/comment estilo social (ref Dribbble) */
+.community-thread__preview { display: none !important; }
+
+/* Footer limpio: stack + stats + CTA sutil */
 .community-thread__foot {
-  padding-top: 14px !important;
-  border-top: 1px solid rgba(0, 0, 0, .06) !important;
-  gap: 16px !important;
+  padding-top: 10px !important;
+  margin-top: 2px;
+  border-top: 1px solid color-mix(in srgb, var(--area, var(--primary)) 10%, transparent) !important;
+  gap: 14px !important;
   align-items: center;
+  font-size: 11.5px;
+  color: var(--text-3);
 }
 .community-thread__stat {
-  display: inline-flex; align-items: center; gap: 5px;
+  display: inline-flex; align-items: center; gap: 4px;
   color: var(--text-3); font-size: 11.5px; font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
-.community-thread__stat .i { width: 14px; height: 14px; }
-.community-thread__stat--like .i { color: #e95373; fill: currentColor; }
-
-/* Reacción flotante tipo "Woow!!!" */
-.community-thread__reaction {
+.community-thread__stat .i { width: 13px; height: 13px; }
+.community-thread__hint {
+  color: var(--text-3); font-size: 11.5px; font-weight: 600; font-style: italic;
+}
+.community-thread__open {
   margin-left: auto;
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 11px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #ffd3dc, #ffe8c7);
-  color: #7a2d4a;
-  font-size: 11px; font-weight: 700;
-  letter-spacing: .02em;
-  box-shadow: 0 4px 14px -4px rgba(201, 83, 115, .3);
+  color: var(--area, var(--primary));
+  font-size: 11.5px; font-weight: 650;
+  display: inline-flex; align-items: center; gap: 4px;
 }
-.community-thread__reaction span { font-size: 13px; line-height: 1; }
+.community-thread__open .i { width: 13px; height: 13px; transition: transform .2s; }
+.community-thread:hover .community-thread__open .i { transform: translateX(2px); }
 
-/* Avatar stack a la derecha después de la reacción */
-.community-thread__foot .community-thread__stack {
-  margin-left: 0;
-}
-.community-thread__reaction + .community-thread__stack {
-  margin-left: 4px;
+/* Avatar stack más chico y limpio */
+.community-thread__stack {
+  margin-left: 0 !important;
 }
 .community-thread__stack-item {
+  width: 22px !important; height: 22px !important;
+  font-size: 8.5px !important;
   background: #fff;
   color: var(--text-2);
+  border-width: 2px !important;
+}
+.community-thread__stack-more {
+  font-size: 9.5px !important;
+  padding: 2px 6px !important;
 }
 
 /* Filtros horizontales con pill activo oscuro */
