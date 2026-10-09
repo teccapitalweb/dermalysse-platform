@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 
-export default defineConfig({
+// En dev y preview local vive en la raíz. En GitHub Pages vive bajo /dermalysse-platform/.
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/dermalysse-platform/' : '/',
   build: {
     target: 'es2022',
     sourcemap: false,
@@ -11,4 +13,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

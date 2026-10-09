@@ -1,3 +1,5 @@
+import { instalarBaseShim } from './core/base-shim';
+instalarBaseShim();
 import '@fontsource-variable/outfit/wght.css';
 import '@fontsource-variable/inter/opsz.css';
 import '@fontsource-variable/jetbrains-mono/index.css';

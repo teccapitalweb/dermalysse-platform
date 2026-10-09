@@ -1,3 +1,5 @@
+import { instalarBaseShim } from '../core/base-shim';
+instalarBaseShim();
 import '@fontsource-variable/fraunces';
 import '@fontsource-variable/manrope';
 import './styles/tokens.css';
