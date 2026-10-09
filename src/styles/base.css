@@ -1,7 +1,15 @@
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scrollbar-gutter: stable; overflow-y: scroll; }
+html {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
 body {
+  min-height: 100%;
   margin: 0;
+  overflow-x: hidden;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
@@ -10,6 +18,14 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   transition: background-color var(--t-base), color var(--t-base);
+}
+#app { min-height: 100%; }
+html:has(#app > .app),
+body:has(#app > .app),
+#app:has(> .app) {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 img, svg, video { display: block; max-width: 100%; }
 [hidden] { display: none !important; }

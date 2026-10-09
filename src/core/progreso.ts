@@ -27,9 +27,11 @@ export const Progreso = {
   de(cursoId: string): ProgresoCurso { return leer()[cursoId] || { vistas: [], ultima: 1, actualizado: '' }; },
   marcarVista(cursoId: string, n: number) {
     const all = leer(); const p = all[cursoId] || { vistas: [], ultima: n, actualizado: '' };
-    if (!p.vistas.includes(n)) { p.vistas.push(n); (p.historial ||= []).push(new Date().toISOString()); }
+    const nueva = !p.vistas.includes(n);
+    if (nueva) { p.vistas.push(n); (p.historial ||= []).push(new Date().toISOString()); }
     p.vistas.sort((a, b) => a - b); p.ultima = n; p.actualizado = new Date().toISOString();
     all[cursoId] = p; escribir(all);
+    if (nueva) window.dispatchEvent(new CustomEvent('progreso:cambio', { detail: { cursoId, clase: n } }));
   },
   abrirClase(cursoId: string, n: number) {
     const all = leer(); const p = all[cursoId] || { vistas: [], ultima: n, actualizado: '' };

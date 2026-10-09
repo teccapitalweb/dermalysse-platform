@@ -19,7 +19,8 @@ test('las clases demo no incluyen identificadores productivos', () => {
 
 test('todas las portadas locales son imágenes utilizables', async () => {
   for (const curso of catalogo.cursos) {
-    assert.match(curso.portada, /^\/media\//);
+    assert.match(curso.portada, /^\/(?:media|cursos)\/[a-z0-9][a-z0-9._/-]*\.(?:avif|webp|png|jpe?g)$/i);
+    assert.doesNotMatch(curso.portada, /\.\./);
     const info = await stat(path.join(root, 'public', curso.portada.slice(1)));
     assert.ok(info.size > 10_000, `${curso.portada} debe contener una imagen real`);
   }

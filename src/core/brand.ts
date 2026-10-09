@@ -5,6 +5,7 @@ export const BRAND = {
   nombre: 'Dermalysse',
   club: 'Club Dermalysse',
   sitio: 'https://www.dermalyssemx.com',
+  praxia: 'https://app.praxiamedical.com/?utm_source=dermalysse-club&utm_medium=panel',
   whatsappSoporte: '',
   canalWhatsApp: '',
   descuentoVIP: 20,

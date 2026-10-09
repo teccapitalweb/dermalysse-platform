@@ -285,11 +285,15 @@ export const Comunidad = {
   async crear(titulo: string, texto: string, cursoId: string | null) {
     if (Datos.modo === 'api') {
       const remoto = await api<HiloRemoto>('/foro', { method: 'POST', json: { titulo, texto, cursoId } });
-      const nuevo = desdeRemoto(remoto); listadoApi = [nuevo, ...(listadoApi || [])]; detallesApi.set(nuevo.id, nuevo); return nuevo;
+      const nuevo = desdeRemoto(remoto); listadoApi = [nuevo, ...(listadoApi || [])]; detallesApi.set(nuevo.id, nuevo);
+      window.dispatchEvent(new CustomEvent('comunidad:cambio', { detail: { tipo: 'tema', id: nuevo.id } }));
+      return nuevo;
     }
     const h = leer();
     const nuevo: Hilo = { id: uid(), titulo, texto, autor: Perfil.get().nombre, fecha: new Date().toISOString(), cursoId, respuestas: [], respuestasTotal: 0, util: 0 };
-    h.push(nuevo); escribir(h); return nuevo;
+    h.push(nuevo); escribir(h);
+    window.dispatchEvent(new CustomEvent('comunidad:cambio', { detail: { tipo: 'tema', id: nuevo.id } }));
+    return nuevo;
   },
   async responder(id: string, texto: string) {
     if (Datos.modo === 'api') {

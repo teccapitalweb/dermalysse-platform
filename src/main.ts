@@ -19,6 +19,8 @@ import './styles/noticias.css';
 import './styles/dashboard.css';
 import './styles/experiencia.css';
 import './styles/admin-experiencia.css';
+import './styles/login.css';
+import './styles/logros.css';
 import './styles/responsive.css';
 import { createIcons, icons } from 'lucide';
 import { route, startRouter, onRender, onBeforeRender, current, navigate, render } from './core/router';
@@ -52,7 +54,8 @@ import { paginaAdminExperiencia, montarAdminExperiencia } from './admin/experien
 import { VISIT_KEYS, ocultarChecklist } from './ui/checklist';
 import { certificados, certificado, certificadoMuestra, verificarCertificado } from './pages/certificados';
 import { limpiarCertificados, registrarCertificado, type CertificadoRemoto } from './core/certificados-remotos';
-import { herramientas } from './pages/herramientas';
+import { herramientas, montarHerramientas } from './pages/herramientas';
+import { paginaPraxia } from './pages/praxia';
 import { paginaRecompensas } from './pages/recompensas';
 import { perfil, suscripcion, configuracion, mas } from './pages/cuenta';
 import { login } from './pages/login';
@@ -67,6 +70,7 @@ import { examenFinal } from './pages/examen-final';
 import { ganarXP } from './core/juegos';
 import { celebrar } from './ui/celebracion';
 import { montarTicker } from './ui/noticias';
+import { instalarAvisosLogros } from './ui/logro-desbloqueado';
 
 let _showQuiz = false;
 let desmontarExperiencia: (() => void) | null = null;
@@ -113,7 +117,8 @@ onBeforeRender(async (path) => {
   await Auth.iniciar();
   const u = Auth.usuario;
   if (path === '/login') {
-    if (u) { navigate(sessionStorage.getItem('dermalysse:volver') || '/'); return false; }
+    const vistaPrevia = current().query.get('vista') === '1';
+    if (u && !vistaPrevia) { navigate(sessionStorage.getItem('dermalysse:volver') || '/'); return false; }
     montar('solo'); return true;
   }
   if (!u) { limpiarExperiencia(); sessionStorage.setItem('dermalysse:volver', location.hash.slice(1) || '/'); navigate('/login'); return false; }
@@ -147,7 +152,9 @@ onBeforeRender(async (path) => {
   // Bienvenida y encuesta ocupan toda la pantalla, sin menú ni barras del club.
   const pantallaCompleta = path === '/bienvenida' || path === '/encuestas';
   if (path === '/bienvenida') { try { localStorage.setItem(invitacionExperiencia(u.uid), '1'); } catch { /* sin almacenamiento */ } }
-  montar(pantallaCompleta ? 'solo' : 'miembro'); return true;
+  montar(pantallaCompleta ? 'solo' : 'miembro');
+  if (!pantallaCompleta) instalarAvisosLogros(u.uid);
+  return true;
 });
 
 // ── Rutas del miembro ──
@@ -172,6 +179,7 @@ route('/certificados', certificados);
 route('/certificados/muestra', certificadoMuestra);
 route('/certificados/:id', certificado);
 route('/herramientas', herramientas);
+route('/praxia', paginaPraxia);
 route('/recompensas', paginaRecompensas);
 route('/bienvenida', paginaBienvenida);
 route('/encuestas', paginaEncuestas);
@@ -205,6 +213,7 @@ onRender(() => {
   if (path === '/') montarTicker();
   if (path.startsWith('/retos')) montarArcade();
   if (path.startsWith('/retos/historia')) montarHistoria();
+  if (path === '/herramientas') montarHerramientas();
   if (path === '/comunidad' && Comunidad.cargando()) Comunidad.cargarListado().then(() => render()).catch((e) => toast(mensajeError(e), 'circle-alert'));
   if (path.startsWith('/comunidad/')) {
     const id = path.split('/')[2];
@@ -704,9 +713,13 @@ document.addEventListener('click', async (e) => {
     const panel = document.querySelector<HTMLElement>('[data-login-panel]');
     if (panel && panel.dataset.modoActivo !== nuevoModo) {
       panel.dataset.modoActivo = nuevoModo;
+      panel.querySelectorAll<HTMLElement>('.login__switch [data-login-modo]').forEach((opcion) => opcion.classList.toggle('is-active', opcion.dataset.loginModo === nuevoModo));
       const activo = panel.querySelector<HTMLElement>(`.login__modo[data-modo="${nuevoModo}"]`);
       if (activo) { activo.removeAttribute('data-entering'); void activo.offsetHeight; activo.setAttribute('data-entering', ''); }
-      history.replaceState(null, '', nuevoModo === 'entrar' ? '#/login' : `#/login?modo=${nuevoModo}`);
+      const query = new URLSearchParams();
+      if (nuevoModo !== 'entrar') query.set('modo', nuevoModo);
+      if (panel.dataset.loginPreview === 'true') query.set('vista', '1');
+      history.replaceState(null, '', `#/login${query.size ? `?${query}` : ''}`);
     }
     return;
   }

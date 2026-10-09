@@ -183,7 +183,7 @@ function contenido(c: ConfigExperiencia, r: ResumenExperiencia) {
         </fieldset>
       </form>
       <div class="aexp-side">
-        <section class="card card--pad aexp-preview" aria-labelledby="aexp-preview-titulo"><img src="/media/hero-model.png" alt="" width="1086" height="1448"><div><span class="eyebrow">La guía Dermalysse</span><h2 id="aexp-preview-titulo">Escuchar también es acompañar.</h2><p class="muted">Una pregunta a la vez. Se puede posponer, retomar y opinar con libertad: una crítica no reduce el beneficio.</p></div></section>
+        <section class="card card--pad aexp-preview" aria-labelledby="aexp-preview-titulo"><img src="/media/dermalysse-guia-lia-v1.png" alt="" width="1080" height="1440"><div><span class="eyebrow">Lía · guía Dermalysse</span><h2 id="aexp-preview-titulo">Escuchar también es acompañar.</h2><p class="muted">Una pregunta a la vez. Se puede posponer, retomar y opinar con libertad: una crítica no reduce el beneficio.</p></div></section>
         <section class="card card--pad"><h2 class="admin-card-title">Estado de los recorridos</h2><dl class="aexp-summary">
           <div><dt>Entrevistas pendientes</dt><dd>${numero(r.entrevistas.pendientes)}</dd></div><div><dt>Entrevistas en curso</dt><dd>${numero(r.entrevistas.enCurso)}</dd></div><div><dt>Entrevistas pospuestas</dt><dd>${numero(r.entrevistas.pospuestas)}</dd></div>
           <div><dt>Encuestas en curso</dt><dd>${numero(r.encuestas.enCurso)}</dd></div><div><dt>Encuestas pospuestas</dt><dd>${numero(r.encuestas.pospuestas)}</dd></div><div><dt>Sesiones registradas</dt><dd>${numero(r.sesionesRegistradas)}</dd></div>

@@ -13,9 +13,9 @@ import '../styles/experiencia.css';
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 const ic = (nombre: string) => `<i data-lucide="${nombre}" class="i" aria-hidden="true"></i>`;
 const IMAGENES_GUIA: Record<PosturaGuia, string> = {
-  saludo: '/media/hero-model.png',
-  orientar: '/media/hero-model.png',
-  celebrar: '/media/hero-model.png',
+  saludo: '/media/dermalysse-guia-lia-v1.png',
+  orientar: '/media/dermalysse-guia-lia-v1.png',
+  celebrar: '/media/dermalysse-guia-lia-v1.png',
 };
 let numeroGuia = 0;
 /** Texto visible de una opción; un área del catálogo se muestra con su propio nombre. */

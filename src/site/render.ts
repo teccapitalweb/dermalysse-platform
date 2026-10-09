@@ -98,6 +98,11 @@ export const renderLanding = (content: LandingContent): string => `
             <div class="manifesto__steps" aria-label="Enfoque Dermalysse">
               <span>Observar</span><i></i><span>Comprender</span><i></i><span>Aplicar</span>
             </div>
+            <div class="manifesto__principles" aria-label="Principios de la experiencia">
+              <span><i>01</i><b>Criterio antes que tendencia</b></span>
+              <span><i>02</i><b>Aprendizaje con intención</b></span>
+              <span><i>03</i><b>Práctica más consciente</b></span>
+            </div>
           </div>
           <div class="manifesto__letter" aria-hidden="true">D</div>
         </div>
@@ -113,26 +118,24 @@ export const renderLanding = (content: LandingContent): string => `
             <small>Skin intelligence</small>
           </div>
           <div class="skin-intelligence__intro" data-reveal>
-            <div class="section-label"><span>02</span><p>Skin intelligence</p></div>
-            <p class="eyebrow">Learning in layers</p>
+            <div class="section-label"><span>02</span><p>Dentro del club</p></div>
+            <p class="eyebrow">Everything in one place</p>
             <h2>Aprender a mirar<br /><em>cambia todo.</em></h2>
           </div>
 
-          <div class="skin-intelligence__steps" role="group" aria-label="Método Dermalysse">
-            <button class="skin-step is-active" type="button" aria-pressed="true" data-skin-step="0">
-              <span>01</span><strong>Lectura de la piel</strong><small>Textura, contexto y señales visibles.</small>
-            </button>
-            <button class="skin-step" type="button" aria-pressed="false" data-skin-step="1">
-              <span>02</span><strong>Activos con intención</strong><small>Comprende qué elegir y por qué.</small>
-            </button>
-            <button class="skin-step" type="button" aria-pressed="false" data-skin-step="2">
-              <span>03</span><strong>Protocolos seguros</strong><small>Ordena cada paso con criterio.</small>
-            </button>
-            <button class="skin-step" type="button" aria-pressed="false" data-skin-step="3">
-              <span>04</span><strong>Seguimiento real</strong><small>Evalúa cambios y ajusta decisiones.</small>
-            </button>
+          <ul class="skin-intelligence__benefits" aria-label="Beneficios del Club Dermalysse" data-reveal>
+            <li><span>01</span><div><strong>Cursos on demand</strong><small>Avanza a tu propio ritmo.</small></div></li>
+            <li><span>02</span><div><strong>Biblioteca clínica</strong><small>Materiales organizados para consultar.</small></div></li>
+            <li><span>03</span><div><strong>Herramientas educativas</strong><small>Lleva la teoría a ejercicios prácticos.</small></div></li>
+            <li><span>04</span><div><strong>Encuentros en vivo</strong><small>Sesiones para seguir aprendiendo.</small></div></li>
+            <li><span>05</span><div><strong>Comunidad profesional</strong><small>Comparte avances y perspectivas.</small></div></li>
+            <li><span>06</span><div><strong>Progreso y certificados</strong><small>Visualiza tu recorrido formativo.</small></div></li>
+          </ul>
+          <div class="skin-intelligence__outcome" data-reveal>
+            <span>Tu evolución</span>
+            <strong>Más criterio, orden y confianza profesional.</strong>
+            <p>Una experiencia para desarrollar una mirada más consciente y convertir conocimiento en mejores decisiones educativas.</p>
           </div>
-          <p class="skin-intelligence__caption">Una secuencia clara para convertir información en decisiones profesionales.</p>
         </div>
       </section>
 
@@ -141,6 +144,13 @@ export const renderLanding = (content: LandingContent): string => `
           <div class="section-label"><span>03</span><p>Formación</p></div>
           <div><p class="eyebrow">Curated for your practice</p><h2>The course <em>edit.</em></h2></div>
           <p>Recorre el enfoque de cada curso y abre su primera clase. El conocimiento empieza antes de la membresía.</p>
+        </div>
+        <div class="course-editorial-strip" aria-label="Detalles de la selección">
+          <span><small>Edición</small><strong>01</strong></span>
+          <i></i>
+          <span><small>Selección</small><strong>4 rutas destacadas</strong></span>
+          <i></i>
+          <span><small>Acceso</small><strong>Clase inicial abierta</strong></span>
         </div>
         <div class="course-grid">${content.courses.map(courseCard).join('')}</div>
       </section>
@@ -154,6 +164,10 @@ export const renderLanding = (content: LandingContent): string => `
           <a class="button button--light" href="/club/" data-local-cta>Conocer el club ${icon('arrow')}</a>
         </div>
         <div class="club__experience" data-reveal>
+          <div class="club__signature">
+            <span>01—05</span>
+            <p>Un recorrido para <strong>aprender, practicar y avanzar.</strong></p>
+          </div>
           <div class="club-list">${content.club.map((item, index) => clubItem(item, index === 0)).join('')}</div>
           <div class="club-focus" aria-live="polite" data-club-focus>
             <span data-club-number>${content.club[0].index}</span>
@@ -165,10 +179,12 @@ export const renderLanding = (content: LandingContent): string => `
       <section class="closing" data-chapter="05" data-chapter-title="Siguiente era" data-motion-section>
         <img class="closing__image" src="/media/dermalysse-paper-rose.jpg" alt="Primer plano editorial de piel visto a través de papel rasgado" loading="lazy" width="2752" height="1536" />
         <div class="closing__veil" aria-hidden="true"></div>
+        <div class="closing__seal" aria-hidden="true"><span>05</span><i></i><small>The next edit</small></div>
         <div class="closing__copy" data-reveal>
           <p class="eyebrow">From knowledge to practice</p>
           <h2>Del conocimiento<br /><em>a tu práctica.</em></h2>
           <p>Aprende a observar, comprender y decidir con mayor criterio profesional. Contenido educativo que no sustituye una valoración médica.</p>
+          <div class="closing__markers" aria-label="Ruta formativa"><span>Observar</span><span>Comprender</span><span>Decidir</span></div>
           <a class="button" href="/club/" data-local-cta>Explorar Dermalysse ${icon('arrow')}</a>
         </div>
       </section>

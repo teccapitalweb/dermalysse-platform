@@ -161,7 +161,7 @@ export function configuracion() {
 }
 
 export function mas() {
-  const items = [...(Auth.usuario?.esAdmin ? [['#/admin', 'shield-check', 'Panel admin']] : []), ['#/comunidad', 'messages-square', 'Comunidad'], ['#/herramientas', 'wrench', 'Herramientas'], ['#/logros', 'flame', 'Logros'], ['#/certificados', 'award', 'Certificados'], ['#/recompensas', 'gift', 'Recompensas'], ['#/bienvenida', 'sparkles', 'Mi entrevista'], ['#/encuestas', 'message-square-heart', 'Encuestas'], ['#/perfil', 'user', 'Mi perfil'], ['#/suscripcion', 'credit-card', 'Suscripción'], ['#/configuracion', 'settings', 'Configuración']];
+  const items = [...(Auth.usuario?.esAdmin ? [['#/admin', 'shield-check', 'Panel admin']] : []), ['#/comunidad', 'messages-square', 'Comunidad'], ['#/herramientas', 'wrench', 'Herramientas'], ['#/praxia', 'stethoscope', 'Praxia Medical'], ['#/logros', 'flame', 'Logros'], ['#/certificados', 'award', 'Certificados'], ['#/recompensas', 'gift', 'Recompensas'], ['#/bienvenida', 'sparkles', 'Mi entrevista'], ['#/encuestas', 'message-square-heart', 'Encuestas'], ['#/perfil', 'user', 'Mi perfil'], ['#/suscripcion', 'credit-card', 'Suscripción'], ['#/configuracion', 'settings', 'Configuración']];
   return `
   <section class="stack" style="gap:16px">
     <div class="row" style="gap:12px"><div class="avatar avatar--lg">${Perfil.iniciales()}</div><div><div class="display" style="font-size:var(--fs-lg)">${esc(Perfil.get().nombre)}</div><span class="user-card__plan"><i data-lucide="crown" class="i"></i>VIP ${Perfil.get().plan}</span></div></div>

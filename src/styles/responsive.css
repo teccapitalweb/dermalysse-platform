@@ -362,7 +362,13 @@
   html,
   body,
   #app {
-    overflow-x: clip;
+    overflow: hidden;
+  }
+
+  .main {
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: auto;
   }
 
   .topbar {

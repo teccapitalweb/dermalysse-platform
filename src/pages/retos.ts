@@ -10,7 +10,6 @@ import {
   casos, resolverCaso, casosResueltos, idsCasosResueltos, registrarQuiz, mejorQuiz, type Caso,
 } from '../core/juegos';
 import { Liga, type FilaLiga } from '../core/liga';
-import { Progreso } from '../core/progreso';
 import { racha } from '../core/logros';
 import { celebrar } from '../ui/celebracion';
 
@@ -43,9 +42,17 @@ export function montarArcade() {
   r.dataset.mounted = '1';
   vista = 'hub'; parar();
   r.addEventListener('click', onClick);
+  r.addEventListener('keydown', onKeydown);
   window.addEventListener('retos:cambio', () => { if (vista === 'hub') hub(); });
   hub();
   Liga.cargar().then(() => { if (vista === 'hub' && root()) hub(); });
+}
+
+function onKeydown(e: KeyboardEvent) {
+  const el = (e.target as HTMLElement).closest<HTMLElement>('[data-a="flash-flip"]');
+  if (!el || (e.key !== 'Enter' && e.key !== ' ')) return;
+  e.preventDefault();
+  flipFlash();
 }
 
 function onClick(e: Event) {
@@ -83,125 +90,108 @@ function hub() {
   const banco = bancoPreguntas().length;
   const liga = Liga.resumen();
   const miRacha = racha();
-  const vistas = Progreso.totalVistas();
-  const cursosCompletos = Progreso.completados().length;
   const mision = [d.hechoHoy, miRacha.activaEstaSemana, em.estudiadas > 0];
   const misionHechas = mision.filter(Boolean).length;
   const lider = liga.clasificacion[0]?.xp || 1;
   const casosOk = casosResueltos();
   const record = mejorQuiz();
-  const dias = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
   const porVencer = mazoDeHoy(99).length;
   const casosPend = totalCasos - casosOk;
-  const focos = focusItems({ d, banco, porVencer, casosPend, casosTotal: totalCasos, record });
-  const anillo = ringXP(nv.pct, nv.color);
   const yoFila = liga.yo || liga.clasificacion.find((f) => f.esYo);
   const top3 = liga.clasificacion.slice(0, 3);
   const resto = liga.clasificacion.slice(3, 10);
-  const horasHastaManana = (() => {
-    const ahora = new Date();
-    const manana = new Date(ahora); manana.setHours(24, 0, 0, 0);
-    const ms = manana.getTime() - ahora.getTime();
-    const h = Math.floor(ms / 3600000); const m = Math.floor((ms % 3600000) / 60000);
-    return h >= 1 ? `${h} h` : `${m} min`;
-  })();
 
   pinta(`
     <header class="retos-hero">
       <div class="retos-hero__left">
-        <span class="retos-hero__kicker"><i data-lucide="shield" class="i"></i>Liga Dermalysse</span>
-        <h1 class="retos-hero__title">Retos</h1>
-        <p class="retos-hero__sub">Practica criterio profesional con el contenido real del club. Suma XP, mantén tu racha y escala en el ranking.</p>
-        ${focos[0] ? `<button class="retos-hero__cta" data-a="${focos[0].action}" ${focos[0].href ? `data-href="${focos[0].href}"` : ''}>
-          <span class="retos-hero__cta-ic"><i data-lucide="${focos[0].icon}" class="i"></i></span>
+        <span class="retos-hero__kicker"><i data-lucide="target" class="i"></i>Tu práctica</span>
+        <h1 class="retos-hero__title">Un reto a la vez.</h1>
+        <p class="retos-hero__sub">La práctica de hoy toma menos de un minuto. Cuando termines, elige otra modalidad para seguir avanzando.</p>
+        <button class="retos-hero__cta ${d.hechoHoy ? 'is-done' : ''}" data-a="ir-diaria" ${d.hechoHoy || !banco ? 'disabled' : ''}>
+          <span class="retos-hero__cta-ic"><i data-lucide="${d.hechoHoy ? 'check' : 'calendar-days'}" class="i"></i></span>
           <span class="retos-hero__cta-body">
-            <small>Siguiente acción · ${focos[0].time}</small>
-            <strong>${focos[0].title}</strong>
+            <small>Reto de hoy · 30 segundos</small>
+            <strong>${d.hechoHoy ? 'Completado por hoy' : banco ? 'Responder la pregunta diaria' : 'Disponible cuando exista un quiz revisado'}</strong>
           </span>
-          <span class="retos-hero__cta-xp">${focos[0].reward}</span>
-          <i data-lucide="arrow-right" class="i retos-hero__cta-go"></i>
-        </button>` : ''}
+          <span class="retos-hero__cta-xp">${d.hechoHoy ? 'Listo' : '+30 XP'}</span>
+          <i data-lucide="${d.hechoHoy ? 'check-check' : 'arrow-right'}" class="i retos-hero__cta-go"></i>
+        </button>
       </div>
       <div class="retos-hero__right">
-        <div class="retos-hero__ring" style="--ring:${nv.color}">
-          ${anillo}
-          <div class="retos-hero__ring-center">
-            <small>Nivel</small>
-            <strong>${esc(nv.nombre.split(' ')[0])}</strong>
-            <em>${nv.xp.toLocaleString('es-MX')} XP</em>
+        <span class="retos-hero__art" aria-hidden="true">
+          <img src="/media/retos/hero-progreso.webp" alt="" decoding="async">
+        </span>
+        <div class="retos-level">
+          <div class="retos-level__head">
+            <span><small>Nivel actual</small><strong>${esc(nv.nombre.split(' ')[0])}</strong></span>
+            <b>${esc(String(nv.pct))}%</b>
           </div>
-        </div>
-        <div class="retos-hero__next">
-          ${nv.siguiente
-            ? `<span><i data-lucide="chevrons-up" class="i"></i>Faltan <b>${nv.faltan.toLocaleString('es-MX')} XP</b> para ${esc(nv.siguiente.nombre.split(' ')[0])}</span>`
-            : '<span><i data-lucide="crown" class="i"></i>Has alcanzado el nivel máximo</span>'}
+          <div class="retos-level__bar" aria-label="${esc(String(nv.pct))}% del nivel"><span style="width:${esc(String(nv.pct))}%"></span></div>
+          <p>${nv.siguiente
+            ? `Faltan <b>${esc(nv.faltan.toLocaleString('es-MX'))} XP</b> para ${esc(nv.siguiente.nombre.split(' ')[0])}`
+            : 'Has alcanzado el nivel máximo'}</p>
         </div>
         <div class="retos-hero__stats">
-          <span><b>${liga.yo ? '#' + liga.yo.puesto : '—'}</b><small>Posición</small></span>
-          <span><b>${d.racha}</b><small>Racha ${d.racha === 1 ? 'día' : 'días'}</small></span>
-          <span><b>${cursosCompletos}</b><small>Cursos</small></span>
-          <span><b>${vistas}</b><small>Clases</small></span>
+          <span><b>${esc(nv.xp.toLocaleString('es-MX'))}</b><small>XP total</small></span>
+          <span><b>${esc(liga.yo ? '#' + liga.yo.puesto : '—')}</b><small>Posición</small></span>
+          <span><b>${esc(String(d.racha))}</b><small>Racha ${d.racha === 1 ? 'día' : 'días'}</small></span>
         </div>
       </div>
     </header>
 
+    <section class="retos-route" aria-label="Ruta sugerida para hoy">
+      <div class="retos-route__intro">
+        <span class="retos-route__spark"><i data-lucide="sparkles" class="i"></i></span>
+        <span><small>Ruta sugerida</small><strong>Tu sesión de hoy</strong></span>
+      </div>
+      <div class="retos-route__flow">
+        <span class="retos-route__step ${d.hechoHoy ? 'is-done' : 'is-current'}">
+          <b>01</b><span><strong>Reto diario</strong><small>${d.hechoHoy ? 'Completado' : '30 segundos'}</small></span>
+        </span>
+        <i data-lucide="arrow-right" class="i retos-route__arrow"></i>
+        <span class="retos-route__step">
+          <b>02</b><span><strong>Flashcards</strong><small>Repaso breve</small></span>
+        </span>
+        <i data-lucide="arrow-right" class="i retos-route__arrow"></i>
+        <span class="retos-route__step">
+          <b>03</b><span><strong>Un caso</strong><small>Cierre aplicado</small></span>
+        </span>
+      </div>
+      <span class="retos-route__time"><i data-lucide="clock-3" class="i"></i>≈ 6 min</span>
+    </section>
+
     <div class="retos-grid">
       <section class="retos-main">
 
-        <section class="retos-focus">
-          <div class="retos-focus__head">
-            <div>
-              <span class="eyebrow"><i data-lucide="target" class="i"></i>Enfócate hoy</span>
-              <h2>Tres pasos cortos para seguir avanzando</h2>
-            </div>
-            <span class="retos-focus__time"><i data-lucide="clock" class="i"></i>${focos.reduce((a, f) => a + f.minutes, 0)} min en total</span>
-          </div>
-          <div class="retos-focus__grid">
-            ${focos.map((f, i) => focusCard(f, i)).join('')}
-          </div>
-        </section>
-
         <section class="retos-arena">
           <div class="retos-section-head">
-            <h2>Zona de retos</h2>
-            <span class="retos-xp"><i data-lucide="sparkles" class="i"></i>${nv.xp.toLocaleString('es-MX')} XP acumulado</span>
+            <div><span class="retos-section-kicker">Biblioteca de práctica</span><h2>Elige una modalidad</h2></div>
+            <span class="retos-xp"><i data-lucide="clock-3" class="i"></i>Sesiones de 3–8 min</span>
           </div>
-
-          <button class="retos-daily ${d.hechoHoy ? 'is-done' : ''}" data-a="ir-diaria" ${d.hechoHoy || !banco ? 'disabled' : ''}>
-            <span class="retos-daily__ic"><i data-lucide="${d.hechoHoy ? 'check-check' : 'calendar-days'}" class="i"></i></span>
-            <div class="retos-daily__body">
-              <div class="retos-daily__row">
-                <strong>Reto diario</strong>
-                ${d.racha > 0 ? `<span class="retos-flame"><i data-lucide="flame" class="i"></i>${d.racha} ${d.racha === 1 ? 'día' : 'días'}</span>` : ''}
-              </div>
-              <small>${d.hechoHoy ? `Listo por hoy · renueva en ${horasHastaManana}` : banco ? 'Una pregunta tomada del banco revisado · 30 segundos' : 'En preparación · se activa cuando se publique un quiz revisado'}</small>
-              <div class="retos-week retos-daily__week" aria-hidden="true">${dias.map((l, i) => `<span class="${miRacha.dias[i] ? 'is-on' : ''}${i === (new Date().getDay() + 6) % 7 ? ' is-today' : ''}" title="${l}">${l}</span>`).join('')}</div>
-            </div>
-            <div class="retos-daily__right">
-              ${d.hechoHoy ? '<span class="retos-chip retos-chip--ok"><i data-lucide="check" class="i"></i>Completado</span>' : banco ? '<span class="retos-chip retos-chip--xp">+30 XP</span>' : '<span class="retos-chip retos-chip--muted">En preparación</span>'}
-              ${d.hechoHoy ? '' : '<span class="retos-daily__arrow"><i data-lucide="arrow-right" class="i"></i></span>'}
-            </div>
-          </button>
 
           <div class="retos-tiles">
-            ${tile({ a: 'ir-quiz', ic: 'zap', tit: 'Quiz Relámpago', sub: 'Contrarreloj con combos y vidas', color: '#4a7fc1', kpiLabel: 'Récord', kpi: String(record), pendiente: banco === 0, meta: `${banco} preguntas · 6 áreas`, chip: record > 0 ? `${record} pts` : '15 s/pregunta' })}
-            ${tile({ a: 'ir-caso', ic: 'briefcase-medical', tit: 'Casos Dermalysse', sub: 'Observa, analiza y decide', color: '#4fa899', kpiLabel: 'Resueltos', kpi: `${casosOk}/${totalCasos}`, pct: totalCasos ? Math.round(casosOk / totalCasos * 100) : 0, pendiente: totalCasos === 0, meta: `${totalCasos} casos revisados`, chip: casosPend > 0 ? `${casosPend} pendientes` : '¡Al día!' })}
-            ${tile({ a: 'ir-flash', ic: 'brain', tit: 'Flashcards', sub: 'Repetición espaciada diaria', color: '#c98a5b', kpiLabel: 'Dominadas', kpi: `${em.dominadas}/${em.total}`, pct: em.total ? Math.round(em.dominadas / em.total * 100) : 0, pendiente: em.total === 0, meta: `${em.total} tarjetas totales`, chip: porVencer > 0 ? `${porVencer} para hoy` : '0 vencidas' })}
-            ${tile({ a: 'historia', ic: 'route', tit: 'Modo historia', sub: 'Casos narrativos guiados', color: '#8e4466', kpiLabel: 'Mundos', kpi: '0/1', pct: 0, pendiente: false, href: '#/retos/historia', meta: 'Un mundo disponible', chip: 'Nuevo' })}
+            ${tile({ index: '01', a: 'ir-quiz', ic: 'zap', img: '/media/retos/quiz-relampago.webp', tit: 'Quiz Relámpago', sub: 'Contrarreloj con combos y vidas', color: '#4a7fc1', kpiLabel: 'Récord', kpi: String(record), pendiente: banco === 0, meta: `${banco} preguntas · 6 áreas`, chip: record > 0 ? `${record} pts` : '15 s/pregunta' })}
+            ${tile({ index: '02', a: 'ir-caso', ic: 'briefcase-medical', img: '/media/retos/casos-dermalysse.webp', tit: 'Casos Dermalysse', sub: 'Observa, analiza y decide', color: '#4fa899', kpiLabel: 'Resueltos', kpi: `${casosOk}/${totalCasos}`, pct: totalCasos ? Math.round(casosOk / totalCasos * 100) : 0, pendiente: totalCasos === 0, meta: `${totalCasos} casos revisados`, chip: casosPend > 0 ? `${casosPend} pendientes` : '¡Al día!' })}
+            ${tile({ index: '03', a: 'ir-flash', ic: 'brain', img: '/media/retos/flashcards.webp', tit: 'Flashcards', sub: 'Repetición espaciada diaria', color: '#c98a5b', kpiLabel: 'Dominadas', kpi: `${em.dominadas}/${em.total}`, pct: em.total ? Math.round(em.dominadas / em.total * 100) : 0, pendiente: em.total === 0, meta: `${em.total} tarjetas totales`, chip: porVencer > 0 ? `${porVencer} para hoy` : '0 vencidas' })}
+            ${tile({ index: '04', a: 'historia', ic: 'route', img: '/media/retos/modo-historia.webp', tit: 'Modo historia', sub: 'Casos narrativos guiados', color: '#8e4466', kpiLabel: 'Mundos', kpi: '0/1', pct: 0, pendiente: false, href: '#/retos/historia', meta: 'Un mundo disponible', chip: 'Nuevo' })}
           </div>
         </section>
 
-        <section class="retos-ranking">
-          <div class="retos-section-head">
-            <h2><i data-lucide="trophy" class="i" style="color:#d4a017"></i>Clasificación del club</h2>
-            ${liga.esDemo ? '<span class="retos-chip retos-chip--muted"><i data-lucide="flask-conical" class="i"></i>Ejemplo</span>' : '<span class="retos-chip retos-chip--ok"><i data-lucide="shield-check" class="i"></i>Datos del club</span>'}
+        <details class="retos-ranking">
+          <summary>
+            <span class="retos-ranking__summary-icon"><i data-lucide="trophy" class="i"></i></span>
+            <span><strong>Clasificación del club</strong><small>Consulta el podio y tu posición semanal</small></span>
+            ${liga.esDemo ? '<span class="retos-chip retos-chip--muted">Ejemplo</span>' : '<span class="retos-chip retos-chip--ok">Datos del club</span>'}
+            <i data-lucide="chevron-down" class="i retos-ranking__chevron"></i>
+          </summary>
+          <div class="retos-ranking__content">
+            <p class="retos-ranking__intro">${liga.esDemo ? 'Vista previa; se llena con el avance real cuando el club entre en operación.' : 'Avance verificado por cursos terminados y aportes útiles.'}</p>
+            ${top3.length >= 3 ? renderPodio(top3) : ''}
+            <ol class="retos-ranking__list">${resto.map((f) => filaLigaCompacta(f, lider)).join('')}</ol>
+            ${yoFila && yoFila.puesto > 10 ? `<div class="retos-ranking__you"><span><i data-lucide="user" class="i"></i>Tu posición</span><ol>${filaLigaCompacta(yoFila, lider)}</ol></div>` : ''}
+            <p class="retos-ranking__note"><i data-lucide="lock-keyhole" class="i"></i>Solo nombre y logros de aprendizaje. Nunca datos de contacto ni información clínica.</p>
           </div>
-          <p class="retos-ranking__intro">${liga.esDemo ? 'Vista previa; se llena con el avance real cuando el club entre en operación.' : 'Avance verificado por cursos terminados y aportes útiles.'}</p>
-          ${top3.length >= 3 ? renderPodio(top3) : ''}
-          <ol class="retos-ranking__list">${resto.map((f) => filaLigaCompacta(f, lider)).join('')}</ol>
-          ${yoFila && yoFila.puesto > 10 ? `<div class="retos-ranking__you"><span><i data-lucide="user" class="i"></i>Tu posición</span><ol>${filaLigaCompacta(yoFila, lider)}</ol></div>` : ''}
-          <p class="retos-ranking__note"><i data-lucide="lock-keyhole" class="i"></i>Solo nombre y logros de aprendizaje. Nunca datos de contacto ni información clínica.</p>
-        </section>
+        </details>
       </section>
 
       <aside class="retos-side">
@@ -243,71 +233,9 @@ function hub() {
             ${misionItem('Memoria activa', 'Repasa tus flashcards', mision[2], 'brain')}
           </ul>
         </section>
-
-        <section class="retos-card">
-          <header><h3>Tu tablero</h3></header>
-          <div class="retos-board">
-            <span style="--k:#4a7fc1"><i data-lucide="zap" class="i"></i><b>${record}</b><small>Récord quiz</small></span>
-            <span style="--k:#4fa899"><i data-lucide="briefcase-medical" class="i"></i><b>${casosOk}</b><small>Casos resueltos</small></span>
-            <span style="--k:#c98a5b"><i data-lucide="brain" class="i"></i><b>${em.dominadas}</b><small>Dominadas</small></span>
-            <span style="--k:#d39a19"><i data-lucide="flame" class="i"></i><b>${d.racha}</b><small>Racha</small></span>
-          </div>
-        </section>
       </aside>
     </div>
   `);
-
-  // Wire del CTA del hero cuando lleva href externo (Modo historia).
-  const cta = root()?.querySelector<HTMLButtonElement>('.retos-hero__cta');
-  if (cta && cta.dataset.href) cta.addEventListener('click', (e) => { e.preventDefault(); location.hash = cta.dataset.href!; });
-}
-
-type Foco = { title: string; action: string; icon: string; time: string; minutes: number; reward: string; note: string; color: string; href?: string };
-function focusItems(ctx: { d: ReturnType<typeof retoDiario>; banco: number; porVencer: number; casosPend: number; casosTotal: number; record: number }): Foco[] {
-  const out: Foco[] = [];
-  if (!ctx.d.hechoHoy && ctx.banco > 0) {
-    out.push({ title: 'Reto diario de hoy', action: 'ir-diaria', icon: 'calendar-days', time: '~1 min', minutes: 1, reward: '+30 XP', note: ctx.d.racha > 0 ? `Mantén tu racha de ${ctx.d.racha} ${ctx.d.racha === 1 ? 'día' : 'días'}` : 'Empieza una nueva racha', color: '#681c31' });
-  }
-  if (ctx.porVencer > 0) {
-    out.push({ title: `${ctx.porVencer} ${ctx.porVencer === 1 ? 'tarjeta' : 'tarjetas'} para repasar`, action: 'ir-flash', icon: 'brain', time: '~5 min', minutes: 5, reward: '+3 XP ×', note: 'Repetición espaciada · fija lo esencial', color: '#c98a5b' });
-  }
-  if (ctx.casosPend > 0) {
-    out.push({ title: `${ctx.casosPend} ${ctx.casosPend === 1 ? 'caso' : 'casos'} esperando criterio`, action: 'ir-caso', icon: 'briefcase-medical', time: '~5 min', minutes: 5, reward: '+50 XP', note: 'Dos pasos: observa y decide', color: '#4fa899' });
-  }
-  if (out.length < 3) {
-    out.push({ title: 'Quiz Relámpago en modo libre', action: 'ir-quiz', icon: 'zap', time: '~3 min', minutes: 3, reward: ctx.record ? `Rompe tu récord de ${ctx.record}` : '+XP por acierto', note: 'Elige el área que quieras entrenar', color: '#4a7fc1' });
-  }
-  if (out.length < 3) {
-    out.push({ title: 'Explora el Modo historia', action: 'historia', icon: 'route', time: '~8 min', minutes: 8, reward: 'Narrativa guiada', note: 'Un mundo nuevo cada entrega', color: '#8e4466', href: '#/retos/historia' });
-  }
-  return out.slice(0, 3);
-}
-
-function focusCard(f: Foco, i: number) {
-  const tag = f.href ? 'a' : 'button';
-  const attrs = f.href ? `href="${f.href}"` : `data-a="${f.action}"`;
-  return `<${tag} class="retos-focus__card ${i === 0 ? 'is-primary' : ''}" ${attrs} style="--f:${f.color}">
-    <span class="retos-focus__num">${i + 1}</span>
-    <span class="retos-focus__ic"><i data-lucide="${f.icon}" class="i"></i></span>
-    <div class="retos-focus__body">
-      <strong>${esc(f.title)}</strong>
-      <small>${esc(f.note)}</small>
-      <div class="retos-focus__meta"><span><i data-lucide="clock" class="i"></i>${f.time}</span><span class="retos-focus__xp">${f.reward}</span></div>
-    </div>
-    <i data-lucide="arrow-right" class="i retos-focus__go"></i>
-  </${tag}>`;
-}
-
-// Anillo SVG de progreso del nivel actual (CSP-safe: inline SVG, sin scripts).
-function ringXP(pct: number, color: string): string {
-  const r = 54; const c = 2 * Math.PI * r;
-  const off = c - (Math.max(0, Math.min(100, pct)) / 100) * c;
-  return `<svg class="retos-hero__ring-svg" viewBox="0 0 128 128" aria-hidden="true">
-    <circle cx="64" cy="64" r="${r}" fill="none" stroke="var(--line)" stroke-width="8"/>
-    <circle cx="64" cy="64" r="${r}" fill="none" stroke="${esc(color)}" stroke-width="8" stroke-linecap="round"
-      stroke-dasharray="${c.toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}"
-      transform="rotate(-90 64 64)"/>
-  </svg>`;
 }
 
 function renderPodio(top: FilaLiga[]) {
@@ -340,25 +268,27 @@ function filaLigaCompacta(f: FilaLiga, lider: number) {
 
 const misionItem = (titulo: string, sub: string, ok: boolean, icon = 'circle') => `<li class="${ok ? 'is-done' : ''}"><span class="retos-check"><i data-lucide="${ok ? 'check' : icon}" class="i"></i></span><div><strong>${titulo}</strong><small>${sub}</small></div></li>`;
 
-type TileOpts = { a: string; ic: string; tit: string; sub: string; color: string; kpiLabel: string; kpi: string; pct?: number; pendiente: boolean; href?: string; meta?: string; chip?: string };
+type TileOpts = { index: string; a: string; ic: string; img: string; tit: string; sub: string; color: string; kpiLabel: string; kpi: string; pct?: number; pendiente: boolean; href?: string; meta?: string; chip?: string };
 function tile(o: TileOpts) {
   const tag = o.pendiente ? 'div' : o.href ? 'a' : 'button';
   const attrs = o.pendiente
     ? ` class="retos-tile is-pending" aria-disabled="true"`
     : o.href
-      ? ` class="retos-tile" href="${o.href}"`
-      : ` class="retos-tile" data-a="${o.a}"`;
+      ? ` class="retos-tile" href="${esc(o.href)}"`
+      : ` class="retos-tile" data-a="${esc(o.a)}"`;
   const chip = o.pendiente ? '<span class="retos-chip retos-chip--muted">En preparación</span>' : (o.chip ? `<span class="retos-tile__chip">${esc(o.chip)}</span>` : '');
-  const barra = typeof o.pct === 'number' ? `<div class="retos-tile__bar" aria-hidden="true"><span style="width:${o.pct}%"></span></div>` : '';
+  const barra = typeof o.pct === 'number' ? `<div class="retos-tile__bar" aria-hidden="true"><span style="width:${esc(String(o.pct))}%"></span></div>` : '';
   return `
-  <${tag}${attrs} style="--c:${o.color}">
+  <${tag}${attrs} style="--c:${esc(o.color)}">
+    <span class="retos-tile__index" aria-hidden="true">${esc(o.index)}</span>
     <div class="retos-tile__head">
-      <span class="retos-tile__ic"><i data-lucide="${o.ic}" class="i"></i></span>
-      <span class="retos-tile__kpi"><small>${o.kpiLabel}</small><b>${o.kpi}</b></span>
+      <span class="retos-tile__ic"><i data-lucide="${esc(o.ic)}" class="i"></i></span>
+      <span class="retos-tile__kpi"><small>${esc(o.kpiLabel)}</small><b>${esc(o.kpi)}</b></span>
     </div>
+    <span class="retos-tile__art" aria-hidden="true"><img src="${esc(o.img)}" alt="" loading="lazy" decoding="async"></span>
     <div class="retos-tile__body">
-      <strong>${o.tit}</strong>
-      <small>${o.sub}</small>
+      <strong>${esc(o.tit)}</strong>
+      <small>${esc(o.sub)}</small>
     </div>
     ${barra}
     <div class="retos-tile__foot">
@@ -369,7 +299,7 @@ function tile(o: TileOpts) {
 }
 
 // ══════════════ Helpers compartidos ══════════════
-const barraVolver = () => `<button class="btn btn--ghost btn--sm" data-a="hub"><i data-lucide="arrow-left" class="i"></i>Retos</button>`;
+const barraVolver = () => `<button class="game-back" data-a="hub" aria-label="Volver a Retos"><i data-lucide="arrow-left" class="i"></i><span>Volver a Retos</span></button>`;
 
 function iconoArea(area: string): string {
   const m: Record<string, string> = {
@@ -379,10 +309,12 @@ function iconoArea(area: string): string {
   return m[area] || 'brain-circuit';
 }
 
-function heroBiblioteca(icono: string, kicker: string, titulo: string, texto: string, color: string, stats: string) {
+const letraOpcion = (i: number) => String.fromCharCode(65 + i);
+
+function heroBiblioteca(icono: string, kicker: string, titulo: string, texto: string, color: string, stats: string, imagen: string, indice: string) {
   return `<header class="challenge-hero" style="--game:${color}">
     <div class="challenge-hero__copy"><span class="challenge-kicker">${kicker}</span><h1 class="display">${titulo}</h1><p>${texto}</p><div class="challenge-hero__stats">${stats}</div></div>
-    <div class="challenge-hero__mascot" style="display:grid;place-items:center;background:rgba(255,255,255,.08);border-radius:50%;width:160px;height:160px;border:1px solid rgba(255,255,255,.14)"><i data-lucide="${icono}" class="i" style="width:72px;height:72px;color:#fff"></i></div>
+    <div class="challenge-hero__visual" aria-hidden="true"><span class="challenge-hero__index">${indice}</span><span class="challenge-hero__ring"></span><img src="${imagen}" alt="" decoding="async"><i data-lucide="${icono}" class="i"></i></div>
   </header>`;
 }
 
@@ -395,7 +327,7 @@ function bibliotecaQuiz() {
   const preguntas = bancoPreguntas();
   const areas = [...new Set(preguntas.map((p) => p.area))].sort();
   pinta(`${barraVolver()}
-    ${heroBiblioteca('zap', 'Arena de conocimiento', 'Quiz Relámpago', 'Elige cómo entrenar: contra reloj, en modo práctica o por área profesional.', '#4a7fc1', `<span><b>${preguntas.length}</b> preguntas</span><span><b>${areas.length}</b> áreas</span><span><b>${mejorQuiz()}</b> récord</span>`)}
+    ${heroBiblioteca('zap', 'Arena de conocimiento', 'Quiz Relámpago', 'Elige cómo entrenar: contra reloj, en modo práctica o por área profesional.', '#4a7fc1', `<span><b>${preguntas.length}</b> preguntas</span><span><b>${areas.length}</b> áreas</span><span><b>${mejorQuiz()}</b> récord</span>`, '/media/retos/quiz-relampago.webp', '01')}
     <section class="challenge-section"><div class="challenge-section__head"><div><span class="eyebrow">Modos de juego</span><h2>¿Cómo quieres practicar?</h2></div></div>
       <div class="mode-grid">
         ${modoCard('relampago', 'Todas', 'timer', 'Relámpago mixto', '15 segundos por pregunta · vidas y combos', '8 preguntas', '#4a7fc1')}
@@ -423,25 +355,32 @@ function iniciarQuiz(area = 'Todas', modo: 'relampago' | 'practica' = 'relampago
 function pintaQuiz() {
   if (!Q) return;
   const p = Q.preguntas[Q.idx];
+  const avance = Math.round((Q.idx + 1) / Q.preguntas.length * 100);
   parar();
   Q.contestada = false; Q.restante = TIEMPO;
   pinta(`
-    <div class="ar-top">${barraVolver()}
-      <div class="ar-hud">
-        <span class="ar-vidas">${'❤'.repeat(Q.vidas)}${'<span class=off>♡</span>'.repeat(3 - Q.vidas)}</span>
-        <span class="ar-combo ${Q.combo > 1 ? 'on' : ''}">${Q.combo > 1 ? '🔥 x' + Q.combo : ''}</span>
-        <span class="ar-score"><i data-lucide="star" class="i"></i>${Q.score}</span>
-      </div>
-    </div>
-    ${Q.modo === 'relampago' ? '<div class="ar-timer"><span id="ar-tbar" style="width:100%"></span></div>' : '<div class="practice-banner"><i data-lucide="graduation-cap" class="i"></i>Modo práctica · piensa con calma y aprende de la explicación</div>'}
-    <div class="ar-q">
-      <span class="chip chip--primary">${esc(p.area)} · ${Q.idx + 1}/${Q.preguntas.length}</span>
-      <h2 class="display" style="font-size:var(--fs-xl)">${esc(p.q)}</h2>
-      <div class="ar-opts">
-        ${p.opciones.map((o, i) => `<button class="ar-opt" data-a="quiz-resp" data-i="${i}">${esc(o)}</button>`).join('')}
-      </div>
-      <div id="ar-fb"></div>
-    </div>`);
+    <section class="game-session game-session--quiz">
+      <header class="game-session__top">
+        ${barraVolver()}
+        <div class="game-session__identity"><span><i data-lucide="zap" class="i"></i></span><div><small>${Q.modo === 'relampago' ? 'Modo relámpago' : 'Entrenamiento libre'}</small><strong>${esc(Q.area === 'Todas' ? 'Quiz mixto' : Q.area)}</strong></div></div>
+        <div class="game-session__metrics">
+          <span class="game-metric game-metric--lives" aria-label="${Q.vidas} vidas"><i data-lucide="heart" class="i"></i><b>${Q.vidas}</b><small>vidas</small></span>
+          <span class="game-metric ${Q.combo > 1 ? 'is-hot' : ''}"><i data-lucide="flame" class="i"></i><b>x${Q.combo || 1}</b><small>combo</small></span>
+          <span class="game-metric"><i data-lucide="star" class="i"></i><b>${esc(String(Q.score))}</b><small>puntos</small></span>
+        </div>
+      </header>
+      <div class="game-session__progress"><span style="width:${esc(String(avance))}%"></span><small>Pregunta ${Q.idx + 1} de ${Q.preguntas.length}</small></div>
+      ${Q.modo === 'relampago' ? '<div class="game-timer"><span><i data-lucide="timer" class="i"></i>15 segundos</span><div><i id="ar-tbar" style="width:100%"></i></div><small>Responde antes de que termine la barra</small></div>' : '<div class="practice-banner"><i data-lucide="graduation-cap" class="i"></i><span><strong>Modo práctica</strong><small>Piensa con calma; cada respuesta incluye una explicación.</small></span></div>'}
+      <article class="quiz-board">
+        <div class="quiz-board__meta"><span>${esc(p.area)}</span><span>${esc(p.curso)}</span></div>
+        <h1>${esc(p.q)}</h1>
+        <div class="ar-opts quiz-options">
+          ${p.opciones.map((o, i) => `<button class="ar-opt" data-a="quiz-resp" data-i="${i}"><b>${letraOpcion(i)}</b><span>${esc(o)}</span><i data-lucide="chevron-right" class="i"></i></button>`).join('')}
+        </div>
+        <div id="ar-fb" aria-live="polite"></div>
+      </article>
+      <footer class="game-session__tip"><i data-lucide="lightbulb" class="i"></i><span><strong>Consejo</strong> Descarta primero las opciones que contradicen el objetivo principal.</span></footer>
+    </section>`);
   if (Q.modo !== 'relampago') return;
   const bar = document.getElementById('ar-tbar'); if (!bar) return;
   const t0 = Date.now();
@@ -471,7 +410,7 @@ function respQuiz(i: number) {
   } else { Q.vidas--; Q.combo = 0; }
   const fin = Q.vidas <= 0 || Q.idx >= Q.preguntas.length - 1;
   const fb = document.getElementById('ar-fb'); if (!fb) return;
-  fb.innerHTML = `<div class="ar-exp ${ok ? 'ok' : 'bad'}"><strong>${ok ? '¡Correcto! ⚡' : 'Casi…'}</strong><p>${esc(p.explicacion)}</p><button class="btn btn--brand" data-a="quiz-sig">${fin ? 'Ver resultado' : 'Siguiente'} <i data-lucide="arrow-right" class="i"></i></button></div>`;
+  fb.innerHTML = `<div class="ar-exp game-feedback ${ok ? 'ok' : 'bad'}"><span class="game-feedback__icon"><i data-lucide="${ok ? 'badge-check' : 'search'}" class="i"></i></span><div><small>${ok ? 'Respuesta correcta' : 'Punto para revisar'}</small><strong>${ok ? 'Bien razonado.' : 'Hay una opción más adecuada.'}</strong><p>${esc(p.explicacion)}</p></div><button class="game-next" data-a="quiz-sig">${fin ? 'Ver resultado' : 'Siguiente'} <i data-lucide="arrow-right" class="i"></i></button></div>`;
   iconos();
   requestAnimationFrame(() => root()?.querySelector('.ar-exp')?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
 }
@@ -488,15 +427,17 @@ function finQuiz() {
   const xpGan = Math.round(Q.score / 10);
   const esRecord = Q.score >= mejorQuiz();
   pinta(`${barraVolver()}
-    <div class="ar-result" style="text-align:center;padding:48px 24px;display:grid;gap:14px;place-items:center">
-      <div class="ar-result__ic" style="width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#4a7fc1,#681c31);color:#fff;display:grid;place-items:center"><i data-lucide="zap" class="i" style="width:40px;height:40px"></i></div>
-      <h2 class="display" style="font-size:var(--fs-2xl);margin:0">${Q.score} puntos</h2>
-      <p class="muted">Ganaste <strong>${xpGan} XP</strong>${esRecord ? ' · ¡nuevo récord! 🏆' : ''}</p>
-      <div class="row" style="gap:10px;justify-content:center">
+    <section class="game-result game-result--quiz">
+      <div class="game-result__seal"><i data-lucide="${esRecord ? 'trophy' : 'zap'}" class="i"></i><span>${esRecord ? 'Nuevo récord' : 'Sesión completa'}</span></div>
+      <span class="game-result__eyebrow">Resultado · Quiz Relámpago</span>
+      <h1>${Q.score} <em>puntos</em></h1>
+      <p>Sumaste <strong>${xpGan} XP</strong>${esRecord ? ' y superaste tu mejor marca.' : ' a tu progreso de práctica.'}</p>
+      <div class="game-result__stats"><span><b>${esc(String(Q.preguntas.length))}</b><small>preguntas</small></span><span><b>${esc(String(Math.max(0, Q.vidas)))}</b><small>vidas restantes</small></span><span><b>${esc(String(Q.combo))}</b><small>combo final</small></span></div>
+      <div class="game-result__actions">
         <button class="btn btn--brand btn--lg" data-a="ir-quiz"><i data-lucide="rotate-ccw" class="i"></i>Jugar de nuevo</button>
         <button class="btn btn--secondary btn--lg" data-a="hub">Volver</button>
       </div>
-    </div>`);
+    </section>`);
   celebrar('grande'); Q = null;
 }
 
@@ -514,7 +455,7 @@ function pintaDiaria() {
   if (!D || !D.pregunta) return;
   const p = D.pregunta;
   pinta(`${barraVolver()}
-    ${heroBiblioteca('calendar-days', 'Reto del día', 'Pregunta de hoy', 'Una pregunta rápida tomada del banco revisado. Si aciertas sumas 30 XP; si fallas, 10. Vuelve mañana para no perder la racha.', '#681c31', `<span><b>${esc(p.area)}</b></span><span><b>+30 XP</b> por acierto</span><span><b>Mantiene</b> tu racha</span>`)}
+    ${heroBiblioteca('calendar-days', 'Reto del día', 'Pregunta de hoy', 'Una pregunta rápida tomada del banco revisado. Si aciertas sumas 30 XP; si fallas, 10. Vuelve mañana para no perder la racha.', '#681c31', `<span><b>${esc(p.area)}</b></span><span><b>+30 XP</b> por acierto</span><span><b>Mantiene</b> tu racha</span>`, '/media/retos/quiz-relampago.webp', 'HOY')}
     <div class="ar-q" style="max-width:720px;margin:0 auto">
       <span class="chip chip--primary">${esc(p.area)}</span>
       <h2 class="display" style="font-size:var(--fs-xl)">${esc(p.q)}</h2>
@@ -556,14 +497,15 @@ function elegirCaso() {
   const visibles = filtroCaso === 'Todas' ? todos : todos.filter((c) => c.area === filtroCaso);
   const resueltos = idsCasosResueltos();
   pinta(`${barraVolver()}
-    ${heroBiblioteca('briefcase-medical', 'Casos de criterio', 'Casos Dermalysse', 'Observa, analiza y decide. Cada caso tiene dos pasos: identificar la situación y proponer un plan responsable.', '#4fa899', `<span><b>${todos.length}</b> casos</span><span><b>${areas.length}</b> áreas</span><span><b>${casosResueltos()}</b> resueltos</span>`)}
+    ${heroBiblioteca('briefcase-medical', 'Casos de criterio', 'Casos Dermalysse', 'Observa, analiza y decide. Cada caso tiene dos pasos: identificar la situación y proponer un plan responsable.', '#4fa899', `<span><b>${todos.length}</b> casos</span><span><b>${areas.length}</b> áreas</span><span><b>${casosResueltos()}</b> resueltos</span>`, '/media/retos/casos-dermalysse.webp', '02')}
     <section class="challenge-section"><div class="challenge-section__head"><div><span class="eyebrow">Archivo</span><h2>Elige un caso</h2></div><span>${visibles.length} ${visibles.length === 1 ? 'caso disponible' : 'casos disponibles'}</span></div>
       <div class="filter-row">
         <button class="filter-chip ${filtroCaso === 'Todas' ? 'is-active' : ''}" data-a="caso-filtro" data-area="Todas">Todos <b>${todos.length}</b></button>
         ${areas.map((area) => `<button class="filter-chip ${filtroCaso === area ? 'is-active' : ''}" data-a="caso-filtro" data-area="${esc(area)}">${esc(area)} <b>${todos.filter((c) => c.area === area).length}</b></button>`).join('')}
       </div>
-      <div class="case-grid">${visibles.map((c) => `
+      <div class="case-grid">${visibles.map((c, i) => `
         <button class="case-card ${resueltos.has(c.id) ? 'is-solved' : ''}" data-a="caso-jugar" data-id="${esc(c.id)}">
+          <span class="case-card__top"><b>${String(i + 1).padStart(2, '0')}</b><i data-lucide="${resueltos.has(c.id) ? 'badge-check' : 'arrow-up-right'}" class="i"></i></span>
           <span class="case-card__species"><i data-lucide="${iconoArea(c.area)}" class="i"></i>${esc(c.area)}</span>
           <strong>${esc(c.titulo)}</strong>
           <p>${esc(c.paciente)}</p>
@@ -586,28 +528,27 @@ function pintaCaso() {
   const { caso, fase } = C;
   const bloque = fase === 'diagnostico' ? caso.diagnostico : fase === 'plan' ? caso.plan : null;
   pinta(`${barraVolver()}
-    <article class="case-detail" style="display:grid;gap:18px;max-width:860px;margin:0 auto">
-      <header class="case-detail__head">
-        <span class="chip chip--primary"><i data-lucide="${iconoArea(caso.area)}" class="i"></i>${esc(caso.area)}</span>
-        <h1 class="display" style="font-size:var(--fs-2xl);margin-top:8px">${esc(caso.titulo)}</h1>
-        <p class="muted" style="font-size:var(--fs-sm);margin-top:4px">${esc(caso.paciente)}</p>
+    <article class="case-workspace">
+      <header class="case-workspace__top">
+        <div><span class="case-workspace__tag"><i data-lucide="briefcase-medical" class="i"></i>Expediente educativo</span><small>Caso Dermalysse · ${esc(caso.area)}</small></div>
+        <div class="case-workspace__steps" aria-label="Paso ${fase === 'diagnostico' ? '1' : '2'} de 2"><span class="is-done">01</span><i></i><span class="${fase !== 'diagnostico' ? 'is-done' : ''}">02</span></div>
       </header>
-      <section class="card card--pad stack" style="gap:12px">
-        <span class="eyebrow"><i data-lucide="clipboard" class="i"></i>Presentación</span>
-        <p>${esc(caso.presentacion)}</p>
-        <ul class="case-findings">
-          ${caso.hallazgos.map((h) => `<li><i data-lucide="dot" class="i"></i>${esc(h)}</li>`).join('')}
-        </ul>
-      </section>
-      ${bloque ? `
-      <section class="card card--pad stack" style="gap:14px">
-        <span class="eyebrow" style="color:#4fa899"><i data-lucide="${fase === 'diagnostico' ? 'microscope' : 'route'}" class="i"></i>${fase === 'diagnostico' ? 'Paso 1 · Observación' : 'Paso 2 · Decisión profesional'}</span>
-        <h2 class="display" style="font-size:var(--fs-xl)">${esc(bloque.pregunta)}</h2>
-        <div class="ar-opts">
-          ${bloque.opciones.map((o, i) => `<button class="ar-opt" data-a="caso-resp" data-i="${i}">${esc(o)}</button>`).join('')}
-        </div>
-        <div id="ar-fb"></div>
-      </section>` : finCaso()}
+      <div class="case-workspace__grid">
+        <aside class="case-dossier">
+          <div class="case-dossier__cover"><span><i data-lucide="${iconoArea(caso.area)}" class="i"></i></span><small>Ficha de observación</small><strong>${esc(caso.titulo)}</strong><p>${esc(caso.paciente)}</p></div>
+          <div class="case-dossier__body"><span class="eyebrow">Presentación</span><p>${esc(caso.presentacion)}</p><span class="eyebrow">Hallazgos clave</span><ul class="case-findings">${caso.hallazgos.map((h) => `<li><i data-lucide="check" class="i"></i>${esc(h)}</li>`).join('')}</ul></div>
+          <p class="case-dossier__note"><i data-lucide="shield-check" class="i"></i>Ejercicio educativo. No sustituye valoración ni diagnóstico.</p>
+        </aside>
+        ${bloque ? `
+        <section class="case-decision">
+          <span class="case-decision__step"><i data-lucide="${fase === 'diagnostico' ? 'scan-search' : 'route'}" class="i"></i>${fase === 'diagnostico' ? 'Paso 1 de 2 · Lee la situación' : 'Paso 2 de 2 · Define el enfoque'}</span>
+          <div class="case-decision__heading"><small>${fase === 'diagnostico' ? 'Observación' : 'Decisión responsable'}</small><h1>${esc(bloque.pregunta)}</h1></div>
+          <div class="ar-opts case-options">
+            ${bloque.opciones.map((o, i) => `<button class="ar-opt" data-a="caso-resp" data-i="${i}"><b>${letraOpcion(i)}</b><span>${esc(o)}</span><i data-lucide="chevron-right" class="i"></i></button>`).join('')}
+          </div>
+          <div id="ar-fb" aria-live="polite"></div>
+        </section>` : finCaso()}
+      </div>
     </article>`);
 }
 
@@ -625,10 +566,10 @@ function respCaso(i: number) {
   const esUltima = C.fase === 'plan';
   const fb = document.getElementById('ar-fb'); if (!fb) return;
   fb.innerHTML = `
-    <div class="ar-exp ${ok ? 'ok' : 'bad'}">
-      <strong>${ok ? '¡Decisión correcta!' : 'Hay otra lectura más responsable'}</strong>
-      <p>${esc(bloque.explicacion)}</p>
-      <button class="btn btn--brand" data-a="caso-sig">${esUltima ? 'Ver resultado' : 'Siguiente paso'} <i data-lucide="arrow-right" class="i"></i></button>
+    <div class="ar-exp game-feedback ${ok ? 'ok' : 'bad'}">
+      <span class="game-feedback__icon"><i data-lucide="${ok ? 'badge-check' : 'search'}" class="i"></i></span>
+      <div><small>${ok ? 'Criterio alineado' : 'Lectura para revisar'}</small><strong>${ok ? 'Decisión correcta.' : 'Hay un enfoque más responsable.'}</strong><p>${esc(bloque.explicacion)}</p></div>
+      <button class="game-next" data-a="caso-sig">${esUltima ? 'Ver resultado' : 'Siguiente paso'} <i data-lucide="arrow-right" class="i"></i></button>
     </div>`;
   iconos();
   requestAnimationFrame(() => root()?.querySelector('.ar-exp')?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
@@ -646,11 +587,13 @@ function finCaso(): string {
   resolverCaso(C.caso.id, perfecto);
   if (perfecto) celebrar('grande');
   const html = `
-    <section class="ar-result" style="text-align:center;padding:40px 24px;display:grid;gap:14px;place-items:center">
-      <div class="ar-result__ic" style="width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#4fa899,#0b2435);color:#fff;display:grid;place-items:center"><i data-lucide="${perfecto ? 'badge-check' : 'target'}" class="i" style="width:38px;height:38px"></i></div>
-      <h2 class="display" style="font-size:var(--fs-2xl);margin:0">${perfecto ? 'Caso resuelto con criterio' : 'Caso cerrado · revisa el enfoque'}</h2>
-      <p class="muted">${C.aciertos}/2 decisiones correctas${perfecto ? ' · <strong>+50 XP</strong>' : ' · intenta de nuevo cuando quieras'}</p>
-      <div class="row" style="gap:10px;justify-content:center">
+    <section class="game-result game-result--case">
+      <div class="game-result__seal"><i data-lucide="${perfecto ? 'badge-check' : 'target'}" class="i"></i><span>${perfecto ? 'Criterio sólido' : 'Práctica completada'}</span></div>
+      <span class="game-result__eyebrow">Cierre del expediente</span>
+      <h1>${C.aciertos}<em>/2 decisiones correctas</em></h1>
+      <p>${perfecto ? 'Resolviste el caso completo y sumaste <strong>50 XP</strong>.' : 'Terminaste el recorrido. Puedes repetirlo para revisar el enfoque.'}</p>
+      <div class="game-result__stats"><span><b>02</b><small>etapas</small></span><span><b>${esc(String(C.aciertos))}</b><small>aciertos</small></span><span><b>${perfecto ? '+50' : '0'}</b><small>XP</small></span></div>
+      <div class="game-result__actions">
         <button class="btn btn--brand btn--lg" data-a="ir-caso"><i data-lucide="briefcase-medical" class="i"></i>Ver más casos</button>
         <button class="btn btn--secondary btn--lg" data-a="hub">Volver a Retos</button>
       </div>
@@ -666,7 +609,7 @@ function bibliotecaFlash() {
   const areas = [...new Set(todas.map((c) => c.area))].sort();
   const em = estatsMazo();
   pinta(`${barraVolver()}
-    ${heroBiblioteca('brain', 'Memoria activa', 'Flashcards', 'Repite lo esencial de los cursos con repetición espaciada: la plataforma te vuelve a mostrar lo que todavía no dominas.', '#c98a5b', `<span><b>${todas.length}</b> tarjetas</span><span><b>${em.dominadas}</b> dominadas</span><span><b>${areas.length}</b> áreas</span>`)}
+    ${heroBiblioteca('brain', 'Memoria activa', 'Flashcards', 'Repite lo esencial de los cursos con repetición espaciada: la plataforma te vuelve a mostrar lo que todavía no dominas.', '#c98a5b', `<span><b>${todas.length}</b> tarjetas</span><span><b>${em.dominadas}</b> dominadas</span><span><b>${areas.length}</b> áreas</span>`, '/media/retos/flashcards.webp', '03')}
     <section class="challenge-section"><div class="challenge-section__head"><div><span class="eyebrow">Modos</span><h2>¿Qué repasar hoy?</h2></div></div>
       <div class="mode-grid">
         <button class="mode-card" data-a="flash-jugar" data-area="Todas" data-tipo="todas" style="--mode:#c98a5b"><span><i data-lucide="layers-3" class="i"></i></span><strong>Mazo del día</strong><p>Hasta 15 tarjetas priorizando las que ya tocan repasar</p><small>Mixto<i data-lucide="arrow-right" class="i"></i></small></button>
@@ -696,29 +639,35 @@ function pintaFlash() {
   if (!F) return;
   if (F.idx >= F.mazo.length) { finFlash(); return; }
   const c = F.mazo[F.idx];
-  pinta(`${barraVolver()}
-    <div class="ar-top" style="justify-content:flex-end">
-      <div class="ar-hud"><span class="ar-score"><i data-lucide="brain" class="i"></i>${F.idx + 1}/${F.mazo.length}</span></div>
-    </div>
-    <div class="flashcard-stage" style="max-width:720px;margin:0 auto;display:grid;gap:18px">
-      <div class="flashcard ${F.flipped ? 'is-flipped' : ''}" data-a="flash-flip" role="button" tabindex="0">
+  const avance = Math.round((F.idx + 1) / F.mazo.length * 100);
+  pinta(`<section class="game-session game-session--flash">
+    <header class="game-session__top">
+      ${barraVolver()}
+      <div class="game-session__identity"><span><i data-lucide="brain" class="i"></i></span><div><small>Memoria activa</small><strong>${esc(F.area === 'Todas' ? 'Mazo del día' : F.area)}</strong></div></div>
+      <div class="game-session__metrics"><span class="game-metric"><i data-lucide="layers-3" class="i"></i><b>${F.idx + 1}/${F.mazo.length}</b><small>tarjetas</small></span><span class="game-metric"><i data-lucide="badge-check" class="i"></i><b>${F.aciertos}</b><small>dominadas</small></span></div>
+    </header>
+    <div class="game-session__progress"><span style="width:${esc(String(avance))}%"></span><small>${esc(c.area)} · ${esc(c.curso)}</small></div>
+    <div class="flash-workspace">
+      <div class="flashcard-stage">
+        <span class="flashcard-stack flashcard-stack--one" aria-hidden="true"></span><span class="flashcard-stack flashcard-stack--two" aria-hidden="true"></span>
+        <div class="flashcard ${F.flipped ? 'is-flipped' : ''}" data-a="flash-flip" role="button" tabindex="0" aria-label="${F.flipped ? 'Ocultar respuesta' : 'Mostrar respuesta'}">
         <div class="flashcard__face flashcard__face--front">
-          <span class="chip chip--primary">${esc(c.area)}</span>
-          <div class="flashcard__content"><p style="margin:0">${esc(c.frente)}</p></div>
-          <small class="faint"><i data-lucide="refresh-cw" class="i"></i>Toca para ver la respuesta</small>
+          <div class="flashcard__top"><span>${esc(c.area)}</span><b>${String(F.idx + 1).padStart(2, '0')}</b></div>
+          <div class="flashcard__content"><small>Pregunta</small><p>${esc(c.frente)}</p></div>
+          <span class="flashcard__turn"><i data-lucide="refresh-cw" class="i"></i>Toca o presiona espacio para revelar</span>
         </div>
         <div class="flashcard__face flashcard__face--back">
-          <span class="chip" style="background:rgba(201,138,91,.14);color:#c98a5b">Respuesta</span>
-          <div class="flashcard__content" style="font-size:clamp(1rem, 1.6vw, 1.25rem);line-height:1.4">${c.reverso}</div>
-          <small class="faint">${esc(c.curso)}</small>
+          <div class="flashcard__top"><span>Respuesta</span><b><i data-lucide="sparkles" class="i"></i></b></div>
+          <div class="flashcard__content flashcard__content--answer"><small>Concepto clave</small><div>${c.reverso}</div></div>
+          <span class="flashcard__turn"><i data-lucide="book-open" class="i"></i>${esc(c.curso)}</span>
+        </div>
         </div>
       </div>
-      ${F.flipped ? `
-      <div class="flashcard__actions">
-        <button class="btn btn--secondary btn--lg" data-a="flash-cal" data-b="0"><i data-lucide="rotate-ccw" class="i"></i>Sigo repasando</button>
-        <button class="btn btn--brand btn--lg" data-a="flash-cal" data-b="1"><i data-lucide="check" class="i"></i>Ya la domino</button>
-      </div>` : '<p class="muted" style="text-align:center;font-size:var(--fs-sm)">Lee el frente con calma, haz tu respuesta mentalmente y luego voltea la tarjeta.</p>'}
-    </div>`);
+      <aside class="flash-coach"><span class="flash-coach__icon"><i data-lucide="sparkles" class="i"></i></span><small>Autoevaluación</small><strong>${F.flipped ? '¿Qué tan clara fue tu respuesta?' : 'Responde antes de voltear'}</strong><p>${F.flipped ? 'Sé honesta con tu recuerdo: la repetición funciona mejor cuando marcas lo que todavía cuesta.' : 'Explica el concepto con tus propias palabras y después compara.'}</p>
+        ${F.flipped ? `<div class="flashcard__actions"><button class="flash-rate flash-rate--again" data-a="flash-cal" data-b="0"><i data-lucide="rotate-ccw" class="i"></i><span><strong>Sigo repasando</strong><small>Mostrar pronto</small></span></button><button class="flash-rate flash-rate--master" data-a="flash-cal" data-b="1"><i data-lucide="check" class="i"></i><span><strong>Ya la domino</strong><small>Espaciar repaso</small></span></button></div>` : '<div class="flash-coach__hint"><i data-lucide="keyboard" class="i"></i>También puedes usar Enter o la barra espaciadora.</div>'}
+      </aside>
+    </div>
+  </section>`);
 }
 
 function flipFlash() {
@@ -741,15 +690,17 @@ function finFlash() {
   const total = F.mazo.length;
   const pct = Math.round(F.aciertos / total * 100);
   pinta(`${barraVolver()}
-    <div class="ar-result" style="text-align:center;padding:48px 24px;display:grid;gap:14px;place-items:center">
-      <div class="ar-result__ic" style="width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#c98a5b,#681c31);color:#fff;display:grid;place-items:center"><i data-lucide="brain" class="i" style="width:40px;height:40px"></i></div>
-      <h2 class="display" style="font-size:var(--fs-2xl);margin:0">${F.aciertos}/${total} dominadas</h2>
-      <p class="muted">${pct}% de la sesión. ${pct >= 70 ? 'Gran repaso.' : 'Buen comienzo — vuelve mañana para fijar los conceptos.'}</p>
-      <div class="row" style="gap:10px;justify-content:center">
+    <section class="game-result game-result--flash">
+      <div class="game-result__seal"><i data-lucide="brain" class="i"></i><span>Sesión guardada</span></div>
+      <span class="game-result__eyebrow">Memoria activa</span>
+      <h1>${F.aciertos}<em>/${total} dominadas</em></h1>
+      <p>${pct}% de la sesión. ${pct >= 70 ? 'Gran repaso: el mazo se ajustó a tu avance.' : 'Buen comienzo: volver a verlas ayudará a fijar los conceptos.'}</p>
+      <div class="game-result__stats"><span><b>${total}</b><small>revisadas</small></span><span><b>${F.aciertos}</b><small>dominadas</small></span><span><b>${total - F.aciertos}</b><small>por reforzar</small></span></div>
+      <div class="game-result__actions">
         <button class="btn btn--brand btn--lg" data-a="ir-flash"><i data-lucide="rotate-ccw" class="i"></i>Otra sesión</button>
         <button class="btn btn--secondary btn--lg" data-a="hub">Volver a Retos</button>
       </div>
-    </div>`);
+    </section>`);
   if (pct >= 70) celebrar('normal');
   F = null;
 }
