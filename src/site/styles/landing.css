@@ -56,13 +56,25 @@
 .hero__scroll i { display: block; width: 58px; border-top: 1px solid rgba(255,255,255,.55); position: relative; }
 .hero__scroll i::after { content: ''; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-right: 1px solid; border-bottom: 1px solid; transform: rotate(-45deg); }
 
+/* Coreografía de entrada única y coordinada. Solo opacity + translateY corto (12–24px). */
 @keyframes hero-rise {
-  from { opacity: 0; transform: translateY(32px); }
+  from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: none; }
 }
+/* Visual: fade + scale .98→1 (sin reencuadres que compitan con la cascada). */
 @keyframes hero-visual-in {
-  from { opacity: 0; transform: translateY(28px) scale(.96); clip-path: inset(12% 0 0 0 round 48% 48% 2px 2px / 28% 28% 2px 2px); }
-  to { opacity: 1; transform: none; clip-path: inset(0 round 0); }
+  from { opacity: 0; transform: translateY(16px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+/* Kinetic type sobrio sobre UNA palabra ("también", el <em> del titular): barrido de máscara + leve ascenso. */
+@keyframes kinetic-reveal {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translateY(8px); }
+  to { opacity: 1; clip-path: inset(0); transform: none; }
+}
+/* Flotación soft-3D mínima del visual (loop); 0%/100% neutros para quedar en reposo bajo reduced-motion. */
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  50% { transform: translateY(-4px) rotate(.3deg) scale(1.006); }
 }
 .hero > .hero__copy > .eyebrow,
 .hero__quote,
@@ -77,7 +89,10 @@
 .hero h1 > :nth-child(3) { animation-delay: .38s; }
 .hero__intro { animation-delay: .46s; }
 .hero__proof { animation-delay: .54s; }
-.hero__visual { animation-name: hero-visual-in; animation-delay: .18s; animation-duration: 1.15s; }
+/* El <em> "también" usa el reveal kinetic en lugar del rise (conserva su delay de la cascada). */
+.hero h1 em { animation-name: kinetic-reveal; }
+/* Visual: entrada (fade+scale) y, al terminar, flotación en loop. Convive con el parallax de puntero del <img>. */
+.hero__visual { animation: hero-visual-in 1.15s var(--ease-out) .18s both, hero-float 7s var(--ease) 1.4s infinite; will-change: transform; }
 
 .manifesto {
   min-height: auto;
