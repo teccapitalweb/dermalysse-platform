@@ -251,7 +251,7 @@
 .club-focus p { margin: 0; color: var(--ink-soft); font-size: 13px; line-height: 1.65; }
 .club-focus div > p:first-child { margin-bottom: 10px; color: var(--wine); font-size: 9px; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; }
 .club-focus h3 { margin: 0 0 14px; font: 570 35px/1 var(--display); letter-spacing: -.04em; }
-.club-focus > * { opacity: 1; transform: none; transition: opacity .17s var(--ease), transform .17s var(--ease); }
+.club-focus > * { opacity: 1; transform: none; transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
 .club-focus.is-changing > * { opacity: 0; transform: translateY(12px); }
 
 .closing { min-height: 700px; width: 100%; margin: 0; display: grid; align-items: center; position: relative; overflow: hidden; color: white; background: #421326; }
@@ -276,3 +276,40 @@
 .site-footer > p { margin: 0; color: var(--ink-soft); font-size: 12px; }
 .site-footer nav { display: flex; gap: 24px; font-size: 11px; font-weight: 750; }
 .site-footer small { grid-column: 1 / -1; color: var(--ink-soft); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+
+/* ── Bloque 3: entradas escalonadas por sección (CSS-first, con fallback) ── */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Fallback (IntersectionObserver): cascada de las tarjetas de curso vía transition-delay.
+   En el camino scroll-driven la transición es none (Bloque 1), así que esto no interfiere ahí. */
+.course-card:nth-child(2) { transition-delay: .07s; }
+.course-card:nth-child(3) { transition-delay: .14s; }
+.course-card:nth-child(4) { transition-delay: .21s; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Cursos: escalonado por rango de scroll (cada tarjeta entra un poco después). */
+    .course-card:nth-child(1) { animation-range: entry 4% cover 26%; }
+    .course-card:nth-child(2) { animation-range: entry 8% cover 30%; }
+    .course-card:nth-child(3) { animation-range: entry 12% cover 34%; }
+    .course-card:nth-child(4) { animation-range: entry 16% cover 38%; }
+
+    /* Método: fade escalonado de los 6 beneficios (SOLO opacity; conserva su translateX base). */
+    .skin-intelligence__benefits li { opacity: 0; animation: fade-in both; animation-timeline: view(); animation-range: entry 2% cover 24%; }
+    .skin-intelligence__benefits li:nth-child(2) { animation-range: entry 5% cover 27%; }
+    .skin-intelligence__benefits li:nth-child(3) { animation-range: entry 8% cover 30%; }
+    .skin-intelligence__benefits li:nth-child(4) { animation-range: entry 11% cover 33%; }
+    .skin-intelligence__benefits li:nth-child(5) { animation-range: entry 14% cover 36%; }
+    .skin-intelligence__benefits li:nth-child(6) { animation-range: entry 17% cover 39%; }
+
+    /* Club: entrada escalonada de la lista con foco dinámico (solo opacity; no estorba al hover). */
+    .club-list__item { opacity: 0; animation: fade-in both; animation-timeline: view(); animation-range: entry 2% cover 22%; }
+    .club-list__item:nth-child(2) { animation-range: entry 5% cover 25%; }
+    .club-list__item:nth-child(3) { animation-range: entry 8% cover 28%; }
+    .club-list__item:nth-child(4) { animation-range: entry 11% cover 31%; }
+    .club-list__item:nth-child(5) { animation-range: entry 14% cover 34%; }
+
+    /* Closing: reveal editorial del sello decorativo, coherente con el sistema. */
+    .closing__seal { animation: reveal-in both; animation-timeline: view(); animation-range: entry 8% cover 32%; }
+  }
+}
