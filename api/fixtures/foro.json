@@ -1,0 +1,31 @@
+[
+  {
+    "hilo": {
+      "id": "hilo-ejemplo-1",
+      "titulo": "Tema de ejemplo del foro (fixture)",
+      "texto": "Hilo de ejemplo para validar el contrato de la comunidad. No es contenido real del club.",
+      "autor": "Equipo (ejemplo)",
+      "fecha": "2026-10-10T12:00:00.000Z",
+      "cursoId": null,
+      "util": 3,
+      "verificado": true,
+      "tipo": "post"
+    },
+    "respuestas": [
+      { "id": "r1", "autor": "Miembro (ejemplo)", "texto": "Respuesta de ejemplo.", "fecha": "2026-10-10T13:00:00.000Z" }
+    ]
+  },
+  {
+    "hilo": {
+      "id": "hilo-ejemplo-2",
+      "titulo": "Pregunta de ejemplo (fixture)",
+      "texto": "Segundo hilo de ejemplo, sin respuestas, para probar el conteo.",
+      "autor": "Miembro (ejemplo)",
+      "fecha": "2026-10-09T09:00:00.000Z",
+      "cursoId": null,
+      "util": 0,
+      "tipo": "pregunta"
+    },
+    "respuestas": []
+  }
+]

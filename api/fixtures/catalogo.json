@@ -1,0 +1,46 @@
+{
+  "_nota": "FIXTURE NO PRODUCTIVO — datos de ejemplo para desarrollo. Sin URLs premium, sin IDs de video reales, sin precios reales (0 = por validar con el cliente, ver docs DERM-004).",
+  "cursos": [
+    {
+      "id": "curso-ejemplo-1",
+      "titulo": "Curso de ejemplo 1 (fixture)",
+      "area": "Ejemplo",
+      "nivel": "Básico",
+      "instructor": "Equipo académico (ejemplo)",
+      "portada": "/media/hero-background.png",
+      "descripcion": "Contenido de ejemplo para probar el contrato del catálogo. No es material real del club.",
+      "aprenderas": ["Punto de ejemplo A", "Punto de ejemplo B"],
+      "orden": 1,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        { "n": 1, "titulo": "Clase abierta (ejemplo)", "videoId": "", "duracionMin": 8, "gratis": true },
+        { "n": 2, "titulo": "Clase premium (ejemplo)", "videoId": "", "duracionMin": 12, "gratis": false }
+      ]
+    },
+    {
+      "id": "curso-ejemplo-2",
+      "titulo": "Curso de ejemplo 2 (fixture)",
+      "area": "Ejemplo",
+      "nivel": "Intermedio",
+      "instructor": "Equipo académico (ejemplo)",
+      "portada": "/media/hero-background.png",
+      "descripcion": "Segundo curso de ejemplo para validar el listado y las clases del contrato.",
+      "aprenderas": ["Punto de ejemplo C"],
+      "orden": 2,
+      "publicado": true,
+      "bunnyCollectionId": "",
+      "clases": [
+        { "n": 1, "titulo": "Clase abierta (ejemplo)", "videoId": "", "duracionMin": 6, "gratis": true }
+      ]
+    }
+  ],
+  "materiales": [],
+  "eventos": [],
+  "config": {
+    "precios": { "mensual": 0, "anual": 0 },
+    "descuentoVIP": 0,
+    "whatsappSoporte": "",
+    "canalWhatsApp": ""
+  }
+}
