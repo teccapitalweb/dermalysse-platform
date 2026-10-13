@@ -94,9 +94,10 @@
   font-weight: 800;
   letter-spacing: .035em;
   cursor: pointer;
-  transition: transform .25s var(--ease), background .25s var(--ease), color .25s var(--ease);
+  transition: transform var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
 }
-.button:hover { transform: translateY(-2px); background: var(--wine); border-color: var(--wine); }
+.button:hover { transform: translateY(-2px); background: var(--wine); border-color: var(--wine); will-change: transform; }
+.button:active { transform: translateY(0) scale(.98); will-change: auto; }
 .button--small { min-height: 40px; padding: 0 17px; }
 .button--ghost { color: var(--ink-deep); background: transparent; }
 .button--ghost:hover { color: white; }
@@ -144,8 +145,30 @@
 .section-label p { margin: 0; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
 .section-label--light { color: rgba(255,255,255,.75); }
 
-[data-reveal] { opacity: 0; transform: translateY(38px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
+/* Reveal — fallback por IntersectionObserver (clase .is-visible desde interactions.ts). Solo transform/opacity. */
+[data-reveal] { opacity: 0; transform: translateY(38px); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
 [data-reveal].is-visible { opacity: 1; transform: none; }
+
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(38px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Mejora progresiva: scroll-driven nativo cuando el navegador lo soporta.
+   El timeline conduce la entrada; el IntersectionObserver queda como respaldo en navegadores sin soporte.
+   Anidado bajo no-preference para que reduced-motion nunca lo active. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(38px);
+      transition: none;
+      animation: reveal-in both;
+      animation-timeline: view();
+      animation-range: entry 6% cover 30%;
+    }
+  }
+}
 
 .site-progress {
   display: none;

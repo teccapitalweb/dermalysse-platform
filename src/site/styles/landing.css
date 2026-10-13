@@ -69,7 +69,7 @@
 .hero h1 > *,
 .hero__intro,
 .hero__proof,
-.hero__visual { animation: hero-rise .9s var(--ease-out) both; }
+.hero__visual { animation: hero-rise var(--dur-slow) var(--ease-out) both; }
 .hero > .hero__copy > .eyebrow { animation-delay: .08s; }
 .hero__quote { animation-delay: .15s; }
 .hero h1 > :nth-child(1) { animation-delay: .22s; }
@@ -185,8 +185,9 @@
 .course-card:nth-child(2) .course-card__media { background-image: url('/media/hidrafacial.png'); }
 .course-card:nth-child(3) .course-card__media { background-image: url('/media/manchas.png'); }
 .course-card:nth-child(4) .course-card__media { background-image: url('/media/cosmetica-natural.png'); }
-.course-card:hover .course-card__media { transform: translateY(-8px); clip-path: inset(0 0 3% 0); box-shadow: 0 24px 48px rgba(77,19,38,.2); }
+.course-card:hover .course-card__media { transform: translateY(-4px); clip-path: inset(0 0 3% 0); box-shadow: 0 24px 48px rgba(77,19,38,.2); will-change: transform; }
 .course-card:hover .course-card__media::before { transform: scale(1.1) rotate(12deg); }
+.course-card:active .course-card__media { transform: translateY(-1px) scale(.995); }
 .course-card__index { position: absolute; z-index: 2; left: 18px; top: 17px; color: currentColor; font: 600 28px/1 var(--display); }
 .course-card__mark { display: none; }
 .course-card--sage .course-card__mark { color: rgba(104,28,49,.12); }
@@ -196,7 +197,10 @@
 .course-card__body { padding: 22px 2px 0; }
 .course-card__body > p { margin: 0 0 10px; color: var(--ink-soft); font-size: 9px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
 .course-card__body h3 { min-height: 2.15em; margin: 0 0 18px; font: 560 clamp(24px, 2.1vw, 34px)/1.05 var(--display); letter-spacing: -.035em; }
-.text-link { padding: 0 0 7px; display: inline-flex; align-items: center; gap: 9px; border: 0; border-bottom: 1px solid var(--ink); background: transparent; font-size: 11px; font-weight: 800; cursor: pointer; }
+.text-link { padding: 0 0 7px; display: inline-flex; align-items: center; gap: 9px; border: 0; border-bottom: 1px solid var(--ink); background: transparent; font-size: 11px; font-weight: 800; cursor: pointer; transition: color var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease); }
+.text-link .icon { transition: transform var(--dur-fast) var(--ease); }
+.text-link:hover .icon { transform: translateX(3px); }
+.text-link:active { opacity: .72; }
 
 .club {
   min-height: 760px;
@@ -220,11 +224,12 @@
 .club__signature p { margin: 0; color: rgba(255,255,255,.58); font-size: 10px; line-height: 1.45; }
 .club__signature strong { color: white; font-weight: 720; }
 .club-list { border-top: 1px solid rgba(255,255,255,.25); }
-.club-list__item { width: 100%; min-height: 74px; padding: 0 10px; display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: 16px; color: rgba(255,255,255,.6); background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,.18); text-align: left; cursor: pointer; transition: color .25s, background .25s; }
+.club-list__item { width: 100%; min-height: 74px; padding: 0 10px; display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: 16px; color: rgba(255,255,255,.6); background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,.18); text-align: left; cursor: pointer; transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease); }
 .club-list__item span { font: 600 13px var(--display); }
 .club-list__item strong { font-size: 14px; }
-.club-list__item .icon { opacity: 0; transform: translateX(-8px); transition: opacity .25s, transform .25s; }
+.club-list__item .icon { opacity: 0; transform: translateX(-8px); transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
 .club-list__item:hover, .club-list__item.is-active { color: white; background: rgba(255,255,255,.08); }
+.club-list__item:active { background: rgba(255,255,255,.14); }
 .club-list__item.is-active .icon { opacity: 1; transform: none; }
 .club-focus { min-height: 220px; margin-top: 22px; padding: 32px; display: grid; grid-template-columns: 100px 1fr; gap: 24px; color: var(--ink-deep); border: 1px solid rgba(255,255,255,.5); border-radius: 18px; background: linear-gradient(145deg,#fffaf6 0%,#f8ebe6 100%); box-shadow: 0 28px 60px -38px rgba(28,7,16,.75); }
 .club-focus > span { color: var(--rose); font: 500 78px/.8 var(--display); }
