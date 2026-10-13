@@ -4,14 +4,7 @@ import { randomUUID } from 'node:crypto';
 import {
   CATEGORIAS_EXPERIENCIA, type CategoriaExperiencia, type ExperienciaCompartida, type Usuario,
 } from '../domain/types.js';
-
-export class ValidationError extends Error {
-  readonly code = 'VALIDATION';
-  constructor(message: string) {
-    super(message);
-    this.name = 'ValidationError';
-  }
-}
+import { ValidationError } from './errors.js';
 
 export interface EntradaExperiencia {
   titulo?: unknown;

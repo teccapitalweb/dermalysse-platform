@@ -126,3 +126,71 @@ export interface ExperienciaCompartida {
   anonima: boolean;
   fecha: string;
 }
+
+// ── Aprendizaje: quiz, progreso, certificados ─────────────────────────────
+
+/** Pregunta COMPLETA (con la respuesta correcta). Vive SOLO en el servidor; nunca sale al cliente. */
+export interface PreguntaConRespuesta {
+  q: string;
+  opciones: string[];
+  correcta: number;
+  explicacion: string;
+}
+
+/** Quiz de fixture (server-side). */
+export interface QuizFixture {
+  cursoId: string;
+  n: number;
+  preguntas: PreguntaConRespuesta[];
+}
+
+/** Pregunta tal como se expone al cliente (GET /quiz): SIN respuesta correcta ni explicación. */
+export interface PreguntaPublica {
+  q: string;
+  opciones: string[];
+}
+
+/** Detalle por pregunta tras calificar: si acertó y la explicación. NO incluye el índice correcto. */
+export interface DetalleCalificacion {
+  acertada: boolean;
+  explicacion: string;
+}
+
+/** Respuesta de POST /quiz/:cursoId/:n. Coincide con lo que lee el cliente (correctas, total, aprobado, detalle). */
+export interface ResultadoQuiz {
+  correctas: number;
+  total: number;
+  aprobado: boolean;
+  detalle: DetalleCalificacion[];
+}
+
+/** Progreso de un curso (forma que hidrata el cliente). */
+export interface ProgresoCurso {
+  vistas: number[];
+  ultima: number;
+  actualizado: string;
+  historial?: string[];
+}
+
+export type ProgresoMapa = Record<string, ProgresoCurso>;
+
+/** Certificado emitido (lista del propio usuario incluye uid; /verificar NO lo expone). */
+export interface CertificadoRemoto {
+  folio: string;
+  uid: string;
+  nombre: string;
+  cursoId: string;
+  cursoTitulo: string;
+  area: string;
+  clases: number;
+  emitido: string;
+}
+
+/** Verificación pública de un folio: SIN datos privados (ni uid ni email). */
+export interface VerificacionPublica {
+  valido: boolean;
+  folio: string;
+  nombre: string;
+  cursoTitulo: string;
+  emitido: string;
+}

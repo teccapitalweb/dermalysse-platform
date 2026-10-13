@@ -1,8 +1,8 @@
 // Puertos (interfaces) que la API consume. Los adaptadores dev usan fixtures/memoria;
 // los adaptadores reales (Firebase/Stripe/Bunny) son seams marcados que aún no se implementan.
 import type {
-  CatalogoRemoto, ConfigPublica, DetalleRemoto, ExperienciaCompartida,
-  HiloRemoto, Noticia, Usuario,
+  CatalogoRemoto, CertificadoRemoto, ConfigPublica, DetalleRemoto, ExperienciaCompartida,
+  HiloRemoto, Noticia, ProgresoCurso, ProgresoMapa, QuizFixture, Usuario,
 } from '../domain/types.js';
 
 /** Error honesto para seams no implementados. El servidor responde 501, nunca datos demo. */
@@ -39,4 +39,25 @@ export interface FiltroExperiencias {
 export interface ExperienceStore {
   listar(filtro: FiltroExperiencias): Promise<ExperienciaCompartida[]>;
   crear(exp: ExperienciaCompartida): Promise<ExperienciaCompartida>;
+}
+
+/** Banco de quizzes (con respuestas). El contenido completo NUNCA sale del servidor. */
+export interface LearningStore {
+  quiz(cursoId: string, n: number): Promise<QuizFixture | null>;
+}
+
+/** Progreso por usuario (memoria en dev). El servidor es la autoridad; nada del cuerpo lo decide. */
+export interface ProgressStore {
+  del(uid: string): Promise<ProgresoMapa>;
+  curso(uid: string, cursoId: string): Promise<ProgresoCurso>;
+  /** Acredita la clase n (idempotente) y devuelve el progreso del curso. */
+  acreditar(uid: string, cursoId: string, n: number): Promise<ProgresoCurso>;
+}
+
+/** Certificados emitidos (memoria en dev). */
+export interface CertificateStore {
+  listar(uid: string): Promise<CertificadoRemoto[]>;
+  porFolio(folio: string): Promise<CertificadoRemoto | null>;
+  /** Emite (idempotente por uid+cursoId): si ya existe para ese curso, devuelve el existente. */
+  emitir(cert: CertificadoRemoto): Promise<CertificadoRemoto>;
 }

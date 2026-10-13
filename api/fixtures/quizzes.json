@@ -1,0 +1,47 @@
+{
+  "_nota": "FIXTURE NO PRODUCTIVO — quizzes de ejemplo CON respuestas correctas. Vive SOLO en el servidor; las respuestas (campo 'correcta') nunca se exponen al cliente. No es contenido real del club.",
+  "quizzes": [
+    {
+      "cursoId": "curso-ejemplo-1",
+      "n": 1,
+      "preguntas": [
+        {
+          "q": "Pregunta de ejemplo 1.1: ¿cuál opción es la válida?",
+          "opciones": ["Opción A", "Opción B", "Opción C"],
+          "correcta": 1,
+          "explicacion": "Explicación educativa de ejemplo para 1.1."
+        },
+        {
+          "q": "Pregunta de ejemplo 1.2: elige una.",
+          "opciones": ["Opción A", "Opción B"],
+          "correcta": 0,
+          "explicacion": "Explicación educativa de ejemplo para 1.2."
+        }
+      ]
+    },
+    {
+      "cursoId": "curso-ejemplo-1",
+      "n": 2,
+      "preguntas": [
+        {
+          "q": "Pregunta de ejemplo 2.1 (clase premium).",
+          "opciones": ["Opción A", "Opción B", "Opción C"],
+          "correcta": 2,
+          "explicacion": "Explicación educativa de ejemplo para 2.1."
+        }
+      ]
+    },
+    {
+      "cursoId": "curso-ejemplo-2",
+      "n": 1,
+      "preguntas": [
+        {
+          "q": "Pregunta de ejemplo del curso 2.",
+          "opciones": ["Opción A", "Opción B"],
+          "correcta": 0,
+          "explicacion": "Explicación educativa de ejemplo para el curso 2."
+        }
+      ]
+    }
+  ]
+}

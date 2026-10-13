@@ -6,20 +6,29 @@ import { NotImplementedError } from './adapters/interfaces.js';
 import { DevAuthAdapter } from './adapters/dev/devAuth.js';
 import { FixtureContentStore } from './adapters/dev/fixtureContent.js';
 import { MemoryExperienceStore } from './adapters/dev/memoryExperiences.js';
+import { FixtureLearningStore } from './adapters/dev/fixtureQuizzes.js';
+import { MemoryProgressStore } from './adapters/dev/memoryProgress.js';
+import { MemoryCertificateStore } from './adapters/dev/memoryCertificates.js';
 import { FirebaseAuthAdapter } from './adapters/stubs/firebaseAuth.js';
 import { crearAuth } from './middleware/auth.js';
-import { ValidationError } from './services/experiences.js';
+import { ConflictError, NotFoundError, ValidationError } from './services/errors.js';
+import { LearningService } from './services/learning.js';
 import { rutaConfig } from './routes/config.js';
 import { rutaCatalogo } from './routes/catalogo.js';
 import { rutaNoticias } from './routes/noticias.js';
 import { rutaForo } from './routes/foro.js';
 import { rutaMe } from './routes/me.js';
 import { rutaExperiencias } from './routes/experiencias.js';
+import { rutaQuiz } from './routes/quiz.js';
+import { rutaProgreso } from './routes/progreso.js';
+import { rutaCertificados } from './routes/certificados.js';
+import { rutaVerificar } from './routes/verificar.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
   content: ContentStore;
   experiences: ExperienceStore;
+  learning: LearningService;
   corsOrigins: string[];
 }
 
@@ -58,6 +67,10 @@ export function createApp(deps: Dependencias): Express {
   app.use('/foro', rutaForo(deps.content));
   app.use('/me', rutaMe(requireUser));
   app.use('/experiencias', rutaExperiencias(deps.experiences, requireUser));
+  app.use('/quiz', rutaQuiz(deps.learning, requireUser));
+  app.use('/progreso', rutaProgreso(deps.learning, requireUser));
+  app.use('/certificados', rutaCertificados(deps.learning, requireUser));
+  app.use('/verificar', rutaVerificar(deps.learning));
 
   // 404 honesto para rutas no definidas.
   app.use((_req, res) => {
@@ -68,6 +81,14 @@ export function createApp(deps: Dependencias): Express {
   app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
     if (err instanceof ValidationError) {
       res.status(400).json({ error: 'validacion', mensaje: err.message });
+      return;
+    }
+    if (err instanceof NotFoundError) {
+      res.status(404).json({ error: 'no-encontrado', mensaje: err.message });
+      return;
+    }
+    if (err instanceof ConflictError) {
+      res.status(409).json({ error: 'conflicto', mensaje: err.message });
       return;
     }
     if (err instanceof NotImplementedError) {
@@ -93,10 +114,18 @@ export function seleccionarAuth(modo: string | undefined): AuthAdapter {
 /** Arma la app con adaptadores dev/memoria y configuración desde el entorno. */
 export function buildApp(env: NodeJS.ProcessEnv = process.env): Express {
   const corsOrigins = (env.CORS_ORIGINS || 'http://localhost:5173,http://127.0.0.1:5173').split(',');
+  const content = new FixtureContentStore();
+  const learning = new LearningService(
+    content,
+    new FixtureLearningStore(),
+    new MemoryProgressStore(),
+    new MemoryCertificateStore(),
+  );
   return createApp({
     auth: seleccionarAuth(env.AUTH_MODE),
-    content: new FixtureContentStore(),
+    content,
     experiences: new MemoryExperienceStore(),
+    learning,
     corsOrigins,
   });
 }
