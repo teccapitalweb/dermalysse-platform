@@ -44,6 +44,8 @@ import { alternarMaterialGuardado, biblioteca, material } from './pages/material
 import { visor, montarVisor } from './pages/visor';
 import { envivo, toggleReserva } from './pages/envivo';
 import { comunidad, hilo } from './pages/comunidad';
+import { directorioExperiencias } from './pages/directorio-experiencias';
+import { DirectorioExperiencias, type CategoriaExperiencia } from './core/directorio-experiencias';
 import { paginaLogros } from './pages/logros';
 import { retos, montarArcade } from './pages/retos';
 import { historia, montarHistoria } from './pages/historia';
@@ -172,6 +174,7 @@ route('/materiales/:id', material);
 route('/materiales/:id/visor', visor);
 route('/en-vivo', envivo);
 route('/comunidad', comunidad);
+route('/comunidad/experiencias', directorioExperiencias);
 route('/comunidad/:id', hilo);
 route('/logros', paginaLogros);
 route('/retos', retos);
@@ -217,7 +220,7 @@ onRender(() => {
   if (path.startsWith('/retos/historia')) montarHistoria();
   if (path === '/herramientas') montarHerramientas();
   if (path === '/comunidad' && Comunidad.cargando()) Comunidad.cargarListado().then(() => render()).catch((e) => toast(mensajeError(e), 'circle-alert'));
-  if (path.startsWith('/comunidad/')) {
+  if (path.startsWith('/comunidad/') && path !== '/comunidad/experiencias') {
     const id = path.split('/')[2];
     if (id && Comunidad.necesitaDetalle(id)) Comunidad.cargarDetalle(id).then(() => render()).catch((e) => toast(mensajeError(e), 'circle-alert'));
   }
@@ -644,6 +647,12 @@ document.addEventListener('click', async (e) => {
     if (!Acceso.puedeComunidad()) { mostrarPaywall('Publicar en la comunidad es para miembros VIP. Puedes leer todos los temas gratis.'); return; }
     const f = document.querySelector<HTMLElement>('[data-form-hilo]'); if (f) { f.hidden = false; f.querySelector('input')?.focus(); } }
   if (el.closest('[data-cancelar-hilo]')) { const f = document.querySelector<HTMLElement>('[data-form-hilo]'); if (f) f.hidden = true; }
+  if (el.closest('[data-exp-open]')) {
+    if (!Acceso.puedeComunidad()) { mostrarPaywall('Compartir experiencias en Comunidad es para miembros VIP.'); return; }
+    const f = document.querySelector<HTMLElement>('[data-form-exp]');
+    if (f && DirectorioExperiencias.local()) { f.hidden = false; f.querySelector<HTMLInputElement>('input[name="titulo"]')?.focus(); }
+  }
+  if (el.closest('[data-exp-close]')) { const f = document.querySelector<HTMLElement>('[data-form-exp]'); if (f) f.hidden = true; }
   const util = el.closest<HTMLElement>('[data-util]');
   if (util) {
     if (!Acceso.puedeComunidad()) { mostrarPaywall('Reaccionar en la comunidad es para miembros VIP.'); return; }
@@ -872,6 +881,18 @@ document.addEventListener('submit', async (e) => {
     e.preventDefault(); const q = new FormData(f).get('q') as string;
     navigate('/cursos' + (q ? '?q=' + encodeURIComponent(q) : ''));
   }
+  if (f.matches('[data-form-exp-search]')) {
+    e.preventDefault();
+    const d = new FormData(f);
+    const q = String(d.get('q') || '').trim();
+    const categoria = String(d.get('categoria') || 'todas');
+    const params = new URLSearchParams();
+    if (categoria !== 'todas') params.set('categoria', categoria);
+    if (q) params.set('q', q);
+    const query = params.toString();
+    navigate(`/comunidad/experiencias${query ? `?${query}` : ''}`);
+    return;
+  }
   if (f.matches('[data-login-form]')) {
     e.preventDefault(); const d = new FormData(f); const btn = f.querySelector('button')!; btn.setAttribute('disabled', '');
     try {
@@ -895,6 +916,18 @@ document.addEventListener('submit', async (e) => {
       const h = await Comunidad.crear(String(d.get('titulo')).trim(), String(d.get('texto')).trim(), (d.get('cursoId') as string) || null);
       toast('Tema publicado', 'message-circle'); navigate(`/comunidad/${h.id}`);
     } catch (err) { toast(mensajeError(err), 'circle-alert'); }
+  }
+  if (f.matches('[data-form-exp]')) {
+    e.preventDefault();
+    if (!Acceso.puedeComunidad()) { mostrarPaywall('Compartir experiencias en Comunidad es para miembros VIP.'); return; }
+    if (!DirectorioExperiencias.local()) { toast('La publicación compartida estará disponible cuando se conecte el directorio al servidor.', 'info'); return; }
+    const d = new FormData(f);
+    try {
+      const categoria = String(d.get('categoria')) as CategoriaExperiencia;
+      DirectorioExperiencias.crear(String(d.get('titulo') || ''), String(d.get('texto') || ''), categoria, d.get('anonima') === 'on');
+      toast('Experiencia guardada en este dispositivo', 'notebook-pen');
+      navigate(`/comunidad/experiencias?categoria=${encodeURIComponent(categoria)}`);
+    } catch (err) { toast(err instanceof Error ? err.message : 'No se pudo guardar la experiencia.', 'circle-alert'); }
   }
   if (f.matches('[data-form-respuesta]')) {
     e.preventDefault();

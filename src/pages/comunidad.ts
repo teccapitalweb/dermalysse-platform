@@ -169,11 +169,16 @@ export function comunidad(_: Record<string, string>, query: URLSearchParams) {
       </button>
     </div>
 
+    <nav class="community-section-tabs" aria-label="Secciones de Comunidad">
+      <a class="is-active" href="#/comunidad" aria-current="page"><i data-lucide="messages-square" class="i"></i>Conversaciones</a>
+      <a href="#/comunidad/experiencias"><i data-lucide="notebook-tabs" class="i"></i>Experiencias <span>Nuevo</span></a>
+    </nav>
+
     <form class="community-compose" data-form-hilo hidden>
       <div class="community-compose__head"><span class="community-compose__icon"><i data-lucide="notebook-pen" class="i"></i></span><div><h2>Comparte lo que estás aprendiendo</h2><p>El contexto correcto atrae mejores respuestas.</p></div></div>
-      <label><span>Título del caso o duda</span><input class="input" name="titulo" placeholder="Ej. Bajó la postura después del cambio de temperatura" required maxlength="120"></label>
-      <label><span>Contexto y observaciones</span><textarea class="input" name="texto" rows="5" placeholder="Especie, edad o etapa productiva, signos, cambios recientes y qué ya revisaste. Sin datos sensibles." required></textarea></label>
-      <div class="community-compose__actions"><select class="input" name="cursoId"><option value="">Tema general</option>${opciones}</select><div><button type="button" class="btn btn--ghost" data-cancelar-hilo>Cancelar</button><button class="btn btn--brand"><i data-lucide="send" class="i"></i>Publicar caso</button></div></div>
+      <label><span>Título de tu experiencia o pregunta</span><input class="input" name="titulo" placeholder="Ej. Un aprendizaje que cambió mi forma de organizar las notas" required maxlength="120"></label>
+      <label><span>Contexto y aprendizaje</span><textarea class="input" name="texto" rows="5" placeholder="Comparte qué aprendiste, qué te funcionó y qué te gustaría conversar. No incluyas datos personales ni información de pacientes." required></textarea></label>
+      <div class="community-compose__actions"><select class="input" name="cursoId"><option value="">Tema general</option>${opciones}</select><div><button type="button" class="btn btn--ghost" data-cancelar-hilo>Cancelar</button><button class="btn btn--brand"><i data-lucide="send" class="i"></i>Publicar tema</button></div></div>
     </form>
 
     ${voces.length ? `
