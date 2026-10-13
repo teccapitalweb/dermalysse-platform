@@ -24,6 +24,8 @@ let D: { pregunta: Pregunta | null; contestada: boolean } | null = null;
 let C: { caso: Caso; fase: 'diagnostico' | 'plan' | 'resultado'; aciertos: number; respuesta: number | null } | null = null;
 let F: { mazo: Flashcard[]; idx: number; flipped: boolean; aciertos: number; area: string; tipo: TipoCarta } | null = null;
 let filtroCaso = 'Todas';
+type FiltroRetos = 'todas' | 'evaluacion' | 'aplicacion' | 'repaso';
+let filtroRetos: FiltroRetos = 'todas';
 
 const TIEMPO = 15;
 
@@ -76,8 +78,43 @@ function onClick(e: Event) {
     'flash-jugar': () => iniciarFlash(el.dataset.area || 'Todas', (el.dataset.tipo || 'todas') as TipoCarta),
     'flash-flip': flipFlash,
     'flash-cal': () => calFlash(el.dataset.b === '1'),
+    'filtro-retos': () => filtrarRetos(el.dataset.filtro || 'todas'),
+    'actualizar-liga': () => {
+      Liga.limpiar();
+      hub();
+      Liga.cargar().then(() => { if (vista === 'hub' && root()) hub(); });
+    },
   };
   acciones[a]?.();
+}
+
+function filtrarRetos(valor: string) {
+  const validos: FiltroRetos[] = ['todas', 'evaluacion', 'aplicacion', 'repaso'];
+  if (!validos.includes(valor as FiltroRetos)) return;
+  filtroRetos = valor as FiltroRetos;
+  const contenedor = root();
+  if (!contenedor) return;
+  contenedor.querySelectorAll<HTMLButtonElement>('[data-a="filtro-retos"]').forEach((boton) => {
+    const activo = boton.dataset.filtro === filtroRetos;
+    boton.classList.toggle('is-active', activo);
+    boton.setAttribute('aria-pressed', String(activo));
+  });
+  const tarjetas = [...contenedor.querySelectorAll<HTMLElement>('.retos-tile[data-category]')];
+  let visibles = 0;
+  tarjetas.forEach((tarjeta) => {
+    tarjeta.hidden = filtroRetos !== 'todas' && tarjeta.dataset.category !== filtroRetos;
+    if (!tarjeta.hidden) visibles += 1;
+  });
+  const etiquetas: Record<FiltroRetos, string> = {
+    todas: 'Elige una modalidad según el tiempo y enfoque que buscas.',
+    evaluacion: 'Pon a prueba tus conocimientos y supera tu mejor marca.',
+    aplicacion: 'Practica el análisis y la toma de decisiones educativas.',
+    repaso: 'Refuerza conceptos con sesiones breves y repetición.',
+  };
+  const cuenta = contenedor.querySelector<HTMLElement>('#retos-catalog-count');
+  if (cuenta) cuenta.textContent = `${visibles} ${visibles === 1 ? 'modalidad' : 'modalidades'}`;
+  const ayuda = contenedor.querySelector<HTMLElement>('#retos-catalog-hint');
+  if (ayuda) ayuda.textContent = etiquetas[filtroRetos];
 }
 
 // ══════════════ HUB ══════════════
@@ -100,6 +137,45 @@ function hub() {
   const yoFila = liga.yo || liga.clasificacion.find((f) => f.esYo);
   const top3 = liga.clasificacion.slice(0, 3);
   const resto = liga.clasificacion.slice(3, 10);
+  const ligaCargando = Liga.cargando();
+  const rankingBadge = ligaCargando ? '<span class="retos-chip retos-chip--muted">Cargando</span>'
+    : liga.estado === 'error' ? '<span class="retos-chip retos-chip--muted">Sin conexión</span>'
+      : liga.estado === 'sin-acceso' ? '<span class="retos-chip retos-chip--muted">Acceso requerido</span>'
+        : liga.esDemo ? '<span class="retos-chip retos-chip--muted">Ejemplo</span>'
+          : liga.clasificacion.length ? '<span class="retos-chip retos-chip--ok">Datos del club</span>'
+            : '<span class="retos-chip retos-chip--muted">Sin actividad</span>';
+  const rankingContenido = ligaCargando
+    ? '<p class="retos-ranking__state" role="status" aria-live="polite">Consultando la clasificación del club…</p>'
+    : liga.estado === 'error'
+      ? '<div class="retos-ranking__state" role="alert"><span>No pudimos cargar la clasificación. Tus retos siguen disponibles.</span><button class="btn btn--secondary btn--sm" data-a="actualizar-liga">Reintentar</button></div>'
+      : liga.estado === 'sin-acceso'
+        ? '<div class="retos-ranking__state"><span>Inicia sesión para consultar la clasificación del club.</span><a class="btn btn--secondary btn--sm" href="#/login">Iniciar sesión</a></div>'
+        : liga.clasificacion.length === 0
+          ? '<p class="retos-ranking__state">Todavía no hay actividad en la clasificación.</p>'
+          : `${liga.esDemo ? '<p class="retos-ranking__intro">Vista de ejemplo local; no representa actividad real del club.</p>' : '<p class="retos-ranking__intro">Avance del club registrado en la plataforma.</p>'}
+            ${top3.length >= 3 ? renderPodio(top3) : ''}
+            <ol class="retos-ranking__list">${resto.map((f) => filaLigaCompacta(f, lider)).join('')}</ol>
+            ${yoFila && yoFila.puesto > 10 ? `<div class="retos-ranking__you"><span><i data-lucide="user" class="i"></i>Tu posición</span><ol>${filaLigaCompacta(yoFila, lider)}</ol></div>` : ''}
+            <p class="retos-ranking__note"><i data-lucide="lock-keyhole" class="i"></i>Solo nombre y logros de aprendizaje. Nunca datos de contacto ni información clínica.</p>`;
+
+  const modalidades = [
+    { categoria: 'evaluacion' as const, etiqueta: 'Evaluación', html: tile({ index: '01', a: 'ir-quiz', ic: 'zap', img: '/media/retos/quiz-relampago.webp', tit: 'Quiz Relámpago', sub: 'Contrarreloj con combos y vidas', color: '#4a7fc1', kpiLabel: 'Récord', kpi: String(record), pendiente: banco === 0, meta: `${banco} preguntas · 6 áreas`, chip: record > 0 ? `${record} pts` : '15 s/pregunta', categoria: 'evaluacion', categoriaLabel: 'Evaluación' }) },
+    { categoria: 'aplicacion' as const, etiqueta: 'Aplicación', html: tile({ index: '02', a: 'ir-caso', ic: 'briefcase-medical', img: '/media/retos/casos-dermalysse.webp', tit: 'Casos Dermalysse', sub: 'Observa, analiza y decide', color: '#4fa899', kpiLabel: 'Resueltos', kpi: `${casosOk}/${totalCasos}`, pct: totalCasos ? Math.round(casosOk / totalCasos * 100) : 0, pendiente: totalCasos === 0, meta: `${totalCasos} casos revisados`, chip: casosPend > 0 ? `${casosPend} pendientes` : '¡Al día!', categoria: 'aplicacion', categoriaLabel: 'Aplicación' }) },
+    { categoria: 'repaso' as const, etiqueta: 'Repaso', html: tile({ index: '03', a: 'ir-flash', ic: 'brain', img: '/media/retos/flashcards.webp', tit: 'Flashcards', sub: 'Repetición espaciada diaria', color: '#c98a5b', kpiLabel: 'Dominadas', kpi: `${em.dominadas}/${em.total}`, pct: em.total ? Math.round(em.dominadas / em.total * 100) : 0, pendiente: em.total === 0, meta: `${em.total} tarjetas totales`, chip: porVencer > 0 ? `${porVencer} para hoy` : '0 vencidas', categoria: 'repaso', categoriaLabel: 'Repaso' }) },
+    { categoria: 'aplicacion' as const, etiqueta: 'Aplicación', html: tile({ index: '04', a: 'historia', ic: 'route', img: '/media/retos/modo-historia.webp', tit: 'Modo historia', sub: 'Casos narrativos guiados', color: '#8e4466', kpiLabel: 'Mundos', kpi: '0/1', pct: 0, pendiente: false, href: '#/retos/historia', meta: 'Un mundo disponible', chip: 'Nuevo', categoria: 'aplicacion', categoriaLabel: 'Aplicación' }) },
+  ];
+  const filtros: { id: FiltroRetos; label: string; ayuda: string }[] = [
+    { id: 'todas', label: 'Todas', ayuda: 'Elige una modalidad según el tiempo y enfoque que buscas.' },
+    { id: 'evaluacion', label: 'Evaluación', ayuda: 'Pon a prueba tus conocimientos y supera tu mejor marca.' },
+    { id: 'aplicacion', label: 'Aplicación', ayuda: 'Practica el análisis y la toma de decisiones educativas.' },
+    { id: 'repaso', label: 'Repaso', ayuda: 'Refuerza conceptos con sesiones breves y repetición.' },
+  ];
+  const filtroActivo = filtros.find((f) => f.id === filtroRetos) || filtros[0];
+  const cantidadVisible = modalidades.filter((m) => filtroRetos === 'todas' || m.categoria === filtroRetos).length;
+  const filtrosHtml = filtros.map((f) => {
+    const cantidad = f.id === 'todas' ? modalidades.length : modalidades.filter((m) => m.categoria === f.id).length;
+    return `<button type="button" class="retos-filter ${filtroRetos === f.id ? 'is-active' : ''}" data-a="filtro-retos" data-filtro="${f.id}" aria-pressed="${filtroRetos === f.id}"><span>${f.label}</span><small>${cantidad}</small></button>`;
+  }).join('');
 
   pinta(`
     <header class="retos-hero">
@@ -164,16 +240,24 @@ function hub() {
       <section class="retos-main">
 
         <section class="retos-arena">
-          <div class="retos-section-head">
-            <div><span class="retos-section-kicker">Biblioteca de práctica</span><h2>Elige una modalidad</h2></div>
-            <span class="retos-xp"><i data-lucide="clock-3" class="i"></i>Sesiones de 3–8 min</span>
+          <div class="retos-catalog-head">
+            <div class="retos-section-head">
+              <div><span class="retos-section-kicker">Biblioteca de práctica</span><h2>Elige una modalidad</h2></div>
+              <span class="retos-xp"><i data-lucide="clock-3" class="i"></i>Sesiones de 3–8 min</span>
+            </div>
+            <p class="retos-catalog-head__help">Organiza tu práctica por objetivo: evaluar, aplicar o repasar.</p>
           </div>
 
+          <div class="retos-catalog-toolbar">
+            <div class="retos-filters" role="group" aria-label="Filtrar modalidades por objetivo">
+              ${filtrosHtml}
+            </div>
+            <span class="retos-catalog-count" id="retos-catalog-count" aria-live="polite">${cantidadVisible} ${cantidadVisible === 1 ? 'modalidad' : 'modalidades'}</span>
+          </div>
+          <p class="retos-catalog-hint" id="retos-catalog-hint">${filtroActivo.ayuda}</p>
+
           <div class="retos-tiles">
-            ${tile({ index: '01', a: 'ir-quiz', ic: 'zap', img: '/media/retos/quiz-relampago.webp', tit: 'Quiz Relámpago', sub: 'Contrarreloj con combos y vidas', color: '#4a7fc1', kpiLabel: 'Récord', kpi: String(record), pendiente: banco === 0, meta: `${banco} preguntas · 6 áreas`, chip: record > 0 ? `${record} pts` : '15 s/pregunta' })}
-            ${tile({ index: '02', a: 'ir-caso', ic: 'briefcase-medical', img: '/media/retos/casos-dermalysse.webp', tit: 'Casos Dermalysse', sub: 'Observa, analiza y decide', color: '#4fa899', kpiLabel: 'Resueltos', kpi: `${casosOk}/${totalCasos}`, pct: totalCasos ? Math.round(casosOk / totalCasos * 100) : 0, pendiente: totalCasos === 0, meta: `${totalCasos} casos revisados`, chip: casosPend > 0 ? `${casosPend} pendientes` : '¡Al día!' })}
-            ${tile({ index: '03', a: 'ir-flash', ic: 'brain', img: '/media/retos/flashcards.webp', tit: 'Flashcards', sub: 'Repetición espaciada diaria', color: '#c98a5b', kpiLabel: 'Dominadas', kpi: `${em.dominadas}/${em.total}`, pct: em.total ? Math.round(em.dominadas / em.total * 100) : 0, pendiente: em.total === 0, meta: `${em.total} tarjetas totales`, chip: porVencer > 0 ? `${porVencer} para hoy` : '0 vencidas' })}
-            ${tile({ index: '04', a: 'historia', ic: 'route', img: '/media/retos/modo-historia.webp', tit: 'Modo historia', sub: 'Casos narrativos guiados', color: '#8e4466', kpiLabel: 'Mundos', kpi: '0/1', pct: 0, pendiente: false, href: '#/retos/historia', meta: 'Un mundo disponible', chip: 'Nuevo' })}
+            ${modalidades.map((m) => m.html).join('')}
           </div>
         </section>
 
@@ -181,15 +265,11 @@ function hub() {
           <summary>
             <span class="retos-ranking__summary-icon"><i data-lucide="trophy" class="i"></i></span>
             <span><strong>Clasificación del club</strong><small>Consulta el podio y tu posición semanal</small></span>
-            ${liga.esDemo ? '<span class="retos-chip retos-chip--muted">Ejemplo</span>' : '<span class="retos-chip retos-chip--ok">Datos del club</span>'}
+            ${rankingBadge}
             <i data-lucide="chevron-down" class="i retos-ranking__chevron"></i>
           </summary>
           <div class="retos-ranking__content">
-            <p class="retos-ranking__intro">${liga.esDemo ? 'Vista previa; se llena con el avance real cuando el club entre en operación.' : 'Avance verificado por cursos terminados y aportes útiles.'}</p>
-            ${top3.length >= 3 ? renderPodio(top3) : ''}
-            <ol class="retos-ranking__list">${resto.map((f) => filaLigaCompacta(f, lider)).join('')}</ol>
-            ${yoFila && yoFila.puesto > 10 ? `<div class="retos-ranking__you"><span><i data-lucide="user" class="i"></i>Tu posición</span><ol>${filaLigaCompacta(yoFila, lider)}</ol></div>` : ''}
-            <p class="retos-ranking__note"><i data-lucide="lock-keyhole" class="i"></i>Solo nombre y logros de aprendizaje. Nunca datos de contacto ni información clínica.</p>
+            ${rankingContenido}
           </div>
         </details>
       </section>
@@ -236,6 +316,7 @@ function hub() {
       </aside>
     </div>
   `);
+  filtrarRetos(filtroRetos);
 }
 
 function renderPodio(top: FilaLiga[]) {
@@ -268,7 +349,7 @@ function filaLigaCompacta(f: FilaLiga, lider: number) {
 
 const misionItem = (titulo: string, sub: string, ok: boolean, icon = 'circle') => `<li class="${ok ? 'is-done' : ''}"><span class="retos-check"><i data-lucide="${ok ? 'check' : icon}" class="i"></i></span><div><strong>${titulo}</strong><small>${sub}</small></div></li>`;
 
-type TileOpts = { index: string; a: string; ic: string; img: string; tit: string; sub: string; color: string; kpiLabel: string; kpi: string; pct?: number; pendiente: boolean; href?: string; meta?: string; chip?: string };
+type TileOpts = { index: string; a: string; ic: string; img: string; tit: string; sub: string; color: string; kpiLabel: string; kpi: string; pct?: number; pendiente: boolean; href?: string; meta?: string; chip?: string; categoria: FiltroRetos; categoriaLabel: string };
 function tile(o: TileOpts) {
   const tag = o.pendiente ? 'div' : o.href ? 'a' : 'button';
   const attrs = o.pendiente
@@ -279,7 +360,7 @@ function tile(o: TileOpts) {
   const chip = o.pendiente ? '<span class="retos-chip retos-chip--muted">En preparación</span>' : (o.chip ? `<span class="retos-tile__chip">${esc(o.chip)}</span>` : '');
   const barra = typeof o.pct === 'number' ? `<div class="retos-tile__bar" aria-hidden="true"><span style="width:${esc(String(o.pct))}%"></span></div>` : '';
   return `
-  <${tag}${attrs} style="--c:${esc(o.color)}">
+  <${tag}${attrs} data-category="${esc(o.categoria)}" style="--c:${esc(o.color)}">
     <span class="retos-tile__index" aria-hidden="true">${esc(o.index)}</span>
     <div class="retos-tile__head">
       <span class="retos-tile__ic"><i data-lucide="${esc(o.ic)}" class="i"></i></span>
@@ -287,6 +368,7 @@ function tile(o: TileOpts) {
     </div>
     <span class="retos-tile__art" aria-hidden="true"><img src="${esc(o.img)}" alt="" loading="lazy" decoding="async"></span>
     <div class="retos-tile__body">
+      <span class="retos-tile__category">${esc(o.categoriaLabel)}</span>
       <strong>${esc(o.tit)}</strong>
       <small>${esc(o.sub)}</small>
     </div>

@@ -861,6 +861,13 @@
   background: var(--surface); box-shadow: var(--shadow-sm);
 }
 .retos-ranking__intro { color: var(--text-3); font-size: 12px; margin: 6px 0 16px; line-height: 1.5; }
+.retos-ranking__state {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  margin: 15px 0 2px; padding: 16px;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: var(--surface-2); color: var(--text-2); font-size: 12.5px; line-height: 1.5;
+}
+.retos-ranking__state .btn { flex: 0 0 auto; }
 
 .retos-podium {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
@@ -2165,6 +2172,10 @@
   margin-top: 15px;
 }
 
+.retos-ranking__state {
+  margin: 15px 0 20px;
+}
+
 .retos-side {
   gap: 13px;
 }
@@ -2187,6 +2198,10 @@
   .retos-hero__right {
     padding-left: 24px;
   }
+}
+
+@media (max-width: 560px) {
+  .retos-ranking__state { align-items: flex-start; flex-direction: column; }
 }
 
 @media (max-width: 900px) {
@@ -2971,4 +2986,51 @@
 
 @media (prefers-reduced-motion: reduce) {
   .flashcard,.game-session__progress > span,.game-timer > div i { transition: none; }
+}
+
+/* Catálogo ordenado por objetivo de práctica */
+.retos-catalog-head { display: grid; gap: 5px; }
+.retos-catalog-head__help {
+  margin: 0; color: var(--text-3); font-size: 12px; line-height: 1.45;
+}
+.retos-catalog-toolbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 0 0; border-top: 1px solid var(--line);
+}
+.retos-filters {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+}
+.retos-filter {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 34px; padding: 0 11px;
+  border: 1px solid var(--line); border-radius: 99px;
+  background: var(--surface); color: var(--text-2);
+  font: inherit; font-size: 11px; font-weight: 650;
+  cursor: pointer; transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.retos-filter:hover { border-color: var(--line-strong); transform: translateY(-1px); }
+.retos-filter:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.retos-filter.is-active { border-color: var(--navy, #102c3c); background: var(--navy, #102c3c); color: #fff; }
+.retos-filter small {
+  display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px;
+  border-radius: 99px; background: color-mix(in srgb, currentColor 12%, transparent);
+  font-size: 9px; font-variant-numeric: tabular-nums;
+}
+.retos-catalog-count { color: var(--text-3); font-size: 10.5px; font-weight: 650; white-space: nowrap; }
+.retos-catalog-hint { margin: -6px 0 0; color: var(--text-3); font-size: 11px; line-height: 1.45; }
+.retos-tile__category {
+  width: fit-content; margin-bottom: 2px; padding: 3px 8px;
+  border-radius: 99px; background: color-mix(in srgb, var(--c) 10%, var(--surface));
+  color: var(--c); font-size: 9px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase;
+}
+.retos-tile[hidden] { display: none !important; }
+
+@media (max-width: 680px) {
+  .retos-catalog-toolbar { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .retos-filters { width: 100%; }
+  .retos-filter { min-height: 32px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .retos-filter { transition: none; }
 }
