@@ -5,10 +5,44 @@ import path from 'node:path';
 
 const root = path.resolve(import.meta.dirname, '..');
 const catalogo = JSON.parse(await readFile(path.join(root, 'src/data/catalogo.json'), 'utf8'));
+const quizzes = JSON.parse(await readFile(path.join(root, 'src/data/quizzes-demo.json'), 'utf8'));
 
 test('el catálogo usa los 12 cursos publicados de Dermalysse', () => {
   assert.equal(catalogo.cursos.length, 12);
   assert.ok(catalogo.cursos.every((curso) => curso.publicado && curso.titulo && curso.area));
+});
+
+test('los 45 cursos/clases conservan una sola primera clase abierta', () => {
+  const clases = catalogo.cursos.flatMap((curso) => curso.clases);
+  assert.equal(clases.length, 45);
+  for (const curso of catalogo.cursos) {
+    assert.ok(curso.clases.length > 0, `${curso.id} debe incluir clases`);
+    assert.equal(curso.clases.filter((clase) => clase.gratis).length, 1, `${curso.id} debe tener una clase abierta`);
+    assert.equal(curso.clases[0].gratis, true, `la primera clase de ${curso.id} debe ser abierta`);
+  }
+});
+
+test('cada clase tiene un quiz aprobado con preguntas válidas', () => {
+  const cursos = new Map(catalogo.cursos.map((curso) => [curso.id, curso]));
+  const claves = new Set();
+  assert.equal(quizzes.length, 45);
+  for (const quiz of quizzes) {
+    const curso = cursos.get(quiz.cursoId);
+    assert.ok(curso, `curso desconocido en ${quiz.id}`);
+    assert.equal(quiz.estado, 'aprobado', `${quiz.id} debe estar aprobado`);
+    assert.ok(curso.clases.some((clase) => clase.n === quiz.n), `clase desconocida en ${quiz.id}`);
+    const clave = `${quiz.cursoId}:${quiz.n}`;
+    assert.ok(!claves.has(clave), `quiz duplicado para ${clave}`);
+    claves.add(clave);
+    assert.ok(Array.isArray(quiz.preguntas) && quiz.preguntas.length > 0, `${quiz.id} necesita preguntas`);
+    for (const pregunta of quiz.preguntas) {
+      assert.ok(pregunta.q?.trim(), `${quiz.id} contiene una pregunta vacía`);
+      assert.ok(Array.isArray(pregunta.opciones) && pregunta.opciones.length >= 2, `${quiz.id} necesita opciones`);
+      assert.ok(Number.isInteger(pregunta.correcta) && pregunta.correcta >= 0 && pregunta.correcta < pregunta.opciones.length, `${quiz.id} tiene una respuesta fuera de rango`);
+      assert.ok(pregunta.explicacion?.trim(), `${quiz.id} necesita explicación educativa`);
+    }
+  }
+  assert.equal(claves.size, 45);
 });
 
 test('las clases demo no incluyen identificadores productivos', () => {
