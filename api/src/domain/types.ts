@@ -194,3 +194,38 @@ export interface VerificacionPublica {
   cursoTitulo: string;
   emitido: string;
 }
+
+// ── Club interactivo: liga y perfil ──
+
+/** Fila de la clasificacion (liga). Refleja src/core/liga.ts (interface FilaLiga). */
+export interface FilaLiga {
+  puesto: number;
+  nombre: string;
+  foto: string;
+  clases: number;
+  cursos: number;
+  aportes: number;
+  xp: number;
+  nivel: string;
+  ultimaActividad: string | null;
+  esYo: boolean;
+}
+
+/** Respuesta de GET /liga. Refleja src/core/liga.ts (interface ResumenLiga). */
+export interface ResumenLiga {
+  actualizado: string;
+  participantes: number;
+  clasificacion: FilaLiga[];
+  yo: FilaLiga | null;
+  esDemo?: boolean;
+  estado?: 'error' | 'sin-acceso';
+}
+
+/** Perfil almacenado por usuario (dev). Se expone como PerfilRemoto. */
+export interface PerfilData {
+  nombre: string;
+  foto: string;
+  whatsapp: string;
+  especialidad: string;
+  ciudad: string;
+}

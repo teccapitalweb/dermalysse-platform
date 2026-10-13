@@ -1,0 +1,9 @@
+{
+  "_nota": "FIXTURE NO PRODUCTIVO — clasificación de ejemplo de la liga. No son datos reales de miembros.",
+  "actualizado": "2026-10-13T00:00:00.000Z",
+  "filas": [
+    { "puesto": 1, "nombre": "Miembro de ejemplo 1", "foto": "", "clases": 24, "cursos": 4, "aportes": 12, "xp": 3200, "nivel": "Platino", "ultimaActividad": "2026-10-12T18:00:00.000Z", "esYo": false },
+    { "puesto": 2, "nombre": "Miembro de ejemplo 2", "foto": "", "clases": 18, "cursos": 3, "aportes": 7, "xp": 1600, "nivel": "Oro", "ultimaActividad": "2026-10-11T10:00:00.000Z", "esYo": false },
+    { "puesto": 3, "nombre": "Miembro de ejemplo 3", "foto": "", "clases": 9, "cursos": 1, "aportes": 3, "xp": 700, "nivel": "Plata", "ultimaActividad": "2026-10-10T09:00:00.000Z", "esYo": false }
+  ]
+}

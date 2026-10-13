@@ -1,7 +1,7 @@
 // Ensambla la app Express del slice. Sin estado global: las dependencias se inyectan,
 // lo que permite probar con adaptadores dev/memoria.
 import express, { type Express, type NextFunction, type Request, type Response } from 'express';
-import type { AuthAdapter, ContentStore, ExperienceStore } from './adapters/interfaces.js';
+import type { AuthAdapter, ContentStore, ExperienceStore, ForumStore, LeagueStore, ProfileStore } from './adapters/interfaces.js';
 import { NotImplementedError } from './adapters/interfaces.js';
 import { DevAuthAdapter } from './adapters/dev/devAuth.js';
 import { FixtureContentStore } from './adapters/dev/fixtureContent.js';
@@ -9,6 +9,9 @@ import { MemoryExperienceStore } from './adapters/dev/memoryExperiences.js';
 import { FixtureLearningStore } from './adapters/dev/fixtureQuizzes.js';
 import { MemoryProgressStore } from './adapters/dev/memoryProgress.js';
 import { MemoryCertificateStore } from './adapters/dev/memoryCertificates.js';
+import { FixtureLeagueStore } from './adapters/dev/fixtureLeague.js';
+import { MemoryForumStore } from './adapters/dev/memoryForum.js';
+import { MemoryProfileStore } from './adapters/dev/memoryProfile.js';
 import { FirebaseAuthAdapter } from './adapters/stubs/firebaseAuth.js';
 import { crearAuth } from './middleware/auth.js';
 import { ConflictError, ForbiddenError, NotFoundError, ValidationError } from './services/errors.js';
@@ -23,12 +26,16 @@ import { rutaQuiz } from './routes/quiz.js';
 import { rutaProgreso } from './routes/progreso.js';
 import { rutaCertificados } from './routes/certificados.js';
 import { rutaVerificar } from './routes/verificar.js';
+import { rutaLiga } from './routes/liga.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
   content: ContentStore;
   experiences: ExperienceStore;
   learning: LearningService;
+  league: LeagueStore;
+  forum: ForumStore;
+  profiles: ProfileStore;
   corsOrigins: string[];
 }
 
@@ -64,8 +71,9 @@ export function createApp(deps: Dependencias): Express {
   app.use('/config', rutaConfig(deps.content));
   app.use('/catalogo', rutaCatalogo(deps.content));
   app.use('/noticias', rutaNoticias(deps.content));
-  app.use('/foro', rutaForo(deps.content));
-  app.use('/me', rutaMe(requireUser));
+  app.use('/foro', rutaForo(deps.forum, requireUser));
+  app.use('/me', rutaMe(requireUser, deps.profiles));
+  app.use('/liga', rutaLiga(deps.league, requireUser));
   app.use('/experiencias', rutaExperiencias(deps.experiences, requireUser));
   app.use('/quiz', rutaQuiz(deps.learning, requireUser));
   app.use('/progreso', rutaProgreso(deps.learning, requireUser));
@@ -130,6 +138,9 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env): Express {
     content,
     experiences: new MemoryExperienceStore(),
     learning,
+    league: new FixtureLeagueStore(),
+    forum: new MemoryForumStore(),
+    profiles: new MemoryProfileStore(),
     corsOrigins,
   });
 }
