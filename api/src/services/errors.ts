@@ -13,3 +13,8 @@ export class ConflictError extends Error {
   readonly code = 'CONFLICT'; // ⇒ 409
   constructor(message: string) { super(message); this.name = 'ConflictError'; }
 }
+
+export class ForbiddenError extends Error {
+  readonly code = 'FORBIDDEN'; // ⇒ 403
+  constructor(message: string) { super(message); this.name = 'ForbiddenError'; }
+}

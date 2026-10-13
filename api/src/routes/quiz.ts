@@ -7,14 +7,14 @@ export function rutaQuiz(svc: LearningService, requireUser: RequestHandler): Rou
 
   // GET /quiz/:cursoId/:n — AUTH. { preguntas:[{q,opciones}] } SIN respuestas correctas.
   r.get('/:cursoId/:n', requireUser, asyncHandler(async (req, res) => {
-    const preguntas = await svc.preguntasPublicas(req.params.cursoId, Number(req.params.n));
+    const preguntas = await svc.preguntasPublicas(req.usuario!, req.params.cursoId, Number(req.params.n));
     res.json({ preguntas });
   }));
 
   // POST /quiz/:cursoId/:n — AUTH. body {respuestas:number[]}. El servidor califica; no revela el índice correcto.
   r.post('/:cursoId/:n', requireUser, asyncHandler(async (req, res) => {
     const cuerpo = (req.body ?? {}) as { respuestas?: unknown };
-    const resultado = await svc.calificar(req.params.cursoId, Number(req.params.n), cuerpo.respuestas);
+    const resultado = await svc.calificar(req.usuario!, req.params.cursoId, Number(req.params.n), cuerpo.respuestas);
     res.json(resultado);
   }));
 

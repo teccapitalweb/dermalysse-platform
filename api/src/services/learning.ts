@@ -5,9 +5,9 @@
 import { randomBytes } from 'node:crypto';
 import type { ContentStore, CertificateStore, LearningStore, ProgressStore } from '../adapters/interfaces.js';
 import type {
-  CertificadoRemoto, CursoRemoto, PreguntaPublica, ProgresoCurso, ResultadoQuiz, Usuario, VerificacionPublica,
+  CertificadoRemoto, ClaseRemota, CursoRemoto, PreguntaPublica, ProgresoCurso, ResultadoQuiz, Usuario, VerificacionPublica,
 } from '../domain/types.js';
-import { ConflictError, NotFoundError, ValidationError } from './errors.js';
+import { ConflictError, ForbiddenError, NotFoundError, ValidationError } from './errors.js';
 
 /** Umbral de aprobado del quiz (educativo). */
 export const APROBADO_MIN = 0.7;
@@ -34,15 +34,32 @@ export class LearningService {
     return curso;
   }
 
+  /** Resuelve la clase del curso (404 si no existe). */
+  private async clase(cursoId: string, n: number): Promise<{ curso: CursoRemoto; clase: ClaseRemota }> {
+    const curso = await this.curso(cursoId);
+    const clase = curso.clases.find((k) => k.n === n);
+    if (!clase) throw new NotFoundError('La clase no existe en este curso.');
+    return { curso, clase };
+  }
+
+  /** Control de acceso del SERVIDOR: una clase abierta (gratis/preview) es libre; el resto exige VIP. */
+  private exigirAcceso(usuario: Usuario, clase: ClaseRemota): void {
+    if (!clase.gratis && !usuario.esVip) throw new ForbiddenError('Esta clase es para miembros VIP.');
+  }
+
   /** Preguntas PÚBLICAS de una clase: solo { q, opciones }. Sin respuesta correcta ni explicación. */
-  async preguntasPublicas(cursoId: string, n: number): Promise<PreguntaPublica[]> {
+  async preguntasPublicas(usuario: Usuario, cursoId: string, n: number): Promise<PreguntaPublica[]> {
+    const { clase } = await this.clase(cursoId, n);
+    this.exigirAcceso(usuario, clase);
     const quiz = await this.learning.quiz(cursoId, n);
     if (!quiz) throw new NotFoundError('No hay quiz para esa clase.');
     return quiz.preguntas.map((p) => ({ q: p.q, opciones: p.opciones }));
   }
 
   /** Califica en el servidor contra las respuestas almacenadas. NUNCA devuelve el índice correcto. */
-  async calificar(cursoId: string, n: number, respuestas: unknown): Promise<ResultadoQuiz> {
+  async calificar(usuario: Usuario, cursoId: string, n: number, respuestas: unknown): Promise<ResultadoQuiz> {
+    const { clase } = await this.clase(cursoId, n);
+    this.exigirAcceso(usuario, clase);
     const quiz = await this.learning.quiz(cursoId, n);
     if (!quiz) throw new NotFoundError('No hay quiz para esa clase.');
     if (!Array.isArray(respuestas)) throw new ValidationError('Se espera un arreglo de respuestas.');
@@ -66,9 +83,8 @@ export class LearningService {
    * (b) el tiempo topado alcanza COMPLETION_RATIO del tiempo real.
    */
   async marcarVista(usuario: Usuario, cursoId: string, n: number, segundos: unknown): Promise<ResultadoVista> {
-    const curso = await this.curso(cursoId);
-    const clase = curso.clases.find((k) => k.n === n);
-    if (!clase) throw new NotFoundError('La clase no existe en este curso.');
+    const { curso, clase } = await this.clase(cursoId, n);
+    this.exigirAcceso(usuario, clase); // una clase premium no se acredita sin VIP
 
     const numeros = curso.clases.map((k) => k.n).sort((a, b) => a - b);
     const esPrimera = n === numeros[0];

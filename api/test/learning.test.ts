@@ -3,6 +3,12 @@ import assert from 'node:assert/strict';
 import type { AddressInfo } from 'node:net';
 import type { Server } from 'node:http';
 import { buildApp } from '../src/app.js';
+import { LearningService } from '../src/services/learning.js';
+import { FixtureContentStore } from '../src/adapters/dev/fixtureContent.js';
+import { FixtureLearningStore } from '../src/adapters/dev/fixtureQuizzes.js';
+import { MemoryProgressStore } from '../src/adapters/dev/memoryProgress.js';
+import { MemoryCertificateStore } from '../src/adapters/dev/memoryCertificates.js';
+import type { Usuario } from '../src/domain/types.js';
 
 let server: Server;
 let base: string;
@@ -132,4 +138,25 @@ test('GET /verificar/:folio — público, sin datos privados; honesto si no exis
 
   const no = await body(await get('/verificar/DRM-0000-00000'));
   assert.equal(no.valido, false);
+});
+
+test('ACCESO: una clase premium exige VIP; una clase abierta es libre (control del servidor)', async () => {
+  const svc = new LearningService(
+    new FixtureContentStore(), new FixtureLearningStore(), new MemoryProgressStore(), new MemoryCertificateStore(),
+  );
+  const noVip: Usuario = { uid: 'u-free', email: 'free@local', esVip: false, esAdmin: false, nombre: 'Free' };
+
+  // Clase 1 (gratis/preview): acceso libre aun sin VIP.
+  const abiertas = await svc.preguntasPublicas(noVip, 'curso-ejemplo-1', 1);
+  assert.ok(Array.isArray(abiertas) && abiertas.length > 0);
+
+  // Clase 2 (premium): sin VIP ⇒ Forbidden en quiz, calificación y acreditación.
+  await assert.rejects(() => svc.preguntasPublicas(noVip, 'curso-ejemplo-1', 2), /VIP/i);
+  await assert.rejects(() => svc.calificar(noVip, 'curso-ejemplo-1', 2, [0]), /VIP/i);
+  await assert.rejects(() => svc.marcarVista(noVip, 'curso-ejemplo-1', 2, 999999), /VIP/i);
+
+  // Con VIP sí puede.
+  const vip: Usuario = { ...noVip, esVip: true };
+  const premium = await svc.preguntasPublicas(vip, 'curso-ejemplo-1', 2);
+  assert.ok(Array.isArray(premium) && premium.length > 0);
 });

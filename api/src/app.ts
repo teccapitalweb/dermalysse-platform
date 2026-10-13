@@ -11,7 +11,7 @@ import { MemoryProgressStore } from './adapters/dev/memoryProgress.js';
 import { MemoryCertificateStore } from './adapters/dev/memoryCertificates.js';
 import { FirebaseAuthAdapter } from './adapters/stubs/firebaseAuth.js';
 import { crearAuth } from './middleware/auth.js';
-import { ConflictError, NotFoundError, ValidationError } from './services/errors.js';
+import { ConflictError, ForbiddenError, NotFoundError, ValidationError } from './services/errors.js';
 import { LearningService } from './services/learning.js';
 import { rutaConfig } from './routes/config.js';
 import { rutaCatalogo } from './routes/catalogo.js';
@@ -81,6 +81,10 @@ export function createApp(deps: Dependencias): Express {
   app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
     if (err instanceof ValidationError) {
       res.status(400).json({ error: 'validacion', mensaje: err.message });
+      return;
+    }
+    if (err instanceof ForbiddenError) {
+      res.status(403).json({ error: 'sin-acceso', mensaje: err.message });
       return;
     }
     if (err instanceof NotFoundError) {
