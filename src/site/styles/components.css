@@ -98,7 +98,7 @@
 }
 .button:hover { transform: translateY(-2px); background: var(--wine); border-color: var(--wine); will-change: transform; }
 .button:active { transform: translateY(0) scale(.98); will-change: auto; }
-.button--small { min-height: 40px; padding: 0 17px; }
+.button--small { min-height: 44px; padding: 0 17px; }
 .button--ghost { color: var(--ink-deep); background: transparent; }
 .button--ghost:hover { color: white; }
 .button--light { color: var(--ink-deep); background: var(--paper); border-color: var(--paper); }
@@ -221,8 +221,8 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   border: 1px solid var(--line);

@@ -157,15 +157,9 @@ export const mountInteractions = (content: LandingContent): void => {
       section.style.setProperty('--scene-progress', progress.toFixed(4));
     });
 
-    if (skinSection) {
-      const rect = skinSection.getBoundingClientRect();
-      const travel = Math.max(rect.height - viewportHeight, 1);
-      const progress = clamp(-rect.top / travel);
-      skinSection.style.setProperty('--skin-progress', progress.toFixed(4));
-      if (rect.top < viewportHeight * .7 && rect.bottom > viewportHeight * .3) {
-        activateSkinStep(Math.min(skinSteps.length - 1, Math.floor(progress * skinSteps.length)));
-      }
-    }
+    // --skin-progress no se consume en ningún CSS y no hay markup [data-skin-step];
+    // se retira el cálculo por frame (micro-optimización). Si en el futuro se añaden
+    // pasos [data-skin-step], habría que reponer aquí su activación por scroll.
   };
   const requestMotionUpdate = (): void => {
     if (ticking) return;
