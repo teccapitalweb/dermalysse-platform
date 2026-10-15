@@ -48,6 +48,8 @@ import { rutaCertificadosProduccion, rutaProgresoProduccion, rutaStripe, rutaVer
 import { MemoryFirestore } from './adapters/firestore/memoria.js';
 import type { ModuloApi } from './modulos/tipos.js';
 import { moduloVip } from './modulos/vip.js';
+import { crearServicioContenido, moduloContenido } from './modulos/contenido.js';
+import { cargarQuizzesEmpaquetados } from './adapters/firestore/contenido.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
@@ -241,7 +243,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
   const verificador = inyecciones.verificador ?? firebase.verificador();
   const editorial = inyecciones.catalogoEditorial ?? cargarCatalogoEditorial();
   const forum = new FirestoreForumStore(db);
-  const content = new FirestoreContentStore(db, editorial, forum);
+  const content = new FirestoreContentStore(db, editorial, forum, crearServicioContenido(db, ahora));
   const progreso = new FirestoreProgressStore(db, editorial);
   const certificados = new FirestoreCertificateStore(db);
   const webhook = new LegacyWebhookClient({ baseUrl: p.webhookUrl, fetch: inyecciones.fetch, timeoutMs: p.webhookTimeoutMs });
@@ -250,7 +252,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
     auth: seleccionarAuth('firebase', { verificador, db }),
     content,
     experiences: new FirestoreExperienceStore(db),
-    learning: new LearningService(content, new FirestoreLearningStore(db), progreso, certificados),
+    learning: new LearningService(content, new FirestoreLearningStore(db, cargarQuizzesEmpaquetados()), progreso, certificados),
     league: new FirestoreLeagueStore(db),
     forum,
     profiles: new FirestoreProfileStore(db),
@@ -278,5 +280,6 @@ function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: b
   void ctx;
   return [
     moduloVip(ctx),
+    moduloContenido(ctx),
   ];
 }

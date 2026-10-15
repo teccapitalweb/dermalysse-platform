@@ -198,11 +198,18 @@ export class FirestoreProfileStore implements ProfileStore {
 
 // ── Contenido: config, catálogo, noticias ──
 
+/** Materiales y eventos públicos del catálogo (sin enlaces). Ver services/contenido.ts. */
+export interface FuenteContenidoCatalogo {
+  materialesPublicos(): Promise<unknown[]>;
+  eventosPublicos(): Promise<unknown[]>;
+}
+
 export class FirestoreContentStore implements ContentStore {
   constructor(
     private readonly db: FirestorePort,
     private readonly editorial: CursoEditorial[],
     private readonly foroStore: ForumStore,
+    private readonly contenido?: FuenteContenidoCatalogo,
   ) {}
 
   async config(): Promise<ConfigPublica> {
@@ -225,7 +232,10 @@ export class FirestoreContentStore implements ContentStore {
   }
 
   async catalogo(): Promise<CatalogoRemoto> {
-    const [config, publicados] = await Promise.all([this.config(), cursosPublicados(this.db, this.editorial)]);
+    const [config, publicados, materiales, eventos] = await Promise.all([
+      this.config(), cursosPublicados(this.db, this.editorial),
+      this.contenido?.materialesPublicos() ?? [], this.contenido?.eventosPublicos() ?? [],
+    ]);
     const cursos: CursoRemoto[] = publicados.map(({ editorial: e, datos }) => ({
       id: e.id,
       titulo: texto(datos.name).trim() || e.titulo,
@@ -242,8 +252,8 @@ export class FirestoreContentStore implements ContentStore {
     })).sort((a, b) => a.orden - b.orden);
     return {
       cursos,
-      materiales: [],
-      eventos: [],
+      materiales,
+      eventos,
       config: {
         precios: config.precios,
         descuentoVIP: config.descuentoVIP,

@@ -16,6 +16,10 @@ export function visor(params: Record<string, string>) {
   const m = Datos.materiales().find((x) => x.id === params.id);
   if (!m) return placeholder('Material no encontrado', 'Revisa la biblioteca.', 'search-x');
   if (!Acceso.materialAccesible(m)) return placeholder('Contenido VIP', 'Este material es exclusivo para miembros VIP.', 'crown');
+  if (!m.url && m.enlaceProtegido) {
+    return `${placeholder('Este material se abre aparte', 'Se abre en una pestaña nueva desde su ficha.', 'external-link')}
+      <p style="text-align:center;margin-top:12px"><button class="btn btn--brand" data-abrir-material="${m.id}">Abrir material</button></p>`;
+  }
 
   const totalPages = m.paginas || 10;
   const basePath = `/materiales/visor/${m.id}`;

@@ -35,6 +35,10 @@
   display: none;
 }
 
+button.book__mobile-read {
+  text-align: left; /* material externo (modo API): mismo aspecto que el enlace al visor */
+}
+
 .book__actions [data-guardar].is-saved {
   border-color: color-mix(in srgb, var(--primary) 34%, var(--line));
   background: var(--primary-soft);

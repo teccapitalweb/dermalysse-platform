@@ -35,7 +35,8 @@ export function envivo() {
         <p class="hero__lead">Con ${esc(prox.ponente)} · ${prox.duracionMin} min · transmisión en vivo con preguntas al final.</p>
         <div class="hero__actions">
           <button class="btn btn--white btn--lg btn--pill-arrow" data-reservar="${prox.id}" data-reservar-formato="hero">${r.includes(prox.id) ? 'Reservado · te avisamos' : 'Reservar mi lugar'} <span class="arrow" style="background:var(--brand-navy);color:#fff"><i data-lucide="${r.includes(prox.id) ? 'check' : 'bell'}" class="i"></i></span></button>
-          ${prox.enlace ? `<a class="btn btn--lg" style="background:rgba(255,255,255,.12);color:#fff" href="${prox.enlace}" target="_blank" rel="noopener">Entrar a la transmisión</a>` : ''}
+          ${prox.enlace ? `<a class="btn btn--lg" style="background:rgba(255,255,255,.12);color:#fff" href="${prox.enlace}" target="_blank" rel="noopener">Entrar a la transmisión</a>`
+            : prox.conTransmision ? `<button class="btn btn--lg" style="background:rgba(255,255,255,.12);color:#fff" data-abrir-evento="${prox.id}" data-evento-tipo="transmision">Entrar a la transmisión</button>` : ''}
         </div>
       </div>
     </div>` : `
@@ -59,7 +60,7 @@ export function envivo() {
   <section class="stack" style="gap:20px">
     <div class="section-head"><div><span class="chip chip--primary">Grabaciones</span><h2 class="display">Lo que ya se dio en vivo, <em>grabado</em></h2></div></div>
     <p class="muted">Cada curso del catálogo nació como un curso en vivo. Las grabaciones se suben aquí unas semanas después.</p>
-    ${pasados.length ? `<div class="stack">${pasados.map((e) => `<div class="upnext"><div><span class="eyebrow">${fmt(e.fecha)}</span><div class="upnext__title">${esc(e.titulo)}</div></div>${e.cursoId ? `<a class="btn btn--brand btn--sm" href="#/curso/${e.cursoId}">Ver grabación</a>` : '<span class="chip">Pendiente de subir</span>'}</div>`).join('')}</div>` : ''}
+    ${pasados.length ? `<div class="stack">${pasados.map((e) => `<div class="upnext"><div><span class="eyebrow">${fmt(e.fecha)}</span><div class="upnext__title">${esc(e.titulo)}</div></div>${e.cursoId ? `<a class="btn btn--brand btn--sm" href="#/curso/${e.cursoId}">Ver grabación</a>` : e.conGrabacion ? `<button class="btn btn--brand btn--sm" data-abrir-evento="${e.id}" data-evento-tipo="grabacion">Ver grabación</button>` : '<span class="chip">Pendiente de subir</span>'}</div>`).join('')}</div>` : ''}
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">${cursos.slice(0, 4).map(tarjetaCurso).join('')}</div>
   </section>`;
 }

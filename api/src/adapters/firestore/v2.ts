@@ -1,7 +1,8 @@
 // Almacenes NUEVOS del club en colecciones v2_* (no existen en el club actual; no tocan sus datos).
 //  - v2_experiencias/{id}            Directorio de experiencias.
 //  - v2_liga/clasificacion           { actualizado, filas[] } — sin documento ⇒ clasificación vacía (nunca la del fixture).
-//  - v2_quiz/{cursoId}__{n}          { preguntas[] } — banco con respuestas; nunca sale completo al cliente.
+//  - v2_quiz/{cursoId}__{n}          { cursoId, n, estado, preguntas[], actualizado, por } — banco con respuestas
+//                                    (admin); nunca sale completo al cliente. Sin documento ⇒ banco empaquetado.
 //  - v2_historia/{uid}               { uid, completados[], puntajes{}, ultimoNivel, actualizado, guardadoEn } — Modo Historia.
 import type { ExperienceStore, FiltroExperiencias, HistoriaStore, LeagueStore, LearningStore } from '../interfaces.js';
 import type { ExperienciaCompartida, FilaLiga, ProgresoHistoria, QuizFixture, ResumenLiga } from '../../domain/types.js';
@@ -71,16 +72,27 @@ export class FirestoreLeagueStore implements LeagueStore {
   }
 }
 
+/**
+ * Banco de quizzes de producción: v2_quiz/{cursoId}__{n} si existe con preguntas y no es borrador
+ * (lo guarda el admin); si no, el banco empaquetado (api/content/club/quizzes.json).
+ */
 export class FirestoreLearningStore implements LearningStore {
-  constructor(private readonly db: FirestorePort) {}
+  private readonly empaquetados: Map<string, QuizFixture>;
+
+  constructor(private readonly db: FirestorePort, empaquetados: QuizFixture[] = []) {
+    this.empaquetados = new Map(empaquetados.map((q) => [`${q.cursoId}__${q.n}`, q]));
+  }
 
   async quiz(cursoId: string, n: number): Promise<QuizFixture | null> {
     if (!Number.isInteger(n) || n < 1) return null;
     let ruta: string;
     try { ruta = `${COLECCIONES_V2.quiz}/${segmento(cursoId)}__${n}`; } catch { return null; }
     const d = (await this.db.get(ruta)).data();
-    if (!d || !Array.isArray(d.preguntas) || !d.preguntas.length) return null;
-    return { cursoId, n, preguntas: d.preguntas as QuizFixture['preguntas'] };
+    if (d && d.estado !== 'borrador' && Array.isArray(d.preguntas) && d.preguntas.length) {
+      return { cursoId, n, preguntas: d.preguntas as QuizFixture['preguntas'] };
+    }
+    const empaquetado = this.empaquetados.get(`${cursoId}__${n}`);
+    return empaquetado ? { cursoId, n, preguntas: empaquetado.preguntas } : null;
   }
 }
 

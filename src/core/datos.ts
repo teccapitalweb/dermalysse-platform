@@ -15,8 +15,14 @@ export interface Curso {
 export interface Material {
   id: string; titulo: string; tipo: string; categoria: string; area: string; autor: string; paginas: number; portada: string;
   cursoId: string | null; descripcion: string; estado: 'disponible' | 'proximamente' | 'oculto' | string; gratis?: boolean; url?: string;
+  /** Modo API: hay archivo, pero su enlace se pide con sesión (GET /materiales/:id/acceso). */
+  enlaceProtegido?: boolean;
 }
-export interface Evento { id: string; titulo: string; ponente: string; fecha: string; duracionMin: number; enlace?: string; cursoId?: string; publicado?: boolean; reservas?: number }
+export interface Evento {
+  id: string; titulo: string; ponente: string; fecha: string; duracionMin: number; enlace?: string; cursoId?: string; publicado?: boolean; reservas?: number;
+  /** Modo API: los enlaces de transmisión y grabación se piden con sesión VIP (GET /eventos/:id/acceso). */
+  conTransmision?: boolean; conGrabacion?: boolean;
+}
 export interface Pregunta { q: string; opciones: string[]; correcta: number; explicacion: string }
 export interface Quiz { id: string; cursoId: string; n: number; estado: 'borrador' | 'aprobado'; preguntas: Pregunta[]; actualizado: string }
 export interface MiembroDemo { uid: string; nombre: string; email: string; plan: 'mensual' | 'anual' | 'cortesia' | 'cupon' | 'ninguno'; vence: string | null; alta: string; clasesVistas: number; ultimaActividad: string; cortesiaHasta?: string | null; cuponHasta?: string | null; cortesiaMotivo?: string; esVip?: boolean; esAdmin?: boolean }
