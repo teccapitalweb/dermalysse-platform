@@ -71,16 +71,18 @@ Decisión del propietario (15 de octubre de 2026): publicar el club nuevo con **
 
 Días VIP de recompensas y cupones: solo `api/src/services/vip.ts` (extiende desde la cortesía vigente; nunca toca `subscription`). «1 mes» = 30 días, «1 año» = 365; máximo 366 días por otorgamiento.
 
-### Funciones apagadas en producción
+### Funciones por interruptor en producción
 
-Sin backend en producción y/o con decisión comercial pendiente. En modo API se ocultan del menú, de «Más» y de Inicio, y sus rutas muestran «Próximamente en el club»; en demo siguen igual. Interruptores en `src/core/funciones.ts` (`EN_PRODUCCION`); habilitar una es cambiar su valor a `true` cuando exista su backend:
+Los interruptores de `src/core/funciones.ts` (`EN_PRODUCCION`) deciden qué se ve en modo API; en demo todo sigue disponible. El 15 de octubre de 2026, por decisión del propietario, las cuatro quedaron **encendidas** porque ya tienen backend propio (cada una con sus pruebas):
 
-| Función | Qué se oculta | Backend que falta |
+| Función | Qué habilita | Backend (módulo en `api/src/modulos/`) |
 | --- | --- | --- |
-| `experiencia` | `#/bienvenida`, `#/encuestas`, redirección de bienvenida, tarjeta de Inicio, resumen en Perfil | `/me/experiencia…`, `/me/entrevista…`, `/me/encuesta…` |
-| `adminGestion` | todo el admin nuevo salvo Academia; tarjeta al panel actual si hay `VITE_ADMIN_LEGADO_URL` | `/admin/*` (salvo `/admin/academia` y `/admin/cupones`, que ya existen) |
+| `recompensas` | `#/recompensas`, menú, «Más», Inicio, botón Canjear | `vip.ts` (`GET /recompensas`, `POST /recompensas/:id/canjear`) |
+| `cupones` | canje en `#/suscripcion` y admin de cupones | `vip.ts` (`POST /cupones/canjear`, `/admin/cupones…`) |
+| `experiencia` | `#/bienvenida`, `#/encuestas`, redirección de bienvenida, tarjeta de Inicio, resumen en Perfil | `experiencia.ts` (`/me/experiencia…`, entrevista y encuesta) |
+| `adminGestion` | todo el admin nuevo (resumen, cursos, miembros+cortesía, avisos, foro, ajustes, cupones, experiencia) además de Academia | `admin.ts` + `contenido.ts` + `vip.ts` + `experiencia.ts` (`/admin/*`) |
 
-Encendidas (15 de octubre de 2026, decisión del propietario): `recompensas` (`#/recompensas`, menú, «Más», Inicio, botón Canjear) y `cupones` (canje en `#/suscripcion`), con el backend de la tabla de contrato. Mientras `adminGestion` siga apagado, los cupones se crean con la API (`POST /admin/cupones`) o encendiendo esa función.
+Biblioteca y En vivo (`/catalogo`) ya no salen vacías en producción: `contenido.ts` sirve los materiales editoriales + la colección vieja `pdfs`, y los eventos desde `webinars` programados. Los 45 quizzes de clase viven empaquetados y en `v2_quiz`. Días VIP (recompensas, cupones, bienvenida, cortesía del admin) solo por `api/src/services/vip.ts`: extiende desde la cortesía vigente y nunca toca `subscription`.
 
 ## 4. Lo que debe aportar el propietario (solo nombres; nunca valores en el repo)
 
