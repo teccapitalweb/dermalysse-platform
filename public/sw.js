@@ -1,9 +1,13 @@
 // Club Dermalysse · service worker
 // Navegación: red primero, sin red la última copia. Estáticos propios: responde con caché y actualiza por detrás.
 // Nunca toca el backend, Firebase, Stripe ni Bunny.
-const VERSION = 'dermalysse-v4';
-const APP_SHELL = '/club/';
-const SHELL = [APP_SHELL, '/manifest.webmanifest', '/brand/dermalysse-isotipo.svg', '/brand/dermalysse-horizontal.svg', '/offline.html'];
+// Vive bajo la base del sitio ('/' en desarrollo, '/dermalysse-platform/' en GitHub Pages): todas las rutas
+// se calculan desde el ámbito con que se registró.
+const VERSION = 'dermalysse-v5';
+const BASE = new URL(self.registration.scope).pathname;
+const APP_SHELL = BASE + 'club/';
+const OFFLINE = BASE + 'offline.html';
+const SHELL = [APP_SHELL, BASE + 'manifest.webmanifest', BASE + 'brand/dermalysse-isotipo.svg', BASE + 'brand/dermalysse-horizontal.svg', OFFLINE];
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
@@ -14,17 +18,21 @@ self.addEventListener('activate', (e) => {
   e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== VERSION).map((k) => caches.delete(k)))).then(() => self.clients.claim()));
 });
 
-const estatico = (url) => /^\/(assets|brand|img|media)\//.test(url.pathname);
+// Ruta relativa a la base, siempre con '/' inicial ('/assets/…', '/club/…').
+const relativa = (url) => (url.pathname.startsWith(BASE) ? '/' + url.pathname.slice(BASE.length) : null);
+const estatico = (ruta) => /^\/(assets|brand|img|media)\//.test(ruta);
 
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
-  if (url.pathname.startsWith('/@') || url.pathname.startsWith('/src/') || url.pathname.startsWith('/node_modules/')) return; // servidor de desarrollo
+  const ruta = relativa(url);
+  if (ruta === null) return; // fuera de este sitio (otro repo bajo el mismo dominio)
+  if (ruta.startsWith('/@') || ruta.startsWith('/src/') || ruta.startsWith('/node_modules/')) return; // servidor de desarrollo
 
   if (req.mode === 'navigate') {
-    const esClub = url.pathname === '/club' || url.pathname.startsWith('/club/');
+    const esClub = ruta === '/club' || ruta.startsWith('/club/');
     e.respondWith(fetch(req).then((r) => {
       if (esClub) {
         const copia = r.clone();
@@ -32,11 +40,11 @@ self.addEventListener('fetch', (e) => {
       }
       return r;
     }).catch(() => esClub
-      ? caches.match(APP_SHELL).then((r) => r || caches.match('/offline.html'))
-      : caches.match('/offline.html')));
+      ? caches.match(APP_SHELL).then((r) => r || caches.match(OFFLINE))
+      : caches.match(OFFLINE)));
     return;
   }
-  if (estatico(url)) {
+  if (estatico(ruta)) {
     e.respondWith(caches.open(VERSION).then(async (c) => {
       const hit = await c.match(req);
       const red = fetch(req).then((r) => { if (r.ok) c.put(req, r.clone()); return r; }).catch(() => hit);

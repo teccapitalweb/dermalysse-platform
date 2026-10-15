@@ -1063,7 +1063,7 @@ document.addEventListener('submit', async (e) => {
 });
 
 // ── PWA: service worker y botón de instalar fijo, nunca popups ──
-if ('serviceWorker' in navigator && import.meta.env.PROD) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+if ('serviceWorker' in navigator && import.meta.env.PROD) window.addEventListener('load', () => navigator.serviceWorker.register(import.meta.env.BASE_URL + 'sw.js').catch(() => {}));
 let deferred: any = null;
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; });
 window.addEventListener('appinstalled', () => { document.querySelectorAll('[data-install]').forEach((x) => x.remove()); toast('Dermalysse quedó instalado en tu dispositivo', 'smartphone'); });
