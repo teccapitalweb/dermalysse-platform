@@ -1,5 +1,6 @@
 import { Progreso } from '../core/progreso';
 import { type Curso, duracionCurso } from '../core/catalogo';
+import { esMiCursoGratis, cursoAbierto, aplicaMetodologia, debeElegir } from '../core/curso-gratis';
 
 export const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 
@@ -9,16 +10,26 @@ export const iniciales = (nombre: string) =>
 export function tarjetaCurso(c: Curso) {
   const p = Progreso.porcentaje(c);
   const done = Progreso.completado(c);
-  const chip = done
-    ? `<span class="chip chip--accent"><i data-lucide="check" class="i"></i>Completado</span>`
-    : p > 0 ? `<span class="chip chip--primary">${p}%</span>`
-    : `<span class="chip chip--outline">${c.area}</span>`;
-  const btnLabel = done ? 'Repasar' : p > 0 ? 'Continuar' : 'Ver curso';
+  // Metodología «escoge tu curso gratis»: para el gratuito, su curso elegido se abre; los demás se cierran.
+  const miGratis = esMiCursoGratis(c.id);
+  const bloqueado = aplicaMetodologia() && !cursoAbierto(c.id);
+  const porElegir = debeElegir();
+  const chip = miGratis
+    ? `<span class="chip chip--accent"><i data-lucide="unlock" class="i"></i>Tu curso gratis</span>`
+    : bloqueado
+      ? `<span class="chip chip--outline"><i data-lucide="crown" class="i"></i>VIP</span>`
+      : done
+        ? `<span class="chip chip--accent"><i data-lucide="check" class="i"></i>Completado</span>`
+        : p > 0 ? `<span class="chip chip--primary">${p}%</span>`
+        : porElegir ? `<span class="chip chip--primary"><i data-lucide="gift" class="i"></i>Elígelo gratis</span>`
+        : `<span class="chip chip--outline">${c.area}</span>`;
+  const btnLabel = bloqueado ? 'Solo VIP' : porElegir ? 'Elegir gratis' : done ? 'Repasar' : p > 0 ? 'Continuar' : 'Ver curso';
   return `
-  <a class="pcard" href="#/curso/${c.id}">
+  <a class="pcard ${bloqueado ? 'pcard--bloqueado' : ''} ${porElegir ? 'pcard--elegible' : ''}" href="#/curso/${c.id}">
     <div class="pcard__img-wrap">
       <img class="pcard__img" src="${c.portada}" alt="" loading="lazy">
       <div class="pcard__badge">${chip}</div>
+      ${bloqueado ? `<span class="pcard__lock" aria-hidden="true"><i data-lucide="lock" class="i"></i></span>` : ''}
     </div>
     <div class="pcard__body">
       <div class="pcard__top-row">

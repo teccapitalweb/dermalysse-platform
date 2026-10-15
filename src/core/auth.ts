@@ -10,7 +10,7 @@ import { Perfil, type PerfilRemoto } from './perfil';
 import { Progreso } from './progreso';
 import { usarUsuarioHistoria, type ProgresoHistoria } from './historia';
 
-export interface Usuario { uid: string; email: string; nombre: string; foto: string; esAdmin: boolean; esVip: boolean }
+export interface Usuario { uid: string; email: string; nombre: string; foto: string; esAdmin: boolean; esVip: boolean; cursoGratis: string | null }
 
 interface RespuestaMe {
   uid: string;
@@ -21,6 +21,7 @@ interface RespuestaMe {
   plan: string | null;
   vence: string | null;
   motivoAcceso?: string;
+  cursoGratis?: string | null;
   perfil: PerfilRemoto;
 }
 
@@ -89,6 +90,7 @@ async function cargarSesion(u: User | null) {
     foto: u.photoURL || '',
     esAdmin: me?.esAdmin === true,
     esVip: me?.esVip === true,
+    cursoGratis: (me?.esVip ? null : me?.cursoGratis) ?? null,
   };
   const historiaUnida = usarUsuarioHistoria(u.uid, historia);
   if (historia) {
@@ -114,7 +116,7 @@ export const Auth = {
     if (listo) return listo;
     listo = (async () => {
       if (Datos.modo === 'demo') {
-        usuario = localStorage.getItem(DEMO_KEY) ? { uid: 'demo', email: 'demo@dermalysse.local', nombre: 'Modo demo', foto: '', esAdmin: true, esVip: !!localStorage.getItem('dermalysse:vip-sim') } : null;
+        usuario = localStorage.getItem(DEMO_KEY) ? { uid: 'demo', email: 'demo@dermalysse.local', nombre: 'Modo demo', foto: '', esAdmin: true, esVip: !!localStorage.getItem('dermalysse:vip-sim'), cursoGratis: localStorage.getItem('dermalysse:curso-gratis') || null } : null;
         if (usuario) { Perfil.usarUsuario(usuario.uid); Progreso.usarUsuario(usuario.uid); usarUsuarioHistoria(usuario.uid); Perfil.set({ nombre: usuario.nombre, plan: usuario.esVip ? 'anual' : 'invitado' }); }
         else { Perfil.usarUsuario(null); Progreso.usarUsuario(null); usarUsuarioHistoria(null); }
         return;
@@ -215,6 +217,7 @@ export const Auth = {
       foto: u.photoURL || '',
       esAdmin: me.esAdmin === true,
       esVip: me.esVip === true,
+      cursoGratis: (me.esVip ? null : me.cursoGratis) ?? null,
     };
     return me;
   },

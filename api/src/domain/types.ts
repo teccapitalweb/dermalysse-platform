@@ -34,6 +34,8 @@ export interface Usuario {
   acceso?: { plan: 'mensual' | 'anual' | 'cortesia' | null; vence: string | null; motivo: string };
   /** Modo firebase: datos de la cuenta (ID token) para el alta de users/members. */
   cuenta?: { nombre: string; foto: string };
+  /** Curso que el miembro gratuito eligió como su curso gratis (users.cursoGratis). '' o undefined si no ha elegido. */
+  cursoGratis?: string;
 }
 
 /** Respuesta de GET /me. */
@@ -47,6 +49,8 @@ export interface RespuestaMe {
   vence: string | null;
   /** Motivo de la regla de acceso: courtesy, active, trialing, canceling, expired, past_due o none. */
   motivoAcceso: string;
+  /** Curso gratis elegido por el miembro gratuito (null si no ha elegido o si es VIP). */
+  cursoGratis: string | null;
   perfil: PerfilRemoto;
 }
 

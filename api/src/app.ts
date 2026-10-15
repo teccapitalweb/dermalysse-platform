@@ -52,6 +52,7 @@ import { crearServicioContenido, moduloContenido } from './modulos/contenido.js'
 import { cargarQuizzesEmpaquetados } from './adapters/firestore/contenido.js';
 import { moduloExperiencia } from './modulos/experiencia.js';
 import { moduloAdmin } from './modulos/admin.js';
+import { moduloCursoGratis } from './modulos/cursoGratis.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
@@ -284,5 +285,6 @@ function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: b
     moduloContenido(ctx),
     moduloExperiencia(ctx),
     moduloAdmin(ctx),
+    moduloCursoGratis(ctx),
   ];
 }

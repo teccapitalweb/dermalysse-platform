@@ -26,6 +26,8 @@ export function rutaMe(requireUser: RequestHandler, profiles: ProfileStore): Rou
       plan: acceso.plan,
       vence: acceso.vence,
       motivoAcceso: acceso.motivo,
+      // Un VIP no necesita curso gratis; solo se informa al gratuito.
+      cursoGratis: u.esVip ? null : (u.cursoGratis || null),
       perfil,
     };
     res.set('Cache-Control', 'no-store');

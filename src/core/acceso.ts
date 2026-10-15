@@ -6,6 +6,7 @@ import { Auth } from './auth';
 import { Datos, type Material } from './datos';
 import { type Curso } from './catalogo';
 import { esc } from '../ui/partials';
+import { claseAbierta, aplicaMetodologia } from './curso-gratis';
 
 export const VIP_SIM = 'dermalysse:vip-sim';
 
@@ -15,12 +16,13 @@ export const Acceso = {
   activarVipDemo() { try { localStorage.setItem(VIP_SIM, '1'); } catch {} },
   quitarVipDemo() { try { localStorage.removeItem(VIP_SIM); } catch {} },
 
-  // Clases: el catálogo oficial de Dermalysse es la fuente de verdad para el acceso.
+  // Metodología «escoge tu curso gratis»: el gratuito abre SU curso elegido (todas las clases menos la
+  // última); los demás cursos piden VIP. El acceso total (VIP/admin) ve todo. El servidor (y el webhook)
+  // aplican la misma regla; aquí es solo la vista.
   claseLibre(curso: Curso, n: number): boolean {
-    return curso.clases.find((clase) => clase.n === n)?.gratis === true;
+    return aplicaMetodologia() && claseAbierta(curso, n);
   },
-  // En API los administradores (admins/{uid}) también ven las clases, como en el club actual; el servidor decide.
-  claseAccesible(curso: Curso, n: number) { return this.vip() || (!this.demo() && !!Auth.usuario?.esAdmin) || this.claseLibre(curso, n); },
+  claseAccesible(curso: Curso, n: number) { return claseAbierta(curso, n); },
 
   // Materiales: la gratuidad es explícita para que el orden visual no cambie la regla.
   materialLibre(m: Material): boolean { return m.gratis === true; },
