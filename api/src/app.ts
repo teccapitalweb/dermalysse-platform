@@ -45,6 +45,8 @@ import { rutaVerificar } from './routes/verificar.js';
 import { rutaLiga } from './routes/liga.js';
 import { rutaHistoria } from './routes/historia.js';
 import { rutaCertificadosProduccion, rutaProgresoProduccion, rutaStripe, rutaVerificarProduccion, rutaVideo } from './routes/club.js';
+import { MemoryFirestore } from './adapters/firestore/memoria.js';
+import type { ModuloApi } from './modulos/tipos.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
@@ -68,6 +70,8 @@ export interface Dependencias {
   /** Nombre del modo de datos (solo informativo en GET /). */
   dataMode?: string;
   corsOrigins: string[];
+  /** Módulos que montan sus propias rutas (recompensas, cupones, materiales, admin…); ver src/modulos/tipos.ts. */
+  modulos?: ModuloApi[];
 }
 
 /** CORS: solo refleja orígenes de la allowlist (CORS_ORIGINS). */
@@ -123,6 +127,7 @@ export function createApp(deps: Dependencias): Express {
     app.use('/academia', rutaAcademia(deps.academia, requireUser));
     app.use('/admin/academia', rutaAdminAcademia(deps.academia, requireAdmin));
   }
+  for (const modulo of deps.modulos ?? []) modulo({ app, requireUser, requireAdmin });
 
   // 404 honesto para rutas no definidas.
   app.use((_req, res) => {
@@ -177,6 +182,8 @@ export interface Inyecciones {
   verificador?: VerificadorIdToken;
   fetch?: FetchLike;
   catalogoEditorial?: CursoEditorial[];
+  /** Reloj inyectable para pruebas de los módulos. */
+  ahora?: () => Date;
 }
 
 /**
@@ -198,7 +205,11 @@ export function seleccionarAuth(modo: string | undefined, firebase?: { verificad
 export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inyecciones = {}): Express {
   const config = leerConfig(env);
 
+  const ahora = inyecciones.ahora ?? (() => new Date());
   if (!config.produccion) {
+    // Desarrollo: los módulos usan un Firestore en memoria (vacío al arrancar).
+    const db = inyecciones.firestore ?? new MemoryFirestore();
+    const modulos: ModuloApi[] = crearModulos({ db, ahora, produccion: false });
     const content = new FixtureContentStore();
     const learning = new LearningService(content, new FixtureLearningStore(), new MemoryProgressStore(), new MemoryCertificateStore());
     return createApp({
@@ -219,6 +230,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
       ),
       dataMode: config.dataMode,
       corsOrigins: config.corsOrigins,
+      modulos,
     });
   }
 
@@ -253,5 +265,16 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
     foroRequiereSesion: true,
     dataMode: config.dataMode,
     corsOrigins: config.corsOrigins,
+    modulos: crearModulos({ db, ahora, produccion: true }),
   });
+}
+
+/**
+ * Módulos del club con sus rutas propias. Cada uno recibe el mismo Firestore (memoria en desarrollo,
+ * el real en producción). Agrega aquí una línea por módulo.
+ */
+function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: boolean }): ModuloApi[] {
+  void ctx;
+  return [
+  ];
 }
