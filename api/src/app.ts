@@ -98,7 +98,7 @@ export function createApp(deps: Dependencias): Express {
   // Manejo de errores: estado honesto, nunca datos demo para enmascarar un fallo.
   app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
     if (err instanceof CodedError) {
-      res.status(err.status).json({ error: err.codigo, mensaje: err.message });
+      res.status(err.status).json({ ...(err.datos ?? {}), error: err.codigo, mensaje: err.message });
       return;
     }
     if (err instanceof ValidationError) {

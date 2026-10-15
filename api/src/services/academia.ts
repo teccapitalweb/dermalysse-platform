@@ -10,6 +10,9 @@
 //  - se califican solo las preguntas emitidas, una sola vez (409 en otro caso);
 //  - las respuestas correctas y las explicaciones NUNCA se revelan mientras el módulo no esté
 //    aprobado (ahora o antes). Se guarda la mejor marca; reprobar después no retira la aprobación.
+//  - calendario de lanzamiento (opcional por programa): antes de su fecha, un módulo responde
+//    403 modulo_programado con `disponibleDesde`, ANTES de las demás reglas; el admin lo salta.
+//    La fecha de inicio efectiva es el ajuste del admin ?? `lanzamiento` del catálogo.
 import { randomInt } from 'node:crypto';
 import {
   claveRevisionAcademia,
@@ -17,8 +20,8 @@ import {
 } from '../adapters/interfaces.js';
 import {
   ESTADOS_ACADEMIA,
-  type AvanceModuloAcademia, type EstadoAcademia, type ModuloAcademia, type PreguntaAcademia, type ProgramaAcademia,
-  type ProgresoAcademia, type RevisionAcademia, type Usuario,
+  type AjusteLanzamientoAcademia, type AvanceModuloAcademia, type EstadoAcademia, type LanzamientoAcademia, type ModuloAcademia,
+  type PreguntaAcademia, type ProgramaAcademia, type ProgresoAcademia, type RevisionAcademia, type Usuario,
 } from '../domain/types.js';
 import { CodedError, NotFoundError, ValidationError } from './errors.js';
 
@@ -37,6 +40,54 @@ export interface OpcionesAcademia {
   /** Entero aleatorio en [0, max). Inyectable para pruebas. */
   azar?: (max: number) => number;
 }
+
+// ── Calendario de lanzamiento (reglas puras) ──
+
+/** Desfase de la Ciudad de México: UTC−6 todo el año (sin horario de verano desde 2022). */
+export const DESFASE_MEXICO_MS = -6 * 60 * 60 * 1000;
+const DIA_MS = 24 * 60 * 60 * 1000;
+export const CADA_DIAS_POR_DEFECTO = 7;
+export const CADA_DIAS_MIN = 1;
+export const CADA_DIAS_MAX = 60;
+
+/** Fecha de calendario YYYY-MM-DD real (rechaza 2026-02-30 y años fuera de 2000–2100). */
+export function fechaCalendarioValida(v: unknown): v is string {
+  if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
+  const [y, m, d] = v.split('-').map(Number);
+  if (y < 2000 || y > 2100) return false;
+  const f = new Date(Date.UTC(y, m - 1, d));
+  return f.getUTCFullYear() === y && f.getUTCMonth() === m - 1 && f.getUTCDate() === d;
+}
+
+export const cadaDiasValido = (v: unknown): v is number => Number.isInteger(v) && (v as number) >= CADA_DIAS_MIN && (v as number) <= CADA_DIAS_MAX;
+
+/** Fecha de hoy (YYYY-MM-DD) en la Ciudad de México. */
+export const hoyMexico = (ahora: Date) => new Date(ahora.getTime() + DESFASE_MEXICO_MS).toISOString().slice(0, 10);
+
+/** Instante (ISO, UTC) en que se abre el módulo n: 00:00 de Ciudad de México de inicio + (n − 1) × cadaDias. */
+export function disponibleDesde(l: LanzamientoAcademia | null | undefined, n: number): string | null {
+  if (!l || !fechaCalendarioValida(l.inicio)) return null;
+  const [y, m, d] = l.inicio.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d) - DESFASE_MEXICO_MS + (n - 1) * l.cadaDias * DIA_MS).toISOString();
+}
+
+/** El calendario del catálogo, si es válido (el validador lo exige; aquí solo se evita romper). */
+export function lanzamientoCatalogo(p: ProgramaAcademia): LanzamientoAcademia | null {
+  const l = p.lanzamiento;
+  if (!l || !fechaCalendarioValida(l.inicio)) return null;
+  return { inicio: l.inicio, cadaDias: cadaDiasValido(l.cadaDias) ? l.cadaDias : CADA_DIAS_POR_DEFECTO };
+}
+
+/** Calendario que manda: el ajuste del admin tiene prioridad sobre el catálogo. */
+export function lanzamientoEfectivo(p: ProgramaAcademia, ajuste: AjusteLanzamientoAcademia | null | undefined): (LanzamientoAcademia & { origen: 'admin' | 'catalogo' }) | null {
+  const cat = lanzamientoCatalogo(p);
+  if (ajuste && fechaCalendarioValida(ajuste.inicio)) {
+    return { inicio: ajuste.inicio, cadaDias: cadaDiasValido(ajuste.cadaDias) ? ajuste.cadaDias : cat?.cadaDias ?? CADA_DIAS_POR_DEFECTO, origen: 'admin' };
+  }
+  return cat ? { ...cat, origen: 'catalogo' } : null;
+}
+
+const programadoEn = (desde: string | null, ahora: Date) => !!desde && ahora.getTime() < Date.parse(desde);
 
 // ── Reglas puras ──
 
@@ -172,9 +223,21 @@ export class AcademiaService {
     return (await this.progress.modulo(uid, programa, n)).aprobado === true;
   }
 
-  /** Resuelve programa, módulo, visibilidad, acceso VIP y desbloqueo, en ese orden. */
+  /** Calendario efectivo de un programa (ajuste del admin ?? catálogo). */
+  private async lanzamiento(p: ProgramaAcademia) {
+    return lanzamientoEfectivo(p, await this.reviews.lanzamiento(p.id));
+  }
+
+  /** Resuelve programa, módulo, fecha de lanzamiento, visibilidad, acceso VIP y desbloqueo, en ese orden. */
   private async preparar(usuario: Usuario, programaId: string, nParam: unknown): Promise<Preparado> {
     const { p, n } = await this.ubicar(programaId, nParam);
+    // La fecha va primero: el mensaje de un módulo programado siempre habla de su fecha.
+    if (!usuario.esAdmin) {
+      const desde = disponibleDesde(await this.lanzamiento(p), n);
+      if (desde && programadoEn(desde, this.ahora())) {
+        throw new CodedError(403, 'modulo_programado', 'Este módulo todavía no está disponible. Se abre en la fecha indicada.', { disponibleDesde: desde });
+      }
+    }
     const m = await this.content.modulo(p.id, n);
     const estado = estadoEfectivo(m, await this.reviews.get(p.id, n));
     if (!m || !estado || !moduloVisible(m, estado, { esAdmin: usuario.esAdmin, borradores: this.borradores })) {
@@ -191,23 +254,34 @@ export class AcademiaService {
 
   /** Catálogo con disponibilidad por módulo (sin datos del examen) y el avance de la cuenta. */
   async catalogo(usuario: Usuario) {
-    const [catalogo, revisiones, progreso] = await Promise.all([this.content.catalogo(), this.reviews.todas(), this.progress.del(usuario.uid)]);
+    const [catalogo, revisiones, ajustes, progreso] = await Promise.all([
+      this.content.catalogo(), this.reviews.todas(), this.reviews.lanzamientos(), this.progress.del(usuario.uid),
+    ]);
     const opciones = { esAdmin: usuario.esAdmin, borradores: this.borradores };
-    const programas = await Promise.all(catalogo.programas.map(async (p) => ({
-      ...p,
-      modulos: await Promise.all(p.modulos.map(async (mm) => {
-        const m = await this.content.modulo(p.id, mm.n);
-        const estado = estadoEfectivo(m, revisiones.get(claveRevisionAcademia(p.id, mm.n)));
-        return {
-          n: mm.n,
-          titulo: mm.titulo,
-          disponible: moduloVisible(m, estado, opciones),
-          estado,
-          temas: temasDe(m).length,
-          duracionMin: typeof m?.duracionMin === 'number' ? m.duracionMin : null,
-        };
-      })),
-    })));
+    const ahora = this.ahora();
+    const programas = await Promise.all(catalogo.programas.map(async (p) => {
+      const l = lanzamientoEfectivo(p, ajustes.get(p.id));
+      return {
+        ...p,
+        // Siempre el calendario efectivo (nunca el del JSON si el admin lo movió).
+        lanzamiento: l ? { inicio: l.inicio, cadaDias: l.cadaDias } : null,
+        modulos: await Promise.all(p.modulos.map(async (mm) => {
+          const m = await this.content.modulo(p.id, mm.n);
+          const estado = estadoEfectivo(m, revisiones.get(claveRevisionAcademia(p.id, mm.n)));
+          const desde = disponibleDesde(l, mm.n);
+          return {
+            n: mm.n,
+            titulo: mm.titulo,
+            disponible: moduloVisible(m, estado, opciones),
+            estado,
+            temas: temasDe(m).length,
+            duracionMin: typeof m?.duracionMin === 'number' ? m.duracionMin : null,
+            disponibleDesde: desde,
+            programado: programadoEn(desde, ahora),
+          };
+        })),
+      };
+    }));
     return { programas, progreso };
   }
 
@@ -320,16 +394,71 @@ export class AcademiaService {
     };
   }
 
+  /** Calendario para el panel: efectivo, origen, valor del catálogo, ajuste y fecha de cada módulo. */
+  private calendarioAdmin(p: ProgramaAcademia, ajuste: AjusteLanzamientoAcademia | null | undefined) {
+    const l = lanzamientoEfectivo(p, ajuste);
+    const ahora = this.ahora();
+    return {
+      lanzamiento: l
+        ? {
+          inicio: l.inicio,
+          cadaDias: l.cadaDias,
+          origen: l.origen,
+          catalogo: lanzamientoCatalogo(p),
+          ajuste: l.origen === 'admin' && ajuste ? { por: ajuste.por, fecha: ajuste.fecha } : null,
+        }
+        : null,
+      calendario: p.modulos.map((mm) => {
+        const desde = disponibleDesde(l, mm.n);
+        return { n: mm.n, disponibleDesde: desde, programado: programadoEn(desde, ahora) };
+      }),
+    };
+  }
+
   async revisionAdmin() {
-    const [catalogo, revisiones] = await Promise.all([this.content.catalogo(), this.reviews.todas()]);
-    const programas = await Promise.all(catalogo.programas.map(async (p) => ({
-      id: p.id,
-      numero: p.numero ?? null,
-      titulo: p.titulo,
-      area: p.area ?? '',
-      modulos: await Promise.all(p.modulos.map(async (mm) => this.fila(mm, await this.content.modulo(p.id, mm.n), revisiones.get(claveRevisionAcademia(p.id, mm.n))))),
-    })));
+    const [catalogo, revisiones, ajustes] = await Promise.all([this.content.catalogo(), this.reviews.todas(), this.reviews.lanzamientos()]);
+    const programas = await Promise.all(catalogo.programas.map(async (p) => {
+      const { lanzamiento, calendario } = this.calendarioAdmin(p, ajustes.get(p.id));
+      return {
+        id: p.id,
+        numero: p.numero ?? null,
+        titulo: p.titulo,
+        area: p.area ?? '',
+        lanzamiento,
+        modulos: await Promise.all(p.modulos.map(async (mm, i) => ({
+          ...this.fila(mm, await this.content.modulo(p.id, mm.n), revisiones.get(claveRevisionAcademia(p.id, mm.n))),
+          disponibleDesde: calendario[i].disponibleDesde,
+          programado: calendario[i].programado,
+        }))),
+      };
+    }));
     return { programas };
+  }
+
+  /**
+   * Mueve la fecha de inicio del calendario de un programa (todo el calendario se desplaza).
+   * Cuerpo { inicio: "YYYY-MM-DD", cadaDias?: 1–60 }; { inicio: null } vuelve a la fecha del catálogo.
+   */
+  async fijarLanzamiento(usuario: Usuario, programaId: string, cuerpo: unknown) {
+    const datos = esObjetoPlano(cuerpo) ? cuerpo : null;
+    if (!datos || !('inicio' in datos)) throw new ValidationError('"inicio" es obligatorio: una fecha YYYY-MM-DD o null.');
+    if (datos.inicio === null) return this.borrarLanzamiento(programaId);
+    if (!fechaCalendarioValida(datos.inicio)) throw new ValidationError('"inicio" debe ser una fecha real con formato YYYY-MM-DD.');
+    if (datos.cadaDias !== undefined && datos.cadaDias !== null && !cadaDiasValido(datos.cadaDias)) {
+      throw new ValidationError(`"cadaDias" debe ser un entero de ${CADA_DIAS_MIN} a ${CADA_DIAS_MAX}.`);
+    }
+    const p = await this.programa(programaId);
+    const ajuste: AjusteLanzamientoAcademia = { inicio: datos.inicio, por: usuario.uid, fecha: this.ahora().toISOString() };
+    if (cadaDiasValido(datos.cadaDias)) ajuste.cadaDias = datos.cadaDias;
+    await this.reviews.fijarLanzamiento(p.id, ajuste);
+    return { id: p.id, ...this.calendarioAdmin(p, ajuste) };
+  }
+
+  /** Borra el ajuste del admin: vuelve a mandar el `lanzamiento` del catálogo (o ninguno). */
+  async borrarLanzamiento(programaId: string) {
+    const p = await this.programa(programaId);
+    await this.reviews.fijarLanzamiento(p.id, null);
+    return { id: p.id, ...this.calendarioAdmin(p, null) };
   }
 
   async revisar(usuario: Usuario, programaId: string, nParam: unknown, cuerpo: unknown) {

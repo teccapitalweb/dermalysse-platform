@@ -1,7 +1,7 @@
 // Almacenes de la Academia en MEMORIA (modo dev). No persisten en disco ni en una base real.
 // Devuelven copias defensivas para que nadie mute el estado interno desde fuera.
 import { claveRevisionAcademia, type AcademiaAttemptStore, type AcademiaProgressStore, type AcademiaReviewStore } from '../interfaces.js';
-import type { AvanceModuloAcademia, IntentoAcademia, ProgresoAcademia, RevisionAcademia } from '../../domain/types.js';
+import type { AjusteLanzamientoAcademia, AvanceModuloAcademia, IntentoAcademia, ProgresoAcademia, RevisionAcademia } from '../../domain/types.js';
 
 const clave = (...partes: (string | number)[]) => partes.join('|');
 
@@ -82,5 +82,22 @@ export class MemoryAcademiaReviewStore implements AcademiaReviewStore {
   async set(programa: string, n: number, revision: RevisionAcademia): Promise<RevisionAcademia> {
     this.revisiones.set(claveRevisionAcademia(programa, n), { ...revision });
     return { ...revision };
+  }
+
+  // ── Calendario de lanzamiento: ajustes del admin por programa ──
+  private readonly ajustes = new Map<string, AjusteLanzamientoAcademia>();
+
+  async lanzamientos(): Promise<Map<string, AjusteLanzamientoAcademia>> {
+    return new Map([...this.ajustes].map(([k, v]) => [k, { ...v }]));
+  }
+
+  async lanzamiento(programa: string): Promise<AjusteLanzamientoAcademia | null> {
+    const a = this.ajustes.get(programa);
+    return a ? { ...a } : null;
+  }
+
+  async fijarLanzamiento(programa: string, ajuste: AjusteLanzamientoAcademia | null): Promise<void> {
+    if (ajuste) this.ajustes.set(programa, { ...ajuste });
+    else this.ajustes.delete(programa);
   }
 }

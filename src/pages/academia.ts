@@ -6,8 +6,8 @@ import { Datos } from '../core/datos';
 import {
   programa as getPrograma, cargarCatalogo, cargarModulo, avanceModulo, moduloAprobado, moduloDesbloqueado,
   temasLeidos, resumenPrograma, marcarTemaLeido, marcarJuego, juegoCompletado, emitirExamen, calificarExamen,
-  esAdminAcademia, puedeVip, modoRevisorDemo,
-  type Modulo, type Programa, type PreguntaA, type ResultadoExamen,
+  esAdminAcademia, puedeVip, modoRevisorDemo, moduloProgramado, infoModulo, fechaLanzamiento, cuentaLanzamiento, textoLanzamiento,
+  type ModuloCatalogo, type Modulo, type Programa, type PreguntaA, type ResultadoExamen,
 } from '../core/academia';
 import { bloques, esc, figura, hash, minijuegoHTML, montarInteraccion, verificacion } from '../ui/academia-bloques';
 import { celebrar } from '../ui/celebracion';
@@ -27,6 +27,19 @@ const ruta = (...p: (string | number)[]) => `#/academia/${p.map((x) => encodeURI
 const mayuscula = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const CERT_PRONTO = 'El certificado del programa se habilitará pronto; tu avance queda guardado.';
 
+// ── Calendario de lanzamiento ──
+/** Disponible para quien lo ve: publicado (o vista previa) y sin fecha pendiente. */
+const abierto = (m: ModuloCatalogo) => !!m.disponible && !moduloProgramado(m);
+/** Primer módulo cuya fecha todavía no llega (informativo también para el revisor). */
+const proximo = (p: Programa) => p.modulos.find((m) => m.programado && m.disponibleDesde);
+const ritmo = (p: Programa) => {
+  const d = p.lanzamiento?.cadaDias ?? 7;
+  return d === 7 ? 'cada semana' : d === 1 ? 'cada día' : d % 7 === 0 ? `cada ${d / 7} semanas` : `cada ${d} días`;
+};
+/** Línea compacta «Módulo 1 · Disponible el jueves 22 de octubre · faltan 7 días». */
+const lineaLanzamiento = (m: ModuloCatalogo, clase = 'ac-lanz') =>
+  `<span class="${clase}">${ic('calendar-clock')}<span><b>Módulo ${m.n}</b> · ${esc(textoLanzamiento(m.disponibleDesde!))}</span></span>`;
+
 function portadaPrograma(p: Programa, grande = false) {
   const a = area(p.area);
   return `<div class="ac-portada ${grande ? 'ac-portada--grande' : ''}">${figura(p.portada?.id || '', '16:9', `Portada del programa ${p.titulo}`, '', undefined, 'ac-fig--portada')}<span class="ac-portada__sello"><b>${num2(p.numero)}</b><small>Programa</small></span><span class="ac-portada__ic">${ic(a.icono)}</span></div>`;
@@ -41,7 +54,17 @@ function errorHTML(e: unknown, p?: Programa, n?: number) {
   const err = e as { codigo?: string; message?: string };
   const codigo = err?.codigo || '';
   const aviso = (icono: string, titulo: string, texto: string, accion = '', extra = '') =>
-    `<div class="ac-aviso ${extra}" role="${extra.includes('vip') ? 'region' : 'alert'}" aria-label="${esc(titulo)}">${ic(icono)}<div><strong>${esc(titulo)}</strong><p>${texto}</p>${accion}</div></div>`;
+    `<div class="ac-aviso ${extra}" role="${/vip|programado/.test(extra) ? 'region' : 'alert'}" aria-label="${esc(titulo)}">${ic(icono)}<div><strong>${esc(titulo)}</strong><p>${texto}</p>${accion}</div></div>`;
+  if (codigo === 'modulo_programado') {
+    // Aviso amable, no un error: el módulo existe y tiene fecha. Nunca se muestra su contenido.
+    const desde = (e as { disponibleDesde?: string })?.disponibleDesde;
+    const fecha = desde
+      ? `<span class="ac-aviso__fecha">Disponible el <b>${esc(fechaLanzamiento(desde))}</b> · ${esc(cuentaLanzamiento(desde))}</span>`
+      : '<span class="ac-aviso__fecha">Se abrirá muy pronto.</span>';
+    return aviso('calendar-clock', n ? `El módulo ${n} se abre pronto` : 'Este módulo se abre pronto',
+      `${fecha}Los módulos de este programa se abren uno por uno, a las 00:00 (hora del centro de México).`,
+      p ? `<div class="ac-aviso__acciones"><a class="btn btn--brand" href="${ruta(p.id)}">${ic('route')}Mientras tanto, explora el programa</a></div>` : '', 'ac-aviso--programado');
+  }
   if (codigo === 'requiere_vip' || codigo === '402') {
     return aviso('crown', 'Este módulo es para miembros VIP', `El módulo 1 de cada programa es gratis. Con la membresía VIP sigues con ${p ? `los ${p.modulos.length - 1} módulos restantes` : 'el resto del programa'} y presentas sus exámenes.`,
       `<div class="ac-aviso__acciones"><button type="button" class="btn btn--gradient" data-paywall="Desbloquea todos los módulos de la Academia Dermalysse y sus exámenes.">${ic('crown')}Hazte VIP</button>${p ? `<a class="btn btn--secondary" href="${ruta(p.id, 1)}">Ir al módulo 1 gratis</a>` : ''}</div>`, 'ac-aviso--vip');
@@ -73,17 +96,20 @@ export async function academia() {
   try { lista = await cargarCatalogo(); } catch (e) { return envolver(errorHTML(e)); }
   if (!lista.length) return envolver(`<div class="ac-aviso">${ic('pen-line')}<div><strong>La Academia está en preparación</strong><p>Pronto encontrarás aquí programas de lectura guiada con actividades y exámenes.</p></div></div>`);
   const totalModulos = lista.reduce((a, p) => a + p.modulos.length, 0);
-  const listos = lista.reduce((a, p) => a + p.modulos.filter((m) => m.disponible).length, 0);
+  const listos = lista.reduce((a, p) => a + p.modulos.filter(abierto).length, 0);
   const enCurso = lista.filter((p) => { const r = resumenPrograma(p); return r.iniciado && !r.completo; });
   const areas = [...new Set(lista.map((p) => p.area))];
   const tarjeta = (p: Programa) => {
     const r = resumenPrograma(p);
-    const disp = p.modulos.filter((m) => m.disponible).length;
+    const disp = p.modulos.filter(abierto).length;
     const a = area(p.area);
+    const prox = proximo(p);
     const estado = r.iniciado
       ? `<div class="progress progress--thin" role="progressbar" aria-label="Avance del programa" aria-valuenow="${r.pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${r.pct}%"></span></div><small class="ac-card__avance">${r.aprobados} de ${r.total} módulos aprobados</small>`
-      : disp === 0 ? `<span class="ac-etiqueta">${ic('pen-line')}En preparación</span>`
+      : disp === 0 ? (prox ? '' : `<span class="ac-etiqueta">${ic('pen-line')}En preparación</span>`)
         : disp < p.modulos.length ? `<small class="ac-card__avance">${disp} de ${p.modulos.length} módulos disponibles</small>` : '';
+    // Calendario: el siguiente módulo con fecha y el ritmo de apertura.
+    const lanz = prox ? `${lineaLanzamiento(prox)}<small class="ac-card__avance">Un módulo nuevo ${ritmo(p)}</small>` : '';
     return `<a class="ac-card" href="${ruta(p.id)}" data-tono="${a.tono}" data-area="${esc(p.area)}" data-buscar="${esc(`${p.titulo} ${p.area} ${p.descripcion} ${p.modulos.map((m) => m.titulo).join(' ')}`.toLowerCase())}">
       ${portadaPrograma(p)}
       <div class="ac-card__body">
@@ -91,7 +117,7 @@ export async function academia() {
         <h3>${esc(p.titulo)}</h3>
         <p>${esc(p.descripcion)}</p>
         <div class="ac-card__meta"><span>${ic('layers')}${p.modulos.length} módulos</span><span>${ic('signal')}${esc(p.nivel)}</span></div>
-        ${estado}
+        ${estado}${lanz}
       </div></a>`;
   };
   return `<section class="ac ac-catalogo">
@@ -110,7 +136,7 @@ export async function academia() {
       </ol>
     </header>
     ${Datos.modo === 'demo' ? `<p class="ac-nota">${ic('flask-conical')}Vista demo: tu avance se guarda solo en este navegador y los módulos en borrador se muestran como vista previa.</p>` : ''}
-    ${enCurso.length ? `<section class="ac-seguir"><h2 class="ac-h2">${ic('play')} Continúa donde te quedaste</h2><div class="ac-seguir__lista">${enCurso.map((p) => { const r = resumenPrograma(p); return `<a class="ac-seguir__item" href="${ruta(p.id, r.siguiente)}" data-tono="${area(p.area).tono}"><span class="ac-seguir__num">${num2(p.numero)}</span><span><strong>${esc(p.titulo)}</strong><small>Módulo ${r.siguiente} · ${esc(p.modulos.find((m) => m.n === r.siguiente)?.titulo || '')}</small><span class="progress progress--thin"><span style="width:${r.pct}%"></span></span></span>${ic('arrow-right')}</a>`; }).join('')}</div></section>` : ''}
+    ${enCurso.length ? `<section class="ac-seguir"><h2 class="ac-h2">${ic('play')} Continúa donde te quedaste</h2><div class="ac-seguir__lista">${enCurso.map((p) => { const r = resumenPrograma(p); return `<a class="ac-seguir__item" href="${ruta(p.id, r.siguiente)}" data-tono="${area(p.area).tono}"><span class="ac-seguir__num">${num2(p.numero)}</span><span><strong>${esc(p.titulo)}</strong><small>Módulo ${r.siguiente} · ${esc(p.modulos.find((m) => m.n === r.siguiente)?.titulo || '')}</small>${(() => { const sig = p.modulos.find((m) => m.n === r.siguiente); return moduloProgramado(sig) ? `<small class="ac-seguir__fecha">${ic('calendar-clock')}${esc(textoLanzamiento(sig!.disponibleDesde!))}</small>` : ''; })()}<span class="progress progress--thin"><span style="width:${r.pct}%"></span></span></span>${ic('arrow-right')}</a>`; }).join('')}</div></section>` : ''}
     <div class="ac-filtros" role="search">
       <label class="ac-buscar">${ic('search')}<span class="sr-only">Buscar programa</span><input type="search" placeholder="Buscar programa o tema…" data-ac-buscar></label>
       <div class="ac-chips" role="group" aria-label="Filtrar por área"><button type="button" class="ac-chip is-on" data-ac-area="" aria-pressed="true">Todas</button>${areas.map((a) => `<button type="button" class="ac-chip" data-ac-area="${esc(a)}" aria-pressed="false">${ic(area(a).icono)}${esc(a)}</button>`).join('')}</div>
@@ -133,20 +159,37 @@ export async function academiaPrograma(params: Record<string, string>) {
   const totalMin = p.modulos.reduce((a, m) => a + (m.duracionMin || 0), 0);
   const a = area(p.area);
   const vip = puedeVip();
-  const disponibles = p.modulos.filter((m) => m.disponible).length;
+  const disponibles = p.modulos.filter(abierto).length;
   const sendero = p.modulos.map((m) => {
     const ok = moduloAprobado(p.id, m.n), abierto = moduloDesbloqueado(p.id, m.n), actual = m.n === r.siguiente && !r.completo;
     const av = avanceModulo(p.id, m.n);
-    const preparacion = m.disponible === false;
-    const clase = ok ? 'is-ok' : preparacion ? 'is-cerrado' : actual ? 'is-actual' : abierto ? 'is-abierto' : 'is-cerrado';
-    const sello = ok ? ic('check') : preparacion ? ic('pen-line') : !abierto ? ic('lock') : m.n > 1 && !vip ? ic('crown') : `<b>${m.n}</b>`;
-    const etiqueta = [`Módulo ${m.n}`, m.n === 1 ? 'gratis' : '', preparacion ? 'en preparación' : '', m.estado && m.estado !== 'aprobado' && !preparacion ? `vista previa (${m.estado})` : ''].filter(Boolean).join(' · ');
-    const detalle = ok ? `<em class="is-ok">Aprobado · mejor ${av.mejor ?? ''} %</em>` : av.temas && !preparacion ? `<em>${Object.keys(av.temas).length} temas leídos</em>` : m.temas ? `<em>${m.temas} temas${m.duracionMin ? ` · ${horas(m.duracionMin)}` : ''}</em>` : '';
-    return `<li class="ac-paso ${clase}"><a href="${ruta(p.id, m.n)}"${actual ? ' aria-current="step"' : ''}><span class="ac-paso__sello" aria-hidden="true">${sello}</span><span class="ac-paso__txt"><small>${etiqueta}</small><strong>${esc(m.titulo)}</strong>${detalle}</span>${ic('chevron-right')}</a></li>`;
+    // Con fecha pendiente manda el calendario (igual que la API): ni borrador ni candado, solo su fecha.
+    const programado = !ok && moduloProgramado(m);
+    const preparacion = !programado && m.disponible === false;
+    const clase = ok ? 'is-ok' : programado ? 'is-cerrado is-programado' : preparacion ? 'is-cerrado' : actual ? 'is-actual' : abierto ? 'is-abierto' : 'is-cerrado';
+    const sello = ok ? ic('check') : programado ? ic('calendar-clock') : preparacion ? ic('pen-line') : !abierto ? ic('lock') : m.n > 1 && !vip ? ic('crown') : `<b>${m.n}</b>`;
+    const etiqueta = [`Módulo ${m.n}`, m.n === 1 ? 'gratis' : '', programado ? 'programado' : '', preparacion ? 'en preparación' : '', m.estado && m.estado !== 'aprobado' && !preparacion && !programado ? `vista previa (${m.estado})` : ''].filter(Boolean).join(' · ');
+    const detalle = ok ? `<em class="is-ok">Aprobado · mejor ${av.mejor ?? ''} %</em>`
+      : programado ? `<em class="ac-paso__fecha">Disponible el ${esc(fechaLanzamiento(m.disponibleDesde!))} · <b>${esc(cuentaLanzamiento(m.disponibleDesde!))}</b></em>`
+        : av.temas && !preparacion ? `<em>${Object.keys(av.temas).length} temas leídos</em>` : m.temas ? `<em>${m.temas} temas${m.duracionMin ? ` · ${horas(m.duracionMin)}` : ''}</em>` : '';
+    // El revisor salta la fecha, pero ve cuándo se abre para los miembros.
+    const revisor = !programado && m.programado && m.disponibleDesde ? `<em class="ac-paso__fecha">${ic('calendar-clock')}Para miembros: ${esc(textoLanzamiento(m.disponibleDesde))}</em>` : '';
+    return `<li class="ac-paso ${clase}"><a href="${ruta(p.id, m.n)}"${actual ? ' aria-current="step"' : ''}><span class="ac-paso__sello" aria-hidden="true">${sello}</span><span class="ac-paso__txt"><small>${etiqueta}</small><strong>${esc(m.titulo)}</strong>${detalle}${revisor}</span>${ic('chevron-right')}</a></li>`;
   }).join('');
-  const cta = disponibles === 0
-    ? `<span class="ac-etiqueta">${ic('pen-line')}Programa en preparación</span>`
-    : `<a class="btn btn--brand btn--lg" href="${ruta(p.id, r.siguiente)}">${r.completo ? 'Repasar el programa' : r.iniciado ? `Continuar en el módulo ${r.siguiente}` : 'Empezar el módulo 1'} ${ic('arrow-right')}</a>`;
+  const destino = p.modulos.find((m) => m.n === r.siguiente);
+  const cta = !r.completo && moduloProgramado(destino)
+    // El módulo que tocaría todavía no se abre: CTA deshabilitado con su fecha, en lugar de «Empezar».
+    ? `<button type="button" class="btn btn--lg ac-cta-fecha" disabled>${ic('calendar-clock')}<span>Disponible el ${esc(fechaLanzamiento(destino!.disponibleDesde!))}<small>${r.iniciado ? `Módulo ${destino!.n}` : 'Módulo 1'} · ${esc(cuentaLanzamiento(destino!.disponibleDesde!))}</small></span></button>`
+    : disponibles === 0
+      ? `<span class="ac-etiqueta">${ic('pen-line')}Programa en preparación</span>`
+      : `<a class="btn btn--brand btn--lg" href="${ruta(p.id, r.siguiente)}">${r.completo ? 'Repasar el programa' : r.iniciado ? `Continuar en el módulo ${r.siguiente}` : 'Empezar el módulo 1'} ${ic('arrow-right')}</a>`;
+  // Aviso de calendario: siguiente apertura y ritmo.
+  const prox = proximo(p);
+  const calendario = prox ? `<div class="ac-calendario" role="note" aria-label="Calendario de lanzamiento">
+      <span class="ac-calendario__ic">${ic('calendar-clock')}</span>
+      <div><strong>Próximo módulo: ${prox.n} · ${esc(prox.titulo)}</strong>
+      <p>${esc(textoLanzamiento(prox.disponibleDesde!))}. Se abre un módulo nuevo ${ritmo(p)}, a las 00:00 (hora del centro de México).${esAdminAcademia() ? ' Como revisor puedes abrirlo antes de su fecha.' : ''}</p></div>
+    </div>` : '';
   return `<section class="ac ac-programa" data-tono="${a.tono}">
     ${migas([['Academia', '#/academia'], [p.titulo]])}
     ${aviso}
@@ -161,6 +204,7 @@ export async function academiaPrograma(params: Record<string, string>) {
         <div class="ac-prog__cta">${cta}${r.iniciado ? `<div class="ac-prog__avance"><div class="progress" role="progressbar" aria-label="Avance del programa" aria-valuenow="${r.pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${r.pct}%"></span></div><small>${r.aprobados} de ${r.total} módulos aprobados</small></div>` : ''}</div>
       </div>
     </header>
+    ${calendario}
     ${r.completo ? `<div class="ac-aviso ac-aviso--ok">${ic('badge-check')}<div><strong>Completaste el programa</strong><p>Aprobaste los ${p.modulos.length} módulos. ${CERT_PRONTO}</p></div></div>` : ''}
     <div class="ac-cuerpo2">
       <section><h2 class="ac-h2">${ic('route')} Ruta del programa <small>${disponibles} de ${p.modulos.length} disponibles</small></h2><ol class="ac-sendero">${sendero}</ol></section>
@@ -234,7 +278,7 @@ export async function academiaModulo(params: Record<string, string>) {
       </section>
       <aside class="ac-lado">
         ${m.minijuego ? `<a class="ac-paso-final ${juegoCompletado(p.id, n) ? 'is-ok' : ''}" href="${ruta(p.id, n, 'juego')}"><span class="ac-paso-final__ic">${ic(juego[0])}</span><span><small>Minijuego del módulo</small><strong>${juego[1]}</strong><em>${juegoCompletado(p.id, n) ? 'Completado' : 'Repasa el vocabulario jugando'}</em></span>${ic('arrow-right')}</a>` : ''}
-        <a class="ac-paso-final ac-paso-final--examen ${av.aprobado ? 'is-ok' : ''} ${examenListo ? '' : 'is-pendiente'}" href="${ruta(p.id, n, 'examen')}"><span class="ac-paso-final__ic">${ic(av.aprobado ? 'badge-check' : 'clipboard-check')}</span><span><small>Examen del módulo</small><strong>${av.aprobado ? `Aprobado · ${av.mejor} %` : `${m.examen.mostrar} preguntas · ${m.examen.aprobar} % para aprobar`}</strong><em>${examenListo ? (av.aprobado ? (n < p.modulos.length ? `Módulo ${n + 1} desbloqueado` : 'Último módulo del programa') : 'Listo para presentarlo') : `Lee los ${m.temas.length} temas para habilitarlo`}</em></span>${ic(examenListo ? 'arrow-right' : 'lock')}</a>
+        <a class="ac-paso-final ac-paso-final--examen ${av.aprobado ? 'is-ok' : ''} ${examenListo ? '' : 'is-pendiente'}" href="${ruta(p.id, n, 'examen')}"><span class="ac-paso-final__ic">${ic(av.aprobado ? 'badge-check' : 'clipboard-check')}</span><span><small>Examen del módulo</small><strong>${av.aprobado ? `Aprobado · ${av.mejor} %` : `${m.examen.mostrar} preguntas · ${m.examen.aprobar} % para aprobar`}</strong><em>${examenListo ? (av.aprobado ? (n < p.modulos.length ? (moduloProgramado(infoModulo(p.id, n + 1)) ? `Módulo ${n + 1}: ${esc(textoLanzamiento(infoModulo(p.id, n + 1)!.disponibleDesde!))}` : `Módulo ${n + 1} desbloqueado`) : 'Último módulo del programa') : 'Listo para presentarlo') : `Lee los ${m.temas.length} temas para habilitarlo`}</em></span>${ic(examenListo ? 'arrow-right' : 'lock')}</a>
       </aside>
     </div>
   </section>`;
@@ -361,13 +405,16 @@ function pintarResultado(root: HTMLElement, r: ResultadoExamen) {
   const q = new Map(ex.preguntas.map((x) => [x.id, x]));
   const circ = 326.7;
   const fin = r.aprobado && r.programaCompleto;
+  // Si el siguiente módulo todavía tiene fecha pendiente, se dice cuándo se abre en lugar de «ya está abierto».
+  const sig = r.siguiente ? infoModulo(ex.p, r.siguiente) : undefined;
+  const sigProgramado = moduloProgramado(sig) ? sig!.disponibleDesde! : null;
   root.innerHTML = `<div class="ac-ex__res ${r.aprobado ? 'is-ok' : 'is-no'}" tabindex="-1" data-ac-ex-res>
     <div class="ac-ex__nota"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="ac-ex__aro"/><circle cx="60" cy="60" r="52" class="ac-ex__aro-v" style="stroke-dasharray:${(r.porcentaje / 100) * circ} ${circ}"/></svg><b>${r.porcentaje}<small>%</small></b></div>
     <span class="ac-estado ${r.aprobado ? 'is-ok' : 'is-no'}">${r.aprobado ? `${ic('badge-check')} Módulo aprobado` : `${ic('rotate-ccw')} Aún no apruebas`}</span>
     <h2>${r.aprobado ? (fin ? '¡Completaste el programa!' : '¡Aprobaste el módulo!') : 'Te faltó poco'}</h2>
-    <p>${r.correctas} de ${r.total} correctas · mejor resultado ${r.mejor} %. ${r.aprobado ? (fin ? `Aprobaste todos los módulos. ${CERT_PRONTO}` : r.siguiente ? `El módulo ${r.siguiente} ya está abierto.` : '') : `Necesitas ${ex.aprobar} % para aprobar. Repasa los temas y vuelve a intentarlo en 3 minutos.`}</p>
+    <p>${r.correctas} de ${r.total} correctas · mejor resultado ${r.mejor} %. ${r.aprobado ? (fin ? `Aprobaste todos los módulos. ${CERT_PRONTO}` : r.siguiente ? (sigProgramado ? `El módulo ${r.siguiente} se abre el ${esc(fechaLanzamiento(sigProgramado))} (${esc(cuentaLanzamiento(sigProgramado))}).` : `El módulo ${r.siguiente} ya está abierto.`) : '') : `Necesitas ${ex.aprobar} % para aprobar. Repasa los temas y vuelve a intentarlo en 3 minutos.`}</p>
     ${r.revelado ? '' : `<p class="ac-ex__oculto">${ic('eye-off')}<span>Las respuestas correctas y sus explicaciones se muestran cuando apruebas el módulo. Abajo ves en qué preguntas acertaste.</span></p>`}
-    <div class="ac-ex__acciones">${r.aprobado && r.siguiente ? `<a class="btn btn--brand btn--lg" href="${ruta(ex.p, r.siguiente)}">Ir al módulo ${r.siguiente} ${ic('arrow-right')}</a>` : ''}${!r.aprobado ? `<a class="btn btn--brand btn--lg" href="${ruta(ex.p, ex.n)}">${ic('book-open')} Repasar los temas</a>` : ''}<a class="btn btn--secondary" href="${fin ? ruta(ex.p) : ruta(ex.p, ex.n)}">${fin ? 'Ver el programa' : 'Volver al módulo'}</a></div>
+    <div class="ac-ex__acciones">${r.aprobado && r.siguiente ? (sigProgramado ? `<a class="btn btn--brand btn--lg" href="${ruta(ex.p)}">${ic('calendar-clock')}Ver el calendario del programa</a>` : `<a class="btn btn--brand btn--lg" href="${ruta(ex.p, r.siguiente)}">Ir al módulo ${r.siguiente} ${ic('arrow-right')}</a>`) : ''}${!r.aprobado ? `<a class="btn btn--brand btn--lg" href="${ruta(ex.p, ex.n)}">${ic('book-open')} Repasar los temas</a>` : ''}<a class="btn btn--secondary" href="${fin ? ruta(ex.p) : ruta(ex.p, ex.n)}">${fin ? 'Ver el programa' : 'Volver al módulo'}</a></div>
     <h3 class="ac-h2">${ic('list-checks')} Revisión de respuestas</h3>
     <ol class="ac-ex__rev">${r.detalle.map((d) => {
       const x = q.get(d.id); if (!x) return '';

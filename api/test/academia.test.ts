@@ -18,7 +18,9 @@ import { MemoryProfileStore } from '../src/adapters/dev/memoryProfile.js';
 import { DiskAcademiaContentStore, nn } from '../src/adapters/dev/diskAcademia.js';
 import { MemoryAcademiaAttemptStore, MemoryAcademiaProgressStore, MemoryAcademiaReviewStore } from '../src/adapters/dev/memoryAcademia.js';
 import { LearningService } from '../src/services/learning.js';
-import { AcademiaService, ESPERA_EXAMEN_MS, estadoEfectivo, moduloPublico } from '../src/services/academia.js';
+import {
+  AcademiaService, ESPERA_EXAMEN_MS, disponibleDesde, estadoEfectivo, fechaCalendarioValida, hoyMexico, lanzamientoCatalogo, moduloPublico,
+} from '../src/services/academia.js';
 import type { CatalogoAcademia, ModuloAcademia, Usuario } from '../src/domain/types.js';
 
 // ── Contenido en memoria: un programa de 3 módulos, 2 temas cada uno y bancos de 6 preguntas (se muestran 4).
@@ -44,14 +46,18 @@ function modulo(n: number, estado = 'aprobado'): ModuloAcademia {
 
 class MemoriaContenido implements AcademiaContentStore {
   readonly mods: Record<number, ModuloAcademia | null>;
-  constructor(estados: Record<number, string | null> = {}) {
+  constructor(estados: Record<number, string | null> = {}, readonly lanzamiento?: { inicio: string; cadaDias?: number }) {
     this.mods = Object.fromEntries([1, 2, 3].map((n) => {
       const e = estados[n] === undefined ? 'aprobado' : estados[n];
       return [n, e === null ? null : modulo(n, e)];
     }));
   }
   async catalogo(): Promise<CatalogoAcademia> {
-    return { programas: [{ id: 'prog', numero: 1, titulo: 'Programa de prueba', area: 'Ciencia de la piel', modulos: [1, 2, 3].map((n) => ({ n, titulo: `Módulo ${n}` })) }] };
+    return { programas: [{
+      id: 'prog', numero: 1, titulo: 'Programa de prueba', area: 'Ciencia de la piel',
+      ...(this.lanzamiento ? { lanzamiento: { ...this.lanzamiento } } : {}),
+      modulos: [1, 2, 3].map((n) => ({ n, titulo: `Módulo ${n}` })),
+    }] };
   }
   async modulo(p: string, n: number) { return p === 'prog' ? this.mods[n] ?? null : null; }
 }
@@ -70,8 +76,8 @@ interface Entorno {
   pedir: (metodo: string, ruta: string, token?: string | null, cuerpo?: unknown) => Promise<{ status: number; body: any }>;
 }
 
-async function entorno(t: TestContext, o: { estados?: Record<number, string | null>; borradores?: boolean; contenido?: MemoriaContenido } = {}): Promise<Entorno> {
-  const contenido = o.contenido ?? new MemoriaContenido(o.estados);
+async function entorno(t: TestContext, o: { estados?: Record<number, string | null>; borradores?: boolean; contenido?: MemoriaContenido; lanzamiento?: { inicio: string; cadaDias?: number } } = {}): Promise<Entorno> {
+  const contenido = o.contenido ?? new MemoriaContenido(o.estados, o.lanzamiento);
   const reloj = { ahora: new Date('2026-10-15T10:00:00.000Z') };
   const content = new FixtureContentStore();
   const app = createApp({
@@ -134,6 +140,7 @@ describe('academia · sesión y catálogo', () => {
     for (const [metodo, ruta] of [
       ['GET', '/academia'], ['GET', '/academia/progreso'], ['GET', '/academia/prog/1'], ['POST', '/academia/prog/1/tema'],
       ['GET', '/academia/prog/1/examen'], ['POST', '/academia/prog/1/examen'], ['GET', '/admin/academia'], ['PATCH', '/admin/academia/prog/1'],
+      ['PATCH', '/admin/academia/prog/lanzamiento'], ['DELETE', '/admin/academia/prog/lanzamiento'],
     ] as const) {
       assert.equal((await e.pedir(metodo, ruta, null, metodo === 'GET' ? undefined : {})).status, 401, `${metodo} ${ruta}`);
       assert.equal((await e.pedir(metodo, ruta, 'falso', metodo === 'GET' ? undefined : {})).status, 401, `${metodo} ${ruta} token inválido`);
@@ -151,7 +158,10 @@ describe('academia · sesión y catálogo', () => {
     assert.deepEqual(p.modulos.map((m: any) => m.estado), ['aprobado', 'borrador', null]);
     assert.deepEqual(p.modulos.map((m: any) => m.temas), [2, 2, 0]);
     assert.deepEqual(p.modulos.map((m: any) => m.duracionMin), [41, 42, null]);
-    assert.deepEqual(Object.keys(p.modulos[0]).sort(), ['disponible', 'duracionMin', 'estado', 'n', 'temas', 'titulo']);
+    assert.deepEqual(Object.keys(p.modulos[0]).sort(), ['disponible', 'disponibleDesde', 'duracionMin', 'estado', 'n', 'programado', 'temas', 'titulo']);
+    // Sin calendario de lanzamiento: ninguna fecha, nada programado.
+    assert.equal(p.lanzamiento, null);
+    assert.ok(p.modulos.every((m: any) => m.disponibleDesde === null && m.programado === false));
     assert.deepEqual(r.body.progreso, {});
     assert.ok(sinBanco(r.body), 'el catálogo no lleva preguntas, respuestas ni explicaciones');
     // El admin ve los borradores como disponibles.
@@ -529,6 +539,190 @@ describe('academia · revisión administrativa', () => {
   });
 });
 
+// ── Calendario de lanzamiento: el reloj de las pruebas empieza el 2026-10-15T10:00Z (04:00 en CDMX) ──
+const LANZ = { inicio: '2026-10-22', cadaDias: 7 };
+/** 00:00 de Ciudad de México (UTC−6) de inicio + (n − 1) × 7 días. */
+const FECHAS = ['2026-10-22T06:00:00.000Z', '2026-10-29T06:00:00.000Z', '2026-11-05T06:00:00.000Z'];
+const fijarReloj = (e: Entorno, iso: string, deltaMs = 0) => { e.reloj.ahora = new Date(Date.parse(iso) + deltaMs); };
+
+describe('academia · calendario de lanzamiento', () => {
+  test('disponibleDesde = inicio + (n − 1) × cadaDias a las 00:00 de Ciudad de México (UTC−6, sin horario de verano)', () => {
+    assert.deepEqual([1, 2, 3].map((n) => disponibleDesde(LANZ, n)), FECHAS);
+    assert.equal(disponibleDesde({ inicio: '2026-10-15', cadaDias: 1 }, 12), '2026-10-26T06:00:00.000Z');
+    // Abril (cuando antes había horario de verano) sigue en UTC−6.
+    assert.equal(disponibleDesde({ inicio: '2027-04-10', cadaDias: 7 }, 1), '2027-04-10T06:00:00.000Z');
+    assert.equal(disponibleDesde(null, 1), null);
+    assert.equal(hoyMexico(new Date('2026-10-16T05:59:59.999Z')), '2026-10-15');
+    assert.equal(hoyMexico(new Date('2026-10-16T06:00:00.000Z')), '2026-10-16');
+    for (const f of ['2026-02-30', '2026-13-01', '22/10/2026', '2026-1-5', '1999-12-31', '', null, 20261022]) assert.equal(fechaCalendarioValida(f), false, String(f));
+    assert.equal(fechaCalendarioValida('2028-02-29'), true);
+  });
+
+  test('antes de la fecha ⇒ 403 modulo_programado con disponibleDesde en módulo, tema y examen', async (t) => {
+    const e = await entorno(t, { lanzamiento: LANZ });
+    for (const token of ['free', 'vip']) {
+      for (const [metodo, ruta, cuerpo] of [
+        ['GET', '/academia/prog/1', undefined],
+        ['POST', '/academia/prog/1/tema', { tema: '1.1' }],
+        ['GET', '/academia/prog/1/examen', undefined],
+        ['POST', '/academia/prog/1/examen', { respuestas: {} }],
+      ] as const) {
+        const r = await e.pedir(metodo, ruta, token, cuerpo);
+        assert.equal(r.status, 403, `${token} ${metodo} ${ruta}`);
+        assert.equal(r.body.error, 'modulo_programado');
+        assert.equal(r.body.disponibleDesde, FECHAS[0]);
+        assert.ok(r.body.mensaje);
+      }
+    }
+    // La fecha va antes que VIP y desbloqueo: el mensaje siempre habla de la fecha.
+    const free2 = await e.pedir('GET', '/academia/prog/2', 'free');
+    assert.equal(free2.body.error, 'modulo_programado');
+    assert.equal(free2.body.disponibleDesde, FECHAS[1]);
+    const vip3 = await e.pedir('GET', '/academia/prog/3/examen', 'vip');
+    assert.equal(vip3.body.error, 'modulo_programado');
+    assert.equal(vip3.body.disponibleDesde, FECHAS[2]);
+    // Lo inexistente sigue siendo 404.
+    assert.equal((await e.pedir('GET', '/academia/prog/9')).status, 404);
+    // Nada se registró mientras estaba programado.
+    assert.deepEqual((await e.pedir('GET', '/academia/progreso')).body, {});
+  });
+
+  test('la fecha va antes que el borrador; tras la fecha vuelven las reglas de siempre', async (t) => {
+    const e = await entorno(t, { lanzamiento: LANZ, estados: { 2: 'borrador' } });
+    fijarReloj(e, FECHAS[2]); // todo el calendario ya llegó
+    assert.equal((await e.pedir('GET', '/academia/prog/2', 'vip')).body.error, 'modulo_en_preparacion');
+    assert.equal((await e.pedir('GET', '/academia/prog/3', 'free')).body.error, 'requiere_vip');
+    assert.equal((await e.pedir('GET', '/academia/prog/3', 'vip')).body.error, 'modulo_bloqueado');
+    await leerTodo(e, 1);
+    assert.equal((await e.pedir('GET', '/academia/prog/1/examen')).status, 200);
+    await e.pedir('POST', '/academia/prog/1/examen', 'vip', { respuestas: {} });
+    assert.equal((await e.pedir('GET', '/academia/prog/1/examen')).body.error, 'espera_examen');
+    avanzar(e, ESPERA_EXAMEN_MS);
+    await rendir(e, 1);
+    assert.equal((await e.pedir('GET', '/academia/prog/2')).body.error, 'modulo_en_preparacion');
+
+    const antes = await entorno(t, { lanzamiento: LANZ, estados: { 1: 'borrador' } });
+    const r = await antes.pedir('GET', '/academia/prog/1');
+    assert.equal(r.body.error, 'modulo_programado', 'un borrador programado habla de su fecha, no de la preparación');
+  });
+
+  test('el módulo n se abre exactamente en inicio + (n − 1) × 7 días (00:00 de Ciudad de México)', async (t) => {
+    const e = await entorno(t, { lanzamiento: LANZ });
+    for (const [i, fecha] of FECHAS.entries()) {
+      const n = i + 1;
+      fijarReloj(e, fecha, -1);
+      const cerrado = await e.pedir('GET', `/academia/prog/${n}`);
+      assert.equal(cerrado.status, 403, `módulo ${n} un milisegundo antes`);
+      assert.equal(cerrado.body.error, 'modulo_programado');
+      fijarReloj(e, fecha);
+      assert.equal((await e.pedir('GET', `/academia/prog/${n}`)).status, 200, `módulo ${n} a las 00:00 en CDMX`);
+      await aprobar(e, n);
+    }
+  });
+
+  test('GET /academia marca disponibleDesde y programado por módulo con el calendario efectivo', async (t) => {
+    const e = await entorno(t, { lanzamiento: LANZ });
+    let [p] = (await e.pedir('GET', '/academia', 'free')).body.programas;
+    assert.deepEqual(p.lanzamiento, LANZ);
+    assert.deepEqual(p.modulos.map((m: any) => m.disponibleDesde), FECHAS);
+    assert.deepEqual(p.modulos.map((m: any) => m.programado), [true, true, true]);
+    fijarReloj(e, FECHAS[1]);
+    [p] = (await e.pedir('GET', '/academia', 'free')).body.programas;
+    assert.deepEqual(p.modulos.map((m: any) => m.programado), [false, false, true]);
+  });
+
+  test('el admin salta la fecha como los demás candados', async (t) => {
+    const e = await entorno(t, { lanzamiento: LANZ });
+    assert.equal((await e.pedir('GET', '/academia/prog/3', 'admin')).status, 200);
+    assert.equal((await e.pedir('POST', '/academia/prog/1/tema', 'admin', { tema: '1.1' })).status, 200);
+    assert.equal((await e.pedir('GET', '/academia/prog/2/examen', 'admin')).status, 200);
+    // El catálogo le sigue informando que está programado.
+    assert.deepEqual((await e.pedir('GET', '/academia', 'admin')).body.programas[0].modulos.map((m: any) => m.programado), [true, true, true]);
+  });
+
+  test('el ajuste del admin mueve todo el calendario; borrarlo vuelve a la fecha del catálogo', async (t) => {
+    const e = await entorno(t, { lanzamiento: LANZ });
+    assert.equal((await e.pedir('PATCH', '/admin/academia/prog/lanzamiento', 'vip', { inicio: '2026-10-15' })).status, 403);
+    assert.equal((await e.pedir('DELETE', '/admin/academia/prog/lanzamiento', 'vip')).status, 403);
+
+    // «Liberar el módulo 1 hoy»: inicio = hoy en CDMX.
+    const hoy = await e.pedir('PATCH', '/admin/academia/prog/lanzamiento', 'admin', { inicio: '2026-10-15' });
+    assert.equal(hoy.status, 200, JSON.stringify(hoy.body));
+    assert.equal(hoy.body.lanzamiento.inicio, '2026-10-15');
+    assert.equal(hoy.body.lanzamiento.cadaDias, 7);
+    assert.equal(hoy.body.lanzamiento.origen, 'admin');
+    assert.deepEqual(hoy.body.lanzamiento.catalogo, LANZ);
+    assert.equal(hoy.body.lanzamiento.ajuste.por, 'u-admin');
+    assert.deepEqual(hoy.body.calendario.map((c: any) => c.disponibleDesde), ['2026-10-15T06:00:00.000Z', '2026-10-22T06:00:00.000Z', '2026-10-29T06:00:00.000Z']);
+    assert.deepEqual(hoy.body.calendario.map((c: any) => c.programado), [false, true, true]);
+
+    assert.equal((await e.pedir('GET', '/academia/prog/1', 'free')).status, 200, 'el módulo 1 se abre ya');
+    const cat = (await e.pedir('GET', '/academia', 'free')).body.programas[0];
+    assert.deepEqual(cat.lanzamiento, { inicio: '2026-10-15', cadaDias: 7 });
+    assert.deepEqual(cat.modulos.map((m: any) => m.programado), [false, true, true]);
+    await aprobar(e, 1);
+    const dos = await e.pedir('GET', '/academia/prog/2');
+    assert.equal(dos.body.error, 'modulo_programado');
+    assert.equal(dos.body.disponibleDesde, '2026-10-22T06:00:00.000Z', 'el módulo 2 se abre 7 días después');
+    avanzar(e, 7 * 24 * 60 * 60 * 1000);
+    assert.equal((await e.pedir('GET', '/academia/prog/2')).status, 200);
+
+    const admin = (await e.pedir('GET', '/admin/academia', 'admin')).body.programas[0];
+    assert.equal(admin.lanzamiento.origen, 'admin');
+    assert.equal(admin.lanzamiento.inicio, '2026-10-15');
+    assert.deepEqual(admin.modulos.map((m: any) => m.disponibleDesde), ['2026-10-15T06:00:00.000Z', '2026-10-22T06:00:00.000Z', '2026-10-29T06:00:00.000Z']);
+
+    // Volver a la fecha del catálogo (DELETE).
+    const borrar = await e.pedir('DELETE', '/admin/academia/prog/lanzamiento', 'admin');
+    assert.equal(borrar.status, 200);
+    assert.equal(borrar.body.lanzamiento.origen, 'catalogo');
+    assert.equal(borrar.body.lanzamiento.ajuste, null);
+    assert.deepEqual(borrar.body.calendario.map((c: any) => c.disponibleDesde), FECHAS);
+    fijarReloj(e, '2026-10-15T10:00:00.000Z');
+    const otraVez = await e.pedir('GET', '/academia/prog/1', 'free');
+    assert.equal(otraVez.body.error, 'modulo_programado');
+    assert.equal(otraVez.body.disponibleDesde, FECHAS[0]);
+
+    // También con { inicio: null }; y cadaDias propio desplaza el ritmo.
+    const diario = await e.pedir('PATCH', '/admin/academia/prog/lanzamiento', 'admin', { inicio: '2026-10-14', cadaDias: 1 });
+    assert.deepEqual(diario.body.calendario.map((c: any) => c.disponibleDesde), ['2026-10-14T06:00:00.000Z', '2026-10-15T06:00:00.000Z', '2026-10-16T06:00:00.000Z']);
+    assert.deepEqual(diario.body.calendario.map((c: any) => c.programado), [false, false, true]);
+    const nulo = await e.pedir('PATCH', '/admin/academia/prog/lanzamiento', 'admin', { inicio: null });
+    assert.equal(nulo.status, 200);
+    assert.equal(nulo.body.lanzamiento.origen, 'catalogo');
+    assert.equal(nulo.body.lanzamiento.inicio, '2026-10-22');
+    assert.equal((await e.pedir('GET', '/admin/academia', 'admin')).body.programas[0].lanzamiento.origen, 'catalogo');
+  });
+
+  test('un programa sin lanzamiento no tiene fechas ni candado de fecha', async (t) => {
+    const e = await entorno(t);
+    assert.equal((await e.pedir('GET', '/academia/prog/1', 'free')).status, 200);
+    const admin = (await e.pedir('GET', '/admin/academia', 'admin')).body.programas[0];
+    assert.equal(admin.lanzamiento, null);
+    assert.ok(admin.modulos.every((m: any) => m.disponibleDesde === null && m.programado === false));
+    const borrar = await e.pedir('DELETE', '/admin/academia/prog/lanzamiento', 'admin');
+    assert.equal(borrar.status, 200);
+    assert.equal(borrar.body.lanzamiento, null);
+  });
+
+  test('PATCH lanzamiento valida la entrada (400) y el programa (404)', async (t) => {
+    const e = await entorno(t, { lanzamiento: LANZ });
+    for (const cuerpo of [
+      {}, { cadaDias: 7 }, { inicio: '2026-13-01' }, { inicio: '2026-02-30' }, { inicio: '22/10/2026' }, { inicio: 20261022 }, { inicio: '' },
+      { inicio: '2026-10-22', cadaDias: 0 }, { inicio: '2026-10-22', cadaDias: 61 }, { inicio: '2026-10-22', cadaDias: 7.5 }, { inicio: '2026-10-22', cadaDias: '7' },
+      [{ inicio: '2026-10-22' }],
+    ]) {
+      const r = await e.pedir('PATCH', '/admin/academia/prog/lanzamiento', 'admin', cuerpo);
+      assert.equal(r.status, 400, JSON.stringify(cuerpo));
+      assert.equal(r.body.error, 'validacion');
+    }
+    assert.equal((await e.pedir('PATCH', '/admin/academia/nada/lanzamiento', 'admin', { inicio: '2026-10-15' })).status, 404);
+    assert.equal((await e.pedir('DELETE', '/admin/academia/nada/lanzamiento', 'admin')).status, 404);
+    // Nada cambió.
+    assert.deepEqual((await e.pedir('GET', '/academia')).body.programas[0].lanzamiento, LANZ);
+  });
+});
+
 describe('academia · contenido', () => {
   test('el estado efectivo prefiere la revisión; el módulo público no lleva el banco', () => {
     const rev = (estado: string) => ({ estado, nota: '', revisor: 'x', fecha: '' }) as never;
@@ -574,6 +768,12 @@ describe('academia · contenido', () => {
     const { programas } = await c.catalogo();
     assert.equal(programas.length, 5);
     assert.equal(new Set(programas.map((p) => p.id)).size, 5);
+    // Calendario semanal solo en el piloto: módulo 1 el jueves 22 de octubre de 2026, uno cada 7 días.
+    const piloto = programas.find((p) => p.id === 'fundamentos-de-la-piel')!;
+    assert.deepEqual(lanzamientoCatalogo(piloto), { inicio: '2026-10-22', cadaDias: 7 });
+    assert.equal(disponibleDesde(lanzamientoCatalogo(piloto), 1), '2026-10-22T06:00:00.000Z');
+    assert.equal(disponibleDesde(lanzamientoCatalogo(piloto), 12), '2027-01-07T06:00:00.000Z');
+    assert.deepEqual(programas.filter((p) => p.lanzamiento).map((p) => p.id), ['fundamentos-de-la-piel']);
     const AREAS = new Set(['Ciencia de la piel', 'Cosmetología', 'Estética facial', 'Práctica profesional']);
     for (const p of programas) {
       assert.ok(p.titulo && AREAS.has(p.area ?? ''), `${p.id}: título y área conocida`);

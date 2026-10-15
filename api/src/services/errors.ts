@@ -21,10 +21,11 @@ export class ForbiddenError extends Error {
 
 /**
  * Error con estado y código propios (p. ej. 402 requiere_vip, 429 espera_examen).
- * Se responde como { error: codigo, mensaje }; el cliente decide la pantalla por `codigo`.
+ * Se responde como { error: codigo, mensaje, ...datos }; el cliente decide la pantalla por `codigo`.
+ * `datos` lleva campos públicos extra (p. ej. disponibleDesde en 403 modulo_programado).
  */
 export class CodedError extends Error {
-  constructor(readonly status: number, readonly codigo: string, message: string) {
+  constructor(readonly status: number, readonly codigo: string, message: string, readonly datos?: Record<string, unknown>) {
     super(message);
     this.name = 'CodedError';
   }

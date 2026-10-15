@@ -1,7 +1,7 @@
 // Puertos (interfaces) que la API consume. Los adaptadores dev usan fixtures/memoria;
 // los adaptadores reales (Firebase/Stripe/Bunny) son seams marcados que aún no se implementan.
 import type {
-  AvanceModuloAcademia, CatalogoAcademia, CatalogoRemoto, CertificadoRemoto, ConfigPublica, DetalleRemoto,
+  AjusteLanzamientoAcademia, AvanceModuloAcademia, CatalogoAcademia, CatalogoRemoto, CertificadoRemoto, ConfigPublica, DetalleRemoto,
   ExperienciaCompartida, FilaLiga, HiloRemoto, IntentoAcademia, ModuloAcademia, Noticia, PerfilData, PerfilRemoto,
   ProgresoAcademia, ProgresoCurso, ProgresoMapa, QuizFixture, RespuestaForo, ResumenLiga, RevisionAcademia, Usuario,
 } from '../domain/types.js';
@@ -123,10 +123,15 @@ export interface AcademiaAttemptStore {
 /** Clave de una revisión editorial en AcademiaReviewStore.todas(). */
 export const claveRevisionAcademia = (programa: string, n: number) => `${programa}/${n}`;
 
-/** Revisiones editoriales (capa sobre el `estado` del JSON). */
+/** Revisiones editoriales (capa sobre el `estado` del JSON) y ajustes del calendario de lanzamiento. */
 export interface AcademiaReviewStore {
   /** Todas las revisiones, con clave claveRevisionAcademia(programa, n). */
   todas(): Promise<Map<string, RevisionAcademia>>;
   get(programa: string, n: number): Promise<RevisionAcademia | null>;
   set(programa: string, n: number, revision: RevisionAcademia): Promise<RevisionAcademia>;
+  /** Ajustes del calendario por id de programa (capa sobre `lanzamiento` del catálogo). */
+  lanzamientos(): Promise<Map<string, AjusteLanzamientoAcademia>>;
+  lanzamiento(programa: string): Promise<AjusteLanzamientoAcademia | null>;
+  /** null borra el ajuste: vuelve a mandar la fecha del catálogo. */
+  fijarLanzamiento(programa: string, ajuste: AjusteLanzamientoAcademia | null): Promise<void>;
 }

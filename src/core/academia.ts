@@ -13,10 +13,20 @@ import { asset } from './base-url';
 import { Datos } from './datos';
 
 // ── Tipos del contenido (docs/ACADEMIA-FORMATO.md) ──
-export interface ModuloCatalogo { n: number; titulo: string; disponible?: boolean; estado?: string | null; temas?: number; duracionMin?: number | null }
+export interface ModuloCatalogo {
+  n: number; titulo: string; disponible?: boolean; estado?: string | null; temas?: number; duracionMin?: number | null;
+  /** Instante (ISO) en que se abre según el calendario de lanzamiento; null si el programa no tiene calendario. */
+  disponibleDesde?: string | null;
+  /** true mientras no llegue disponibleDesde (en API lo decide el servidor). */
+  programado?: boolean;
+}
+export interface Lanzamiento { inicio: string; cadaDias: number }
 export interface Programa {
   id: string; numero: number; titulo: string; area: string; descripcion: string; nivel: string; publico: string[];
-  portada: { id: string; proporcion: string }; modulos: ModuloCatalogo[];
+  portada: { id: string; proporcion: string };
+  /** Calendario efectivo (ajuste del admin ?? catálogo). En el JSON del catálogo, cadaDias puede faltar. */
+  lanzamiento?: { inicio: string; cadaDias?: number } | null;
+  modulos: ModuloCatalogo[];
 }
 export interface PreguntaA { id: string; q: string; opciones: string[]; correcta?: number; explicacion?: string }
 export type Actividad =
@@ -66,23 +76,79 @@ export interface FilaRevision {
   n: number; titulo: string; existe: boolean; estadoArchivo: string | null; estado: string | null; nota: string;
   revision: { estado: string; revisor: string; fecha: string; nota: string } | null;
   palabras: number; figuras: number; actividades: number; temas: number; preguntas: number;
+  disponibleDesde: string | null; programado: boolean;
 }
-export interface ProgramaRevision { id: string; numero: number | null; titulo: string; area: string; modulos: FilaRevision[] }
+export interface LanzamientoAdmin extends Lanzamiento {
+  origen: 'admin' | 'catalogo';
+  catalogo: Lanzamiento | null;
+  ajuste: { por: string; fecha: string } | null;
+}
+export interface ProgramaRevision { id: string; numero: number | null; titulo: string; area: string; lanzamiento: LanzamientoAdmin | null; modulos: FilaRevision[] }
 
 export const APROBATORIO = 70;
 export const ESPERA_EXAMEN_MS = 3 * 60 * 1000;
 const MODO_API = Datos.modo === 'api';
 
-/** Error con el código que también usa la API (requiere_vip, modulo_bloqueado, …). */
+/** Error con el código que también usa la API (requiere_vip, modulo_bloqueado, modulo_programado, …). */
 export class ErrorAcademia extends Error {
   codigo: string;
-  constructor(codigo: string, mensaje: string) { super(mensaje); this.codigo = codigo; }
+  /** Solo en modulo_programado: instante (ISO) en que se abre el módulo. */
+  disponibleDesde?: string;
+  constructor(codigo: string, mensaje: string, disponibleDesde?: string) {
+    super(mensaje); this.codigo = codigo;
+    if (disponibleDesde) this.disponibleDesde = disponibleDesde;
+  }
 }
 const comoError = (e: unknown, defecto: string) => {
   if (e instanceof ErrorAcademia) return e;
-  const err = e as { status?: number; codigo?: string; message?: string };
-  return new ErrorAcademia(err?.codigo || String(err?.status || 'error'), err?.message || defecto);
+  const err = e as { status?: number; codigo?: string; message?: string; datos?: { disponibleDesde?: unknown } };
+  const desde = typeof err?.datos?.disponibleDesde === 'string' ? err.datos.disponibleDesde : undefined;
+  return new ErrorAcademia(err?.codigo || String(err?.status || 'error'), err?.message || defecto, desde);
 };
+
+// ── Calendario de lanzamiento ──
+// El módulo n se abre en inicio + (n − 1) × cadaDias días, a las 00:00 de la Ciudad de México
+// (UTC−6 todo el año). Misma cuenta que la API (api/src/services/academia.ts).
+const DESFASE_MX_MS = -6 * 60 * 60 * 1000;
+const DIA_MS = 24 * 60 * 60 * 1000;
+const CADA_DIAS_DEFECTO = 7;
+export function fechaCalendarioValida(v: unknown): v is string {
+  if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
+  const [y, m, d] = v.split('-').map(Number);
+  const f = new Date(Date.UTC(y, m - 1, d));
+  return y >= 2000 && y <= 2100 && f.getUTCFullYear() === y && f.getUTCMonth() === m - 1 && f.getUTCDate() === d;
+}
+const cadaDiasValido = (v: unknown): v is number => Number.isInteger(v) && (v as number) >= 1 && (v as number) <= 60;
+/** Fecha (YYYY-MM-DD) en la Ciudad de México de un instante; por defecto, hoy. */
+export const fechaMexico = (ms = Date.now()) => new Date(ms + DESFASE_MX_MS).toISOString().slice(0, 10);
+export function disponibleDesdeDe(l: Lanzamiento | null | undefined, n: number): string | null {
+  if (!l || !fechaCalendarioValida(l.inicio)) return null;
+  const [y, m, d] = l.inicio.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d) - DESFASE_MX_MS + (n - 1) * l.cadaDias * DIA_MS).toISOString();
+}
+const lanzamientoDelCatalogo = (p: Programa): Lanzamiento | null => {
+  const l = p.lanzamiento;
+  return l && fechaCalendarioValida(l.inicio) ? { inicio: l.inicio, cadaDias: cadaDiasValido(l.cadaDias) ? l.cadaDias : CADA_DIAS_DEFECTO } : null;
+};
+const programadoEn = (desde: string | null | undefined) => !!desde && Date.now() < Date.parse(desde);
+
+const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+/** «jueves 22 de octubre» (con «de 2027» si no es el año en curso), en es-MX y hora de Ciudad de México. */
+export function fechaLanzamiento(iso: string): string {
+  const [y, m, d] = fechaMexico(Date.parse(iso)).split('-').map(Number);
+  const dia = new Intl.DateTimeFormat('es-MX', { weekday: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(y, m - 1, d, 12)));
+  const anio = String(y) === fechaMexico().slice(0, 4) ? '' : ` de ${y}`;
+  return `${dia} ${d} de ${MESES[m - 1]}${anio}`;
+}
+/** «faltan 7 días», «mañana» u «hoy a las 00:00», contando días de calendario en Ciudad de México. */
+export function cuentaLanzamiento(iso: string): string {
+  const dias = Math.round((Date.parse(`${fechaMexico(Date.parse(iso))}T00:00:00Z`) - Date.parse(`${fechaMexico()}T00:00:00Z`)) / DIA_MS);
+  return dias > 1 ? `faltan ${dias} días` : dias === 1 ? 'mañana' : 'hoy a las 00:00';
+}
+/** «Disponible el jueves 22 de octubre · faltan 7 días». */
+export const textoLanzamiento = (iso: string) => `Disponible el ${fechaLanzamiento(iso)} · ${cuentaLanzamiento(iso)}`;
+/** El módulo está cerrado por fecha para quien lo ve (el admin con efecto lo salta, como los demás candados). */
+export const moduloProgramado = (m: ModuloCatalogo | undefined) => !!m?.programado && !esAdminAcademia();
 
 // ── Catálogo público (bundle) ──
 export const programas: Programa[] = ((catalogoJson as unknown as { programas: Programa[] }).programas ?? []).filter((p) => !p.id.startsWith('_'));
@@ -127,6 +193,20 @@ const estadoEfectivoLocal = (p: string, n: number, m: Modulo | null) => {
   return r && estadoValido(r.estado) ? r.estado : estadoValido(m.estado) ? m.estado : 'borrador';
 };
 
+// ── Ajustes del calendario en el demo (en API viven en el servidor) ──
+const CLAVE_LANZAMIENTOS = 'dermalysse:academia:lanzamiento:demo';
+type AjusteLocal = { inicio: string; cadaDias?: number; fecha: string };
+const ajustesLocales = () => leerLS<Record<string, AjusteLocal>>(CLAVE_LANZAMIENTOS, {});
+/** Calendario efectivo del demo: ajuste local ?? catálogo. */
+function lanzamientoLocal(p: Programa): LanzamientoAdmin | null {
+  const cat = lanzamientoDelCatalogo(p);
+  const a = ajustesLocales()[p.id];
+  if (a && fechaCalendarioValida(a.inicio)) {
+    return { inicio: a.inicio, cadaDias: cadaDiasValido(a.cadaDias) ? a.cadaDias : cat?.cadaDias ?? CADA_DIAS_DEFECTO, origen: 'admin', catalogo: cat, ajuste: { por: 'demo', fecha: a.fecha } };
+  }
+  return cat ? { ...cat, origen: 'catalogo', catalogo: cat, ajuste: null } : null;
+}
+
 // ── Estado remoto (modo API) ──
 let avanceRemoto: Avance = {};
 let catalogoRemoto: Programa[] | null = null;
@@ -147,11 +227,21 @@ function revisarUsuario() {
 export async function cargarCatalogo(forzar = false): Promise<Programa[]> {
   if (!MODO_API) {
     const rev = revisionesLocales();
-    return programas.map((p) => ({
-      ...p,
-      // El demo funciona como ACADEMIA_MOSTRAR_BORRADORES: muestra borradores con su aviso de vista previa.
-      modulos: p.modulos.map((m) => ({ ...m, disponible: moduloDisponibleLocal(p.id, m.n), estado: moduloDisponibleLocal(p.id, m.n) ? rev[claveRev(p.id, m.n)]?.estado ?? null : null })),
-    }));
+    return programas.map((p) => {
+      const l = lanzamientoLocal(p);
+      return {
+        ...p,
+        lanzamiento: l ? { inicio: l.inicio, cadaDias: l.cadaDias } : null,
+        // El demo funciona como ACADEMIA_MOSTRAR_BORRADORES: muestra borradores con su aviso de vista previa.
+        modulos: p.modulos.map((m) => {
+          const desde = disponibleDesdeDe(l, m.n);
+          return {
+            ...m, disponible: moduloDisponibleLocal(p.id, m.n), estado: moduloDisponibleLocal(p.id, m.n) ? rev[claveRev(p.id, m.n)]?.estado ?? null : null,
+            disponibleDesde: desde, programado: programadoEn(desde),
+          };
+        }),
+      };
+    });
   }
   revisarUsuario();
   if (catalogoRemoto && !forzar && Date.now() - catalogoEn < TTL) return catalogoRemoto;
@@ -162,6 +252,19 @@ export async function cargarCatalogo(forzar = false): Promise<Programa[]> {
     catalogoEn = Date.now();
     return catalogoRemoto;
   } catch (e) { throw comoError(e, 'No se pudo cargar la Academia.'); }
+}
+
+/**
+ * Módulo del catálogo ya cargado, con su fecha (sin pedir nada a la red). En API, el último catálogo
+ * recibido; en el demo, se calcula al momento. Sirve para avisos como «el módulo 2 se abre el …».
+ */
+export function infoModulo(p: string, n: number): ModuloCatalogo | undefined {
+  if (MODO_API) return catalogoRemoto?.find((x) => x.id === p)?.modulos.find((m) => m.n === n);
+  const prog = programa(p);
+  const m = prog?.modulos.find((x) => x.n === n);
+  if (!prog || !m) return undefined;
+  const desde = disponibleDesdeDe(lanzamientoLocal(prog), n);
+  return { ...m, disponibleDesde: desde, programado: programadoEn(desde) };
 }
 
 async function moduloLocalCrudo(p: string, n: number): Promise<Modulo | null> {
@@ -177,13 +280,16 @@ async function moduloLocalCrudo(p: string, n: number): Promise<Modulo | null> {
   } catch { return null; }
 }
 
-/** Mismas reglas que la API, en el mismo orden: existencia, visibilidad, VIP, desbloqueo. */
+/** Mismas reglas que la API, en el mismo orden: existencia, fecha de lanzamiento, visibilidad, VIP, desbloqueo. */
 async function prepararLocal(p: string, n: number): Promise<Modulo> {
   const prog = programa(p);
   if (!prog || !prog.modulos.some((x) => x.n === n)) throw new ErrorAcademia('no-encontrado', 'Este módulo no existe.');
+  const admin = esAdminAcademia();
+  // Igual que la API: la fecha va primero y el admin (en el demo, solo con el modo revisor) la salta.
+  const desde = disponibleDesdeDe(lanzamientoLocal(prog), n);
+  if (!admin && desde && programadoEn(desde)) throw new ErrorAcademia('modulo_programado', 'Este módulo todavía no está disponible. Se abre en la fecha indicada.', desde);
   const m = await moduloLocalCrudo(p, n);
   if (!m) throw new ErrorAcademia('modulo_en_preparacion', 'Este módulo está en preparación.');
-  const admin = esAdminAcademia();
   if (n > 1 && !esVip() && !admin) throw new ErrorAcademia('requiere_vip', 'Este módulo es para miembros VIP. El módulo 1 de cada programa es gratis.');
   if (n > 1 && !admin && !moduloAprobado(p, n - 1)) throw new ErrorAcademia('modulo_bloqueado', `Aprueba el examen del módulo ${n - 1} con 70 % o más para desbloquear este módulo.`);
   return { ...m, estado: estadoEfectivoLocal(p, n, m) ?? 'borrador' };
@@ -383,20 +489,56 @@ function metricas(m: Modulo) {
 export async function cargarRevisionAcademia(): Promise<ProgramaRevision[]> {
   if (MODO_API) return (await api<{ programas: ProgramaRevision[] }>('/admin/academia')).programas;
   const rev = revisionesLocales();
-  return Promise.all(programas.map(async (p) => ({
-    id: p.id, numero: p.numero, titulo: p.titulo, area: p.area,
-    modulos: await Promise.all(p.modulos.map(async (mm): Promise<FilaRevision> => {
-      const m = await moduloLocalCrudo(p.id, mm.n);
-      const r = rev[claveRev(p.id, mm.n)];
-      return {
-        n: mm.n, titulo: mm.titulo, existe: !!m,
-        estadoArchivo: m ? (estadoValido(m.estado) ? m.estado : 'borrador') : null,
-        estado: estadoEfectivoLocal(p.id, mm.n, m), nota: r?.nota ?? '',
-        revision: r ? { estado: r.estado, revisor: 'demo', fecha: r.fecha, nota: r.nota } : null,
-        ...(m ? metricas(m) : { palabras: 0, figuras: 0, actividades: 0, temas: 0, preguntas: 0 }),
-      };
-    })),
-  })));
+  return Promise.all(programas.map(async (p) => {
+    const l = lanzamientoLocal(p);
+    return {
+      id: p.id, numero: p.numero, titulo: p.titulo, area: p.area, lanzamiento: l,
+      modulos: await Promise.all(p.modulos.map(async (mm): Promise<FilaRevision> => {
+        const m = await moduloLocalCrudo(p.id, mm.n);
+        const r = rev[claveRev(p.id, mm.n)];
+        const desde = disponibleDesdeDe(l, mm.n);
+        return {
+          n: mm.n, titulo: mm.titulo, existe: !!m,
+          estadoArchivo: m ? (estadoValido(m.estado) ? m.estado : 'borrador') : null,
+          estado: estadoEfectivoLocal(p.id, mm.n, m), nota: r?.nota ?? '',
+          revision: r ? { estado: r.estado, revisor: 'demo', fecha: r.fecha, nota: r.nota } : null,
+          ...(m ? metricas(m) : { palabras: 0, figuras: 0, actividades: 0, temas: 0, preguntas: 0 }),
+          disponibleDesde: desde, programado: programadoEn(desde),
+        };
+      })),
+    };
+  }));
+}
+
+/**
+ * Mueve la fecha de inicio del calendario de un programa: todo el calendario se desplaza.
+ * En API lo guarda el servidor (PATCH /admin/academia/:programa/lanzamiento); en el demo, este navegador.
+ */
+export async function fijarLanzamiento(p: string, inicio: string, cadaDias?: number) {
+  if (!fechaCalendarioValida(inicio)) throw new ErrorAcademia('validacion', 'Elige una fecha válida.');
+  if (cadaDias !== undefined && !cadaDiasValido(cadaDias)) throw new ErrorAcademia('validacion', 'El intervalo debe ser de 1 a 60 días.');
+  if (MODO_API) {
+    try { await api(`/admin/academia/${encodeURIComponent(p)}/lanzamiento`, { method: 'PATCH', json: cadaDias === undefined ? { inicio } : { inicio, cadaDias } }); }
+    catch (e) { throw comoError(e, 'No se pudo guardar la fecha de inicio.'); }
+    catalogoEn = 0; cacheModulos.clear();
+    return;
+  }
+  const a = ajustesLocales();
+  a[p] = { inicio, ...(cadaDias === undefined ? {} : { cadaDias }), fecha: new Date().toISOString() };
+  escribirLS(CLAVE_LANZAMIENTOS, a);
+}
+
+/** Borra el ajuste del admin: vuelve la fecha del catálogo. */
+export async function borrarLanzamiento(p: string) {
+  if (MODO_API) {
+    try { await api(`/admin/academia/${encodeURIComponent(p)}/lanzamiento`, { method: 'DELETE' }); }
+    catch (e) { throw comoError(e, 'No se pudo restablecer la fecha del catálogo.'); }
+    catalogoEn = 0; cacheModulos.clear();
+    return;
+  }
+  const a = ajustesLocales();
+  delete a[p];
+  escribirLS(CLAVE_LANZAMIENTOS, a);
 }
 
 export async function revisarModulo(p: string, n: number, estado: EstadoRevision, nota = '') {

@@ -40,20 +40,22 @@ npm run dev            # igual que start, con recarga (tsx watch)
 | POST | `/experiencias` | **sí** | Crea; el servidor asigna `id/fecha/autor` y valida (título 4–100, texto 20–900, categoría válida). 400 honesto si falla. |
 
 ### Academia (programas de lectura por módulos)
-Contenido en `api/content/academia` (catálogo + `<programa>/modulo-NN.json`), leído del disco por `DiskAcademiaContentStore`; avance, exámenes emitidos y revisiones en memoria (dev). Reglas en `src/services/academia.ts`, pruebas en `test/academia.test.ts`.
+Contenido en `api/content/academia` (catálogo + `<programa>/modulo-NN.json`), leído del disco por `DiskAcademiaContentStore`; avance, exámenes emitidos, revisiones y ajustes del calendario en memoria (dev). Reglas en `src/services/academia.ts`, pruebas en `test/academia.test.ts`.
 
 | Método | Ruta | Auth | Propósito |
 |---|---|---|---|
-| GET | `/academia` | **sí** | Catálogo con `disponible`, `estado`, `temas`, `duracionMin` por módulo + `progreso` de la cuenta. Sin datos del examen. |
+| GET | `/academia` | **sí** | Catálogo con `disponible`, `estado`, `temas`, `duracionMin`, `disponibleDesde` (ISO o null) y `programado` por módulo, `lanzamiento` efectivo por programa + `progreso` de la cuenta. Sin datos del examen. |
 | GET | `/academia/progreso` | **sí** | Avance `{ [programa]: { modulos: { [n]: { temas, mejor, intentos, aprobado } } } }`. |
 | GET | `/academia/:programa/:n` | **sí** | Módulo sin banco: `examen = { aprobar, mostrar, total }`. |
 | POST | `/academia/:programa/:n/tema` | **sí** | `{ tema }`: marca un tema como leído. |
 | GET | `/academia/:programa/:n/examen` | **sí** | `mostrar` preguntas al azar, sin respuestas; guarda las emitidas. |
 | POST | `/academia/:programa/:n/examen` | **sí** | `{ respuestas: { id: indice } }`: califica solo lo emitido, una vez (409 si no). |
-| GET | `/admin/academia` | admin | Estado del archivo, estado efectivo, nota y métricas por módulo. |
+| GET | `/admin/academia` | admin | Estado del archivo, estado efectivo, nota, métricas y `disponibleDesde` por módulo; `lanzamiento` efectivo por programa (`origen`, `catalogo`, `ajuste`). |
+| PATCH | `/admin/academia/:programa/lanzamiento` | admin | `{ inicio: "YYYY-MM-DD" \| null, cadaDias?: 1–60 }`: mueve la fecha de inicio (todo el calendario se desplaza); `null` vuelve al catálogo. 400 si la entrada no es válida. |
+| DELETE | `/admin/academia/:programa/lanzamiento` | admin | Borra el ajuste: vuelve la fecha del catálogo. |
 | PATCH | `/admin/academia/:programa/:n` | admin | `{ estado: borrador\|revision\|aprobado, nota? }`: capa de revisión sobre el JSON. |
 
-Códigos: `402 requiere_vip` (módulo > 1 sin VIP), `403 modulo_bloqueado` (sin aprobar el anterior con 70 %), `404 modulo_en_preparacion` (sin archivo o no aprobado; el admin ve borradores), `403 temas_pendientes`, `429 espera_examen` (3 min tras reprobar), `409 examen_no_emitido` / `examen_desactualizado`. Al calificar, `revelado:false` y `detalle = [{ id, acertada }]` mientras el módulo no esté aprobado; nunca viajan respuestas ni explicaciones antes. `ACADEMIA_MOSTRAR_BORRADORES=true` muestra borradores a todos (solo para revisar en local). El certificado de programa aún no existe.
+Códigos: `403 modulo_programado` (antes de su fecha de lanzamiento; trae `disponibleDesde`; se revisa antes que todo lo demás y el admin lo salta), `402 requiere_vip` (módulo > 1 sin VIP), `403 modulo_bloqueado` (sin aprobar el anterior con 70 %), `404 modulo_en_preparacion` (sin archivo o no aprobado; el admin ve borradores), `403 temas_pendientes`, `429 espera_examen` (3 min tras reprobar), `409 examen_no_emitido` / `examen_desactualizado`. Al calificar, `revelado:false` y `detalle = [{ id, acertada }]` mientras el módulo no esté aprobado; nunca viajan respuestas ni explicaciones antes. `ACADEMIA_MOSTRAR_BORRADORES=true` muestra borradores a todos (solo para revisar en local). El certificado de programa aún no existe.
 
 Las formas replican lo que el cliente ya espera (ver `src/core/auth.ts`, `remoto.ts`, `comunidad.ts`, `directorio-experiencias.ts`).
 

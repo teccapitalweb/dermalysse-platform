@@ -185,8 +185,28 @@ function validarModulo(prog, meta, archivo) {
 
 const programas = catalogo.programas.filter((p) => !String(p.id).startsWith('_') && (!filtro || p.id === filtro));
 if (filtro && !programas.length) { console.error(`No existe el programa ${filtro}`); process.exit(1); }
+// Calendario de lanzamiento opcional: { inicio: "YYYY-MM-DD", cadaDias: 1–60 }.
+// El módulo n se abre en inicio + (n − 1) × cadaDias días, a las 00:00 de la Ciudad de México.
+function fechaReal(v) {
+  if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
+  const [y, m, d] = v.split('-').map(Number);
+  const f = new Date(Date.UTC(y, m - 1, d));
+  return y >= 2000 && y <= 2100 && f.getUTCFullYear() === y && f.getUTCMonth() === m - 1 && f.getUTCDate() === d;
+}
+function lanzamiento(prog) {
+  if (prog.lanzamiento === undefined) return;
+  const l = prog.lanzamiento;
+  const donde = `catalogo.json ${prog.id}`;
+  if (!l || typeof l !== 'object' || Array.isArray(l)) return err(donde, 'lanzamiento debe ser un objeto { inicio, cadaDias }');
+  if (!fechaReal(l.inicio)) err(donde, `lanzamiento.inicio «${l.inicio}» debe ser una fecha real YYYY-MM-DD`);
+  if (!Number.isInteger(l.cadaDias) || l.cadaDias < 1 || l.cadaDias > 60) err(donde, `lanzamiento.cadaDias «${l.cadaDias}» debe ser un entero de 1 a 60`);
+  const extra = Object.keys(l).filter((k) => k !== 'inicio' && k !== 'cadaDias');
+  if (extra.length) err(donde, `lanzamiento con campos desconocidos: ${extra.join(', ')}`);
+}
+
 const pendientes = [];
 for (const prog of programas) {
+  lanzamiento(prog);
   const dir = new URL(`${prog.id}/`, base);
   const archivos = existsSync(dir) ? readdirSync(dir).filter((f) => /^modulo-\d\d\.json$/.test(f)) : [];
   for (const meta of prog.modulos) {

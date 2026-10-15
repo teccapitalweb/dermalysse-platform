@@ -3,7 +3,10 @@
 // cuenta el «estado» escrito en el JSON. Solo «aprobado» se publica.
 import { createIcons, icons } from 'lucide';
 import { adminHead } from './shell';
-import { alternarModoRevisorDemo, cargarRevisionAcademia, modoRevisorDemo, revisarModulo, type EstadoRevision, type ProgramaRevision } from '../core/academia';
+import {
+  alternarModoRevisorDemo, borrarLanzamiento, cargarRevisionAcademia, cuentaLanzamiento, fechaCalendarioValida, fechaLanzamiento, fechaMexico,
+  fijarLanzamiento, modoRevisorDemo, revisarModulo, type EstadoRevision, type ProgramaRevision,
+} from '../core/academia';
 import { mensajeError } from '../core/auth';
 import { Datos } from '../core/datos';
 import { esc } from '../ui/partials';
@@ -12,6 +15,36 @@ const ic = (n: string) => `<i data-lucide="${n}" class="i" aria-hidden="true"></
 const ETIQUETA: Record<string, string> = { borrador: 'Borrador', revision: 'En revisión', aprobado: 'Aprobado' };
 const fecha = (iso: string | null | undefined) => (iso ? new Date(iso).toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
 const chipEstado = (estado: string | null) => `<span class="ac-estado-chip" data-estado="${esc(estado || 'borrador')}">${esc(ETIQUETA[estado || 'borrador'] || estado || '')}</span>`;
+/** 2026-10-22 → instante de las 00:00 en CDMX, solo para mostrar la fecha con el mismo formato. */
+const inicioIso = (fecha: string) => `${fecha}T06:00:00.000Z`;
+const ritmo = (d: number) => (d === 7 ? 'un módulo cada semana' : d === 1 ? 'un módulo cada día' : `un módulo cada ${d} días`);
+
+/** Calendario de lanzamiento de un programa: fecha efectiva, origen y controles para moverla. */
+function calendarioPrograma(p: ProgramaRevision) {
+  const l = p.lanzamiento;
+  if (!l) return '';
+  const cat = l.catalogo;
+  const hoy = fechaMexico();
+  return `<section class="ac-admin__lanz" data-ac-lanz-prog="${esc(p.id)}" aria-label="Calendario de lanzamiento de ${esc(p.titulo)}">
+    <div class="ac-admin__lanz-head">
+      <span class="ac-admin__eyebrow">${ic('calendar-clock')}Calendario de lanzamiento</span>
+      <p><strong>Módulo 1: ${esc(fechaLanzamiento(inicioIso(l.inicio)))}</strong> · ${ritmo(l.cadaDias)} a las 00:00 (centro de México)
+        <span class="ac-estado-chip" data-estado="${l.origen === 'admin' ? 'revision' : 'aprobado'}">${l.origen === 'admin' ? 'Fecha ajustada' : 'Fecha del catálogo'}</span></p>
+      <small class="ac-admin__meta">${cat ? `Catálogo: ${esc(fechaLanzamiento(inicioIso(cat.inicio)))}, cada ${cat.cadaDias} días.` : 'El catálogo no fija fecha para este programa.'}${l.ajuste ? ` Ajuste guardado ${fecha(l.ajuste.fecha)}.` : ''} Al mover la fecha de inicio se desplaza todo el calendario.</small>
+    </div>
+    <div class="ac-admin__lanz-ctrl">
+      <label class="ac-admin__lanz-campo"><span>Fecha de inicio (módulo 1)</span><input type="date" class="input" value="${esc(l.inicio)}" min="2000-01-01" max="2100-12-31" data-ac-lanz-fecha></label>
+      <button type="button" class="btn btn--brand btn--sm" data-ac-lanz="guardar">${ic('save')}Guardar fecha de inicio</button>
+      <button type="button" class="btn btn--secondary btn--sm" data-ac-lanz="hoy" ${l.inicio === hoy ? 'disabled' : ''}>${ic('rocket')}Liberar el módulo 1 hoy</button>
+      <button type="button" class="btn btn--secondary btn--sm" data-ac-lanz="catalogo" ${l.origen === 'catalogo' ? 'disabled' : ''}>${ic('rotate-ccw')}Volver a la fecha del catálogo</button>
+    </div>
+  </section>`;
+}
+
+/** Celda «Se abre»: fecha de apertura del módulo para los miembros. */
+const celdaFecha = (desde: string | null, programado: boolean) => (desde
+  ? `<span class="ac-admin__fecha">${esc(fechaLanzamiento(desde))}</span><small class="ac-admin__meta">${programado ? esc(cuentaLanzamiento(desde)) : 'Ya abierto'}</small>`
+  : '<span class="ac-admin__meta">Sin fecha</span>');
 
 export async function adminAcademia() {
   const cabeza = adminHead('Academia', 'Revisa cada módulo antes de publicarlo. Solo los aprobados los ven los miembros.');
@@ -30,13 +63,15 @@ export async function adminAcademia() {
     ${Datos.modo === 'demo' ? `<div class="ac-admin__demo"><p class="ac-nota">${ic('flask-conical')}Demo: las decisiones se guardan en este navegador y no publican nada.</p><button type="button" class="btn ${modoRevisorDemo() ? 'btn--brand' : 'btn--secondary'} btn--sm" data-ac-modo-revisor aria-pressed="${modoRevisorDemo()}">${ic(modoRevisorDemo() ? 'lock-open' : 'lock')}Modo revisor: ${modoRevisorDemo() ? 'todos los módulos abiertos' : 'desactivado'}</button></div>` : ''}
     ${programas.map((p) => `
     <details class="card ac-admin__prog" ${p.modulos.some((m) => m.existe) ? 'open' : ''}>
-      <summary><span><strong>${p.numero ? `${String(p.numero).padStart(2, '0')} · ` : ''}${esc(p.titulo)}</strong><small>${esc(p.area)} · ${p.modulos.filter((m) => m.existe).length} de ${p.modulos.length} escritos · ${p.modulos.filter((m) => m.estado === 'aprobado').length} aprobados</small></span>${ic('chevron-down')}</summary>
+      <summary><span><strong>${p.numero ? `${String(p.numero).padStart(2, '0')} · ` : ''}${esc(p.titulo)}</strong><small>${esc(p.area)} · ${p.modulos.filter((m) => m.existe).length} de ${p.modulos.length} escritos · ${p.modulos.filter((m) => m.estado === 'aprobado').length} aprobados${p.lanzamiento ? ` · ${p.modulos.filter((m) => m.programado).length} programados` : ''}</small></span>${ic('chevron-down')}</summary>
+      ${calendarioPrograma(p)}
       <div class="dtable-wrap ac-admin__tabla" tabindex="0" role="region" aria-label="Módulos de ${esc(p.titulo)}">
         <table class="dtable">
-          <thead><tr><th scope="col">Módulo</th><th scope="col">Estado</th><th scope="col">Contenido</th><th scope="col">Nota de revisión</th><th scope="col">Acciones</th></tr></thead>
+          <thead><tr><th scope="col">Módulo</th>${p.lanzamiento ? '<th scope="col">Se abre</th>' : ''}<th scope="col">Estado</th><th scope="col">Contenido</th><th scope="col">Nota de revisión</th><th scope="col">Acciones</th></tr></thead>
           <tbody>${p.modulos.map((m) => `
             <tr data-ac-fila="${esc(p.id)}|${m.n}">
               <th scope="row"><span class="mono">${String(m.n).padStart(2, '0')}</span> ${esc(m.titulo)}</th>
+              ${p.lanzamiento ? `<td>${celdaFecha(m.disponibleDesde, m.programado)}</td>` : ''}
               <td>${m.existe ? `${chipEstado(m.estado)}<small class="ac-admin__meta">${m.revision ? `Revisado ${fecha(m.revision.fecha)}` : 'Sin revisión'}${m.estadoArchivo && m.estadoArchivo !== m.estado ? ` · archivo: ${esc(ETIQUETA[m.estadoArchivo] || m.estadoArchivo)}` : ''}</small>` : '<span class="ac-admin__meta">Sin escribir</span>'}</td>
               <td>${m.existe ? `<small>${m.temas} temas · ${m.palabras.toLocaleString('es-MX')} palabras · ${m.figuras} figuras · ${m.actividades} actividades · ${m.preguntas} preguntas</small>` : ''}</td>
               <td>${m.existe ? `<input class="input ac-admin__nota" data-ac-nota maxlength="500" placeholder="Observaciones (opcional)" value="${esc(m.nota || '')}" aria-label="Nota de revisión del módulo ${m.n}">` : ''}</td>
@@ -64,6 +99,30 @@ export function montarAdminAcademia(toast: (msg: string, icon?: string) => void,
       alternarModoRevisorDemo();
       toast(modoRevisorDemo() ? 'Modo revisor activado: puedes abrir todos los módulos' : 'Modo revisor desactivado', modoRevisorDemo() ? 'lock-open' : 'lock');
       repintar();
+      return;
+    }
+    // Calendario de lanzamiento: mover la fecha de inicio desplaza todo el calendario.
+    const lb = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-ac-lanz]');
+    if (lb) {
+      const caja = lb.closest<HTMLElement>('[data-ac-lanz-prog]')!;
+      const prog = caja.dataset.acLanzProg!;
+      const accion = lb.dataset.acLanz;
+      const hoy = fechaMexico();
+      const inicio = accion === 'hoy' ? hoy : caja.querySelector<HTMLInputElement>('[data-ac-lanz-fecha]')?.value || '';
+      if (accion !== 'catalogo' && !fechaCalendarioValida(inicio)) { toast('Elige una fecha de inicio válida.', 'circle-alert'); return; }
+      if (accion === 'hoy' && !confirm('¿Liberar el módulo 1 hoy? Los miembros lo verán de inmediato y el resto del calendario se adelanta con el mismo ritmo.')) return;
+      if (accion === 'guardar' && inicio <= hoy && !confirm(`Con esa fecha se abren desde ya los módulos cuya fecha ya pasó. ¿Guardar ${fechaLanzamiento(inicioIso(inicio))} como inicio?`)) return;
+      const botones = [...caja.querySelectorAll('button')];
+      const antes = botones.map((x) => x.disabled);
+      botones.forEach((x) => (x.disabled = true));
+      try {
+        if (accion === 'catalogo') await borrarLanzamiento(prog); else await fijarLanzamiento(prog, inicio);
+        toast(accion === 'catalogo' ? 'Calendario restablecido a la fecha del catálogo' : accion === 'hoy' ? 'Módulo 1 liberado hoy; el calendario se recorrió' : `Inicio guardado: ${fechaLanzamiento(inicioIso(inicio))}`, 'calendar-check');
+        repintar();
+      } catch (err) {
+        botones.forEach((x, i) => (x.disabled = antes[i]));
+        toast(mensajeError(err), 'circle-alert');
+      }
       return;
     }
     const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-ac-revisar]');

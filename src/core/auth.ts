@@ -160,7 +160,8 @@ export async function api<T>(ruta: string, init: RequestInit & { json?: unknown 
   if (init.json !== undefined) { headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(init.json); }
   const r = await fetch(API.replace(/\/$/, '') + ruta, { ...init, headers });
   const data = await r.json().catch(() => ({}));
-  if (!r.ok) throw Object.assign(new Error(data.mensaje || `Error ${r.status}`), { status: r.status, codigo: data.error });
+  // `datos`: el cuerpo del error (campos públicos extra, p. ej. disponibleDesde en 403 modulo_programado).
+  if (!r.ok) throw Object.assign(new Error(data.mensaje || `Error ${r.status}`), { status: r.status, codigo: data.error, datos: data });
   return data as T;
 }
 

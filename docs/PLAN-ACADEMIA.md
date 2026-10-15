@@ -12,6 +12,7 @@ Decisión del propietario (15 de octubre de 2026): Dermalysse incorpora una **Ac
 - Avance secuencial: un módulo se abre al aprobar el examen del anterior con 70 % o más.
 - Cada módulo: 4 a 6 temas de lectura (cada uno con «En pocas palabras», glosario y 3 preguntas de repaso), actividades (ordenar, relacionar, verdadero/falso, caso, calculadora), un minijuego (sopa de letras, crucigrama o memorama) y un examen de 15 a 20 preguntas (se muestran 10 al azar).
 - Freemium: el módulo 1 de cada programa es gratis; el resto requiere VIP.
+- Calendario de lanzamiento (decisión del propietario, 15 de octubre de 2026): un programa puede abrir sus módulos por fechas. *Fundamentos de la piel* abre el módulo 1 el **jueves 22 de octubre de 2026** y uno nuevo cada 7 días (módulo 12: 7 de enero de 2027), a las 00:00 de la Ciudad de México. Antes de su fecha, el módulo se ve como «Disponible el … · faltan N días» y no muestra contenido; la fecha se revisa antes que borrador, VIP y desbloqueo. Si las imágenes están listas antes, el administrador mueve la fecha de inicio en `/admin/academia` («Liberar el módulo 1 hoy» o una fecha elegida) y todo el calendario se recorre; «Volver a la fecha del catálogo» lo restablece. Campo `lanzamiento` del catálogo: ver `docs/ACADEMIA-FORMATO.md` §1.
 - El examen lo emite y califica el servidor. Las respuestas correctas nunca viajan antes de responder y, al reprobar, no se revelan; tras reprobar hay una espera de 3 minutos. Para recibir el examen hay que haber leído todos los temas.
 
 ## 3. Catálogo inicial

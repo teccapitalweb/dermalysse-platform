@@ -7,6 +7,7 @@ Este documento define cómo se escribe cada módulo de la Academia Dermalysse. L
 - Catálogo: `api/content/academia/catalogo.json`.
 - Un archivo por módulo: `api/content/academia/<programa>/modulo-01.json`, `modulo-02.json`…, con dos dígitos.
 - El `titulo` del módulo debe coincidir **exactamente** con el del catálogo.
+- Calendario de lanzamiento (opcional, por programa en el catálogo): `"lanzamiento": { "inicio": "2026-10-22", "cadaDias": 7 }`. El módulo *n* se abre en `inicio + (n − 1) × cadaDias` días, a las 00:00 de la Ciudad de México (UTC−6, sin horario de verano). `inicio` es una fecha real `YYYY-MM-DD`; `cadaDias`, un entero de 1 a 60. Antes de su fecha el módulo aparece como «Disponible el …» y la API responde `403 modulo_programado`. El administrador puede mover la fecha de inicio desde `/admin/academia` (todo el calendario se desplaza) y volver a la del catálogo. Sin `lanzamiento`, el programa no tiene candado de fecha.
 
 ## 2. Estructura de un módulo
 

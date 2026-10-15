@@ -239,6 +239,21 @@ export type EstadoAcademia = (typeof ESTADOS_ACADEMIA)[number];
 
 export interface ModuloCatalogoAcademia { n: number; titulo: string }
 
+/**
+ * Calendario de lanzamiento de un programa: el módulo n se abre en inicio + (n − 1) × cadaDias días,
+ * a las 00:00 de la Ciudad de México (UTC−6, sin horario de verano).
+ */
+export interface LanzamientoAcademia { inicio: string; cadaDias: number }
+
+/** Ajuste del administrador sobre el calendario del catálogo (tiene prioridad sobre el JSON). */
+export interface AjusteLanzamientoAcademia {
+  inicio: string;
+  /** Sin valor: se usa el del catálogo (o 7). */
+  cadaDias?: number;
+  por: string;
+  fecha: string;
+}
+
 export interface ProgramaAcademia {
   id: string;
   numero?: number;
@@ -248,6 +263,8 @@ export interface ProgramaAcademia {
   nivel?: string;
   publico?: string[];
   portada?: { id: string; proporcion: string };
+  /** Opcional: sin él, el programa no tiene fecha de apertura por módulo. */
+  lanzamiento?: { inicio: string; cadaDias?: number };
   modulos: ModuloCatalogoAcademia[];
 }
 
