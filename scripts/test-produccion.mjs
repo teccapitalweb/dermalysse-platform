@@ -149,12 +149,15 @@ test('formato de folio DRML-YYYY-XXXXXXXXXXXX', () => {
 
 // ── Funciones apagadas en producción (src/core/funciones.ts) ──
 
-test('demo: todas las funciones siguen disponibles; API: recompensas y cupones encendidos, experiencia y admin completo apagados', () => {
-  const encendidas = new Set(['recompensas', 'cupones']);
+test('demo: todas las funciones siguen disponibles; API: las cuatro funciones ya tienen backend y están encendidas', () => {
   for (const f of Object.keys(FUNCIONES)) {
     assert.equal(disponibleEn(f, 'demo'), true, `demo ${f}`);
-    assert.equal(disponibleEn(f, 'api'), encendidas.has(f), `api ${f}`);
+    assert.equal(disponibleEn(f, 'api'), EN_PRODUCCION[f] === true, `api ${f}`);
   }
+  assert.equal(disponibleEn('recompensas', 'api'), true, 'recompensas tiene backend (api/src/modulos/vip.ts)');
+  assert.equal(disponibleEn('cupones', 'api'), true, 'cupones tiene backend (api/src/modulos/vip.ts)');
+  assert.equal(disponibleEn('experiencia', 'api'), true, 'bienvenida y encuestas tienen backend (api/src/modulos/experiencia.ts)');
+  assert.equal(disponibleEn('adminGestion', 'api'), true, 'el admin del club tiene backend (api/src/modulos/admin.ts)');
   assert.deepEqual(Object.keys(EN_PRODUCCION).sort(), Object.keys(FUNCIONES).sort(), 'cada función tiene su interruptor');
 });
 

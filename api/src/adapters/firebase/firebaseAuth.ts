@@ -14,6 +14,8 @@ export interface TokenDecodificado {
   email?: string;
   name?: string;
   picture?: string;
+  /** Claim estándar del ID token de Firebase. */
+  email_verified?: boolean;
 }
 
 export interface VerificadorIdToken {
@@ -55,6 +57,7 @@ export class FirebaseAuthAdapter implements AuthAdapter {
       email,
       esAdmin: admin.exists,
       esVip: acceso.esVip,
+      emailVerificado: decodificado.email_verified === true,
       nombre: nombreDoc || decodificado.name || email.split('@')[0] || 'Miembro',
       acceso: { plan: acceso.plan, vence: acceso.vence, motivo: acceso.motivo },
       cuenta: { nombre: decodificado.name || '', foto: decodificado.picture || '' },

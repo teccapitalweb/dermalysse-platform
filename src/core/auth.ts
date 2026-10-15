@@ -198,6 +198,8 @@ export const Auth = {
   async correoVerificado() {
     if (Datos.modo === 'demo' || !authInst?.currentUser) return false;
     await authInst.currentUser.reload();
+    // La API lee email_verified del ID token: renovarlo para que vea la verificación sin esperar una hora.
+    if (authInst.currentUser.emailVerified) await authInst.currentUser.getIdToken(true).catch(() => '');
     return authInst.currentUser.emailVerified;
   },
   async refrescarEstado() {

@@ -50,6 +50,7 @@ import type { ModuloApi } from './modulos/tipos.js';
 import { moduloVip } from './modulos/vip.js';
 import { crearServicioContenido, moduloContenido } from './modulos/contenido.js';
 import { cargarQuizzesEmpaquetados } from './adapters/firestore/contenido.js';
+import { moduloExperiencia } from './modulos/experiencia.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
@@ -281,5 +282,6 @@ function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: b
   return [
     moduloVip(ctx),
     moduloContenido(ctx),
+    moduloExperiencia(ctx),
   ];
 }
