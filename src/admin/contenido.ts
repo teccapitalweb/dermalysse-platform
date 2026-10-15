@@ -175,10 +175,10 @@ export function adminMaterial(params: Record<string, string>) {
         <div class="field"><label>Curso relacionado</label><select class="input" name="cursoId"><option value="">Recurso general</option>${cursos.map((c) => `<option value="${c.id}" ${m.cursoId === c.id ? 'selected' : ''}>${esc(c.titulo)}</option>`).join('')}</select></div>
         <div class="field"><label>Descripción</label><textarea class="input" name="descripcion" rows="3">${esc(m.descripcion)}</textarea></div>
         <div class="form-grid">
-          <div class="field"><label>Archivo PDF</label>${Datos.modo === 'api' ? `<input class="input" type="file" name="archivoPdf" accept="application/pdf"><span class="faint" style="font-size:var(--fs-xs)">${m.url ? `Archivo actual: ${esc(m.url)}` : 'Puedes subirlo al guardar el material.'}</span>` : `<input class="input mono" name="url" value="${esc(m.url || '')}" placeholder="/materiales/archivo.pdf">`}</div>
+          <div class="field"><label>${Datos.modo === 'api' ? 'Enlace del archivo (Google Drive)' : 'Archivo PDF'}</label>${Datos.modo === 'api' ? `<input class="input mono" type="url" name="url" value="${esc(m.url || '')}" placeholder="https://drive.google.com/file/d/…"><span class="faint" style="font-size:var(--fs-xs)">Solo lo reciben los miembros con acceso; nunca se publica en el catálogo.</span>` : `<input class="input mono" name="url" value="${esc(m.url || '')}" placeholder="/materiales/archivo.pdf">`}</div>
           <div class="field"><label>Estado</label><select class="input" name="estado">${[['disponible', 'Disponible'], ['proximamente', 'Próximamente'], ['oculto', 'Oculto']].map(([v, l]) => `<option value="${v}" ${m.estado === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
         </div>
-        <p class="faint" style="font-size:var(--fs-xs)">${Datos.modo === 'demo' ? 'En modo demo el archivo se indica con su ruta. Con el backend conectado, aquí subes el PDF y se guarda en Firebase Storage con descarga solo para miembros.' : 'El PDF se guarda en Firebase Storage; la descarga es solo para miembros.'}</p>
+        <p class="faint" style="font-size:var(--fs-xs)">${Datos.modo === 'demo' ? 'En modo demo el archivo se indica con su ruta. Con el backend conectado, aquí indicas el enlace del archivo y solo lo reciben los miembros con acceso.' : 'Se guarda en la colección de material del club actual: también lo ven el club y el panel anteriores.'}</p>
       </div>
       <div class="card card--pad stack" style="gap:12px">
         <h3 class="admin-card-title">Portada 3:4</h3>

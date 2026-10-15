@@ -346,6 +346,27 @@ async function irAStripe(boton: HTMLButtonElement, ruta: string, json?: unknown)
   }
 }
 
+// Enlaces protegidos (modo API): /catalogo no trae enlaces de Drive ni de la transmisión; se piden con
+// sesión al abrir. La pestaña se abre en el mismo clic para que el navegador no la bloquee.
+async function abrirEnlaceProtegido(boton: HTMLElement, ruta: string, elegir: (r: Record<string, unknown>) => unknown, paywall: string) {
+  if (boton.getAttribute('aria-busy') === 'true') return;
+  boton.setAttribute('aria-busy', 'true');
+  const ventana = window.open('', '_blank');
+  try {
+    const valor = elegir(await api<Record<string, unknown>>(ruta));
+    let destino: URL | null = null;
+    try { destino = typeof valor === 'string' ? new URL(valor) : null; } catch { destino = null; }
+    if (!destino || destino.protocol !== 'https:') throw new Error('El enlace aún no está disponible.');
+    if (ventana) { ventana.opener = null; ventana.location.href = destino.toString(); } else location.href = destino.toString();
+  } catch (err: any) {
+    ventana?.close();
+    if (err?.status === 403) mostrarPaywall(paywall);
+    else toast(mensajeError(err), 'circle-alert');
+  } finally {
+    boton.removeAttribute('aria-busy');
+  }
+}
+
 async function abrirCertificado(cursoId: string, navegar: boolean, boton?: HTMLButtonElement) {
   if (boton) boton.disabled = true;
   try {
@@ -663,6 +684,21 @@ document.addEventListener('click', async (e) => {
   const el = e.target as HTMLElement;
   const pw = el.closest<HTMLElement>('[data-paywall]');
   if (pw) { mostrarPaywall(pw.dataset.paywall || undefined); return; }
+
+  // Modo API: material con archivo protegido y enlaces de En vivo (los pide a la API con sesión).
+  const abrirMaterial = el.closest<HTMLElement>('[data-abrir-material]');
+  if (abrirMaterial) {
+    const id = abrirMaterial.dataset.abrirMaterial!;
+    await abrirEnlaceProtegido(abrirMaterial, `/materiales/${encodeURIComponent(id)}/acceso`, (r) => r.url, 'Este material es exclusivo para miembros VIP.');
+    return;
+  }
+  const abrirEvento = el.closest<HTMLElement>('[data-abrir-evento]');
+  if (abrirEvento) {
+    const id = abrirEvento.dataset.abrirEvento!;
+    const tipo = abrirEvento.dataset.eventoTipo === 'grabacion' ? 'grabacion' : 'transmision';
+    await abrirEnlaceProtegido(abrirEvento, `/eventos/${encodeURIComponent(id)}/acceso`, (r) => r[tipo], 'Las clases en vivo son para miembros VIP.');
+    return;
+  }
 
   if (el.closest('[data-guia]')) { mostrarOnboarding(true); return; }
   if (el.closest('[data-ckl-dismiss]')) { ocultarChecklist(); document.querySelector('.ckl')?.remove(); return; }

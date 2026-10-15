@@ -132,7 +132,8 @@ export function cursoParaApi(c: Curso) {
   return { ...c, clases: c.clases.map(({ duracion, ...k }) => ({ ...k, duracionMin: duracion ?? null })) };
 }
 
+/** En la API el enlace del archivo viaja como `archivo` (pdfs.drive); `url` es solo del cliente. */
 export function materialParaApi(m: Material) {
-  const { url: _url, ...resto } = m;
-  return resto;
+  const { url, enlaceProtegido: _enlace, ...resto } = m;
+  return { ...resto, archivo: url ?? '' };
 }

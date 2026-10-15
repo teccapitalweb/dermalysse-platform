@@ -75,14 +75,24 @@ export function material(params: Record<string, string>) {
 export function fichaLibro(m: Material, compacto: boolean) {
   const c = m.cursoId ? getCurso(m.cursoId) : null;
   const acc = Acceso.materialAccesible(m);
-  const disponible = m.estado === 'disponible' && m.url && acc;
+  // Modo API: el archivo vive fuera del club (Drive) y su enlace se pide con sesión al abrirlo.
+  const externo = !m.url && m.enlaceProtegido === true;
+  const disponible = m.estado === 'disponible' && (m.url || externo) && acc;
   const guardado = materialGuardado(m.id);
-  const accionPrincipal = disponible
+  const accionPrincipal = disponible && externo
+    ? `<button class="btn btn--brand btn--lg btn--pill-arrow book__primary-action" data-abrir-material="${m.id}">Abrir <span class="arrow"><i data-lucide="external-link" class="i"></i></span></button>`
+    : disponible
     ? `<a class="btn btn--brand btn--lg btn--pill-arrow book__primary-action" href="#/materiales/${m.id}/visor">Leer <span class="arrow"><i data-lucide="book-open" class="i"></i></span></a>`
     : m.estado === 'disponible' && !acc
       ? `<button class="btn btn--brand btn--lg book__primary-action" data-paywall="Este material es exclusivo para miembros VIP."><i data-lucide="crown" class="i"></i>Desbloquear con VIP</button>`
       : `<span class="btn btn--secondary btn--lg book__primary-action" style="opacity:.7"><i data-lucide="clock" class="i"></i>Próximamente</span>`;
-  const accionMovil = disponible && !compacto
+  const accionMovil = disponible && !compacto && externo
+    ? `<button class="book__mobile-read" data-abrir-material="${m.id}" aria-label="Abrir ${esc(m.titulo)}">
+        <span class="book__mobile-read-icon"><i data-lucide="external-link" class="i"></i></span>
+        <span class="book__mobile-read-copy"><strong>Abrir el material</strong><small>${m.tipo} · se abre en una pestaña nueva</small></span>
+        <span class="book__mobile-read-go"><i data-lucide="arrow-right" class="i"></i></span>
+      </button>`
+    : disponible && !compacto
     ? `<a class="book__mobile-read" href="#/materiales/${m.id}/visor" aria-label="Leer ${esc(m.titulo)}">
         <span class="book__mobile-read-icon"><i data-lucide="book-open" class="i"></i></span>
         <span class="book__mobile-read-copy"><strong>Abrir y empezar a leer</strong><small>${m.tipo} completo · ${m.paginas} páginas</small></span>
