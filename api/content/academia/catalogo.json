@@ -1,0 +1,287 @@
+{
+  "version": 1,
+  "actualizado": "2026-10-15",
+  "programas": [
+    {
+      "id": "fundamentos-de-la-piel",
+      "numero": 1,
+      "titulo": "Fundamentos de la piel: estructura, función y cuidado",
+      "area": "Ciencia de la piel",
+      "descripcion": "Cómo está hecha la piel y cómo funciona: capas, barrera, anexos, pigmentación, tipos de piel, cambios con la edad, factores externos, rutina básica y señales para derivar al dermatólogo.",
+      "nivel": "Inicial a Intermedio",
+      "publico": [
+        "estudiantes de cosmetología",
+        "cosmetólogas y esteticistas",
+        "profesionales de la estética",
+        "público interesado"
+      ],
+      "portada": {
+        "id": "fundamentos-de-la-piel/portada",
+        "proporcion": "16:9"
+      },
+      "modulos": [
+        {
+          "n": 1,
+          "titulo": "La piel como órgano: funciones y datos esenciales"
+        },
+        {
+          "n": 2,
+          "titulo": "La epidermis: capas, queratinocitos y renovación celular"
+        },
+        {
+          "n": 3,
+          "titulo": "Dermis e hipodermis: colágeno, elastina, vasos y nervios"
+        },
+        {
+          "n": 4,
+          "titulo": "La barrera cutánea: lípidos, manto ácido y microbioma"
+        },
+        {
+          "n": 5,
+          "titulo": "Anexos cutáneos: glándulas, folículo piloso y uñas"
+        },
+        {
+          "n": 6,
+          "titulo": "Melanina, pigmentación y fototipos"
+        },
+        {
+          "n": 7,
+          "titulo": "Tipos y estados de la piel: observar y clasificar en cabina"
+        },
+        {
+          "n": 8,
+          "titulo": "La piel a lo largo de la vida"
+        },
+        {
+          "n": 9,
+          "titulo": "Factores externos: sol, contaminación, clima y estilo de vida"
+        },
+        {
+          "n": 10,
+          "titulo": "Rutina básica fundamentada: limpieza, hidratación y fotoprotección"
+        },
+        {
+          "n": 11,
+          "titulo": "Señales de alerta: cuándo derivar al dermatólogo"
+        },
+        {
+          "n": 12,
+          "titulo": "Ética, alcance profesional y comunicación con el cliente"
+        }
+      ]
+    },
+    {
+      "id": "activos-cosmeticos",
+      "numero": 2,
+      "titulo": "Activos cosméticos y formulación",
+      "area": "Cosmetología",
+      "descripcion": "Qué hace cada familia de activos, cómo leer una etiqueta INCI, vehículos y texturas, estabilidad y conservación, y los alcances reales de la cosmética natural.",
+      "nivel": "Intermedio",
+      "publico": [
+        "estudiantes de cosmetología",
+        "cosmetólogas y esteticistas",
+        "profesionales de la estética"
+      ],
+      "portada": {
+        "id": "activos-cosmeticos/portada",
+        "proporcion": "16:9"
+      },
+      "modulos": [
+        {
+          "n": 1,
+          "titulo": "Qué es un cosmético y qué no lo es"
+        },
+        {
+          "n": 2,
+          "titulo": "Leer una etiqueta: INCI y orden de ingredientes"
+        },
+        {
+          "n": 3,
+          "titulo": "Vehículos y texturas: emulsiones, geles, sueros y aceites"
+        },
+        {
+          "n": 4,
+          "titulo": "Humectantes, emolientes y oclusivos"
+        },
+        {
+          "n": 5,
+          "titulo": "Exfoliantes químicos: AHA, BHA y PHA"
+        },
+        {
+          "n": 6,
+          "titulo": "Retinoides cosméticos: retinol y derivados"
+        },
+        {
+          "n": 7,
+          "titulo": "Vitamina C y otros antioxidantes"
+        },
+        {
+          "n": 8,
+          "titulo": "Niacinamida, péptidos y activos calmantes"
+        },
+        {
+          "n": 9,
+          "titulo": "Conservación, estabilidad y vida útil"
+        },
+        {
+          "n": 10,
+          "titulo": "Cosmética natural: alcances y mitos"
+        }
+      ]
+    },
+    {
+      "id": "fotoproteccion",
+      "numero": 3,
+      "titulo": "Fotoprotección y fotoenvejecimiento",
+      "area": "Ciencia de la piel",
+      "descripcion": "La radiación solar y sus efectos en la piel, cómo se produce el fotoenvejecimiento, qué significan FPS y amplio espectro, y cómo elegir y aplicar la fotoprotección.",
+      "nivel": "Inicial a Intermedio",
+      "publico": [
+        "estudiantes de cosmetología",
+        "cosmetólogas y esteticistas",
+        "profesionales de la estética",
+        "público interesado"
+      ],
+      "portada": {
+        "id": "fotoproteccion/portada",
+        "proporcion": "16:9"
+      },
+      "modulos": [
+        {
+          "n": 1,
+          "titulo": "La radiación solar: UVB, UVA, luz visible e infrarrojo"
+        },
+        {
+          "n": 2,
+          "titulo": "Efectos del sol en la piel: quemadura, bronceado y daño acumulado"
+        },
+        {
+          "n": 3,
+          "titulo": "Fotoenvejecimiento: cómo se ve y por qué ocurre"
+        },
+        {
+          "n": 4,
+          "titulo": "Filtros solares: orgánicos e inorgánicos"
+        },
+        {
+          "n": 5,
+          "titulo": "FPS, amplio espectro y resistencia al agua"
+        },
+        {
+          "n": 6,
+          "titulo": "Cómo elegir y aplicar un protector solar"
+        },
+        {
+          "n": 7,
+          "titulo": "Fotoprotección más allá del protector: ropa, sombra y horarios"
+        },
+        {
+          "n": 8,
+          "titulo": "Mitos frecuentes sobre el sol y la piel"
+        }
+      ]
+    },
+    {
+      "id": "envejecimiento-cutaneo",
+      "numero": 4,
+      "titulo": "Envejecimiento cutáneo y cuidado en cabina",
+      "area": "Estética facial",
+      "descripcion": "Envejecimiento intrínseco y extrínseco, evaluación facial en cabina, rutinas para piel madura, alcances de la aparatología estética y comunicación de expectativas realistas.",
+      "nivel": "Intermedio",
+      "publico": [
+        "estudiantes de cosmetología",
+        "cosmetólogas y esteticistas",
+        "profesionales de la estética"
+      ],
+      "portada": {
+        "id": "envejecimiento-cutaneo/portada",
+        "proporcion": "16:9"
+      },
+      "modulos": [
+        {
+          "n": 1,
+          "titulo": "Envejecimiento intrínseco y extrínseco"
+        },
+        {
+          "n": 2,
+          "titulo": "Cambios de la piel madura: arrugas, flacidez y textura"
+        },
+        {
+          "n": 3,
+          "titulo": "Evaluación facial en cabina"
+        },
+        {
+          "n": 4,
+          "titulo": "Rutinas en casa para piel madura"
+        },
+        {
+          "n": 5,
+          "titulo": "Aparatología estética: qué hace y qué no"
+        },
+        {
+          "n": 6,
+          "titulo": "Expectativas realistas y comunicación con el cliente"
+        },
+        {
+          "n": 7,
+          "titulo": "Estilo de vida, nutrición y piel"
+        },
+        {
+          "n": 8,
+          "titulo": "Cuándo derivar a un médico"
+        }
+      ]
+    },
+    {
+      "id": "bioseguridad-cabina",
+      "numero": 5,
+      "titulo": "Bioseguridad y buenas prácticas en cabina",
+      "area": "Práctica profesional",
+      "descripcion": "Higiene de manos, equipo de protección, limpieza, desinfección y esterilización, manejo de residuos, ficha y consentimiento del cliente, y respuesta ante reacciones adversas.",
+      "nivel": "Inicial a Intermedio",
+      "publico": [
+        "estudiantes de cosmetología",
+        "cosmetólogas y esteticistas",
+        "profesionales de la estética"
+      ],
+      "portada": {
+        "id": "bioseguridad-cabina/portada",
+        "proporcion": "16:9"
+      },
+      "modulos": [
+        {
+          "n": 1,
+          "titulo": "Por qué importa la bioseguridad en estética"
+        },
+        {
+          "n": 2,
+          "titulo": "Higiene de manos y equipo de protección"
+        },
+        {
+          "n": 3,
+          "titulo": "Limpieza, desinfección y esterilización"
+        },
+        {
+          "n": 4,
+          "titulo": "Material de un solo uso y manejo de residuos"
+        },
+        {
+          "n": 5,
+          "titulo": "Instalaciones y ventilación de la cabina"
+        },
+        {
+          "n": 6,
+          "titulo": "Ficha del cliente, consentimiento y privacidad"
+        },
+        {
+          "n": 7,
+          "titulo": "Reacciones adversas y primeros auxilios básicos"
+        },
+        {
+          "n": 8,
+          "titulo": "Protocolo de apertura y cierre del día"
+        }
+      ]
+    }
+  ]
+}
