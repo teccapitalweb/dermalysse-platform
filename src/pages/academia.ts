@@ -165,15 +165,16 @@ export async function academiaPrograma(params: Record<string, string>) {
     const av = avanceModulo(p.id, m.n);
     // Con fecha pendiente manda el calendario (igual que la API): ni borrador ni candado, solo su fecha.
     const programado = !ok && moduloProgramado(m);
-    const preparacion = !programado && m.disponible === false;
-    const clase = ok ? 'is-ok' : programado ? 'is-cerrado is-programado' : preparacion ? 'is-cerrado' : actual ? 'is-actual' : abierto ? 'is-abierto' : 'is-cerrado';
-    const sello = ok ? ic('check') : programado ? ic('calendar-clock') : preparacion ? ic('pen-line') : !abierto ? ic('lock') : m.n > 1 && !vip ? ic('crown') : `<b>${m.n}</b>`;
-    const etiqueta = [`Módulo ${m.n}`, m.n === 1 ? 'gratis' : '', programado ? 'programado' : '', preparacion ? 'en preparación' : '', m.estado && m.estado !== 'aprobado' && !preparacion && !programado ? `vista previa (${m.estado})` : ''].filter(Boolean).join(' · ');
+    // El revisor salta la fecha (puede abrir el módulo), pero ve la misma cuenta regresiva que los miembros.
+    const conFecha = !ok && !!m.programado && !!m.disponibleDesde;
+    const preparacion = !conFecha && m.disponible === false;
+    const clase = ok ? 'is-ok' : programado ? 'is-cerrado is-programado' : conFecha ? 'is-programado' : preparacion ? 'is-cerrado' : actual ? 'is-actual' : abierto ? 'is-abierto' : 'is-cerrado';
+    const sello = ok ? ic('check') : conFecha ? ic('calendar-clock') : preparacion ? ic('pen-line') : !abierto ? ic('lock') : m.n > 1 && !vip ? ic('crown') : `<b>${m.n}</b>`;
+    const etiqueta = [`Módulo ${m.n}`, m.n === 1 ? 'gratis' : '', conFecha ? 'programado' : '', preparacion ? 'en preparación' : '', m.estado && m.estado !== 'aprobado' && !preparacion && !programado ? `vista previa (${m.estado})` : ''].filter(Boolean).join(' · ');
     const detalle = ok ? `<em class="is-ok">Aprobado · mejor ${av.mejor ?? ''} %</em>`
-      : programado ? `<em class="ac-paso__fecha">Disponible el ${esc(fechaLanzamiento(m.disponibleDesde!))} · <b>${esc(cuentaLanzamiento(m.disponibleDesde!))}</b></em>`
+      : conFecha ? `<em class="ac-paso__fecha">Disponible el ${esc(fechaLanzamiento(m.disponibleDesde!))} · <b>${esc(cuentaLanzamiento(m.disponibleDesde!))}</b></em>`
         : av.temas && !preparacion ? `<em>${Object.keys(av.temas).length} temas leídos</em>` : m.temas ? `<em>${m.temas} temas${m.duracionMin ? ` · ${horas(m.duracionMin)}` : ''}</em>` : '';
-    // El revisor salta la fecha, pero ve cuándo se abre para los miembros.
-    const revisor = !programado && m.programado && m.disponibleDesde ? `<em class="ac-paso__fecha">${ic('calendar-clock')}Para miembros: ${esc(textoLanzamiento(m.disponibleDesde))}</em>` : '';
+    const revisor = conFecha && !programado ? `<em class="ac-paso__fecha ac-paso__revisor">${ic('eye')}Como revisor puedes abrirlo antes</em>` : '';
     return `<li class="ac-paso ${clase}"><a href="${ruta(p.id, m.n)}"${actual ? ' aria-current="step"' : ''}><span class="ac-paso__sello" aria-hidden="true">${sello}</span><span class="ac-paso__txt"><small>${etiqueta}</small><strong>${esc(m.titulo)}</strong>${detalle}${revisor}</span>${ic('chevron-right')}</a></li>`;
   }).join('');
   const destino = p.modulos.find((m) => m.n === r.siguiente);

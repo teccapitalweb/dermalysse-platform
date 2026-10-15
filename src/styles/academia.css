@@ -227,6 +227,7 @@
 .ac-paso.is-programado .ac-paso__sello { border-color: color-mix(in srgb, var(--area-fuerte) 45%, var(--line-strong)); background: var(--area-suave); color: var(--area-ink); }
 .ac-paso__txt em.ac-paso__fecha { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; color: var(--area-ink); }
 .ac-paso__fecha .i { width: 13px; height: 13px; }
+.ac-paso__txt em.ac-paso__revisor { color: var(--text-2); }
 .ac-seguir__item .ac-seguir__fecha { display: inline-flex; align-items: center; gap: 5px; color: var(--area-ink); font-weight: 600; }
 .ac-seguir__fecha .i { width: 13px; height: 13px; }
 .ac-paso > a > .i { flex: 0 0 auto; width: 18px; height: 18px; color: var(--text-2); }
