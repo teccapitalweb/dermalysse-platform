@@ -1,0 +1,735 @@
+{
+  "programa": "fundamentos-de-la-piel",
+  "modulo": 8,
+  "titulo": "La piel a lo largo de la vida",
+  "estado": "borrador",
+  "version": 1,
+  "resumen": "La piel de un recién nacido, la de una adolescente, la de un adulto de cuarenta años y la de una persona de ochenta no funcionan igual. En este módulo recorres esas etapas: la barrera que madura en la infancia, el sebo y el acné que llegan con la pubertad, el envejecimiento intrínseco y extrínseco de la adultez, los cambios del embarazo y la menopausia y la fragilidad de la edad adulta mayor. Para cada etapa aprendes qué cambia, qué ajustar en el cuidado cosmético y cuándo derivar al pediatra, al ginecólogo o al dermatólogo.",
+  "objetivos": [
+    "Explicar las diferencias estructurales y funcionales entre la piel infantil y la piel adulta.",
+    "Describir cómo las hormonas de la pubertad modifican el sebo y favorecen la formación de comedones y acné.",
+    "Distinguir el envejecimiento intrínseco del extrínseco a partir de sus signos visibles.",
+    "Identificar los cambios cutáneos frecuentes del embarazo, el posparto y la menopausia y las precauciones de cabina asociadas.",
+    "Adaptar la atención en cabina a la fragilidad de la piel de las personas adultas mayores, con trato digno y criterios claros de derivación."
+  ],
+  "duracionMin": 110,
+  "portada": {
+    "id": "fundamentos-de-la-piel/m08/portada",
+    "proporcion": "16:9",
+    "alt": "Tres generaciones de una familia sentadas juntas en un sofá claro, con un bebé en brazos.",
+    "prompt": "Fotografía editorial realista y cálida de tres generaciones sentadas juntas en un sofá color crema, en una sala luminosa con cojines rosa empolvado. Una mujer de unos setenta y cinco años, fototipo IV, con cabello cano; a su lado, un hombre de unos cuarenta años, fototipo IV, que sostiene a un bebé de pocos meses envuelto en una manta clara; y una adolescente de unos quince años, fototipo III, que sonríe apoyada en el hombro de la abuela. Pieles con textura natural según cada edad. Luz natural suave de ventana, encuadre horizontal de cuerpo medio. Evitar: texto, logotipos, retoque digital, poses rígidas, personas reales o famosas."
+  },
+  "temas": [
+    {
+      "n": "8.1",
+      "titulo": "Del nacimiento a la infancia: una piel en construcción",
+      "minutos": 14,
+      "enPocasPalabras": "La piel de un bebé parece perfecta, pero todavía está aprendiendo a funcionar: es más delgada, pierde y gana agua más rápido y absorbe más lo que se le pone. Por eso necesita pocos productos, baños cortos y mucha protección del sol con sombra y ropa.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Al nacer, la piel pasa en unos segundos de un ambiente líquido y tibio a uno seco, con aire, ropa y microorganismos. A partir de ese momento empieza un proceso de adaptación que dura meses y, en algunos aspectos, años. Aunque se vea suave y uniforme, la piel infantil **no es una versión pequeña de la piel adulta**: tiene una estructura distinta, maneja el agua de otra forma y absorbe con más facilidad lo que se le aplica. Entender estas diferencias te sirve para orientar con prudencia a madres, padres y cuidadores que te consultan, aunque los bebés y niños pequeños no sean personas usuarias de la cabina."
+        },
+        { "tipo": "subtitulo", "texto": "El primer día: vérnix y transición" },
+        {
+          "tipo": "texto",
+          "md": "Muchos bebés nacen cubiertos en parte por el **vérnix caseoso**, una capa blanquecina y cremosa formada sobre todo por agua, lípidos y proteínas, con péptidos que ayudan a defender frente a microorganismos. Funciona como un hidratante y un escudo natural durante el paso al ambiente seco. Por eso la Organización Mundial de la Salud recomienda retrasar el primer baño del recién nacido al menos 24 horas, o como mínimo seis si por razones culturales no es posible esperar más.\n\nEn las primeras semanas es frecuente ver una descamación fina, sobre todo en manos y pies, y restos de **lanugo**, el vello muy fino que cubría al bebé antes de nacer. El pH de la superficie, cercano al neutro al nacer, se vuelve progresivamente más ácido durante las primeras semanas, un paso importante para la formación del manto ácido."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/01",
+          "proporcion": "16:9",
+          "alt": "Un bebé de pocas semanas duerme sobre una manta de algodón mientras una mano adulta toca su pie.",
+          "pie": "La piel del recién nacido inicia una adaptación al ambiente seco que dura meses.",
+          "prompt": "Fotografía editorial realista y tierna de un bebé de pocas semanas, fototipo V, dormido boca arriba sobre una manta de algodón color crema, vestido con un mameluco liso de manga larga color rosa empolvado. La mano de una persona adulta, fototipo V, toca con delicadeza uno de sus pies descubiertos. Piel del bebé con textura natural y una leve descamación fina en el pie. Luz natural suave y difusa desde una ventana, encuadre horizontal cerrado, ambiente sereno. Evitar: texto, logotipos, desnudez, objetos peligrosos cerca del bebé, retoque digital, gestos de llanto, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Una barrera que madura" },
+        {
+          "tipo": "texto",
+          "md": "Estudios con microscopía in vivo encontraron que, en bebés de 3 a 24 meses, la capa córnea es alrededor de un 30 % más delgada y la epidermis alrededor de un 20 % más delgada que en adultos, con corneocitos más pequeños. Otras investigaciones mostraron que la capa córnea infantil absorbe agua y la pierde con más rapidez, y que su función de barrera sigue desarrollándose durante al menos el primer año de vida.\n\nA esto se suma una diferencia de proporciones: un bebé tiene mucha más superficie de piel en relación con su peso que un adulto. Una misma sustancia aplicada sobre la piel representa, para su cuerpo, una cantidad proporcionalmente mayor. Esa es la razón por la que en la infancia se recomiendan pocos productos, sin perfume y de fórmula sencilla, y por la que cualquier crema con medicamento debe indicarla el pediatra."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Piel del bebé frente a piel adulta",
+          "columnas": ["Rasgo", "Bebé", "Adulto"],
+          "filas": [
+            ["Capa córnea", "Más delgada, con corneocitos más pequeños", "Más gruesa y con corneocitos mayores"],
+            ["Manejo del agua", "Absorbe y pierde agua con más rapidez", "Más estable frente a cambios de humedad"],
+            ["pH superficial", "Cercano al neutro al nacer; se acidifica en semanas", "Ácido de forma estable"],
+            ["Sebo", "Breve actividad por hormonas maternas; luego muy bajo hasta la pubertad", "Según el tipo de piel"],
+            ["Superficie en relación con el peso", "Mucho mayor: absorbe proporcionalmente más", "Menor"],
+            ["Barrera", "En maduración durante al menos el primer año", "Madura"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m08/d1",
+          "pie": "Corte comparativo de la piel de un bebé y la de un adulto.",
+          "descripcion": "Dos cortes de piel lado a lado y a la misma escala. A la izquierda, la piel del bebé con una capa córnea y una epidermis visiblemente más delgadas y corneocitos pequeños; flechas de agua que entran y salen más rápido. A la derecha, la piel adulta con capas más gruesas y flechas de agua más cortas. Debajo, una figura simple de bebé y una de adulto con un indicador de superficie en relación con el peso.",
+          "elementos": ["Bebé", "Adulto", "Capa córnea más delgada", "Corneocitos más pequeños", "Entrada y salida de agua más rápida", "Barrera en maduración", "Mayor superficie en relación con el peso"]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "Los puntitos blancos del recién nacido",
+          "md": "Muchos recién nacidos presentan en nariz y mejillas pequeños puntos blancos llamados **milios**, diminutos quistes de queratina que suelen desaparecer solos en pocas semanas. Algunos bebés tienen también granitos por el estímulo de las hormonas maternas sobre sus glándulas sebáceas. Ninguno debe manipularse: la indicación es observar y consultar al pediatra ante cualquier duda."
+        },
+        { "tipo": "subtitulo", "texto": "La infancia: sol, juego y hábitos" },
+        {
+          "tipo": "texto",
+          "md": "Después de los primeros meses, las glándulas sebáceas permanecen casi en reposo hasta que se acerca la pubertad; por eso la piel de los niños rara vez es grasa y con frecuencia tiende a la sequedad, sobre todo en climas fríos y secos o con baños largos y calientes.\n\nLa infancia es también la etapa en que se forman los hábitos de protección solar y en la que se acumula una parte importante de la exposición de toda la vida. Las quemaduras solares en la niñez se asocian con mayor riesgo de cáncer de piel en la edad adulta. Las recomendaciones de academias de dermatología y pediatría coinciden en mantener a los menores de seis meses fuera del sol directo, con sombra y ropa, y en combinar a partir de entonces sombra, sombrero de ala ancha, ropa que cubra y protector solar, evitando las horas centrales del día. En gran parte de México el índice ultravioleta es alto buena parte del año, lo que hace estas medidas aún más relevantes."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/02",
+          "proporcion": "4:3",
+          "alt": "Un niño y una niña juegan a la sombra de un árbol con sombrero de ala ancha y ropa de manga larga.",
+          "pie": "Sombra, sombrero y ropa son la base de la fotoprotección infantil.",
+          "prompt": "Fotografía editorial realista y alegre de un niño de unos seis años, fototipo VI, y una niña de unos siete años, fototipo III, jugando con bloques de madera sobre una manta color crema a la sombra de un árbol frondoso en un jardín. Ambos llevan sombrero de ala ancha de tela y playeras ligeras de manga larga en tonos rosa empolvado y beige. Luz natural de media mañana filtrada por las hojas, encuadre horizontal a media distancia, ambiente cálido. Evitar: texto, logotipos, marcas en la ropa, sol directo intenso sobre los niños, piel quemada, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Fuera del alcance de la cabina",
+          "md": "Los servicios de cabina no están dirigidos a bebés ni a niños pequeños. Las rozaduras del pañal, las costras amarillentas en el cuero cabelludo, la piel muy seca con comezón, los lunares presentes desde el nacimiento, las manchas o cualquier erupción deben valorarse con el pediatra o el dermatólogo. Tampoco recomiendes aplicar en niños productos pensados para adultos, como perfumes, aceites esenciales o cosméticos con activos exfoliantes o despigmentantes."
+        },
+        { "tipo": "subtitulo", "texto": "Cómo orientar a madres, padres y cuidadores" },
+        {
+          "tipo": "pasos",
+          "titulo": "Principios generales de cuidado infantil, como orientación educativa",
+          "pasos": [
+            { "titulo": "Baños breves y tibios", "md": "El agua muy caliente y los baños prolongados arrastran lípidos de la barrera. Un baño corto con agua tibia limpia sin resecar." },
+            { "titulo": "Limpiadores suaves y en poca cantidad", "md": "Productos sin perfume, de fórmula sencilla, aplicados solo donde hace falta. En bebés pequeños, muchas zonas se limpian bien solo con agua." },
+            { "titulo": "Hidratación cuando la piel lo pide", "md": "Si la piel se ve o se siente seca, un emoliente sencillo después del baño ayuda a la barrera. Si hay comezón, enrojecimiento o placas, la decisión es del pediatra." },
+            { "titulo": "Fotoprotección por capas", "md": "Primero sombra y ropa, después sombrero y, desde la edad que indique el pediatra, protector solar en las zonas que quedan descubiertas." },
+            { "titulo": "Un cambio a la vez", "md": "Introducir productos nuevos de uno en uno permite identificar cuál causa una reacción, si llegara a ocurrir." }
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/03",
+          "proporcion": "4:3",
+          "alt": "Un padre aplica crema en el brazo de su hija pequeña envuelta en una toalla después del baño.",
+          "pie": "Después de un baño breve y tibio, un emoliente sencillo ayuda a la barrera infantil.",
+          "prompt": "Fotografía editorial realista y cálida en un baño luminoso de azulejos crema. Un hombre de unos treinta y cinco años, fototipo IV, arrodillado, aplica con suavidad una pequeña cantidad de crema blanca en el antebrazo de su hija de unos tres años, fototipo IV, envuelta en una toalla color rosa empolvado y sentada sobre un banco bajo. La niña sonríe tranquila. Junto a ellos, un frasco blanco sin etiqueta. Luz natural suave, encuadre horizontal a media distancia. Evitar: texto, logotipos, etiquetas en los frascos, desnudez, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Por qué la capa córnea infantil maneja distinto el agua",
+          "md": "Las mediciones biofísicas en bebés muestran una capa córnea con mayor contenido de agua en reposo, pero con una dinámica más inestable: absorbe agua con rapidez cuando se moja y la pierde también con rapidez, con una pérdida transepidérmica de agua más alta que la adulta. A la vez, el contenido de factor natural de hidratación es menor en los primeros meses. El resultado es una barrera que todavía no regula bien el intercambio de agua con el ambiente y que se beneficia de evitar extremos: ni baños largos ni ambientes muy secos. Estos hallazgos sostienen que la maduración funcional de la barrera continúa durante al menos el primer año de vida, aunque la piel ya se vea completamente formada."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "vf",
+          "titulo": "Mito o realidad: la piel infantil",
+          "afirmaciones": [
+            { "texto": "La piel del bebé es igual a la del adulto, solo que más pequeña.", "verdadero": false, "explicacion": "Su capa córnea y su epidermis son más delgadas, maneja el agua de otra forma y su barrera sigue madurando durante al menos el primer año." },
+            { "texto": "El vérnix caseoso ayuda a proteger e hidratar la piel del recién nacido.", "verdadero": true, "explicacion": "Por eso la OMS recomienda retrasar el primer baño al menos 24 horas, o como mínimo seis." },
+            { "texto": "Como un bebé es pequeño, absorbe proporcionalmente menos lo que se le aplica en la piel.", "verdadero": false, "explicacion": "Es al revés: tiene más superficie de piel en relación con su peso, así que absorbe proporcionalmente más." },
+            { "texto": "Los milios del recién nacido deben exprimirse para que desaparezcan.", "verdadero": false, "explicacion": "Suelen desaparecer solos en pocas semanas y no deben manipularse; ante dudas se consulta al pediatra." },
+            { "texto": "La sombra y la ropa son la primera línea de fotoprotección en la infancia.", "verdadero": true, "explicacion": "Se combinan después con sombrero y protector solar en las zonas descubiertas, según la edad." }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Cuando una clienta o un cliente con hijos te pregunte qué ponerle a su bebé, responde con principios, no con productos: baño breve y tibio, poco limpiador, emoliente sencillo si hay sequedad, sombra y ropa contra el sol, y pediatra ante cualquier lesión o comezón. Es una orientación valiosa y se mantiene dentro de tu ámbito."
+        }
+      ],
+      "glosario": [
+        { "termino": "Vérnix caseoso", "definicion": "Capa blanquecina y cremosa de agua, lípidos y proteínas que cubre la piel del recién nacido y la protege durante la adaptación al ambiente seco." },
+        { "termino": "Lanugo", "definicion": "Vello muy fino que cubre al feto y que puede persistir en algunas zonas durante las primeras semanas de vida." },
+        { "termino": "Milios", "definicion": "Pequeños quistes blancos de queratina, frecuentes en la cara del recién nacido, que suelen desaparecer solos." },
+        { "termino": "Corneocito", "definicion": "Célula aplanada y sin núcleo que forma la capa córnea; en los bebés es más pequeña que en los adultos." },
+        { "termino": "Emoliente", "definicion": "Producto que suaviza la piel y ayuda a reducir la pérdida de agua al aportar lípidos a la superficie." }
+      ],
+      "verificacion": [
+        { "id": "t8.1-1", "q": "¿Qué recomienda la OMS sobre el primer baño del recién nacido?", "opciones": ["Bañarlo en la primera hora con jabón perfumado", "Bañarlo dos veces al día desde el nacimiento", "Retrasarlo al menos 24 horas, o como mínimo seis", "No bañarlo durante el primer mes"], "correcta": 2, "explicacion": "Retrasar el primer baño respeta el vérnix y favorece la adaptación del bebé; no se trata de evitar el baño por semanas." },
+        { "id": "t8.1-2", "q": "¿Por qué un bebé absorbe proporcionalmente más lo que se le aplica en la piel?", "opciones": ["Porque tiene más superficie de piel en relación con su peso y una barrera en maduración", "Porque produce mucho sebo", "Porque su piel es más gruesa", "Porque su pH es muy ácido"], "correcta": 0, "explicacion": "La mayor superficie relativa y una capa córnea más delgada explican la mayor absorción proporcional. El sebo infantil es bajo y el pH se acidifica con las semanas." },
+        { "id": "t8.1-3", "q": "Una clienta te pregunta qué hacer con las costras amarillentas en el cuero cabelludo de su bebé. ¿Qué respondes?", "opciones": ["Que las retire raspando con las uñas", "Que lo consulte con el pediatra, que es quien debe valorarlo", "Que aplique un exfoliante para adultos", "Que use aceite esencial puro"], "correcta": 1, "explicacion": "Las lesiones y erupciones en bebés las valora el pediatra. Raspar, exfoliar o aplicar productos para adultos puede irritar una piel inmadura." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Infant skin microstructure assessed in vivo differs from adult skin in organization and at the cellular level. Pediatric Dermatology 27(2): 125-131", "autor": "Stamatas GN, Nikolovski J, Luedtke MA, Kollias N, Wiegand BC", "anio": 2010 },
+        { "tipo": "academica", "titulo": "Barrier function and water-holding and transport properties of infant stratum corneum are different from adult and continue to develop through the first year of life. Journal of Investigative Dermatology 128(7): 1728-1736", "autor": "Nikolovski J, Stamatas GN, Kollias N, Wiegand BC", "anio": 2008 },
+        { "tipo": "oficial", "titulo": "WHO recommendations on maternal and newborn care for a positive postnatal experience", "autor": "Organización Mundial de la Salud", "anio": 2022 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en recomendaciones de academias de dermatología y pediatría sobre cuidado de la piel y fotoprotección infantil", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "8.2",
+      "titulo": "Pubertad y adolescencia: hormonas, sebo y acné",
+      "minutos": 15,
+      "enPocasPalabras": "En la pubertad las hormonas hacen que la piel produzca más grasa, aparezca el olor corporal y crezca vello nuevo. Por eso muchos adolescentes tienen granitos. Una rutina sencilla ayuda, pero si los granitos duelen, dejan marcas o afectan el ánimo, hay que ir al dermatólogo.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "La pubertad es la etapa en que la piel cambia más rápido después del nacimiento. Suele empezar entre los 8 y los 14 años, con variaciones normales entre personas, y trae una transformación hormonal que la piel resiente de inmediato: más sebo, poros más visibles, olor corporal, vello nuevo y, en muchos casos, comedones y granitos. Para quien la vive, esos cambios llegan además en un momento de gran sensibilidad hacia la propia imagen. Por eso tu papel en la cabina combina conocimiento técnico, empatía y un criterio muy claro de cuándo derivar."
+        },
+        { "tipo": "subtitulo", "texto": "Las hormonas encienden las glándulas" },
+        {
+          "tipo": "texto",
+          "md": "Antes de la pubertad propiamente dicha ocurre la **adrenarquia**: entre los 6 y los 8 años, aproximadamente, las glándulas suprarrenales empiezan a producir andrógenos débiles, como la dehidroepiandrosterona (DHEA) y su sulfato. Después, con la maduración de ovarios y testículos, aumentan los andrógenos más potentes.\n\nLas glándulas sebáceas tienen receptores para estos andrógenos: crecen y producen bastante más sebo. Al mismo tiempo se activan las **glándulas sudoríparas apocrinas** de axilas e ingles, cuyo sudor, al ser descompuesto por bacterias de la piel, produce el olor corporal característico. Y el vello fino de algunas zonas se transforma en vello terminal, más grueso y pigmentado, en axilas, pubis y, en los varones, en el rostro."
+        },
+        {
+          "tipo": "texto",
+          "md": "En el rostro, estos cambios se traducen en brillo en la zona T, poros más visibles y una textura más gruesa. Muchas personas que de niñas tenían piel normal pasan a tener piel mixta o grasa. Es un cambio de tipo esperable y fisiológico, no un problema en sí mismo. Durante los estirones de crecimiento también pueden aparecer **estrías** en muslos, caderas, espalda o pecho, por el estiramiento rápido de la dermis; al principio se ven rojizas o violáceas y con el tiempo se vuelven más claras."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/04",
+          "proporcion": "3:4",
+          "alt": "Una adolescente se observa en el espejo del baño con algunos comedones leves en la frente.",
+          "pie": "En la pubertad aumenta el sebo y la piel puede pasar a ser mixta o grasa.",
+          "prompt": "Fotografía editorial realista y respetuosa de una adolescente de unos catorce años, fototipo IV, con el cabello recogido en una coleta, frente al espejo de un baño luminoso de tonos crema. Se observa con curiosidad la frente, donde se aprecian algunos comedones pequeños y leves y un ligero brillo en la nariz. Viste una sudadera lisa color rosa empolvado. Luz natural suave desde una ventana lateral, encuadre vertical por encima del hombro, piel con textura real. Evitar: texto, logotipos, lesiones inflamadas o graves, gestos de angustia, retoque digital, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Cómo se forma el acné" },
+        {
+          "tipo": "lista",
+          "titulo": "Los cuatro factores que se combinan en el acné",
+          "ordenada": true,
+          "items": [
+            "Aumento de la producción de sebo por efecto de los andrógenos.",
+            "Hiperqueratinización folicular: las células de la pared del folículo se desprenden y se acumulan, y forman un tapón con el sebo, que es el comedón.",
+            "Proliferación de Cutibacterium acnes, una bacteria habitual de la piel que se multiplica en el folículo tapado y rico en sebo.",
+            "Inflamación: el contenido del folículo y las sustancias de la bacteria activan la respuesta inflamatoria, que da lugar a pápulas, pústulas y, en casos más intensos, nódulos."
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m08/d2",
+          "pie": "Evolución de un folículo pilosebáceo desde la normalidad hasta la lesión inflamada.",
+          "descripcion": "Secuencia horizontal de cuatro cortes del mismo folículo pilosebáceo. En el primero, el folículo es normal con una glándula sebácea pequeña. En el segundo, la glándula es más grande y el sebo aumenta. En el tercero, un tapón de células y sebo cierra la salida y forma un comedón; puntos que representan bacterias se multiplican dentro. En el cuarto, alrededor del folículo aparece una zona de inflamación. Cada paso lleva su etiqueta.",
+          "elementos": ["Folículo normal", "Más sebo por andrógenos", "Tapón de células: comedón", "Comedón abierto (punto negro)", "Comedón cerrado (punto blanco)", "Multiplicación de Cutibacterium acnes", "Inflamación: pápula o pústula"]
+        },
+        {
+          "tipo": "texto",
+          "md": "El acné es una de las condiciones más frecuentes de la adolescencia: la gran mayoría de adolescentes presenta comedones o granitos en algún momento. Su intensidad va desde unos cuantos comedones hasta formas con muchos granitos inflamados, nódulos profundos y cicatrices. El color oscuro del punto negro no es suciedad, sino el contenido del tapón expuesto al aire, que se oscurece en parte por la melanina oxidada.\n\nMás allá de la piel, el acné puede afectar la autoestima, las relaciones sociales y el ánimo. Por eso no es «cosa de la edad» que haya que esperar a que pase: tratarlo a tiempo con el dermatólogo reduce el riesgo de cicatrices y manchas permanentes, que son difíciles de corregir después."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Cuándo el acné adolescente necesita al dermatólogo",
+          "md": "Sugiere valoración dermatológica si observas nódulos o quistes dolorosos, muchas lesiones inflamadas, cicatrices deprimidas o elevadas, manchas que persisten tras cada brote, acné en pecho y espalda extenso, o si la persona refiere que el acné le afecta el ánimo o la vida social. Los tratamientos médicos del acné, tanto tópicos como orales, los indica exclusivamente el médico. En la cabina, con menores de edad, trabaja siempre con la autorización y, de preferencia, la presencia de madre, padre o tutor."
+        },
+        { "tipo": "subtitulo", "texto": "Mitos y evidencia" },
+        {
+          "tipo": "tabla",
+          "titulo": "Creencias frecuentes sobre el acné adolescente",
+          "columnas": ["Creencia", "Lo que se sabe"],
+          "filas": [
+            ["El acné es por falta de higiene", "No. El punto negro no es mugre; lavar en exceso o tallar irrita y puede empeorar la inflamación."],
+            ["El chocolate y la comida grasosa causan acné", "La evidencia es limitada. Algunos estudios asocian dietas de alta carga glucémica con más acné, pero no existe una dieta única recomendada."],
+            ["Hay que reventar los granitos para que se sequen", "Manipularlos aumenta la inflamación y el riesgo de cicatriz y de mancha postinflamatoria."],
+            ["El sol mejora el acné", "Puede disimular el enrojecimiento por un tiempo, pero oscurece las manchas que dejan los granitos, y algunos tratamientos médicos aumentan la sensibilidad al sol."],
+            ["Se quita solo, no hay que tratarlo", "Las formas leves pueden mejorar, pero las moderadas o intensas pueden dejar cicatrices permanentes si no se tratan a tiempo."]
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/05",
+          "proporcion": "4:3",
+          "alt": "Un adolescente se lava el rostro con suavidad usando las manos y agua tibia.",
+          "pie": "Una limpieza suave, sin tallar, es suficiente y evita irritar.",
+          "prompt": "Fotografía editorial realista de un adolescente de unos dieciséis años, fototipo II, con cabello corto castaño, inclinado sobre el lavabo de un baño claro de tonos crema, enjuagándose el rostro con las manos y agua tibia, con los ojos cerrados y expresión tranquila. Una toalla de algodón color rosa empolvado cuelga a su lado. Piel con textura natural, algunos comedones leves en la frente. Luz natural suave de mañana, encuadre horizontal de perfil tres cuartos. Evitar: texto, logotipos, frascos con etiquetas, espuma excesiva, lesiones graves, retoque digital, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Rutinas para adolescentes: menos es más" },
+        {
+          "tipo": "texto",
+          "md": "En los últimos años, las redes sociales han difundido rutinas de muchos pasos con ácidos exfoliantes, retinoides y otros activos entre niñas, niños y adolescentes. Dermatólogos de distintos países han advertido que esta tendencia provoca irritación, sensibilidad y reacciones en pieles jóvenes que no los necesitan.\n\nPara la mayoría de adolescentes basta con una rutina corta: limpieza suave por la mañana y por la noche, un hidratante ligero y no comedogénico si la piel lo pide, y protector solar todos los días. Si usan maquillaje, que sea no comedogénico y que lo retiren antes de dormir. Evitar compartir esponjas o brochas y cambiar con frecuencia la funda de la almohada son hábitos sencillos que también ayudan."
+        },
+        {
+          "tipo": "texto",
+          "md": "La adolescencia es también la edad del **primer rasurado** para muchos jóvenes. Rasurar sobre zonas con granitos inflamados los irrita y puede abrirlos. Conviene hacerlo después de lavar con agua tibia, con una navaja limpia y afilada, a favor del crecimiento del vello y sin pasar muchas veces por el mismo sitio. Cuando el vello es rizado, al cortarse puede volver a entrar en la piel y formar pequeños granitos; si son frecuentes o dejan manchas, es otro motivo para consultar al dermatólogo."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "ejemplo",
+          "titulo": "Una primera visita bien orientada",
+          "md": "Una joven de 15 años, fototipo III, llega con su madre. Usa por las noches un ácido exfoliante y un sérum que vio en redes, y desde hace un mes tiene la piel roja y tirante, además de comedones en frente y mentón. Registras **tipo: mixta; estados: tendencia comedogénica y sensibilidad por irritación**. Sugieres suspender los activos, simplificar la rutina y revaluar en tres semanas. Como no hay nódulos ni cicatrices, no derivas de inmediato, pero explicas a ambas qué señales requerirían al dermatólogo."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/06",
+          "proporcion": "16:9",
+          "alt": "Una cosmetóloga explica una rutina sencilla a un adolescente y a su madre en la cabina.",
+          "pie": "Con menores de edad, la orientación se da con la presencia y autorización de la madre, el padre o el tutor.",
+          "prompt": "Fotografía editorial realista en una cabina estética cálida de tonos crema y rosa empolvado. Una cosmetóloga de unos treinta años, fototipo V, con cabello recogido y uniforme claro, muestra con la mano abierta tres frascos blancos sin etiqueta sobre una mesa a un adolescente de unos quince años, fototipo III, sentado junto a su madre, de unos cuarenta y cinco años, fototipo III. Los tres conversan con expresión atenta y relajada. Luz natural suave, encuadre horizontal a media distancia. Evitar: texto, logotipos, etiquetas, marcas, lesiones graves, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "relacionar",
+          "titulo": "Relaciona cada concepto de la pubertad",
+          "instruccion": "Une cada término con la descripción que le corresponde.",
+          "pares": [
+            { "a": "Adrenarquia", "b": "Inicio de la producción de andrógenos suprarrenales hacia los 6 a 8 años" },
+            { "a": "Andrógenos", "b": "Hormonas que agrandan las glándulas sebáceas y aumentan el sebo" },
+            { "a": "Glándulas apocrinas", "b": "Glándulas de axilas e ingles que se activan en la pubertad y se relacionan con el olor corporal" },
+            { "a": "Hiperqueratinización folicular", "b": "Acumulación de células en la pared del folículo que forma el tapón del comedón" },
+            { "a": "Cutibacterium acnes", "b": "Bacteria habitual de la piel que se multiplica en el folículo tapado" }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Con adolescentes, revisa siempre qué productos usan, aunque digan que «nada». Pide que te muestren fotos de los frascos o que los traigan: es frecuente descubrir activos irritantes que explican buena parte del problema. Explica con respeto, sin juzgar, y termina la cita diciendo con claridad qué señales harían necesario ver al dermatólogo."
+        }
+      ],
+      "glosario": [
+        { "termino": "Adrenarquia", "definicion": "Inicio de la producción de andrógenos por las glándulas suprarrenales, hacia los 6 a 8 años, antes de la pubertad propiamente dicha." },
+        { "termino": "Andrógenos", "definicion": "Hormonas como la testosterona y la DHEA que estimulan las glándulas sebáceas y el crecimiento del vello terminal." },
+        { "termino": "Glándula sudorípara apocrina", "definicion": "Glándula de axilas, ingles y areolas que se activa en la pubertad; su secreción, descompuesta por bacterias, produce el olor corporal." },
+        { "termino": "Hiperqueratinización folicular", "definicion": "Desprendimiento y acumulación excesiva de células en la pared del folículo, que forma el tapón del comedón." },
+        { "termino": "Estrías", "definicion": "Líneas en la piel causadas por el estiramiento rápido de la dermis; al principio rojizas o violáceas, luego más claras." },
+        { "termino": "No comedogénico", "definicion": "Término que indica que un producto se formuló para reducir la probabilidad de tapar los folículos y formar comedones." }
+      ],
+      "verificacion": [
+        { "id": "t8.2-1", "q": "¿Por qué aumenta el sebo en la pubertad?", "opciones": ["Porque la piel se ensucia más", "Porque disminuyen los estrógenos", "Porque se acaba el vérnix", "Porque los andrógenos estimulan las glándulas sebáceas"], "correcta": 3, "explicacion": "Las glándulas sebáceas tienen receptores para andrógenos; al aumentar estas hormonas, crecen y producen más sebo. La suciedad no es la causa." },
+        { "id": "t8.2-2", "q": "¿Qué es el punto negro de un comedón abierto?", "opciones": ["Suciedad acumulada", "El contenido del tapón expuesto al aire que se oscurece", "Una infección grave", "Un vaso sanguíneo"], "correcta": 1, "explicacion": "El color oscuro proviene del contenido del tapón expuesto al aire, en parte por la melanina oxidada. Por eso tallar no lo resuelve." },
+        { "id": "t8.2-3", "q": "¿Qué hallazgo en una adolescente justifica sugerir valoración dermatológica?", "opciones": ["Nódulos dolorosos y cicatrices tras los brotes", "Brillo en la zona T", "Algunos comedones abiertos en la nariz", "Poros más visibles que en la infancia"], "correcta": 0, "explicacion": "Los nódulos y las cicatrices indican un acné que necesita tratamiento médico a tiempo. Los otros hallazgos son cambios esperables de la pubertad." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Guidelines of care for the management of acne vulgaris. Journal of the American Academy of Dermatology 74(5): 945-973", "autor": "Zaenglein AL, Pathy AL, Schlosser BJ, et al.", "anio": 2016 },
+        { "tipo": "academica", "titulo": "Diet and acne. Journal of the American Academy of Dermatology 63(1): 124-141", "autor": "Bowe WP, Joshi SS, Shalita AR", "anio": 2010 },
+        { "tipo": "academica", "titulo": "Dermatology, 4.ª ed.", "autor": "Bolognia JL, Schaffer JV, Cerroni L (eds.)", "anio": 2018 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en advertencias de academias de dermatología sobre el uso de activos cosméticos en niñas, niños y adolescentes", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "8.3",
+      "titulo": "La adultez: envejecimiento intrínseco y extrínseco",
+      "minutos": 15,
+      "enPocasPalabras": "Con los años, la piel produce menos colágeno y se renueva más despacio: es el envejecimiento natural. Pero el sol, el tabaco y otros factores lo aceleran y dejan arrugas profundas y manchas. Lo que más puedes cuidar es esa segunda parte, sobre todo con protección solar.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Entre los 20 y los 60 años la piel cambia de forma gradual, casi imperceptible de un año a otro, pero muy evidente cuando se comparan décadas. Esos cambios tienen dos orígenes que conviene separar: el **envejecimiento intrínseco**, que depende del paso del tiempo y de la genética, y el **envejecimiento extrínseco**, que añaden los factores externos, sobre todo el sol. La diferencia no es académica: sobre el primero se puede hacer poco; sobre el segundo, mucho. Comprenderlo te permite explicar con honestidad qué puede esperar una persona del cuidado cosmético y qué no."
+        },
+        { "tipo": "subtitulo", "texto": "Envejecimiento intrínseco: el reloj biológico" },
+        {
+          "tipo": "texto",
+          "md": "Con los años, los fibroblastos de la dermis se vuelven menos numerosos y menos activos. Producen menos colágeno y menos ácido hialurónico, y las fibras elásticas se fragmentan. Estudios clásicos estimaron que el contenido de colágeno de la piel disminuye alrededor de 1 % por año en la edad adulta, y que la piel se adelgaza de forma progresiva.\n\nEn la epidermis, la renovación celular se hace más lenta, de modo que la superficie tarda más en reponerse y las heridas tardan más en cerrar. Más adelante disminuyen también la producción de sebo y de sudor. El resultado, visible en zonas que casi no reciben sol como la cara interna del brazo, es una piel más fina, más seca, con arrugas finas y menos elástica, pero de tono bastante uniforme. La genética marca el ritmo de este reloj, y por eso personas de la misma edad pueden verse muy distintas."
+        },
+        { "tipo": "subtitulo", "texto": "Envejecimiento extrínseco: lo que suma el entorno" },
+        {
+          "tipo": "texto",
+          "md": "El envejecimiento extrínseco se superpone al intrínseco y depende del **exposoma**, el conjunto de factores externos a los que se expone la piel a lo largo de la vida, que estudiarás en el módulo 9. El más importante es la radiación solar, cuyo efecto se llama **fotoenvejecimiento**; le siguen el tabaco, la contaminación del aire, la falta de sueño y algunos hábitos de alimentación.\n\nSus signos son distintos de los del envejecimiento intrínseco: arrugas profundas, textura áspera o de aspecto curtido, manchas de distintos tamaños, tono desigual, vasos finos visibles y, en casos avanzados, **elastosis solar**, una acumulación de material elástico anómalo en la dermis que da a la piel un aspecto engrosado y amarillento. Compara el dorso de la mano con la cara interna del brazo de una misma persona y verás la diferencia entre ambos procesos."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Envejecimiento intrínseco frente a extrínseco",
+          "columnas": ["Rasgo", "Intrínseco", "Extrínseco"],
+          "filas": [
+            ["Origen", "Paso del tiempo y genética", "Sol, tabaco, contaminación, sueño y otros hábitos"],
+            ["Dónde se ve", "En toda la piel, incluso en zonas cubiertas", "Sobre todo en rostro, cuello, escote y dorso de manos"],
+            ["Arrugas", "Finas", "Finas y profundas"],
+            ["Textura", "Fina y seca", "Áspera, engrosada o curtida"],
+            ["Pigmentación", "Bastante uniforme", "Manchas y tono desigual"],
+            ["Margen de prevención", "Escaso", "Amplio: fotoprotección, no fumar, hábitos saludables"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m08/d3",
+          "pie": "Dos procesos que se suman: el reloj biológico y el entorno.",
+          "descripcion": "Diagrama de dos columnas que convergen en una piel envejecida. A la izquierda, el envejecimiento intrínseco con un icono de reloj y sus efectos en la dermis y la epidermis. A la derecha, el envejecimiento extrínseco con iconos de sol, cigarro, nube de contaminación y luna, y sus efectos. Abajo, ambas columnas desembocan en una franja que muestra la suma de signos, con una nota de que la columna derecha es la que más puede modificarse.",
+          "elementos": ["Intrínseco: tiempo y genética", "Menos colágeno y ácido hialurónico", "Renovación celular más lenta", "Extrínseco: exposoma", "Radiación solar", "Tabaco", "Contaminación", "Sueño insuficiente", "Signos combinados en la piel", "La parte extrínseca se puede prevenir"]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/07",
+          "proporcion": "4:3",
+          "alt": "Una mujer de unos treinta y cinco años sonríe y muestra líneas finas en el contorno de los ojos.",
+          "pie": "Las primeras líneas de expresión suelen notarse al sonreír, alrededor de los ojos.",
+          "prompt": "Retrato editorial realista de una mujer de unos treinta y cinco años, fototipo V, con cabello rizado recogido, sonriendo con naturalidad en un estudio de fondo crema con acentos rosa empolvado. Al sonreír se aprecian líneas finas en el contorno de los ojos y una textura natural en mejillas y frente, sin maquillaje intenso. Viste una blusa lisa color vino suave. Luz natural cálida y lateral, encuadre horizontal de busto, expresión cálida y segura. Evitar: texto, logotipos, retoque digital, filtros de belleza, efecto antes y después, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "El rostro envejece en capas" },
+        {
+          "tipo": "texto",
+          "md": "La piel no es la única estructura que cambia. Debajo de ella, los compartimentos de grasa del rostro pierden volumen o se desplazan con los años, y el hueso de la órbita, el maxilar y la mandíbula se reabsorbe de forma gradual. Los ligamentos que sostienen los tejidos se relajan. Por eso el descenso de las mejillas, la profundización de los surcos y la pérdida de definición del contorno no se explican solo por la piel.\n\nEsta visión por capas te ayuda a ser honesta con las expectativas: los cuidados cosméticos actúan sobre la superficie y mejoran hidratación, textura y luminosidad, pero no reponen volumen ni hueso. Los procedimientos que sí actúan en capas profundas, como los rellenos o la toxina botulínica, son **actos médicos**; tu papel es conocer su existencia, explicar su alcance y derivar a profesionales de la medicina."
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Lo que el cuidado cosmético sí puede aportar en la adultez",
+          "items": [
+            "Reducir el daño solar futuro con fotoprotección diaria, que es la medida preventiva con más respaldo.",
+            "Mejorar la hidratación de la capa córnea y, con ello, la suavidad y la apariencia de las líneas finas superficiales.",
+            "Apoyar la función de barrera con limpieza suave y emolientes adecuados al tipo de piel.",
+            "Dar más uniformidad y luminosidad a la superficie con exfoliación moderada y bien tolerada.",
+            "Educar en hábitos: no fumar, dormir lo suficiente y revisar la piel para detectar lesiones nuevas."
+          ]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Cómo la radiación ultravioleta degrada el colágeno",
+          "md": "La radiación ultravioleta genera especies reactivas de oxígeno en la piel y activa vías de señalización que culminan en el factor de transcripción AP-1. Este factor aumenta la producción de **metaloproteinasas de la matriz**, como la colagenasa MMP-1 y otras, que degradan el colágeno y las fibras de la dermis. Al mismo tiempo, la radiación reduce la síntesis de procolágeno al interferir con la vía del factor de crecimiento transformante beta. Cada exposición deja un pequeño daño que no se repara por completo; la acumulación de estas microlesiones a lo largo de años explica buena parte del fotoenvejecimiento. Los fibroblastos que se encuentran sobre una matriz dañada producen además menos colágeno nuevo, lo que alimenta el ciclo."
+        },
+        { "tipo": "subtitulo", "texto": "Diferencias entre hombres y mujeres" },
+        {
+          "tipo": "texto",
+          "md": "En promedio, la piel de los hombres tiene una dermis más gruesa, produce más sebo y tiene vello terminal en el rostro. El rasurado diario actúa como una exfoliación mecánica y puede irritar, sobre todo si se hace en seco o con navajas desgastadas. Varios estudios señalan además que los hombres usan protector solar con menos frecuencia, lo que se refleja en el fotoenvejecimiento de frente, cuello y orejas.\n\nEn las mujeres, los cambios hormonales marcan etapas: el ciclo menstrual, el embarazo y, sobre todo, la menopausia, cuando la caída de estrógenos acelera la pérdida de colágeno, como verás en el tema siguiente. En todas las personas, la protección solar diaria es la medida con más respaldo para retrasar los signos extrínsecos."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/08",
+          "proporcion": "3:4",
+          "alt": "Un hombre de mediana edad se aplica protector solar en el rostro frente al espejo.",
+          "pie": "La fotoprotección diaria es la medida con más respaldo contra el envejecimiento extrínseco.",
+          "prompt": "Fotografía editorial realista de un hombre de unos cuarenta y cinco años, fototipo III, con barba corta entrecana, frente al espejo de un baño luminoso de tonos crema, extendiendo con los dedos una crema blanca sobre la frente y las mejillas. Lleva una camiseta lisa color gris claro y una toalla rosa empolvado sobre el hombro. Piel con textura natural, algunas líneas en la frente. Luz natural de mañana, encuadre vertical de busto en perfil tres cuartos. Evitar: texto, logotipos, frascos con etiquetas, marcas, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "El brazo como espejo del tiempo",
+          "md": "La cara interna del brazo es una zona que casi nunca recibe sol. Por eso los dermatólogos la usan como referencia del envejecimiento intrínseco de cada persona. Si la comparas con el dorso de la mano o con el cuello, la diferencia de textura, arrugas y manchas es la huella visible de la exposición solar acumulada."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/09",
+          "proporcion": "4:3",
+          "alt": "Las manos de un jardinero de mediana edad sostienen una maceta y muestran manchas solares en el dorso.",
+          "pie": "El dorso de las manos acumula sol durante décadas y muestra signos extrínsecos.",
+          "prompt": "Fotografía editorial realista en primer plano de las manos de un hombre de unos cincuenta y cinco años, fototipo IV, que sostienen una maceta de barro con una planta verde en un jardín soleado. El dorso de las manos muestra algunas manchas solares pequeñas, textura natural y arrugas finas; la cara interna de la muñeca se ve más uniforme. Viste una camisa de manga larga color beige arremangada. Luz cálida de tarde, fondo desenfocado en tonos crema y verde suave, encuadre horizontal. Evitar: texto, logotipos, heridas, suciedad excesiva, lesiones, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "caso",
+          "titulo": "Caso en cabina: una petición fuera del alcance",
+          "situacion": "Un cliente de 48 años, fototipo IV, trabaja al aire libre y casi no usa protector solar. Te pide que le apliques algo para «borrar» las arrugas de la frente y rellenar los surcos junto a la nariz, como vio que hacen en otros lugares.",
+          "opciones": [
+            { "texto": "Aceptar y buscar el producto inyectable más económico.", "correcta": false, "retro": "Las inyecciones de rellenos o toxina son actos médicos. Realizarlos fuera del ámbito médico pone en riesgo la salud de la persona." },
+            { "texto": "Explicar que rellenos y toxina son procedimientos médicos, sugerir que lo valore un médico especialista y proponer un plan cosmético con fotoprotección diaria e hidratación.", "correcta": true, "retro": "Correcto. Respetas el alcance profesional, derivas con claridad y ofreces lo que sí corresponde: cuidado de superficie y prevención del daño solar." },
+            { "texto": "Prometerle que con una serie de faciales las arrugas profundas desaparecerán.", "correcta": false, "retro": "Los cuidados cosméticos mejoran hidratación y textura, pero no reponen volumen ni eliminan arrugas profundas; prometerlo es engañoso." },
+            { "texto": "Decirle que, como ya tiene arrugas, la protección solar ya no le sirve.", "correcta": false, "retro": "La fotoprotección sigue siendo útil a cualquier edad: reduce el daño acumulado y la aparición de nuevas manchas." }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Cuando una persona adulta te pregunte qué es lo más útil para «verse mejor con los años», empieza por lo que tiene más evidencia y menos costo: protector solar todos los días, no fumar, dormir lo suficiente y una rutina constante y sencilla. Después hablen de objetivos estéticos concretos, con expectativas realistas y sin prometer resultados."
+        }
+      ],
+      "glosario": [
+        { "termino": "Envejecimiento intrínseco", "definicion": "Cambios de la piel debidos al paso del tiempo y a la genética, visibles incluso en zonas que no reciben sol." },
+        { "termino": "Envejecimiento extrínseco", "definicion": "Cambios de la piel añadidos por factores externos, sobre todo la radiación solar, el tabaco y la contaminación." },
+        { "termino": "Fibroblasto", "definicion": "Célula de la dermis que produce colágeno, fibras elásticas y ácido hialurónico." },
+        { "termino": "Elastosis solar", "definicion": "Acumulación de material elástico anómalo en la dermis por exposición solar crónica, que da un aspecto engrosado y amarillento." },
+        { "termino": "Metaloproteinasas de la matriz", "definicion": "Enzimas que degradan el colágeno y otras proteínas de la dermis; la radiación ultravioleta aumenta su producción." },
+        { "termino": "Exposoma", "definicion": "Conjunto de factores externos a los que se expone una persona a lo largo de su vida y que influyen en su salud y en su piel." }
+      ],
+      "verificacion": [
+        { "id": "t8.3-1", "q": "¿Qué signo es más propio del envejecimiento extrínseco que del intrínseco?", "opciones": ["Manchas y textura áspera en el dorso de las manos", "Arrugas finas en la cara interna del brazo", "Piel más fina en zonas cubiertas", "Renovación celular más lenta en todo el cuerpo"], "correcta": 0, "explicacion": "Las manchas y la textura áspera en zonas expuestas reflejan el daño solar acumulado. Las otras opciones describen cambios del paso del tiempo." },
+        { "id": "t8.3-2", "q": "¿Por qué los cuidados cosméticos no eliminan el descenso de las mejillas?", "opciones": ["Porque la piel no tiene colágeno", "Porque el sebo lo impide", "Porque solo funcionan en jóvenes", "Porque también intervienen grasa, ligamentos y hueso, que están por debajo de la piel"], "correcta": 3, "explicacion": "El envejecimiento facial ocurre en capas. Los cosméticos actúan en la superficie; los cambios de grasa y hueso no se modifican con ellos." },
+        { "id": "t8.3-3", "q": "¿Qué hace la radiación ultravioleta con el colágeno de la dermis?", "opciones": ["Lo aumenta de forma permanente", "No le afecta", "Aumenta las enzimas que lo degradan y reduce su síntesis", "Lo convierte en sebo"], "correcta": 2, "explicacion": "La radiación ultravioleta aumenta las metaloproteinasas que degradan el colágeno y reduce la producción de procolágeno." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Mechanisms of photoaging and chronological skin aging. Archives of Dermatology 138(11): 1462-1470", "autor": "Fisher GJ, Kang S, Varani J, et al.", "anio": 2002 },
+        { "tipo": "academica", "titulo": "The influence of age and sex on skin thickness, skin collagen and density. British Journal of Dermatology 93(6): 639-643", "autor": "Shuster S, Black MM, McVitie E", "anio": 1975 },
+        { "tipo": "academica", "titulo": "Intrinsic and extrinsic factors in skin ageing: a review. International Journal of Cosmetic Science 30(2): 87-95", "autor": "Farage MA, Miller KW, Elsner P, Maibach HI", "anio": 2008 },
+        { "tipo": "academica", "titulo": "The fat compartments of the face: anatomy and clinical implications for cosmetic surgery. Plastic and Reconstructive Surgery 119(7): 2219-2227", "autor": "Rohrich RJ, Pessa JE", "anio": 2007 },
+        { "tipo": "academica", "titulo": "Changes in the facial skeleton with aging: implications and clinical applications in facial rejuvenation. Aesthetic Plastic Surgery 36(4): 753-760", "autor": "Mendelson B, Wong CH", "anio": 2012 }
+      ]
+    },
+    {
+      "n": "8.4",
+      "titulo": "Embarazo, posparto y menopausia: la piel y las hormonas",
+      "minutos": 15,
+      "enPocasPalabras": "Las hormonas cambian mucho en el embarazo y en la menopausia, y la piel lo nota: pueden salir manchas, estrías o caerse el cabello después del parto, y con la menopausia la piel se vuelve más seca y delgada. En la cabina se trabaja con más precaución y con el visto bueno del médico.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "La piel tiene receptores para estrógenos, progesterona y andrógenos, así que responde a cada cambio hormonal importante. En la vida de muchas mujeres hay tres momentos en que esto se nota especialmente: el **ciclo menstrual**, el **embarazo y el posparto** y la **transición a la menopausia**. Las personas que reciben terapia hormonal de afirmación de género también experimentan cambios: la testosterona suele aumentar el sebo y puede favorecer el acné, mientras que los estrógenos y los antiandrógenos tienden a disminuirlo. En todos los casos, el tratamiento hormonal es una decisión médica; en la cabina observas, adaptas el cuidado y derivas cuando corresponde."
+        },
+        { "tipo": "subtitulo", "texto": "El ciclo menstrual" },
+        {
+          "tipo": "texto",
+          "md": "Muchas mujeres notan que su piel cambia a lo largo del ciclo. En los días previos a la menstruación es frecuente que aumente el brillo y aparezcan algunos granitos en mentón y mandíbula, y algunas personas refieren más sensibilidad. Registrar en qué momento del ciclo se hace la evaluación ayuda a no confundir un estado pasajero con el comportamiento habitual de la piel. Si el acné es intenso, persistente o se acompaña de exceso de vello, ciclos irregulares o caída del cabello, la indicación es valoración médica, porque puede haber un trastorno hormonal de fondo."
+        },
+        { "tipo": "subtitulo", "texto": "Embarazo" },
+        {
+          "tipo": "texto",
+          "md": "Durante el embarazo aumentan los estrógenos, la progesterona y otras hormonas que estimulan a los melanocitos. Por eso se oscurecen las areolas y aparece la **línea nigra**, una línea vertical oscura en el abdomen. En el rostro pueden surgir manchas simétricas en mejillas, frente o labio superior, lo que los médicos llaman cloasma o melasma del embarazo; el sol las intensifica.\n\nEl estiramiento rápido de la piel del abdomen, los senos y los muslos favorece las **estrías**. Los cambios vasculares pueden producir pequeñas arañas vasculares y enrojecimiento de las palmas. El cabello suele verse más abundante porque más folículos permanecen en fase de crecimiento. El sebo y el acné pueden mejorar o empeorar según la persona. Muchos de estos cambios se atenúan después del parto, aunque las estrías y algunas manchas pueden persistir."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Cambios frecuentes de la piel en el embarazo",
+          "columnas": ["Cambio", "Qué se observa", "Enfoque desde la cabina"],
+          "filas": [
+            ["Hiperpigmentación", "Areolas y línea nigra más oscuras; manchas simétricas en el rostro", "Fotoprotección diaria, cuidado suave; no aplicar despigmentantes sin aprobación médica"],
+            ["Estrías", "Líneas rojizas o violáceas en abdomen, senos y muslos", "Hidratación; explicar que ningún cosmético garantiza prevenirlas ni borrarlas"],
+            ["Cambios vasculares", "Arañas vasculares, palmas enrojecidas", "Observar y registrar; suelen atenuarse tras el parto"],
+            ["Sebo y acné", "Mejoría o empeoramiento según la persona", "Rutina sencilla; los tratamientos del acné en el embarazo los decide el médico"],
+            ["Comezón", "Picazón en abdomen o en todo el cuerpo", "Picazón intensa, sobre todo en palmas y plantas, requiere valoración médica pronta"]
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/10",
+          "proporcion": "16:9",
+          "alt": "Una mujer embarazada recibe un cuidado facial suave recostada en posición semisentada.",
+          "pie": "En la segunda mitad del embarazo se prefiere la posición semisentada o de lado.",
+          "prompt": "Fotografía editorial realista en una cabina estética cálida de tonos crema y rosa empolvado. Una mujer de unos treinta años, fototipo IV, con embarazo avanzado visible, recostada en posición semisentada sobre una camilla con cojines, cubierta con una manta ligera, con los ojos cerrados y expresión serena. Una cosmetóloga con guantes, cubrebocas y cabello recogido le aplica con suavidad una crema en la mejilla. Luz natural suave, encuadre horizontal a media distancia. Evitar: texto, logotipos, aparatos de calor, instrumental médico, desnudez, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Precauciones en cabina durante el embarazo",
+          "md": "Pregunta siempre por embarazo o lactancia antes de cualquier servicio y pide que la persona consulte a su médico si tiene dudas. Evita los retinoides y otros activos cuya seguridad en el embarazo no esté establecida, salvo que su médico los apruebe. En la segunda mitad del embarazo, permanecer mucho tiempo boca arriba puede comprimir grandes vasos y causar mareo: ofrece una posición semisentada o recostada sobre el lado izquierdo. Evita el calor intenso y los aromas fuertes, que pueden provocar náuseas. Ante picazón intensa, sobre todo en palmas y plantas, hinchazón súbita o una erupción nueva, sugiere valoración médica pronta."
+        },
+        { "tipo": "subtitulo", "texto": "Posparto y lactancia" },
+        {
+          "tipo": "texto",
+          "md": "Después del parto, la caída brusca de hormonas hace que muchos folículos pasen al mismo tiempo a la fase de reposo. Entre dos y cuatro meses después, aproximadamente, se produce una caída de cabello abundante llamada **efluvio telógeno posparto**. Asusta, pero en la mayoría de los casos el cabello se recupera a lo largo del primer año; si la caída es muy intensa o se prolonga, conviene valoración médica.\n\nEl cansancio, el poco sueño y los cambios de rutina también se reflejan en la piel, que puede verse más opaca o deshidratada. Durante la lactancia se mantiene la prudencia con los activos y se evita aplicar productos en la zona del pecho. Una rutina mínima, sin exigencias, suele ser lo más realista en esta etapa."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/11",
+          "proporcion": "3:4",
+          "alt": "Una mujer en el posparto sostiene a su bebé dormido junto a una ventana.",
+          "pie": "En el posparto, el cansancio y los cambios hormonales también se reflejan en la piel y el cabello.",
+          "prompt": "Retrato editorial realista y sereno de una mujer de unos treinta y dos años, fototipo VI, con cabello rizado recogido de forma sencilla, sentada en un sillón color crema junto a una ventana, sosteniendo en brazos a su bebé dormido envuelto en una manta rosa empolvado. Expresión tranquila y algo cansada, piel con textura natural sin maquillaje. Luz natural suave de tarde, encuadre vertical de medio cuerpo, ambiente cálido y doméstico. Evitar: texto, logotipos, desnudez, lactancia explícita, retoque digital, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Perimenopausia y menopausia" },
+        {
+          "tipo": "texto",
+          "md": "La **menopausia** se define como el último periodo menstrual, confirmado tras 12 meses sin menstruación. Según la Organización Mundial de la Salud, ocurre con más frecuencia entre los 45 y los 55 años. Los años previos, con ciclos irregulares y síntomas, se llaman perimenopausia.\n\nLa caída de estrógenos tiene efectos claros en la piel: menos colágeno, menor grosor, más sequedad, menos elasticidad y cicatrización más lenta. Revisiones sobre el tema citan estudios clásicos que estimaron una pérdida de alrededor de 30 % del colágeno cutáneo en los primeros cinco años después de la menopausia. Los **bochornos** provocan episodios de calor y enrojecimiento facial. El predominio relativo de andrógenos puede traer algo de vello en mentón y labio superior, granitos en la zona de la mandíbula y adelgazamiento del cabello. La terapia hormonal es una decisión que se toma con el médico; tu papel es adaptar el cuidado a una piel más seca y más sensible."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m08/d4",
+          "pie": "Línea del tiempo de las etapas hormonales y sus efectos más visibles en la piel.",
+          "descripcion": "Línea del tiempo horizontal con cinco tramos consecutivos. Sobre cada tramo, el nombre de la etapa; debajo, dos o tres efectos visibles en la piel. Una curva suave por encima de la línea representa el nivel de estrógenos: sube en la pubertad, oscila en la etapa fértil, se eleva mucho en el embarazo y desciende en la perimenopausia hasta quedar baja en la posmenopausia.",
+          "elementos": ["Pubertad: más sebo, comedones", "Etapa fértil: cambios a lo largo del ciclo", "Embarazo: hiperpigmentación, estrías", "Posparto: caída de cabello transitoria", "Perimenopausia y menopausia: sequedad, bochornos", "Posmenopausia: piel más fina y menos colágeno", "Nivel de estrógenos"]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Receptores de estrógenos en la piel",
+          "md": "Queratinocitos, fibroblastos, melanocitos, glándulas sebáceas y folículos pilosos expresan receptores de estrógenos, principalmente los tipos alfa y beta. A través de ellos, los estrógenos estimulan la síntesis de colágeno y de ácido hialurónico en la dermis, favorecen el grosor epidérmico y la función de barrera, mejoran la vascularización y aceleran la cicatrización. También modulan la actividad de las glándulas sebáceas, en sentido opuesto a los andrógenos. Cuando los estrógenos descienden en la menopausia, estos efectos se pierden de forma bastante rápida, lo que explica que la piel cambie más en esos primeros años que en otras décadas de la adultez."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/12",
+          "proporcion": "4:3",
+          "alt": "Una mujer de unos cincuenta años se abanica con la mano y tiene un leve rubor en las mejillas.",
+          "pie": "Los bochornos de la menopausia provocan episodios de calor y enrojecimiento facial.",
+          "prompt": "Fotografía editorial realista de una mujer de unos cincuenta y dos años, fototipo II, con cabello corto entrecano, sentada en un sillón color crema en una sala luminosa, abanicándose suavemente con un abanico de tela color rosa empolvado. Sus mejillas muestran un rubor leve y su expresión es tranquila, con una media sonrisa. Viste una blusa ligera de lino blanco. Piel con textura natural y líneas finas. Luz natural cálida, encuadre horizontal de busto. Evitar: texto, logotipos, sudor exagerado, gestos de malestar intenso, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "texto",
+          "md": "**¿Y en los hombres?** La testosterona desciende de forma gradual con la edad, sin un corte brusco comparable a la menopausia. Por eso los cambios cutáneos masculinos asociados a hormonas son más lentos: la piel conserva más grosor y sebo durante más tiempo, aunque también se vuelve más seca y fina con los años."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "relacionar",
+          "titulo": "Relaciona cada cambio con su etapa",
+          "instruccion": "Une cada concepto con la descripción correcta.",
+          "pares": [
+            { "a": "Línea nigra", "b": "Línea vertical oscura en el abdomen durante el embarazo" },
+            { "a": "Efluvio telógeno posparto", "b": "Caída abundante de cabello unos meses después del parto, generalmente transitoria" },
+            { "a": "Menopausia", "b": "Último periodo menstrual, confirmado tras 12 meses sin menstruación" },
+            { "a": "Bochorno", "b": "Episodio súbito de calor y enrojecimiento facial ligado a la caída de estrógenos" },
+            { "a": "Estrías", "b": "Líneas por estiramiento rápido de la dermis, frecuentes en abdomen y muslos" }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Incluye en tu ficha preguntas sobre embarazo, lactancia, fase del ciclo y síntomas de la menopausia, formuladas con respeto y sin dar nada por supuesto. Esos datos cambian la elección de activos, la posición en la camilla y la interpretación de lo que observas, y te ayudan a saber cuándo pedir que la persona consulte antes a su médico."
+        }
+      ],
+      "glosario": [
+        { "termino": "Línea nigra", "definicion": "Línea vertical oscura que aparece en el abdomen durante el embarazo por estímulo hormonal de los melanocitos." },
+        { "termino": "Cloasma", "definicion": "Nombre médico de las manchas faciales simétricas que pueden aparecer en el embarazo; su valoración corresponde al médico." },
+        { "termino": "Efluvio telógeno posparto", "definicion": "Caída abundante de cabello que aparece unos meses después del parto, cuando muchos folículos entran al mismo tiempo en reposo." },
+        { "termino": "Menopausia", "definicion": "Último periodo menstrual de una mujer, confirmado tras 12 meses sin menstruación." },
+        { "termino": "Perimenopausia", "definicion": "Etapa de transición previa a la menopausia, con ciclos irregulares y síntomas como bochornos." },
+        { "termino": "Bochorno", "definicion": "Episodio súbito de sensación de calor con enrojecimiento de la cara y el cuello, frecuente en la transición menopáusica." }
+      ],
+      "verificacion": [
+        { "id": "t8.4-1", "q": "¿Por qué se oscurecen las areolas y aparece la línea nigra en el embarazo?", "opciones": ["Por falta de higiene", "Porque las hormonas del embarazo estimulan a los melanocitos", "Por exceso de sebo", "Por la caída de estrógenos"], "correcta": 1, "explicacion": "Los estrógenos, la progesterona y otras hormonas elevadas en el embarazo estimulan la producción de melanina en ciertas zonas." },
+        { "id": "t8.4-2", "q": "¿Qué posición es preferible para una clienta en la segunda mitad del embarazo?", "opciones": ["Boca arriba durante todo el servicio", "Boca abajo", "Semisentada o recostada sobre el lado izquierdo", "Con la cabeza más baja que los pies"], "correcta": 2, "explicacion": "Estar mucho tiempo boca arriba puede comprimir grandes vasos y causar mareo; la posición semisentada o de lado lo evita." },
+        { "id": "t8.4-3", "q": "¿Qué cambio de la piel se relaciona con la caída de estrógenos en la menopausia?", "opciones": ["Aumento del grosor de la dermis", "Cicatrización más rápida", "Más ácido hialurónico en la dermis", "Pérdida acelerada de colágeno y más sequedad"], "correcta": 3, "explicacion": "Los estrógenos estimulan colágeno, ácido hialurónico y barrera; al descender, la piel pierde colágeno con rapidez y se vuelve más seca y fina." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Common skin conditions during pregnancy. American Family Physician 75(2): 211-218", "autor": "Tunzi M, Gray GR", "anio": 2007 },
+        { "tipo": "academica", "titulo": "Estrogens and aging skin. Dermato-Endocrinology 5(2): 264-270", "autor": "Thornton MJ", "anio": 2013 },
+        { "tipo": "oficial", "titulo": "Menopause (nota descriptiva)", "autor": "Organización Mundial de la Salud" },
+        { "tipo": "academica", "titulo": "Dermatology, 4.ª ed.", "autor": "Bolognia JL, Schaffer JV, Cerroni L (eds.)", "anio": 2018 }
+      ]
+    },
+    {
+      "n": "8.5",
+      "titulo": "La edad adulta mayor: fragilidad, sequedad y cuidado respetuoso",
+      "minutos": 15,
+      "enPocasPalabras": "En las personas mayores la piel es más fina, más seca y más frágil: se lastima, se le hacen moretones y tarda más en sanar. Por eso se trabaja con suavidad, sin calor ni cintas adhesivas, y cualquier lesión nueva o que no cierra la revisa el dermatólogo. Y siempre con trato digno.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Cada vez más personas mayores acuden a la cabina, y lo hacen con objetivos tan válidos como los de cualquier otra edad: sentirse cómodas en su piel, cuidarse y disfrutar de un momento para sí mismas. Atenderlas bien requiere conocer cómo cambia la piel después de los 65 años, ajustar las técnicas a una piel más frágil, saber reconocer las lesiones que deben revisarse y, sobre todo, ofrecer un trato respetuoso que no infantilice ni dé por hecho lo que la persona quiere o puede."
+        },
+        { "tipo": "subtitulo", "texto": "Qué cambia en la piel con la edad avanzada" },
+        {
+          "tipo": "texto",
+          "md": "La epidermis se adelgaza y la **unión dermoepidérmica**, que normalmente tiene forma ondulada y engancha las dos capas como piezas de un rompecabezas, se aplana. Con menos superficie de contacto, las capas se separan con más facilidad: aparecen **desgarros cutáneos** ante un roce, ampollas o heridas por el simple retiro de una cinta adhesiva.\n\nLa dermis pierde grosor, fibroblastos y vasos sanguíneos. Por eso la piel se ve más pálida y transparente, los moretones aparecen con golpes mínimos y las heridas tardan más en cerrar. Disminuyen las glándulas sudoríparas y el sebo, lo que dificulta regular la temperatura y favorece la sequedad. Hay menos células de Langerhans, que participan en la defensa inmunitaria de la piel, y menos melanocitos activos. La sensibilidad al tacto y al calor también disminuye, lo que aumenta el riesgo de quemaduras. Y la capacidad de la piel para producir vitamina D con el sol se reduce con la edad."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m08/d5",
+          "pie": "La unión dermoepidérmica se aplana con la edad y las capas se separan con más facilidad.",
+          "descripcion": "Dos cortes de piel lado a lado. A la izquierda, piel adulta joven con una epidermis de grosor normal, una unión dermoepidérmica ondulada con papilas bien marcadas, una dermis densa en colágeno, abundantes vasos y glándulas. A la derecha, piel de una persona mayor con epidermis más delgada, unión casi plana, dermis más fina con menos fibras, menos vasos y menos glándulas. Una flecha en la piel mayor señala el punto donde se produce un desgarro.",
+          "elementos": ["Piel adulta joven", "Piel de edad avanzada", "Unión dermoepidérmica ondulada", "Unión dermoepidérmica aplanada", "Menos colágeno y fibroblastos", "Menos vasos sanguíneos", "Menos glándulas sebáceas y sudoríparas", "Zona de desgarro"]
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Cambios de la piel mayor y su consecuencia en la cabina",
+          "columnas": ["Cambio", "Consecuencia", "Qué ajustas"],
+          "filas": [
+            ["Unión dermoepidérmica aplanada", "Desgarros y ampollas con roces o adhesivos", "Sin cintas adhesivas ni fricción intensa; movimientos suaves"],
+            ["Dermis más delgada y con menos vasos", "Moretones fáciles, cicatrización lenta", "Presión ligera; preguntar si se le hacen moretones con facilidad"],
+            ["Menos sebo y sudor", "Sequedad y comezón", "Limpieza suave y emolientes"],
+            ["Menor sensibilidad al calor", "Riesgo de quemaduras sin notarlo", "Evitar aparatos y compresas calientes; comprobar temperaturas en tu propia piel"],
+            ["Menor defensa inmunitaria cutánea", "Infecciones más fáciles", "Bioseguridad estricta y no trabajar sobre heridas"]
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/13",
+          "proporcion": "4:3",
+          "alt": "Un hombre de edad avanzada se aplica crema en el antebrazo sentado en el borde de la cama.",
+          "pie": "En la edad avanzada, la sequedad es muy frecuente y el emoliente se vuelve parte de la rutina diaria.",
+          "prompt": "Fotografía editorial realista y digna de un hombre de unos setenta y ocho años, fototipo V, con cabello cano corto y bigote, sentado en el borde de una cama con ropa de cama color crema, aplicándose con calma una crema blanca en el antebrazo. Piel con textura natural, fina y algo seca, con algunas manchas pequeñas. Viste una camisa de algodón de manga corta color rosa empolvado tenue. Luz natural suave de mañana, encuadre horizontal de medio cuerpo, expresión serena. Evitar: texto, logotipos, frascos con etiquetas, heridas, aspecto lastimoso, retoque digital, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Xerosis y comezón" },
+        {
+          "tipo": "texto",
+          "md": "La **xerosis**, o sequedad marcada de la piel, es uno de los problemas cutáneos más frecuentes en las personas mayores. Se nota sobre todo en piernas, brazos y dorso de las manos, con descamación, aspereza y, a veces, un dibujo de grietas finas. Empeora en invierno, con la calefacción, con los baños largos y calientes y con jabones fuertes.\n\nLa comezón asociada puede alterar el sueño y llevar a rascarse, lo que daña aún más una piel frágil. Los principios de cuidado son sencillos: baños breves con agua tibia, limpiadores suaves solo donde hace falta, secar sin frotar y aplicar un emoliente poco después del baño. Si la comezón es intensa, persistente, aparece sin sequedad visible o se acompaña de lesiones, debe valorarla el médico: puede tener causas internas o relacionarse con medicamentos."
+        },
+        { "tipo": "subtitulo", "texto": "Lesiones que aparecen con la edad" },
+        {
+          "tipo": "texto",
+          "md": "Con los años aparecen con frecuencia lesiones benignas: manchas solares en zonas expuestas, lesiones marrones de superficie rugosa que parecen «pegadas» a la piel, pequeños puntos rojos brillantes en el tronco. La mayoría no representa un riesgo. Sin embargo, el riesgo de cáncer de piel también aumenta con la edad y con el sol acumulado, y a simple vista no siempre es posible distinguir una lesión benigna de una que no lo es.\n\nPor eso la regla en la cabina es firme: **no se retira, raspa, congela ni trata ninguna lesión**. Cualquier lesión nueva, que cambie, que sangre, que pique de forma persistente o que no cicatrice se registra con lenguaje descriptivo y se sugiere su revisión por un dermatólogo."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Fragilidad: manos suaves y entorno seguro",
+          "md": "Evita cintas adhesivas, parches y fricción intensa: pueden levantar la piel. No uses aparatos ni compresas calientes sin comprobar antes la temperatura, porque la persona puede no percibir una quemadura. Pregunta con naturalidad si se le hacen moretones con facilidad; algunos medicamentos lo favorecen y conviene trabajar con presión mínima. Cuida también el entorno: una camilla a una altura cómoda, ayuda para subir y bajar, y tiempo para incorporarse despacio, porque levantarse de golpe tras estar recostada puede provocar mareo y caídas."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/14",
+          "proporcion": "16:9",
+          "alt": "Una cosmetóloga ayuda con delicadeza a una mujer mayor a incorporarse de la camilla.",
+          "pie": "Ayudar a incorporarse despacio previene mareos y caídas.",
+          "prompt": "Fotografía editorial realista en una cabina estética cálida de tonos crema y rosa empolvado. Una cosmetóloga de unos treinta años, fototipo III, con cabello recogido, uniforme claro y guantes, sostiene con delicadeza el brazo y la espalda de una mujer de unos ochenta años, fototipo IV, con cabello blanco corto, que se incorpora despacio de una camilla baja para sentarse. Ambas sonríen con calma. Luz natural suave, encuadre horizontal a media distancia, ambiente seguro y respetuoso. Evitar: texto, logotipos, gestos de dolor, aspecto de hospital, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "mexico",
+          "titulo": "Personas adultas mayores en México",
+          "md": "La **Ley de los Derechos de las Personas Adultas Mayores** considera persona adulta mayor a quien tiene 60 años o más, y reconoce, entre otros, su derecho a un trato digno y a la no discriminación. El Instituto Nacional de las Personas Adultas Mayores (INAPAM) es el organismo que coordina las políticas para esta población. Los censos y encuestas del INEGI muestran que la proporción de personas de 60 años y más crece de forma sostenida en el país, por lo que su atención en la cabina será cada vez más frecuente."
+        },
+        { "tipo": "subtitulo", "texto": "Cuidado con dignidad" },
+        {
+          "tipo": "texto",
+          "md": "Dirígete a la persona, no a su acompañante; háblale de usted si así lo prefiere y nunca con diminutivos que infantilizan. Explica cada paso antes de hacerlo, pide su consentimiento y pregunta con frecuencia si está cómoda. Sus objetivos estéticos merecen la misma seriedad que los de cualquier cliente.\n\nSi la persona tiene dificultades de memoria o de comunicación, involucra a su cuidador o cuidadora en la entrevista y en las recomendaciones, sin dejar de dirigirte a ella. Entrega las indicaciones por escrito, con letra grande y pocas instrucciones, y verifica que el plan sea realista para su movilidad y su rutina."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "ejemplo",
+          "titulo": "Un servicio adaptado",
+          "md": "Una clienta de 84 años, fototipo III, llega con su hija para un cuidado facial. Refiere piel tirante y comezón en las piernas por las noches, y menciona que se le hacen moretones con facilidad. Observas xerosis en antebrazos y una mancha marrón plana en el pómulo que, según su hija, «siempre ha estado así». Trabajas con presión ligera, sin calor ni adhesivos, la ayudas a incorporarse despacio y recomiendas baños breves y tibios con emoliente. Registras la mancha con lenguaje descriptivo y sugieres revisión dermatológica, porque una lesión en la piel de una persona mayor merece valoración aunque parezca antigua."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m08/15",
+          "proporcion": "4:3",
+          "alt": "Primer plano del dorso de la mano de una persona mayor, con piel fina y algunas manchas, sobre una toalla.",
+          "pie": "La piel de edad avanzada es fina y frágil; requiere movimientos suaves y sin fricción.",
+          "prompt": "Fotografía editorial realista y respetuosa en primer plano del dorso de la mano de una mujer de unos ochenta y cinco años, fototipo III, apoyada sobre una toalla de algodón color crema en una cabina estética. La piel se ve fina, con arrugas finas, venas ligeramente visibles y algunas manchas solares pequeñas; uñas cortas y limpias. Otra mano con guante de nitrilo descansa con suavidad junto a ella. Luz natural suave y cálida, encuadre horizontal cerrado, fondo rosa empolvado desenfocado. Evitar: texto, logotipos, heridas, moretones intensos, aspecto lastimoso, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "caso",
+          "titulo": "Caso en cabina: piel frágil",
+          "situacion": "Un cliente de 79 años, fototipo II, con xerosis en brazos, acude para un cuidado facial y de manos. Al revisarlo notas varios moretones en antebrazos y, en el dorso de la mano, una lesión rosada con costra que, según cuenta, «se le abre y se le cierra» desde hace meses.",
+          "opciones": [
+            { "texto": "Retirar la costra con cuidado para ver mejor la lesión.", "correcta": false, "retro": "Nunca se manipulan lesiones en la cabina, y menos en una piel frágil. Una lesión que no cicatriza requiere valoración dermatológica." },
+            { "texto": "Colocar una cinta adhesiva sobre la lesión para protegerla durante el servicio.", "correcta": false, "retro": "Los adhesivos pueden desgarrar una piel frágil al retirarlos y no resuelven el problema de fondo." },
+            { "texto": "Trabajar con presión mínima, evitar la zona de la lesión, registrarla y sugerir revisión dermatológica pronto.", "correcta": true, "retro": "Correcto. Adaptas la técnica a la fragilidad, respetas la lesión y derivas una señal de alerta: una lesión que no cicatriza en semanas." },
+            { "texto": "Aplicar un exfoliante en las manos para mejorar la textura.", "correcta": false, "retro": "Exfoliar una piel frágil con xerosis la irrita y puede lastimarla; además, ignoras la señal de alerta." }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Prepara un pequeño protocolo para personas mayores en tu cabina: camilla a altura cómoda, sin adhesivos, temperaturas comprobadas, presión ligera, incorporación lenta e indicaciones escritas en letra grande. Y añade a tu ficha una casilla fija: «lesiones nuevas o que no cicatrizan: revisadas». En esta etapa, esa revisión puede ser lo más valioso de toda la visita."
+        }
+      ],
+      "glosario": [
+        { "termino": "Unión dermoepidérmica", "definicion": "Zona ondulada donde se unen la epidermis y la dermis; con la edad se aplana y las capas se separan con más facilidad." },
+        { "termino": "Desgarro cutáneo", "definicion": "Herida en la que la epidermis se separa de la dermis por un roce o una tracción mínimos, frecuente en piel muy frágil." },
+        { "termino": "Xerosis", "definicion": "Sequedad marcada de la piel, con descamación y aspereza; muy frecuente en personas mayores." },
+        { "termino": "Células de Langerhans", "definicion": "Células de la epidermis que participan en la defensa inmunitaria; disminuyen con la edad." },
+        { "termino": "Persona adulta mayor", "definicion": "En la legislación mexicana, persona de 60 años o más." }
+      ],
+      "verificacion": [
+        { "id": "t8.5-1", "q": "¿Por qué no se usan cintas adhesivas en la piel de una persona de edad avanzada?", "opciones": ["Porque manchan la ropa", "Porque aumentan el sebo", "Porque producen arrugas", "Porque al retirarlas pueden separar la epidermis de la dermis y causar desgarros"], "correcta": 3, "explicacion": "La unión dermoepidérmica aplanada hace que las capas se separen con facilidad; el retiro de un adhesivo puede provocar un desgarro." },
+        { "id": "t8.5-2", "q": "¿Qué recomendación general es adecuada para la xerosis de una persona mayor?", "opciones": ["Baños breves y tibios, limpiador suave y emoliente después del baño", "Baños largos y muy calientes", "Exfoliación diaria intensa", "Jabón fuerte en todo el cuerpo"], "correcta": 0, "explicacion": "El agua caliente, los baños largos, los jabones fuertes y la exfoliación intensa arrastran lípidos y empeoran la sequedad." },
+        { "id": "t8.5-3", "q": "Ante una lesión que sangra con facilidad en la piel de un cliente de 75 años, ¿qué corresponde?", "opciones": ["Rasparla con suavidad", "No manipularla, registrarla y sugerir revisión dermatológica", "Cubrirla con maquillaje", "Esperar a que se caiga sola sin mencionarlo"], "correcta": 1, "explicacion": "Una lesión que sangra o no cicatriza es una señal de alerta. En la cabina no se tratan lesiones: se registran y se derivan." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Clinical implications of aging skin: cutaneous disorders in the elderly. American Journal of Clinical Dermatology 10(2): 73-86", "autor": "Farage MA, Miller KW, Berardesca E, Maibach HI", "anio": 2009 },
+        { "tipo": "academica", "titulo": "Aging decreases the capacity of human skin to produce vitamin D3. Journal of Clinical Investigation 76(4): 1536-1538", "autor": "MacLaughlin J, Holick MF", "anio": 1985 },
+        { "tipo": "oficial", "titulo": "Ley de los Derechos de las Personas Adultas Mayores", "autor": "Congreso de la Unión, publicada en el Diario Oficial de la Federación", "anio": 2002 },
+        { "tipo": "academica", "titulo": "Dermatology, 4.ª ed.", "autor": "Bolognia JL, Schaffer JV, Cerroni L (eds.)", "anio": 2018 }
+      ]
+    }
+  ],
+  "minijuego": {
+    "tipo": "crucigrama",
+    "titulo": "Crucigrama: la piel en cada etapa",
+    "pistas": [
+      { "palabra": "VERNIX", "pista": "Capa blanquecina y cremosa que cubre y protege la piel del recién nacido." },
+      { "palabra": "LANUGO", "pista": "Vello muy fino que cubre al feto y puede verse en las primeras semanas de vida." },
+      { "palabra": "ANDROGENOS", "pista": "Hormonas que agrandan las glándulas sebáceas en la pubertad." },
+      { "palabra": "COMEDON", "pista": "Tapón de sebo y células en la salida del folículo; puede ser abierto o cerrado." },
+      { "palabra": "ESTRIAS", "pista": "Líneas por estiramiento rápido de la dermis, frecuentes en la pubertad y el embarazo." },
+      { "palabra": "FIBROBLASTO", "pista": "Célula de la dermis que fabrica colágeno y se vuelve menos activa con la edad." },
+      { "palabra": "COLAGENO", "pista": "Proteína de la dermis que disminuye con la edad y se degrada con la radiación ultravioleta." },
+      { "palabra": "MENOPAUSIA", "pista": "Último periodo menstrual, confirmado tras 12 meses sin menstruación." },
+      { "palabra": "XEROSIS", "pista": "Sequedad marcada de la piel, muy frecuente en la edad adulta mayor." }
+    ]
+  },
+  "examen": {
+    "aprobar": 70,
+    "mostrar": 10,
+    "preguntas": [
+      { "id": "m08-p01", "q": "¿Cuál es una función del vérnix caseoso?", "opciones": ["Producir melanina en el recién nacido", "Aumentar el sebo de la pubertad", "Hidratar y proteger la piel del recién nacido durante la adaptación al ambiente seco", "Formar el vello terminal"], "correcta": 2, "explicacion": "El vérnix, rico en agua, lípidos y proteínas, actúa como hidratante y escudo durante la transición al ambiente seco." },
+      { "id": "m08-p02", "q": "En comparación con la del adulto, la capa córnea de un bebé…", "opciones": ["es más delgada y maneja el agua con menos estabilidad", "es más gruesa y no pierde agua", "es idéntica en estructura y función", "no contiene corneocitos"], "correcta": 0, "explicacion": "La capa córnea infantil es más delgada, con corneocitos más pequeños, y absorbe y pierde agua con más rapidez." },
+      { "id": "m08-p03", "q": "¿Cuál es la base de la fotoprotección en menores de seis meses?", "opciones": ["Protector solar en todo el cuerpo varias veces al día", "Exposiciones breves al mediodía", "Aceites bronceadores", "Mantenerlos fuera del sol directo, con sombra y ropa"], "correcta": 3, "explicacion": "Las recomendaciones coinciden en evitar el sol directo a esa edad; el uso de protector lo indica el pediatra." },
+      { "id": "m08-p04", "q": "¿Qué es la adrenarquia?", "opciones": ["El final de la menstruación", "El inicio de la producción de andrógenos suprarrenales hacia los 6 a 8 años", "La caída de cabello posparto", "La pérdida de colágeno en la vejez"], "correcta": 1, "explicacion": "La adrenarquia precede a la pubertad: las suprarrenales empiezan a producir andrógenos débiles como la DHEA." },
+      { "id": "m08-p05", "q": "¿Cuál de estos factores participa en la formación del acné?", "opciones": ["La hiperqueratinización folicular", "La falta de melanina", "El exceso de vérnix", "La disminución de andrógenos"], "correcta": 0, "explicacion": "El acné combina más sebo, hiperqueratinización folicular, proliferación de Cutibacterium acnes e inflamación." },
+      { "id": "m08-p06", "q": "Caso: un adolescente de 16 años tiene nódulos dolorosos en las mejillas y algunas cicatrices. Su madre pregunta si conviene esperar a que se le quite solo. ¿Qué respondes?", "opciones": ["Que sí, porque el acné siempre desaparece sin dejar marcas", "Que le hagan extracciones en casa", "Que conviene una valoración dermatológica pronto, porque tratar a tiempo reduce el riesgo de cicatrices", "Que tome sol para secar los granitos"], "correcta": 2, "explicacion": "Los nódulos y las cicatrices indican un acné que requiere tratamiento médico oportuno. Manipularlos o tomar sol empeora el pronóstico." },
+      { "id": "m08-p07", "q": "¿Qué rasgo es propio del envejecimiento intrínseco?", "opciones": ["Manchas solares en el dorso de las manos", "Piel más fina y seca con arrugas finas, visible incluso en zonas cubiertas", "Elastosis solar en la nuca", "Textura curtida en el cuello"], "correcta": 1, "explicacion": "El envejecimiento intrínseco afecta a toda la piel, incluidas las zonas cubiertas. Las otras opciones son signos de daño solar." },
+      { "id": "m08-p08", "q": "¿Qué zona se usa como referencia del envejecimiento intrínseco de una persona?", "opciones": ["El dorso de la mano", "La frente", "El escote", "La cara interna del brazo"], "correcta": 3, "explicacion": "La cara interna del brazo casi no recibe sol, así que muestra sobre todo el envejecimiento propio del paso del tiempo." },
+      { "id": "m08-p09", "q": "Caso: un cliente te pide que le apliques un relleno en los surcos junto a la nariz. ¿Qué haces?", "opciones": ["Lo aplicas si tienes el producto disponible", "Le recomiendas comprarlo por internet y aplicárselo", "Le ofreces un facial que lo sustituya con el mismo resultado", "Explicas que es un procedimiento médico y sugieres que lo valore un médico"], "correcta": 3, "explicacion": "Los rellenos son actos médicos. Derivas con claridad y no prometes que un cosmético logre el mismo efecto." },
+      { "id": "m08-p10", "q": "¿Qué enzimas aumenta la radiación ultravioleta en la dermis?", "opciones": ["Amilasas digestivas", "Metaloproteinasas de la matriz que degradan el colágeno", "Enzimas que transforman la melanina en sebo", "Enzimas que forman vérnix"], "correcta": 1, "explicacion": "La radiación ultravioleta activa AP-1 y aumenta metaloproteinasas como la MMP-1, que degradan el colágeno." },
+      { "id": "m08-p11", "q": "¿Qué es la línea nigra?", "opciones": ["Una cicatriz quirúrgica", "Un tipo de estría", "Una línea vertical oscura en el abdomen durante el embarazo", "Un vaso sanguíneo dilatado"], "correcta": 2, "explicacion": "Las hormonas del embarazo estimulan a los melanocitos y oscurecen esta línea del abdomen." },
+      { "id": "m08-p12", "q": "Caso: una clienta con 30 semanas de embarazo solicita un cuidado facial. ¿Qué ajuste es adecuado?", "opciones": ["Ofrecer posición semisentada o de lado y evitar activos que su médico no haya aprobado", "Recostarla boca arriba durante una hora", "Aplicar un retinoide para sus manchas", "Usar vapor muy caliente durante todo el servicio"], "correcta": 0, "explicacion": "Boca arriba puede marearse por compresión de grandes vasos; los retinoides y el calor intenso se evitan en el embarazo." },
+      { "id": "m08-p13", "q": "¿Cuándo suele aparecer el efluvio telógeno posparto?", "opciones": ["Durante el primer trimestre del embarazo", "Unos dos a cuatro meses después del parto", "El mismo día del parto", "Diez años después del parto"], "correcta": 1, "explicacion": "Tras la caída hormonal del parto, muchos folículos entran en reposo a la vez y el cabello cae meses después; suele recuperarse en el primer año." },
+      { "id": "m08-p14", "q": "Según la OMS, ¿en qué rango de edad ocurre con más frecuencia la menopausia?", "opciones": ["Entre los 25 y los 35 años", "Entre los 35 y los 40 años", "Después de los 70 años", "Entre los 45 y los 55 años"], "correcta": 3, "explicacion": "La OMS señala que la menopausia ocurre con más frecuencia entre los 45 y los 55 años." },
+      { "id": "m08-p15", "q": "¿Por qué la piel de una persona de edad avanzada se desgarra o forma ampollas con más facilidad?", "opciones": ["Porque la unión entre epidermis y dermis se aplana y las capas se adhieren menos", "Porque produce demasiado sebo", "Porque su capa córnea es mucho más gruesa", "Porque tiene más colágeno que en la juventud"], "correcta": 0, "explicacion": "La unión dermoepidérmica pierde sus ondulaciones; con menos superficie de contacto, las capas se separan ante roces mínimos." },
+      { "id": "m08-p16", "q": "Caso: una clienta de 82 años tiene piel muy seca en las piernas y una lesión en la mejilla que sangra con facilidad desde hace dos meses. ¿Qué plan es adecuado?", "opciones": ["Exfoliar la lesión para retirar la costra", "Cubrir la lesión con maquillaje", "Sugerir valoración dermatológica por la lesión, no trabajar esa zona y orientar sobre baños breves y tibios con emoliente", "Aplicar cinta adhesiva para proteger la lesión"], "correcta": 2, "explicacion": "La lesión que sangra es una señal de alerta y se deriva. La xerosis se orienta con medidas suaves; los adhesivos pueden desgarrar la piel." }
+    ]
+  },
+  "fuentes": [
+    { "tipo": "academica", "titulo": "Infant skin microstructure assessed in vivo differs from adult skin in organization and at the cellular level. Pediatric Dermatology 27(2): 125-131", "autor": "Stamatas GN, Nikolovski J, Luedtke MA, Kollias N, Wiegand BC", "anio": 2010 },
+    { "tipo": "academica", "titulo": "Guidelines of care for the management of acne vulgaris. Journal of the American Academy of Dermatology 74(5): 945-973", "autor": "Zaenglein AL, Pathy AL, Schlosser BJ, et al.", "anio": 2016 },
+    { "tipo": "academica", "titulo": "Mechanisms of photoaging and chronological skin aging. Archives of Dermatology 138(11): 1462-1470", "autor": "Fisher GJ, Kang S, Varani J, et al.", "anio": 2002 },
+    { "tipo": "academica", "titulo": "Estrogens and aging skin. Dermato-Endocrinology 5(2): 264-270", "autor": "Thornton MJ", "anio": 2013 },
+    { "tipo": "academica", "titulo": "Clinical implications of aging skin: cutaneous disorders in the elderly. American Journal of Clinical Dermatology 10(2): 73-86", "autor": "Farage MA, Miller KW, Berardesca E, Maibach HI", "anio": 2009 }
+  ]
+}

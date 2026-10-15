@@ -1,0 +1,1161 @@
+{
+  "programa": "fundamentos-de-la-piel",
+  "modulo": 4,
+  "titulo": "La barrera cutánea: lípidos, manto ácido y microbioma",
+  "estado": "borrador",
+  "version": 1,
+  "resumen": "La piel no solo cubre: decide qué sale y qué entra. En este módulo conocerás cómo el estrato córneo funciona como una pared de ladrillos y mortero, qué papel tienen las ceramidas, el colesterol y los ácidos grasos, por qué la superficie de la piel es ligeramente ácida y quiénes son los microorganismos que la habitan. Al final sabrás reconocer en cabina las señales de una barrera alterada, entender sus causas más comunes y orientar un cuidado cosmético de apoyo, distinguiendo con claridad cuándo la situación corresponde al dermatólogo.",
+  "objetivos": [
+    "Describir la estructura del estrato córneo con el modelo de ladrillos y mortero.",
+    "Explicar la función de las ceramidas, el colesterol, los ácidos grasos libres y el factor natural de hidratación.",
+    "Relacionar el pH ácido de la superficie con la actividad de enzimas, la cohesión del estrato córneo y la defensa frente a microorganismos.",
+    "Identificar los principales grupos del microbioma cutáneo y los factores que lo modifican.",
+    "Reconocer las señales de una barrera alterada y proponer medidas cosméticas de apoyo, derivando al dermatólogo cuando corresponda."
+  ],
+  "duracionMin": 100,
+  "portada": {
+    "id": "fundamentos-de-la-piel/m04/portada",
+    "proporcion": "16:9",
+    "alt": "Primer plano del antebrazo y la mano de una mujer de piel morena aplicando una crema ligera sobre la piel, con luz cálida de ventana.",
+    "prompt": "Fotografía editorial realista en formato horizontal: primer plano del antebrazo y la mano de una mujer de unos treinta y cinco años, piel morena media con textura natural visible, poros y vello fino, extendiendo con los dedos una pequeña cantidad de crema blanca y ligera sobre la piel. Fondo de estudio limpio en tonos crema y rosa empolvado, una toalla de lino doblada y un frasco de vidrio liso sin etiqueta desenfocados al fondo. Luz natural lateral de ventana, cálida y suave, que revela el relieve de la piel sin brillos exagerados. Profundidad de campo reducida, sensación de calma y cuidado. Evitar: texto, logotipos, marcas, etiquetas legibles, piel plástica o retocada en exceso, uñas exageradas, joyería llamativa, lesiones."
+  },
+  "temas": [
+    {
+      "n": "4.1",
+      "titulo": "La barrera cutánea: qué es y cómo está construida",
+      "minutos": 13,
+      "enPocasPalabras": "La capa más externa de la piel, el estrato córneo, funciona como una pared muy delgada hecha de células aplanadas unidas por grasas especiales. Esa pared evita que perdamos agua y frena la entrada de sustancias irritantes y microbios. Se renueva poco a poco, sin que lo notemos.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Cuando hablamos de **barrera cutánea** nos referimos al conjunto de estructuras que permiten a la piel controlar el paso de agua y de sustancias entre el cuerpo y el ambiente. La parte más importante de esa barrera está en el **estrato córneo**, la capa más superficial de la epidermis, que ya conociste en el módulo 2. Aunque está formada por células sin núcleo, es una estructura viva en sentido bioquímico: contiene enzimas activas, responde a la humedad del ambiente y se repara cuando se daña.\n\nEntender cómo está construida esta capa te permite explicar por qué una limpieza agresiva provoca tirantez, por qué algunos productos arden en una piel irritada y por qué la constancia en el cuidado importa más que cualquier producto aislado."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Una pared de unas cuantas micras"
+        },
+        {
+          "tipo": "texto",
+          "md": "En la mayor parte del cuerpo, el estrato córneo mide alrededor de 10 a 20 micras (milésimas de milímetro), algo más delgado que una hoja de papel para impresora. Está formado por unas 15 a 20 capas de **corneocitos**, células aplanadas y endurecidas que proceden de los queratinocitos de las capas profundas. En las palmas de las manos y en las plantas de los pies es mucho más grueso, porque esas zonas soportan fricción y presión constantes.\n\nA pesar de su delgadez, esta capa es la principal responsable de que no nos deshidratemos. Sin ella, el agua del cuerpo se evaporaría hacia el aire con enorme facilidad, como ocurre en una quemadura extensa, donde la pérdida de líquidos se vuelve un problema médico serio."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/01",
+          "proporcion": "4:3",
+          "alt": "Macrofotografía de la piel del dorso de la mano de un hombre de piel oscura, donde se aprecia el relieve fino de la superficie.",
+          "pie": "La superficie que tocamos es el estrato córneo: una capa de pocas micras que controla la salida de agua.",
+          "prompt": "Macrofotografía editorial realista del dorso de la mano de un hombre de unos cincuenta años con piel oscura de fototipo V, mostrando el microrrelieve natural de la superficie: líneas finas que forman pequeños polígonos, algunos vellos y textura auténtica sin retoque. Iluminación lateral suave y cálida que resalta el relieve, fondo desenfocado en tono crema. Enfoque nítido en el centro de la imagen, estética limpia y científica, colores naturales y respetuosos con el tono de piel. Evitar: texto, logotipos, anillos o relojes, heridas, descamación intensa, piel cenicienta exagerada, filtros artificiales."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "El modelo de ladrillos y mortero"
+        },
+        {
+          "tipo": "texto",
+          "md": "En 1983 el dermatólogo Peter Elias propuso una imagen que hoy se usa en todo el mundo: el estrato córneo se parece a una **pared de ladrillos y mortero**. Los **ladrillos** son los corneocitos, rellenos de filamentos de queratina y de sustancias que retienen agua. El **mortero** es una mezcla de lípidos que ocupa los espacios entre los corneocitos y se organiza en láminas muy ordenadas, una encima de otra.\n\nEl modelo se completa con los **corneodesmosomas**, pequeñas uniones de proteínas que funcionan como remaches entre ladrillo y ladrillo. Gracias a ellos la pared no se desmorona. El agua y las sustancias que intentan cruzar no pueden atravesar los ladrillos con facilidad, así que deben seguir el camino largo y sinuoso del mortero. Cuanto mejor ordenados están los lípidos, más difícil es ese recorrido y mejor funciona la barrera."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m04/d1",
+          "pie": "El estrato córneo como pared: corneocitos (ladrillos), lípidos en láminas (mortero) y corneodesmosomas (remaches).",
+          "descripcion": "Corte esquemático del estrato córneo dibujado como una pared de ladrillos. Cinco o seis hileras de corneocitos aplanados y alargados, con un relleno de filamentos de queratina. Entre ellos, un mortero formado por líneas paralelas que representan las láminas de lípidos. Pequeños puntos o remaches entre corneocitos vecinos para los corneodesmosomas. Una flecha ondulada que recorre el mortero en zigzag representa el camino del agua hacia fuera, y otra flecha que llega desde fuera y se detiene en la superficie representa un irritante bloqueado. En la parte inferior, el estrato granuloso con células que aún tienen núcleo.",
+          "elementos": [
+            "Corneocito (ladrillo)",
+            "Lípidos intercelulares en láminas (mortero)",
+            "Corneodesmosoma (remache)",
+            "Envoltura cornificada",
+            "Camino sinuoso del agua",
+            "Irritante externo bloqueado",
+            "Estrato granuloso"
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Cada corneocito está rodeado por una cubierta muy resistente llamada **envoltura cornificada**, formada por proteínas como la loricrina y la involucrina, unidas entre sí por enzimas llamadas transglutaminasas. Por fuera de esa cubierta queda pegada una capa de lípidos que sirve de anclaje para el mortero. Esa combinación de proteína rígida y lípido adherido explica por qué los corneocitos se mantienen planos, firmes y bien ordenados dentro de la pared."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "Células sin núcleo, pero no inertes",
+          "md": "Los corneocitos ya no tienen núcleo ni pueden dividirse, pero el estrato córneo conserva enzimas que siguen trabajando: unas transforman lípidos, otras degradan proteínas para liberar sustancias hidratantes y otras cortan los corneodesmosomas en el momento adecuado. Por eso los especialistas lo describen como un tejido bioquímicamente activo y no como una simple capa muerta."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Descamación: la renovación invisible"
+        },
+        {
+          "tipo": "texto",
+          "md": "La pared se renueva de forma continua. Desde abajo llegan corneocitos nuevos y, en la superficie, los más antiguos se desprenden uno por uno. Este proceso se llama **descamación** y, cuando funciona bien, es invisible: perdemos células todos los días sin notarlo.\n\nPara que los corneocitos se suelten, ciertas enzimas llamadas proteasas deben cortar poco a poco los corneodesmosomas a medida que las células ascienden. Si ese corte ocurre demasiado pronto, la pared se adelgaza y se vuelve frágil. Si ocurre demasiado tarde, las células se quedan pegadas en grupos y aparecen escamas visibles, aspereza y una superficie opaca. En la cabina, la piel opaca y áspera no siempre significa que falte exfoliar: a menudo indica que falta agua en el estrato córneo y que las enzimas no trabajan bien."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/02",
+          "proporcion": "3:4",
+          "alt": "Mujer mayor de piel clara observando de cerca la piel de su antebrazo bajo luz natural junto a una ventana.",
+          "pie": "La renovación del estrato córneo es continua; la aspereza visible suele indicar falta de agua y una descamación desordenada.",
+          "prompt": "Fotografía editorial realista en formato vertical de una mujer de unos setenta años con piel clara de fototipo II, cabello canoso recogido, sentada junto a una ventana y observando con curiosidad la piel de su antebrazo, que muestra textura natural, arrugas finas y ligera sequedad sin escamas marcadas. Ambiente doméstico sereno con cortinas de lino crema y detalles en rosa empolvado, luz de mañana cálida y difusa. Expresión tranquila e interesada, composición limpia con espacio libre alrededor. Evitar: texto, logotipos, piel enrojecida o lastimada, gestos de dolor, ambiente clínico frío, retoque excesivo."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "No es una sola barrera, son varias"
+        },
+        {
+          "tipo": "texto",
+          "md": "Aunque el estrato córneo es la pieza central, la piel protege al cuerpo mediante varias barreras que trabajan juntas. Debajo del estrato córneo, en el estrato granuloso, las células vecinas se sellan entre sí mediante **uniones estrechas**, una especie de cremallera de proteínas que funciona como segunda línea frente al paso de agua y moléculas. Además, la barrera de permeabilidad funciona en dos sentidos: de dentro hacia fuera evita la pérdida de agua, y de fuera hacia dentro frena irritantes, alérgenos y microorganismos."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Las barreras de la piel y lo que hace cada una",
+          "columnas": ["Barrera", "Qué la forma", "Qué evita o regula"],
+          "filas": [
+            ["De permeabilidad", "Corneocitos, lípidos en láminas y uniones estrechas", "Pérdida de agua y entrada de irritantes y alérgenos"],
+            ["Química", "pH ácido, péptidos antimicrobianos y ácidos grasos libres", "Crecimiento de microorganismos dañinos"],
+            ["Microbiológica", "Bacterias y hongos residentes", "Instalación de microbios patógenos por competencia"],
+            ["Inmunológica", "Células de Langerhans y queratinocitos que emiten señales", "Avance de agentes extraños hacia capas profundas"],
+            ["Frente a la radiación", "Melanina y algunos componentes del estrato córneo", "Parte del daño de la luz ultravioleta"],
+            ["Mecánica", "Queratina, envoltura cornificada y dermis", "Rupturas por fricción, presión o estiramiento"]
+          ]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Organización de los lípidos y uniones estrechas",
+          "md": "Los estudios con difracción de rayos X y espectroscopía muestran que los lípidos del estrato córneo se ordenan en dos tipos de láminas repetidas, una de periodo largo y otra de periodo corto, y que dentro de cada lámina las cadenas de lípidos se empaquetan de forma muy apretada (empaquetamiento ortorrómbico). En pieles con barrera alterada, como en el eczema atópico, se observa una proporción mayor de empaquetamiento menos denso (hexagonal) y más ceramidas de cadena corta, lo que se asocia con mayor pérdida de agua. Por su parte, las uniones estrechas del estrato granuloso dependen de proteínas como las claudinas y la ocludina; cuando la claudina-1 disminuye, la permeabilidad aumenta. Estos hallazgos explican por qué la calidad de los lípidos importa tanto como su cantidad."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/03",
+          "proporcion": "16:9",
+          "alt": "Cosmetóloga con guantes y cubrebocas observa con una lámpara de aumento la mejilla de un joven de piel morena recostado en la camilla.",
+          "pie": "La observación cuidadosa de textura, brillo y tirantez es el primer paso para valorar el estado de la barrera en cabina.",
+          "prompt": "Fotografía editorial realista en formato horizontal dentro de una cabina estética limpia y luminosa en tonos crema y rosa empolvado. Una cosmetóloga de unos cuarenta años, con guantes de nitrilo, cubrebocas, bata clara y cabello recogido, observa a través de una lámpara de aumento con luz fría la mejilla de un joven de unos veinte años de piel morena de fototipo IV, recostado en la camilla con una banda para el cabello y una toalla blanca sobre el pecho. Ambiente ordenado, luz cálida ambiental y gesto atento. Evitar: texto, logotipos, marcas, instrumentos médicos invasivos, sangre, acné severo, expresiones de incomodidad."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "relacionar",
+          "titulo": "Arma la pared",
+          "instruccion": "Relaciona cada elemento del modelo de ladrillos y mortero con la estructura real de la piel.",
+          "pares": [
+            { "a": "Ladrillos", "b": "Corneocitos rellenos de queratina" },
+            { "a": "Mortero", "b": "Lípidos intercelulares ordenados en láminas" },
+            { "a": "Remaches", "b": "Corneodesmosomas" },
+            { "a": "Cubierta rígida de cada ladrillo", "b": "Envoltura cornificada" },
+            { "a": "Segunda línea de sellado", "b": "Uniones estrechas del estrato granuloso" }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Cuando recibas a una persona, observa la piel antes de tocarla con productos: ¿se ve opaca, áspera, con descamación fina o con brillo tirante? Pregunta cómo se siente después de lavarse la cara y si algún producto le arde. Esas respuestas te hablan del estado de la pared. Si la barrera parece frágil, tu prioridad será no dañarla más: limpieza suave, nada de exfoliación ese día y cuidado que ayude a reponer el mortero. Si además notas enrojecimiento persistente, placas o lesiones, no trabajes sobre ellas y sugiere una valoración con dermatología."
+        }
+      ],
+      "glosario": [
+        { "termino": "Barrera cutánea", "definicion": "Conjunto de estructuras de la piel que controla el paso de agua y sustancias entre el cuerpo y el ambiente." },
+        { "termino": "Estrato córneo", "definicion": "Capa más externa de la epidermis, formada por corneocitos y lípidos intercelulares." },
+        { "termino": "Corneocito", "definicion": "Célula aplanada, sin núcleo y rica en queratina que forma los ladrillos del estrato córneo." },
+        { "termino": "Corneodesmosoma", "definicion": "Unión proteica entre corneocitos vecinos que se degrada de forma controlada para permitir la descamación." },
+        { "termino": "Envoltura cornificada", "definicion": "Cubierta rígida de proteínas y lípidos que rodea a cada corneocito." },
+        { "termino": "Descamación", "definicion": "Desprendimiento continuo y normalmente invisible de los corneocitos más superficiales." }
+      ],
+      "verificacion": [
+        {
+          "id": "t4.1-1",
+          "q": "En el modelo de ladrillos y mortero, ¿qué representa el mortero?",
+          "opciones": [
+            "Los lípidos intercelulares ordenados en láminas",
+            "Los filamentos de queratina dentro de cada célula",
+            "Las fibras de colágeno de la dermis",
+            "El sudor que cubre la superficie"
+          ],
+          "correcta": 0,
+          "explicacion": "El mortero son los lípidos entre los corneocitos. La queratina está dentro de los ladrillos, el colágeno pertenece a la dermis y el sudor no forma parte de la estructura de la pared."
+        },
+        {
+          "id": "t4.1-2",
+          "q": "¿Qué ocurre si los corneodesmosomas se degradan demasiado tarde?",
+          "opciones": [
+            "La piel se vuelve más delgada y frágil",
+            "Aumenta de inmediato la producción de melanina",
+            "Los corneocitos se quedan unidos en grupos y aparecen escamas visibles",
+            "El estrato córneo deja de contener lípidos"
+          ],
+          "correcta": 2,
+          "explicacion": "Si el corte de los remaches se retrasa, las células se desprenden en grupos y se ven escamas y aspereza. Un corte prematuro, en cambio, adelgaza la pared."
+        },
+        {
+          "id": "t4.1-3",
+          "q": "¿Cuál es la segunda línea de sellado que existe debajo del estrato córneo?",
+          "opciones": [
+            "La capa de melanina de los melanocitos",
+            "La película de sebo de la superficie",
+            "La membrana basal de la dermis",
+            "Las uniones estrechas del estrato granuloso"
+          ],
+          "correcta": 3,
+          "explicacion": "Las uniones estrechas entre células del estrato granuloso funcionan como un segundo sello frente al paso de agua y moléculas."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Epidermal lipids, barrier function, and desquamation", "autor": "Elias PM. Journal of Investigative Dermatology", "anio": 1983 },
+        { "tipo": "academica", "titulo": "The skin: an indispensable barrier", "autor": "Proksch E, Brandner JM, Jensen JM. Experimental Dermatology", "anio": 2008 },
+        { "tipo": "academica", "titulo": "Increase in short-chain ceramides correlates with an altered lipid organization and decreased barrier function in atopic eczema patients", "autor": "Janssens M, et al. Journal of Lipid Research", "anio": 2012 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en textos universitarios de dermatología y revisiones sobre la estructura del estrato córneo", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "4.2",
+      "titulo": "Los lípidos de la barrera y el factor natural de hidratación",
+      "minutos": 14,
+      "enPocasPalabras": "Las grasas que sellan la piel no son cualquier grasa: son ceramidas, colesterol y ácidos grasos en proporciones precisas. Dentro de las células hay además pequeñas moléculas que atrapan agua, llamadas factor natural de hidratación. Juntas mantienen la piel flexible y bien sellada.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "En el tema anterior viste que el mortero de la pared está hecho de lípidos. Ahora conocerás cuáles son, de dónde vienen y por qué su proporción es tan importante. También estudiarás el **factor natural de hidratación**, el sistema que mantiene el agua dentro de los ladrillos. Estos dos conceptos explican buena parte de lo que leerás en etiquetas de productos hidratantes y reparadores, y te ayudarán a separar la ciencia de la publicidad."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "De dónde salen los lípidos: los cuerpos lamelares"
+        },
+        {
+          "tipo": "texto",
+          "md": "Los queratinocitos del estrato granuloso fabrican pequeños paquetes llamados **cuerpos lamelares**, también conocidos como cuerpos de Odland. En su interior guardan los precursores del mortero: glucosilceramidas, esfingomielina, fosfolípidos y colesterol, junto con las enzimas que más tarde los transformarán.\n\nCuando la célula está a punto de convertirse en corneocito, vacía el contenido de esos paquetes en el espacio entre células. Ahí las enzimas trabajan: la **beta-glucocerebrosidasa** y la **esfingomielinasa ácida** convierten sus precursores en ceramidas, y la **fosfolipasa A2** libera ácidos grasos a partir de los fosfolípidos. El resultado se ordena en las láminas que forman el mortero. Si la barrera se daña, por ejemplo tras una limpieza agresiva, la piel acelera la secreción de cuerpos lamelares para repararla, un proceso que tarda horas o días según la magnitud del daño."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m04/d2",
+          "pie": "Del cuerpo lamelar al mortero: precursores, enzimas y lípidos finales de la barrera.",
+          "descripcion": "Diagrama de flujo vertical. Arriba, una célula del estrato granuloso con varios cuerpos lamelares ovalados en su interior, cada uno con rayas que indican láminas. Una flecha muestra la salida de su contenido al espacio intercelular. Tres columnas paralelas: glucosilceramidas que pasan por la beta-glucocerebrosidasa hacia ceramidas; esfingomielina que pasa por la esfingomielinasa ácida hacia ceramidas; fosfolípidos que pasan por la fosfolipasa A2 hacia ácidos grasos libres. El colesterol baja directo. Abajo, las tres familias finales se unen en láminas paralelas dentro del estrato córneo.",
+          "elementos": [
+            "Cuerpo lamelar",
+            "Glucosilceramidas",
+            "Esfingomielina",
+            "Fosfolípidos",
+            "Beta-glucocerebrosidasa",
+            "Esfingomielinasa ácida",
+            "Fosfolipasa A2",
+            "Ceramidas",
+            "Colesterol",
+            "Ácidos grasos libres",
+            "Láminas del mortero"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "El trío esencial: ceramidas, colesterol y ácidos grasos"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Lípidos principales del estrato córneo (proporción aproximada en peso)",
+          "columnas": ["Lípido", "Proporción aproximada", "Función principal"],
+          "filas": [
+            ["Ceramidas", "Alrededor de la mitad", "Forman la estructura laminar y son clave para retener agua"],
+            ["Colesterol", "Alrededor de una cuarta parte", "Da flexibilidad a las láminas y ayuda a mezclar los lípidos"],
+            ["Ácidos grasos libres", "Entre una décima y una quinta parte", "Contribuyen al orden apretado de las láminas y a la acidez de la superficie"]
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Las cifras de la tabla varían según la región del cuerpo, la edad y el método de medición, pero la idea central se mantiene: la barrera necesita a los tres lípidos y en una relación equilibrada, cercana a partes iguales si se cuentan por número de moléculas. Los trabajos experimentales del grupo de Elias y Feingold mostraron que aplicar solo uno o dos de estos lípidos sobre una barrera dañada puede retrasar su recuperación, mientras que una mezcla equilibrada de los tres la favorece. Por eso, cuando un producto presume «ceramidas», lo relevante es si forma parte de una fórmula pensada para complementar el mortero y no solo la palabra en la etiqueta."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Una familia numerosa de ceramidas",
+          "md": "Las ceramidas no son una sola molécula. Resultan de combinar una base esfingoidea (esfingosina, fitoesfingosina, dihidroesfingosina o 6-hidroxiesfingosina) con un ácido graso que puede ser no hidroxilado, alfa-hidroxilado u omega-hidroxilado. De esas combinaciones salen más de una docena de subclases en la piel humana. Entre ellas destacan las acilceramidas, que llevan unido ácido linoleico y son indispensables para formar la lámina de periodo largo; por eso la deficiencia de ácido linoleico se acompaña de alteración de la barrera. Otras ceramidas quedan unidas de forma covalente a la envoltura cornificada y sirven de anclaje para todo el mortero."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "El sebo no es el mortero"
+        },
+        {
+          "tipo": "texto",
+          "md": "Es frecuente confundir los lípidos de la barrera con el **sebo**. El sebo lo producen las glándulas sebáceas y se vierte en la superficie a través del folículo; está compuesto sobre todo por triglicéridos, ésteres de cera y escualeno, una mezcla distinta del mortero. Junto con el sudor forma la **película hidrolipídica** de la superficie, que suaviza y aporta una capa protectora adicional, pero no sustituye a los lípidos entre los corneocitos.\n\nEsta diferencia explica algo que verás a menudo en cabina: una piel grasa puede estar deshidratada. Puede tener brillo y poros visibles por exceso de sebo y, al mismo tiempo, sentirse tirante y presentar descamación fina porque su estrato córneo pierde agua. Tratar de «secar» esa piel con limpiadores fuertes suele empeorar la tirantez sin reducir el brillo de forma duradera."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/04",
+          "proporcion": "1:1",
+          "alt": "Hombre joven de piel trigueña con brillo leve en la frente y la nariz, mirándose en un espejo de baño.",
+          "pie": "Brillo y deshidratación pueden coexistir: el sebo de la superficie no reemplaza al mortero del estrato córneo.",
+          "prompt": "Fotografía editorial realista en formato cuadrado de un hombre de unos veinticinco años con piel trigueña de fototipo IV, barba corta y cabello oscuro, frente a un espejo de baño iluminado con luz cálida. Se observa un brillo leve y natural en la frente y la nariz, con poros visibles y textura real, mientras toca suavemente su mejilla con expresión reflexiva. Baño minimalista con azulejos en tono crema, toalla rosa empolvado y plantas pequeñas. Evitar: texto, logotipos, marcas, acné severo, piel retocada, gestos exagerados, iluminación dura."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "El factor natural de hidratación"
+        },
+        {
+          "tipo": "texto",
+          "md": "Dentro de los corneocitos hay una mezcla de pequeñas moléculas capaces de atraer y retener agua: el **factor natural de hidratación**, conocido por sus siglas en inglés NMF. Buena parte procede de la degradación de una proteína llamada **filagrina**. Mientras los queratinocitos maduran, la filagrina ayuda a agrupar los filamentos de queratina; después, en las capas altas del estrato córneo, se descompone en aminoácidos libres y derivados como el ácido pirrolidón carboxílico y el ácido urocánico. Al NMF se suman lactato, urea, azúcares y sales minerales.\n\nLa degradación de la filagrina depende de la humedad: se activa cuando el estrato córneo se seca, como un mecanismo de autoprotección. En climas muy secos o en invierno ese sistema trabaja al límite, y la piel puede verse áspera aunque la persona beba suficiente agua."
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Componentes principales del factor natural de hidratación",
+          "items": [
+            "Aminoácidos libres derivados de la filagrina, como serina, glicina y alanina.",
+            "Ácido pirrolidón carboxílico, uno de los humectantes naturales más potentes de la piel.",
+            "Ácido urocánico, que además absorbe parte de la radiación ultravioleta.",
+            "Lactato y urea, procedentes en parte del sudor.",
+            "Azúcares y sales minerales como sodio, potasio, calcio y cloruro."
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Con la edad, la cantidad de NMF y de lípidos del estrato córneo tiende a disminuir, y la recuperación de la barrera tras una agresión se vuelve más lenta. Esto ayuda a explicar por qué muchas personas mayores refieren piel seca y comezón, sobre todo en las piernas y en temporada seca. También la exposición repetida al agua y a los limpiadores arrastra parte del NMF, porque sus componentes son solubles en agua: los baños largos y muy calientes vacían literalmente los ladrillos de sus moléculas hidratantes."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/06",
+          "proporcion": "4:3",
+          "alt": "Mujer mayor de piel morena aplica crema en sus piernas sentada en el borde de la cama después del baño.",
+          "pie": "Con la edad disminuyen el NMF y los lípidos, y la piel de las piernas suele resecarse con más facilidad.",
+          "prompt": "Fotografía editorial realista en formato 4:3 de una mujer de unos setenta y cinco años con piel morena de fototipo IV, cabello blanco corto y bata de algodón crema, sentada en el borde de la cama después del baño mientras extiende con calma una crema ligera sobre la espinilla. Piel de las piernas con textura real, ligera sequedad y vello fino, sin grietas. Habitación luminosa con sábanas de lino rosa empolvado y luz cálida de mañana entrando por la ventana. Ambiente íntimo, digno y sereno. Evitar: texto, logotipos, marcas, frascos con etiquetas, desnudez, heridas, grietas sangrantes, retoque excesivo."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "La genética también cuenta",
+          "md": "En 2006 un equipo dirigido por Colin Palmer publicó en *Nature Genetics* que ciertas variantes del gen de la filagrina, que impiden fabricar la proteína completa, se asocian con mayor probabilidad de dermatitis atópica y con la ictiosis vulgar, una forma hereditaria de piel muy seca y escamosa. Esto ayudó a entender que, en algunas personas, la barrera es frágil desde el origen. En cabina no se puede saber quién tiene estas variantes: ante piel muy seca desde la infancia, con comezón o brotes, lo indicado es sugerir valoración dermatológica."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cómo se mide la barrera"
+        },
+        {
+          "tipo": "texto",
+          "md": "En investigación, el estado de la barrera se estima con la **pérdida transepidérmica de agua**: la cantidad de agua que se evapora a través de la piel, expresada en gramos por metro cuadrado por hora. Se mide con equipos llamados evaporímetros, en condiciones controladas de temperatura y humedad. Una cifra más alta indica una barrera menos eficiente. La hidratación del estrato córneo, por su parte, se estima con corneómetros, que miden propiedades eléctricas de la superficie.\n\nEstos aparatos requieren protocolos estrictos para dar datos comparables. En la cabina, la valoración de la barrera se basa en la observación, el tacto y la entrevista, y sirve para orientar el cuidado cosmético, nunca para diagnosticar una enfermedad."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/05",
+          "proporcion": "4:3",
+          "alt": "Investigadora de piel morena clara apoya la sonda de un equipo de medición sobre el antebrazo de una voluntaria en un laboratorio luminoso.",
+          "pie": "La pérdida transepidérmica de agua se mide en laboratorio con equipos y condiciones controladas.",
+          "prompt": "Fotografía editorial realista en formato 4:3 de un laboratorio de investigación cosmética luminoso y ordenado, con paredes en tono crema y detalles rosa empolvado. Una investigadora de unos treinta años, piel morena clara de fototipo III, bata blanca, guantes de nitrilo y cabello recogido, apoya con cuidado una pequeña sonda cilíndrica conectada por cable a un equipo de mesa sobre el antebrazo de una voluntaria de unos cuarenta años con piel oscura de fototipo V, sentada tranquila. Luz suave y cálida, enfoque en las manos y la sonda. Evitar: texto, pantallas con números legibles, logotipos, marcas, agujas, sangre, ambiente hospitalario frío."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Recetas caseras que dañan la barrera",
+          "md": "En redes circulan mezclas caseras con limón, bicarbonato, vinagre sin diluir o pasta dental. El bicarbonato es alcalino y altera el pH de la superficie; el vinagre y el limón son ácidos irritantes, y el jugo de limón o de lima sobre la piel expuesta al sol puede provocar una reacción llamada fitofotodermatitis, con manchas y ampollas. Ninguna de estas preparaciones repone el mortero. Recomienda productos cosméticos con registro y etiquetado claros, y ante una reacción, suspender el producto y consultar a un médico."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "ordenar",
+          "titulo": "Así se construye el mortero",
+          "instruccion": "Ordena los pasos desde que se fabrican los lípidos hasta que la barrera queda sellada.",
+          "elementos": [
+            "Los queratinocitos del estrato granuloso fabrican cuerpos lamelares",
+            "Los cuerpos lamelares se llenan de precursores lipídicos y enzimas",
+            "La célula vacía su contenido en el espacio entre células",
+            "Las enzimas convierten los precursores en ceramidas y ácidos grasos libres",
+            "Ceramidas, colesterol y ácidos grasos se ordenan en láminas",
+            "Las láminas sellan el espacio entre corneocitos y frenan la pérdida de agua"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Cuando expliques a una persona por qué recomiendas un hidratante, usa la imagen de la pared: los humectantes atraen agua a los ladrillos, como lo hace el NMF; los emolientes suavizan las grietas entre ellos, y los lípidos fisiológicos ayudan a reponer el mortero. Evita prometer que un producto «repara» por sí solo; la barrera se recupera cuando se combinan un cuidado constante, una limpieza respetuosa y la protección frente a lo que la daña."
+        }
+      ],
+      "glosario": [
+        { "termino": "Cuerpos lamelares", "definicion": "Paquetes del estrato granuloso que almacenan precursores de lípidos y enzimas, y los liberan para formar el mortero." },
+        { "termino": "Ceramidas", "definicion": "Familia de lípidos que forma cerca de la mitad del mortero del estrato córneo y es clave para retener agua." },
+        { "termino": "Filagrina", "definicion": "Proteína que agrupa la queratina y que, al degradarse, origina buena parte del factor natural de hidratación." },
+        { "termino": "Factor natural de hidratación (NMF)", "definicion": "Mezcla de moléculas pequeñas dentro de los corneocitos que atrae y retiene agua." },
+        { "termino": "Pérdida transepidérmica de agua", "definicion": "Cantidad de agua que se evapora a través de la piel; se usa en investigación para estimar el estado de la barrera." },
+        { "termino": "Película hidrolipídica", "definicion": "Capa superficial formada por sebo, sudor y restos celulares que cubre el estrato córneo." }
+      ],
+      "verificacion": [
+        {
+          "id": "t4.2-1",
+          "q": "¿Cuál es el lípido más abundante del mortero del estrato córneo?",
+          "opciones": [
+            "El escualeno",
+            "Las ceramidas",
+            "Los triglicéridos",
+            "Los ésteres de cera"
+          ],
+          "correcta": 1,
+          "explicacion": "Las ceramidas representan alrededor de la mitad de los lípidos del mortero. Escualeno, triglicéridos y ésteres de cera son componentes del sebo, no del mortero."
+        },
+        {
+          "id": "t4.2-2",
+          "q": "Una persona tiene brillo en la zona T y, al mismo tiempo, tirantez y descamación fina. ¿Cuál es la explicación más adecuada?",
+          "opciones": [
+            "Es imposible: una piel con brillo nunca pierde agua",
+            "El brillo indica que el mortero está completo",
+            "Tiene exceso de sebo en la superficie y su estrato córneo está deshidratado",
+            "Solo necesita un limpiador más fuerte para retirar la grasa"
+          ],
+          "correcta": 2,
+          "explicacion": "El sebo y el mortero son distintos: puede haber sebo abundante y, a la vez, pérdida de agua del estrato córneo. Un limpiador agresivo suele empeorar la tirantez."
+        },
+        {
+          "id": "t4.2-3",
+          "q": "¿De qué proteína procede buena parte del factor natural de hidratación?",
+          "opciones": [
+            "De la filagrina",
+            "Del colágeno",
+            "De la elastina",
+            "De la melanina"
+          ],
+          "correcta": 0,
+          "explicacion": "La filagrina se degrada en aminoácidos y derivados que forman el NMF. Colágeno y elastina son proteínas de la dermis y la melanina es un pigmento, no una proteína del NMF."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Thematic review series: skin lipids. The role of epidermal lipids in cutaneous permeability barrier homeostasis", "autor": "Feingold KR. Journal of Lipid Research", "anio": 2007 },
+        { "tipo": "academica", "titulo": "Moisturization and skin barrier function", "autor": "Rawlings AV, Harding CR. Dermatologic Therapy", "anio": 2004 },
+        { "tipo": "academica", "titulo": "Common loss-of-function variants of the epidermal barrier protein filaggrin are a major predisposing factor for atopic dermatitis", "autor": "Palmer CNA, et al. Nature Genetics", "anio": 2006 },
+        { "tipo": "academica", "titulo": "Epidermal lipids, barrier function, and desquamation", "autor": "Elias PM. Journal of Investigative Dermatology", "anio": 1983 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en revisiones sobre lípidos epidérmicos, factor natural de hidratación y medición de la barrera", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "4.3",
+      "titulo": "El manto ácido: pH de la superficie y por qué importa",
+      "minutos": 13,
+      "enPocasPalabras": "La superficie de la piel sana es ligeramente ácida. Esa acidez ayuda a que las enzimas fabriquen el mortero, mantiene unidas las capas superficiales y dificulta que crezcan microbios dañinos. Los jabones muy alcalinos y algunos hábitos la alteran.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "La expresión **manto ácido** se usa desde principios del siglo XX para describir la acidez de la superficie de la piel. Hoy sabemos que no es una capa aparte, sino una propiedad del estrato córneo y de la película que lo cubre. Esa acidez no es un detalle: regula enzimas, influye en la cohesión de las células y condiciona qué microorganismos pueden prosperar. Conocerla te permitirá elegir limpiadores con criterio y explicar a tus clientes por qué el lavado agresivo tiene consecuencias."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Qué es el pH y por qué la escala engaña"
+        },
+        {
+          "tipo": "texto",
+          "md": "El **pH** mide qué tan ácida o alcalina es una solución, en una escala que va de 0 a 14. El 7 es neutro, como el agua pura; por debajo de 7 hablamos de acidez y por encima, de alcalinidad. La trampa está en que la escala es logarítmica: cada punto equivale a multiplicar o dividir por diez la concentración de iones de hidrógeno. Un producto con pH 9 no es «un poco» más alcalino que uno con pH 7, sino cien veces más.\n\nEn la superficie de la piel sana el pH suele medirse entre 4 y 6, con variaciones según la zona del cuerpo, la edad, el sexo y el momento del día. Un estudio de Lambers y colaboradores, publicado en 2006, encontró que el pH natural de la superficie, sin la influencia de productos recientes, está en promedio por debajo de 5. Hacia las capas profundas la acidez disminuye, hasta acercarse a la neutralidad en el estrato granuloso."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m04/d3",
+          "pie": "El pH aumenta desde la superficie ácida hasta las capas profundas, cercanas a la neutralidad.",
+          "descripcion": "Corte de epidermis en vista lateral con una barra de color vertical a la derecha que representa el gradiente de pH. Arriba, la superficie y el estrato córneo en tonos cálidos indicando acidez; hacia abajo, el estrato granuloso y las capas profundas en tonos más neutros. A la izquierda, pequeñas etiquetas con las fuentes de acidez colocadas en la zona superior. Una escala de pH horizontal en la parte inferior con tres marcas de referencia para comparar.",
+          "elementos": [
+            "Superficie de la piel, pH ácido",
+            "Estrato córneo",
+            "Estrato granuloso, cercano a la neutralidad",
+            "Ácidos grasos libres",
+            "Intercambiador sodio-hidrógeno",
+            "Ácido urocánico",
+            "Ácido láctico del sudor",
+            "Escala de pH de 0 a 14"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "De dónde viene la acidez"
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Fuentes principales del pH ácido de la superficie",
+          "items": [
+            "Ácidos grasos libres que se liberan de los fosfolípidos por acción de la fosfolipasa A2 en el estrato córneo.",
+            "El intercambiador sodio-hidrógeno de las membranas de los queratinocitos, que bombea iones de hidrógeno hacia el espacio entre células.",
+            "Ácido urocánico y ácido pirrolidón carboxílico, procedentes de la degradación de la filagrina.",
+            "Ácido láctico y otros componentes del sudor.",
+            "Ácidos grasos producidos por bacterias residentes al degradar los triglicéridos del sebo."
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Por qué la acidez protege"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Qué depende de un pH ácido y qué pasa cuando sube",
+          "columnas": ["Proceso", "Con pH ácido", "Con pH elevado"],
+          "filas": [
+            ["Síntesis de ceramidas", "Las enzimas que las fabrican trabajan a buen ritmo", "Esas enzimas pierden actividad y el mortero se forma peor"],
+            ["Cohesión del estrato córneo", "Las proteasas cortan los corneodesmosomas de forma gradual", "Las proteasas se aceleran, los remaches se rompen antes y la pared se adelgaza"],
+            ["Defensa frente a microbios", "Se favorece a las bacterias residentes que toleran la acidez", "Encuentran mejores condiciones algunas bacterias como Staphylococcus aureus"],
+            ["Orden de los lípidos", "Las láminas se organizan de forma más compacta", "La organización se altera y aumenta la pérdida de agua"]
+          ]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Proteasas, pH e inflamación",
+          "md": "Las calicreínas 5 y 7 son proteasas de serina del estrato córneo encargadas de degradar los corneodesmosomas. Su actividad aumenta cuando el pH se acerca a la neutralidad. Además de adelgazar la pared, la calicreína 5 activa un receptor de los queratinocitos llamado PAR-2 (receptor activado por proteasas 2), que dispara señales inflamatorias y frena la secreción de cuerpos lamelares. Al mismo tiempo, la beta-glucocerebrosidasa y la esfingomielinasa ácida, que producen ceramidas, tienen su actividad óptima en un medio ácido. Así, un pH elevado sostenido genera un doble efecto: más degradación y menos reparación, lo que ayuda a entender por qué algunas pieles con barrera alterada entran en ciclos de irritación."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/07",
+          "proporcion": "4:3",
+          "alt": "Hombre de piel oscura se lava el rostro con agua tibia y espuma suave frente a un lavabo.",
+          "pie": "Una limpieza suave con agua tibia respeta mejor el pH y los lípidos de la superficie.",
+          "prompt": "Fotografía editorial realista en formato 4:3 de un hombre de unos treinta y cinco años con piel oscura de fototipo VI y barba bien recortada, inclinado sobre un lavabo blanco mientras se enjuaga el rostro con agua tibia y una espuma muy ligera entre las manos. Gotas de agua visibles sobre la piel con textura natural. Baño luminoso con azulejos crema, toalla de algodón rosa empolvado y luz cálida de mañana. Sensación de calma y cuidado cotidiano. Evitar: texto, logotipos, marcas, botellas con etiquetas legibles, agua humeante, espuma exagerada, piel retocada."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Lo que altera el pH de la piel"
+        },
+        {
+          "tipo": "texto",
+          "md": "El factor más conocido es el **jabón tradicional**. Los jabones se fabrican al combinar grasas con un álcali, y su pH en solución suele quedar entre 9 y 10. Al lavarse con ellos, el pH de la superficie sube de forma transitoria; en una piel sana tiende a recuperarse en cuestión de horas, pero si el lavado se repite varias veces al día o la barrera ya está debilitada, el efecto se acumula. Los **syndets**, limpiadores elaborados con tensioactivos sintéticos, pueden formularse con un pH cercano al de la piel y suelen tolerarse mejor.\n\nOtros factores son la oclusión prolongada, que eleva el pH en zonas como las axilas, las ingles o la piel bajo el pañal; la edad, porque el pH de la piel del recién nacido es más alto y en la vejez tiende a subir de nuevo; y diversas enfermedades de la piel, que solo puede valorar un dermatólogo."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cómo se mide y por qué no conviene improvisar"
+        },
+        {
+          "tipo": "texto",
+          "md": "En investigación, el pH de la superficie se mide con un electrodo plano que se apoya sobre la piel humedecida con una gota de agua. El resultado depende de la hora, de lo que la persona se aplicó en las horas previas, de la sudoración, de la temperatura y de la técnica; por eso los estudios piden no lavar ni aplicar productos durante un tiempo antes de medir. Las tiras de papel indicador que se venden para otros usos no son adecuadas para la piel: dan lecturas imprecisas y pueden llevar a conclusiones equivocadas.\n\nEn cabina no necesitas medir el pH. Lo útil es conocer el comportamiento general de los limpiadores y observar la respuesta de la piel: tirantez, ardor o enrojecimiento después de lavar son señales más valiosas que cualquier número aislado."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "ejemplo",
+          "titulo": "El limpiador de la abuela",
+          "md": "Don Ernesto, de 68 años y fototipo IV, se lava la cara y el cuerpo con jabón de lavandería porque «deja la piel bien limpia». Refiere comezón en las piernas en temporada seca. Su cosmetóloga no le dice que está haciendo algo «malo»; le explica con la imagen de la pared que ese jabón es muy alcalino y arrastra el mortero, le propone un limpiador suave solo en axilas, ingles y pies, agua tibia y crema corporal después del baño. Como la comezón le quita el sueño, también le sugiere comentarlo con su médico o con un dermatólogo."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "El pH no lo es todo",
+          "md": "Un limpiador con pH ácido también puede irritar si contiene tensioactivos agresivos en exceso o si se usa con demasiada frecuencia y fricción. El lauril sulfato de sodio, por ejemplo, se emplea en investigación precisamente para provocar irritación experimental. Al elegir un limpiador, considera en conjunto el tipo de tensioactivo, la frecuencia de uso, la temperatura del agua y la sensación que deja: si la piel queda tirante o «rechinando», el limpiador está retirando más de lo necesario."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/08",
+          "proporcion": "16:9",
+          "alt": "Mesa de cabina con tres frascos de limpiadores sin etiqueta, una toalla doblada y un recipiente con agua tibia.",
+          "pie": "Elegir un limpiador implica valorar pH, tipo de tensioactivo y frecuencia de uso.",
+          "prompt": "Fotografía editorial realista de bodegón en formato horizontal sobre una mesa auxiliar de cabina estética: tres frascos dosificadores de vidrio esmerilado sin etiquetas, de distintas alturas, con texturas visibles de gel transparente, leche cremosa y espuma ligera en pequeños cuencos de cerámica junto a cada uno. A un lado, una toalla de algodón crema doblada, un recipiente con agua tibia y una rama de eucalipto. Fondo de pared en rosa empolvado, luz natural cálida y difusa desde la izquierda, composición ordenada y limpia. Evitar: texto, etiquetas, logotipos, marcas, colores saturados, desorden, reflejos duros."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "vf",
+          "titulo": "Mito o realidad del pH",
+          "afirmaciones": [
+            { "texto": "Un producto con pH 9 es cien veces más alcalino que uno con pH 7.", "verdadero": true, "explicacion": "La escala de pH es logarítmica: cada punto multiplica por diez la diferencia, así que dos puntos equivalen a cien veces." },
+            { "texto": "La piel sana tiene en su superficie un pH neutro, igual al del agua pura.", "verdadero": false, "explicacion": "La superficie sana es ligeramente ácida, en general entre 4 y 6, y en promedio por debajo de 5 según estudios de piel sin productos recientes." },
+            { "texto": "Si un limpiador tiene pH ácido, ya no puede irritar.", "verdadero": false, "explicacion": "El tipo y la cantidad de tensioactivos, la frecuencia y la fricción también pueden irritar, aunque el pH sea adecuado." },
+            { "texto": "Un pH elevado sostenido acelera la degradación de los corneodesmosomas.", "verdadero": true, "explicacion": "Las proteasas que cortan los remaches son más activas cerca de la neutralidad, lo que adelgaza la pared." },
+            { "texto": "Lavarse con bicarbonato ayuda a recuperar el manto ácido.", "verdadero": false, "explicacion": "El bicarbonato es alcalino: eleva el pH de la superficie en lugar de acidificarla." }
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/09",
+          "proporcion": "3:4",
+          "alt": "Madre de piel morena seca con suavidad a su bebé envuelto en una toalla después del baño.",
+          "pie": "La piel del recién nacido tiene un pH más alto y una barrera en maduración; requiere limpieza breve y suave.",
+          "prompt": "Fotografía editorial realista en formato vertical de una madre de unos treinta años con piel morena de fototipo IV y cabello recogido, sosteniendo a su bebé de pocos meses envuelto en una toalla de algodón crema después del baño, mientras le seca con suavidad la mejilla con una esquina de la toalla. Habitación luminosa con muebles de madera clara, cortinas de lino y acentos en rosa empolvado. Luz natural cálida, ambiente íntimo y tranquilo, piel con textura real. Evitar: texto, logotipos, marcas, desnudez, piel irritada, productos con etiquetas, expresiones de llanto."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Revisa los limpiadores que usas en cabina y los que te cuentan tus clientes que usan en casa. Pregunta cuántas veces se lavan la cara, con qué temperatura de agua y cómo sienten la piel después. Una recomendación sencilla y eficaz es limpiar el rostro dos veces al día como máximo, con agua tibia, un limpiador suave y sin frotar, y secar con toques. Si la persona describe ardor persistente, enrojecimiento o descamación que no mejora al simplificar su rutina, recomienda una valoración dermatológica."
+        }
+      ],
+      "glosario": [
+        { "termino": "pH", "definicion": "Medida de acidez o alcalinidad en una escala logarítmica de 0 a 14, donde 7 es neutro." },
+        { "termino": "Manto ácido", "definicion": "Nombre tradicional de la acidez natural de la superficie de la piel y su estrato córneo." },
+        { "termino": "Syndet", "definicion": "Limpiador elaborado con tensioactivos sintéticos que puede formularse con un pH cercano al de la piel." },
+        { "termino": "Tensioactivo", "definicion": "Sustancia que permite que el agua arrastre grasa y suciedad; es la base de los limpiadores." },
+        { "termino": "Calicreínas", "definicion": "Proteasas del estrato córneo que degradan los corneodesmosomas y son más activas cuando el pH sube." }
+      ],
+      "verificacion": [
+        {
+          "id": "t4.3-1",
+          "q": "¿En qué rango suele medirse el pH de la superficie de la piel sana?",
+          "opciones": [
+            "Entre 1 y 2",
+            "Exactamente 7",
+            "Entre 8 y 10",
+            "Entre 4 y 6"
+          ],
+          "correcta": 3,
+          "explicacion": "La superficie sana es ligeramente ácida, en general entre 4 y 6. Un pH de 7 es neutro y de 8 a 10 es alcalino, como el de muchos jabones."
+        },
+        {
+          "id": "t4.3-2",
+          "q": "¿Qué efecto tiene un pH elevado sostenido sobre la fabricación de ceramidas?",
+          "opciones": [
+            "La acelera, porque las enzimas prefieren la neutralidad",
+            "La disminuye, porque las enzimas que las producen trabajan mejor en medio ácido",
+            "No tiene ningún efecto sobre las ceramidas",
+            "Transforma las ceramidas en melanina"
+          ],
+          "correcta": 1,
+          "explicacion": "La beta-glucocerebrosidasa y la esfingomielinasa ácida tienen su actividad óptima en medio ácido; si el pH sube, se forma peor el mortero."
+        },
+        {
+          "id": "t4.3-3",
+          "q": "Una clienta se lava la cara cuatro veces al día con jabón de barra y siente la piel tirante. ¿Qué sugerencia es más adecuada?",
+          "opciones": [
+            "Reducir la frecuencia, usar agua tibia y un limpiador suave sin frotar",
+            "Agregar un exfoliante diario para retirar la descamación",
+            "Cambiar a agua muy caliente para disolver mejor la grasa",
+            "Aplicar bicarbonato para neutralizar la tirantez"
+          ],
+          "correcta": 0,
+          "explicacion": "La frecuencia alta y el jabón alcalino alteran pH y lípidos. Exfoliar, usar agua caliente o bicarbonato empeoraría la barrera."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Natural skin surface pH is on average below 5, which is beneficial for its resident flora", "autor": "Lambers H, Piessens S, Bloem A, Pronk H, Finkel P. International Journal of Cosmetic Science", "anio": 2006 },
+        { "tipo": "academica", "titulo": "The pH of the skin surface and its impact on the barrier function", "autor": "Schmid-Wendtner MH, Korting HC. Skin Pharmacology and Physiology", "anio": 2006 },
+        { "tipo": "academica", "titulo": "Skin pH: from basic science to basic skin care", "autor": "Ali SM, Yosipovitch G. Acta Dermato-Venereologica", "anio": 2013 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en revisiones sobre pH cutáneo, proteasas del estrato córneo y limpiadores", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "4.4",
+      "titulo": "El microbioma cutáneo: los habitantes de la piel",
+      "minutos": 14,
+      "enPocasPalabras": "En la piel viven millones de bacterias, hongos y otros microorganismos que, en su mayoría, nos ayudan. Ocupan espacio, compiten con microbios dañinos y entrenan a las defensas. Cada zona del cuerpo tiene sus propios habitantes, y la limpieza excesiva puede desequilibrarlos.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Durante mucho tiempo se pensó en los microbios de la piel solo como amenazas. Las técnicas de secuenciación genética, desarrolladas con fuerza a partir de la década de 2000, mostraron otra realidad: la piel alberga comunidades estables y diversas de bacterias, hongos, virus y pequeños ácaros, y la mayoría convive con nosotros sin causar daño y con beneficios claros.\n\nConviene distinguir dos términos. **Microbiota** es el conjunto de microorganismos que viven en un lugar. **Microbioma** incluye a esos microorganismos, sus genes y el ambiente que crean. En la práctica, ambos términos se usan a menudo como sinónimos, pero es útil conocer la diferencia."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Un mapa de microambientes"
+        },
+        {
+          "tipo": "texto",
+          "md": "La piel no es un territorio uniforme. En 2009, Elizabeth Grice, Julia Segre y su equipo publicaron en *Science* un estudio que analizó la microbiota de distintas regiones del cuerpo y confirmó que se agrupa según el microambiente: las zonas **sebáceas**, ricas en grasa; las zonas **húmedas**, como pliegues y axilas; y las zonas **secas**, como antebrazos y piernas. Cada una favorece a grupos de microorganismos diferentes, del mismo modo que un desierto, un bosque húmedo y una pradera tienen fauna distinta."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Microambientes de la piel y sus habitantes más característicos",
+          "columnas": ["Microambiente", "Ejemplos de zonas", "Microorganismos predominantes"],
+          "filas": [
+            ["Sebáceo", "Frente, alas de la nariz, espalda, zona detrás de las orejas", "Cutibacterium, sobre todo C. acnes, y hongos del género Malassezia"],
+            ["Húmedo", "Axilas, ingles, pliegue del codo, espacio entre dedos de los pies", "Staphylococcus y Corynebacterium"],
+            ["Seco", "Antebrazos, palmas, piernas", "Comunidades más diversas y variables, con distintos grupos de bacterias"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m04/d4",
+          "pie": "Mapa corporal de microambientes: sebáceos, húmedos y secos, cada uno con sus habitantes típicos.",
+          "descripcion": "Silueta humana neutra de frente y de espaldas, sin rasgos de género marcados. Zonas coloreadas en tres tonos: un tono para las zonas sebáceas (frente, alas de la nariz, centro del pecho, parte alta de la espalda, detrás de las orejas), otro para las zonas húmedas (axilas, pliegues del codo, ingles, entre los dedos de los pies) y otro para las zonas secas (antebrazos, palmas, piernas). Una leyenda lateral con los tres microambientes y el género microbiano característico de cada uno. Un pequeño recuadro ampliado muestra un folículo con ácaros Demodex.",
+          "elementos": [
+            "Zona sebácea",
+            "Zona húmeda",
+            "Zona seca",
+            "Cutibacterium acnes",
+            "Malassezia",
+            "Staphylococcus",
+            "Corynebacterium",
+            "Demodex en el folículo"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cómo nos ayudan"
+        },
+        {
+          "tipo": "texto",
+          "md": "La microbiota residente protege de varias formas. Primero, **ocupa espacio y consume nutrientes**, lo que deja menos oportunidades a los microbios dañinos. Segundo, algunas bacterias **producen sustancias antimicrobianas**: ciertas cepas de *Staphylococcus epidermidis* y de *Staphylococcus hominis* fabrican moléculas que frenan a *Staphylococcus aureus*, una bacteria que puede causar infecciones. Un estudio de Nakatsuji y colaboradores, publicado en 2017, encontró que estas cepas protectoras eran menos frecuentes en personas con dermatitis atópica.\n\nTercero, la microbiota **dialoga con el sistema inmunitario**: ayuda a que las defensas de la piel aprendan a distinguir entre lo inofensivo y lo peligroso. Por último, participa en la química de la superficie, por ejemplo al degradar triglicéridos del sebo y liberar ácidos grasos que contribuyen a la acidez."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "Diminutos inquilinos en los folículos",
+          "md": "Los ácaros del género *Demodex*, sobre todo *D. folliculorum* y *D. brevis*, viven en los folículos y glándulas sebáceas del rostro de la mayoría de las personas adultas. Miden menos de medio milímetro y no se ven a simple vista. Su presencia es normal; algunos estudios han encontrado densidades más altas en ciertas formas de rosácea, pero eso no significa que deban eliminarse con productos caseros. Cualquier sospecha de enfermedad corresponde al dermatólogo."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/10",
+          "proporcion": "16:9",
+          "alt": "Grupo diverso de personas de distintas edades y tonos de piel conversando al aire libre en un parque.",
+          "pie": "Cada persona tiene una microbiota propia, influida por su edad, su piel, su entorno y su convivencia.",
+          "prompt": "Fotografía editorial realista en formato horizontal de un grupo diverso de cinco personas conversando relajadamente en un parque soleado al atardecer: una adolescente de piel morena clara, un hombre mayor de piel oscura con canas, una mujer de unos cuarenta años de piel clara con pecas, un joven de piel morena y una mujer de unos treinta años de piel oscura sosteniendo a un perro pequeño. Ropa en tonos crema, beige y rosa empolvado, luz dorada cálida, expresiones naturales y amables. Evitar: texto, logotipos, marcas en la ropa, poses forzadas, personas famosas, filtros saturados."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Disbiosis: cuando el equilibrio se rompe"
+        },
+        {
+          "tipo": "texto",
+          "md": "Se llama **disbiosis** al desequilibrio de la comunidad microbiana: pierde diversidad o un grupo crece en exceso. La investigación la ha asociado con varias condiciones de la piel. En la dermatitis atópica, durante los brotes aumenta la proporción de *S. aureus*, como mostró el trabajo de Heidi Kong y colaboradores en 2012. En el acné, más que la cantidad de *C. acnes*, parece importar el equilibrio entre distintas cepas y su interacción con la inflamación. En la caspa y la dermatitis seborreica participan los hongos *Malassezia*, junto con factores propios de la persona.\n\nLa relación entre microbioma y enfermedad es de doble vía y todavía se estudia: no siempre se sabe si el desequilibrio es causa o consecuencia. Por eso, ante una enfermedad de la piel, el diagnóstico y el tratamiento corresponden al dermatólogo, y no a un producto que promete «equilibrar la flora»."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Más allá del nivel de especie",
+          "md": "La secuenciación del gen 16S del ARN ribosómico identifica bacterias generalmente hasta el nivel de género, mientras que la secuenciación metagenómica completa permite distinguir especies y cepas, además de hongos y virus. Esa diferencia técnica cambió la interpretación de varios hallazgos: por ejemplo, *C. acnes* incluye filotipos con distinta capacidad de promover inflamación, y en personas con acné se ha descrito una composición de filotipos diferente a la de personas sin acné. Del mismo modo, no todas las cepas de *S. epidermidis* son protectoras. La lección para el profesional es desconfiar de mensajes simples como «bacteria buena» y «bacteria mala»."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Lo que modifica el microbioma"
+        },
+        {
+          "tipo": "lista",
+          "items": [
+            "La edad: el tipo de nacimiento y los primeros meses influyen en la colonización inicial, y en la pubertad el aumento de sebo favorece a Cutibacterium.",
+            "La región del cuerpo, por su humedad, temperatura y cantidad de sebo.",
+            "La higiene excesiva y los antisépticos usados sin necesidad en la piel sana.",
+            "Los antibióticos y otros medicamentos, siempre bajo indicación médica.",
+            "Los cosméticos, la ropa oclusiva y la sudoración prolongada.",
+            "El clima, la ocupación, las mascotas y las personas con quienes se convive."
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Un dato tranquilizador: en las personas adultas sanas, la microbiota de cada zona es bastante estable a lo largo de meses, y después de un lavado normal se repone a partir de los microorganismos que quedan en los folículos y en las capas profundas del estrato córneo. Lo que la altera de forma más duradera es la agresión repetida: antisépticos diarios sin necesidad, exfoliación constante o una barrera que permanece dañada. Cuidar la barrera es, por lo tanto, la mejor forma de cuidar a sus habitantes."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Prebióticos, probióticos y posbióticos en cosmética"
+        },
+        {
+          "tipo": "texto",
+          "md": "La Asociación Científica Internacional de Probióticos y Prebióticos (ISAPP) define los **probióticos** como microorganismos vivos que, en cantidades adecuadas, aportan un beneficio a la salud, y los **posbióticos** como preparaciones de microorganismos inanimados o sus componentes que aportan un beneficio. Los **prebióticos** son sustratos que favorecen de forma selectiva a microorganismos beneficiosos.\n\nEn cosmética, muchos productos que se anuncian como «probióticos» contienen en realidad lisados o fermentos de bacterias, es decir, microorganismos no vivos; en términos estrictos se parecen más a posbióticos. La investigación en piel avanza, pero la evidencia de beneficios clínicos todavía es limitada y heterogénea. Como profesional, puedes presentarlos como una línea interesante, sin prometer que «curan» ni que sustituyen el cuidado básico."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/11",
+          "proporcion": "4:3",
+          "alt": "Microbióloga de piel morena observa una placa de cultivo con colonias redondas en un laboratorio luminoso.",
+          "pie": "Las técnicas de laboratorio permiten estudiar qué microorganismos habitan cada zona de la piel.",
+          "prompt": "Fotografía editorial realista en formato 4:3 de una microbióloga de unos treinta y cinco años con piel morena de fototipo IV, bata blanca, guantes de nitrilo, lentes de seguridad y cabello recogido, sosteniendo a contraluz una placa de Petri con pequeñas colonias redondas de color crema. Laboratorio luminoso y ordenado con campana de flujo al fondo desenfocada, superficies blancas y acentos en rosa empolvado. Luz cálida y suave, expresión concentrada. Evitar: texto, etiquetas legibles, logotipos, marcas, contenido biológico desagradable, sangre, colores fluorescentes."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "relacionar",
+          "titulo": "Cada quien en su lugar",
+          "instruccion": "Relaciona cada microorganismo o concepto con su descripción.",
+          "pares": [
+            { "a": "Cutibacterium acnes", "b": "Bacteria abundante en zonas sebáceas como la frente y la nariz" },
+            { "a": "Malassezia", "b": "Hongo que aprovecha los lípidos del sebo" },
+            { "a": "Staphylococcus epidermidis", "b": "Residente habitual; algunas cepas producen sustancias que frenan a S. aureus" },
+            { "a": "Demodex", "b": "Ácaro microscópico que vive en los folículos del rostro" },
+            { "a": "Disbiosis", "b": "Desequilibrio de la comunidad microbiana" },
+            { "a": "Posbiótico", "b": "Preparación de microorganismos inanimados o sus componentes" }
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/12",
+          "proporcion": "1:1",
+          "alt": "Manos de una cosmetóloga con guantes colocando un limpiador suave en un disco de algodón reutilizable.",
+          "pie": "En cabina, la higiene rigurosa se dirige a manos, instrumentos y superficies; en la piel sana basta una limpieza respetuosa.",
+          "prompt": "Fotografía editorial realista en formato cuadrado, primer plano de las manos de una cosmetóloga con guantes de nitrilo color rosa pálido, vertiendo un limpiador lechoso desde un frasco de vidrio sin etiqueta sobre un disco de algodón. Bandeja de acero inoxidable limpia con pinzas y cuencos ordenados, fondo de cabina en tonos crema con luz cálida lateral y suave. Sensación de orden, higiene y delicadeza. Evitar: texto, etiquetas, logotipos, marcas, manos sin guantes, productos derramados, desorden, instrumental médico invasivo."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Separa dos tipos de higiene: la de la cabina, que debe ser estricta con manos, instrumentos y superficies, y la de la piel sana del cliente, que debe ser respetuosa. Desaconseja el uso diario de geles antibacteriales o antisépticos en el rostro si no hay indicación médica, porque arrasan con la microbiota residente junto con lo que se quiere eliminar. Si alguien te cuenta que tiene brotes, comezón o lesiones que reaparecen, no intentes «equilibrar su microbioma» con productos: sugiere una consulta dermatológica."
+        }
+      ],
+      "glosario": [
+        { "termino": "Microbiota", "definicion": "Conjunto de microorganismos que viven en un lugar determinado, como la piel." },
+        { "termino": "Microbioma", "definicion": "Microorganismos de un lugar junto con sus genes y el ambiente que crean." },
+        { "termino": "Disbiosis", "definicion": "Desequilibrio de la comunidad microbiana por pérdida de diversidad o crecimiento excesivo de un grupo." },
+        { "termino": "Probiótico", "definicion": "Microorganismo vivo que, en cantidad adecuada, aporta un beneficio a la salud." },
+        { "termino": "Posbiótico", "definicion": "Preparación de microorganismos inanimados o de sus componentes que aporta un beneficio." },
+        { "termino": "Demodex", "definicion": "Género de ácaros microscópicos que habita normalmente los folículos del rostro." }
+      ],
+      "verificacion": [
+        {
+          "id": "t4.4-1",
+          "q": "¿Qué microorganismos predominan en las zonas sebáceas, como la frente y las alas de la nariz?",
+          "opciones": [
+            "Corynebacterium y bacterias de zonas secas",
+            "Virus exclusivamente",
+            "Cutibacterium y hongos Malassezia",
+            "Ninguno, porque el sebo es estéril"
+          ],
+          "correcta": 2,
+          "explicacion": "Cutibacterium y Malassezia aprovechan los lípidos del sebo. Corynebacterium es típico de zonas húmedas y el sebo no es estéril."
+        },
+        {
+          "id": "t4.4-2",
+          "q": "¿Cómo se describen con más precisión muchos productos cosméticos anunciados como «probióticos»?",
+          "opciones": [
+            "Como antibióticos de uso tópico",
+            "Como prebióticos, porque contienen azúcares",
+            "Como vacunas para la piel",
+            "Como posbióticos, porque contienen lisados o fermentos no vivos"
+          ],
+          "correcta": 3,
+          "explicacion": "Los lisados y fermentos son microorganismos inanimados o sus componentes, lo que coincide con la definición de posbiótico."
+        },
+        {
+          "id": "t4.4-3",
+          "q": "Un cliente usa gel antibacterial en el rostro todos los días para «evitar granos». ¿Qué es lo más adecuado?",
+          "opciones": [
+            "Felicitarlo, porque elimina todas las bacterias dañinas",
+            "Explicarle que puede alterar su microbiota y sugerir valoración dermatológica si tiene brotes",
+            "Recomendarle duplicar la frecuencia",
+            "Sugerirle sumar alcohol puro después del gel"
+          ],
+          "correcta": 1,
+          "explicacion": "El antiséptico diario en piel sana arrasa con la microbiota residente e irrita. Si hay brotes, corresponde al dermatólogo valorarlos."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Topographical and temporal diversity of the human skin microbiome", "autor": "Grice EA, et al. Science", "anio": 2009 },
+        { "tipo": "academica", "titulo": "The skin microbiome", "autor": "Grice EA, Segre JA. Nature Reviews Microbiology", "anio": 2011 },
+        { "tipo": "academica", "titulo": "The human skin microbiome", "autor": "Byrd AL, Belkaid Y, Segre JA. Nature Reviews Microbiology", "anio": 2018 },
+        { "tipo": "academica", "titulo": "Temporal shifts in the skin microbiome associated with disease flares and treatment in children with atopic dermatitis", "autor": "Kong HH, et al. Genome Research", "anio": 2012 },
+        { "tipo": "academica", "titulo": "Antimicrobials from human skin commensal bacteria protect against Staphylococcus aureus and are deficient in atopic dermatitis", "autor": "Nakatsuji T, et al. Science Translational Medicine", "anio": 2017 },
+        { "tipo": "academica", "titulo": "The International Scientific Association of Probiotics and Prebiotics (ISAPP) consensus statement on the definition and scope of postbiotics", "autor": "Salminen S, et al. Nature Reviews Gastroenterology and Hepatology", "anio": 2021 }
+      ]
+    },
+    {
+      "n": "4.5",
+      "titulo": "Cuando la barrera se altera: señales, causas y cuidado de apoyo",
+      "minutos": 14,
+      "enPocasPalabras": "Una barrera dañada se nota: la piel tira, se descama, arde con productos que antes toleraba o se enrojece. Las causas más comunes son lavar o exfoliar de más, el clima seco y el sol. El cuidado cosmético puede apoyar su recuperación, pero las enfermedades de la piel las atiende el dermatólogo.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Con lo que has aprendido en este módulo ya puedes entender qué pasa cuando la barrera falla: el mortero se desordena o disminuye, el NMF no alcanza, el pH sube y la microbiota se desequilibra. Cada uno de esos cambios alimenta a los demás. En este tema reunirás las piezas para reconocer las señales en cabina, identificar las causas más frecuentes y orientar un cuidado cosmético de apoyo, con un límite claro: no diagnosticar ni tratar enfermedades."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Señales que puedes observar y escuchar"
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Signos y síntomas frecuentes de una barrera alterada",
+          "items": [
+            "Tirantez después de lavarse, que tarda en desaparecer.",
+            "Descamación fina, aspereza al tacto y aspecto opaco.",
+            "Ardor o escozor con productos que antes se toleraban bien.",
+            "Enrojecimiento difuso que aparece con facilidad ante cambios de temperatura o fricción.",
+            "Superficie con brillo «tirante» o aspecto pulido, típico después de exfoliaciones repetidas.",
+            "Sensación de sensibilidad general y menor tolerancia a fragancias o activos."
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Estas señales se aprecian en todos los fototipos, pero no siempre de la misma forma. En pieles claras el enrojecimiento es evidente; en pieles morenas y oscuras puede verse como un tono más oscuro, violáceo o grisáceo, y la descamación puede dar un aspecto ceniciento. Por eso conviene combinar la observación con preguntas concretas sobre sensaciones: ardor, comezón, tirantez y en qué momento aparecen."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/13",
+          "proporcion": "4:3",
+          "alt": "Cosmetóloga sentada frente a una clienta de piel oscura conversando con una ficha en la mano dentro de una cabina luminosa.",
+          "pie": "La entrevista sobre sensaciones completa lo que se observa, sobre todo en pieles donde el enrojecimiento se aprecia menos.",
+          "prompt": "Fotografía editorial realista en formato 4:3 dentro de una cabina estética cálida en tonos crema y rosa empolvado. Una cosmetóloga de unos treinta años con piel clara de fototipo III, bata clara, cabello recogido y una tablilla con hojas en blanco en la mano, conversa sentada frente a una clienta de unos cuarenta y cinco años con piel oscura de fototipo VI, que describe con un gesto suave cómo siente la mejilla. Luz natural difusa, ambiente de confianza, ambas con expresión atenta y amable. Evitar: texto, escritura legible en las hojas, logotipos, marcas, gestos de dolor, piel lesionada, ambiente hospitalario."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Las causas más frecuentes"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Factores que dañan la barrera y qué conviene hacer",
+          "columnas": ["Factor", "Por qué daña", "Qué conviene"],
+          "filas": [
+            ["Limpieza excesiva", "Retira lípidos y eleva el pH una y otra vez", "Limpiar como máximo dos veces al día con un limpiador suave"],
+            ["Agua muy caliente", "Disuelve más lípidos y favorece la evaporación posterior", "Usar agua tibia y duchas breves"],
+            ["Exfoliación frecuente", "Acelera la pérdida de corneocitos y adelgaza la pared", "Espaciar o suspender exfoliantes mientras haya sensibilidad"],
+            ["Clima seco, frío o viento", "La baja humedad aumenta la evaporación y exige más al NMF", "Reforzar la hidratación y proteger del viento"],
+            ["Sol sin protección", "La radiación ultravioleta altera lípidos y provoca inflamación", "Fotoprotección diaria y sombra"],
+            ["Lavado de manos muy frecuente", "La suma de agua, jabón y fricción retira lípidos", "Aplicar crema de manos tras el lavado y preferir productos con emolientes"],
+            ["Estrés y poco descanso", "Estudios en personas muestran recuperación más lenta de la barrera bajo estrés psicológico", "Cuidar el sueño y no compensar con más productos"]
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Algunas ocupaciones exigen mucho a la barrera de las manos: personal de salud, cocineros, estilistas, trabajadores de limpieza y, también, profesionales de la estética que se lavan las manos y usan guantes muchas veces al día. La humedad bajo el guante, el contacto repetido con agua y detergentes y la fricción se suman. La Organización Mundial de la Salud, en sus guías de higiene de manos, recomienda el uso regular de cremas o lociones protectoras para reducir la dermatitis irritativa del personal. Predicar con el ejemplo cuidando tus propias manos también es parte de tu profesionalismo."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m04/d5",
+          "pie": "El círculo vicioso de la barrera alterada: cada paso alimenta al siguiente.",
+          "descripcion": "Diagrama circular con cinco nodos conectados por flechas en el sentido de las agujas del reloj. Nodo 1: barrera alterada con pérdida de agua. Nodo 2: entrada de irritantes y alérgenos. Nodo 3: inflamación. Nodo 4: comezón o ardor. Nodo 5: rascado, frotamiento o más productos. La flecha del nodo 5 regresa al nodo 1. En el centro, un círculo pequeño con la frase que resume la salida del ciclo: proteger, simplificar y derivar si persiste.",
+          "elementos": [
+            "Barrera alterada",
+            "Entrada de irritantes",
+            "Inflamación",
+            "Comezón o ardor",
+            "Rascado o exceso de productos",
+            "Proteger, simplificar y derivar si persiste"
+          ]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "mexico",
+          "titulo": "Climas contrastantes en el país",
+          "md": "México reúne climas muy distintos: zonas áridas y semiáridas en el norte y el altiplano, con aire seco y grandes cambios de temperatura entre el día y la noche; costas cálidas y húmedas donde la sudoración es abundante; y ciudades de altura, como la Ciudad de México, situada a unos 2,240 metros sobre el nivel del mar, donde la temporada seca de invierno y primavera se suma a una radiación solar intensa. Una misma persona puede necesitar ajustar su rutina si se muda o viaja entre regiones. Al recomendar cuidados, pregunta dónde vive y trabaja tu cliente."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cuidado cosmético de apoyo"
+        },
+        {
+          "tipo": "pasos",
+          "titulo": "Principios para acompañar una barrera frágil",
+          "pasos": [
+            { "titulo": "Simplificar", "md": "Reducir la rutina a lo esencial: limpieza suave, hidratante y fotoprotección. Cuantos menos productos, menos posibilidades de irritación y más fácil identificar qué molesta." },
+            { "titulo": "Pausar lo que exige", "md": "Suspender temporalmente exfoliantes, retinoides cosméticos, mascarillas con fragancia intensa y procedimientos de cabina que rompan la superficie, hasta que la piel se sienta cómoda." },
+            { "titulo": "Reponer agua y lípidos", "md": "Elegir hidratantes que combinen humectantes, como la glicerina, con emolientes y oclusivos ligeros. Los productos con lípidos fisiológicos, como ceramidas, colesterol y ácidos grasos, buscan complementar el mortero." },
+            { "titulo": "Reducir la evaporación", "md": "Los oclusivos, como el petrolato o algunas ceras, forman una película que frena la pérdida de agua. Son útiles en zonas muy secas, aplicados en capa fina, sobre todo por la noche." },
+            { "titulo": "Proteger", "md": "Mantener la fotoprotección diaria y cuidar la piel del viento, del frío y del agua muy caliente." },
+            { "titulo": "Observar y derivar", "md": "Si en un par de semanas con cuidados suaves no hay mejoría, o aparecen señales de alarma, la persona debe acudir al dermatólogo." }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cuánto tarda la recuperación"
+        },
+        {
+          "tipo": "texto",
+          "md": "Los estudios experimentales muestran que, después de un daño leve, la piel sana empieza a reparar su barrera en pocas horas, gracias a la secreción acelerada de cuerpos lamelares, pero la recuperación completa puede tardar varios días. Cuando el daño se ha repetido durante semanas, como ocurre con el exceso de exfoliantes, la piel puede necesitar varias semanas de cuidados suaves para volver a sentirse cómoda. Explicarlo evita la frustración y el impulso de probar un producto nuevo cada pocos días.\n\nCuando la piel se haya estabilizado, los activos que se habían pausado pueden reintroducirse de uno en uno y de forma gradual, con varios días entre cada cambio. Así, si algo vuelve a irritar, será fácil identificar la causa. Ante cualquier producto nuevo, sugiere una prueba de uso en un área pequeña, como detrás de la oreja o en la zona lateral del cuello, durante algunos días antes de aplicarlo en todo el rostro."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Cuándo no es tu terreno",
+          "md": "Deriva al dermatólogo y no trabajes sobre la zona si observas placas rojas o engrosadas con comezón intensa, grietas profundas, supuración, costras, ampollas, lesiones que sangran, inflamación que se extiende, o brotes que reaparecen. Estas situaciones pueden corresponder a dermatitis atópica, dermatitis de contacto, psoriasis, rosácea, infecciones u otras enfermedades que requieren diagnóstico médico. Tu papel es reconocer la señal, explicar con calma por qué conviene la consulta y registrar lo observado en la ficha."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/14",
+          "proporcion": "3:4",
+          "alt": "Hombre mayor de piel morena aplica crema en el dorso de sus manos después de lavarlas, en una cocina luminosa.",
+          "pie": "Aplicar crema tras el lavado frecuente de manos ayuda a reponer lípidos y agua.",
+          "prompt": "Fotografía editorial realista en formato vertical de un hombre de unos sesenta y cinco años con piel morena de fototipo IV, cabello canoso y camisa de lino crema, aplicando una pequeña cantidad de crema en el dorso de sus manos junto al fregadero de una cocina luminosa, con una toalla de algodón rosa empolvado colgada al lado. Manos con textura real, venas visibles y piel ligeramente seca sin grietas. Luz natural de ventana cálida y suave, ambiente sereno. Evitar: texto, logotipos, marcas, frascos con etiquetas, grietas sangrantes, heridas, retoque excesivo."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m04/15",
+          "proporcion": "16:9",
+          "alt": "Mujer joven de piel clara con bufanda camina por una calle de ciudad en una mañana fría y soleada.",
+          "pie": "El frío, el viento y el aire seco aumentan la pérdida de agua; la protección física complementa al hidratante.",
+          "prompt": "Fotografía editorial realista en formato horizontal de una mujer de unos veintiocho años con piel clara de fototipo II y mejillas con textura natural, caminando por una calle arbolada de una ciudad mexicana de altura en una mañana fría y soleada de invierno. Lleva una bufanda tejida en rosa empolvado, abrigo crema y gorro de lana; el sol bajo crea una luz dorada y suave. Fondo con fachadas coloniales desenfocadas y cielo despejado. Evitar: texto, letreros legibles, logotipos, marcas, personas identificables al fondo, piel agrietada, filtros exagerados."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "caso",
+          "titulo": "Caso en cabina: la piel que arde",
+          "situacion": "Una clienta de 32 años, fototipo III, cuenta que desde hace un mes usa cada noche un exfoliante con ácidos, un sérum con retinol y una mascarilla con fragancia que vio en redes. Ahora siente ardor al aplicar cualquier producto y su piel se ve brillante, tirante y con descamación fina en las mejillas. No tiene placas, ampollas ni lesiones, y pide una limpieza profunda con extracción para «renovar» la piel.",
+          "opciones": [
+            { "texto": "Realizar la limpieza profunda con extracción y un peeling suave para acelerar la renovación.", "correcta": false, "retro": "Romper aún más una barrera sensibilizada aumentaría el ardor y el riesgo de irritación. No es el momento de procedimientos que exigen a la piel." },
+            { "texto": "Posponer la limpieza profunda, explicar el exceso de activos, sugerir una rutina simple de limpieza suave, hidratante y fotoprotección, y derivar si no mejora o aparecen lesiones.", "correcta": true, "retro": "Es la respuesta adecuada: proteges la barrera, explicas la causa probable con lenguaje cosmético y dejas claro cuándo corresponde al dermatólogo." },
+            { "texto": "Recomendar que cambie el retinol por uno más concentrado para que la piel se acostumbre.", "correcta": false, "retro": "Aumentar la exigencia sobre una barrera irritada empeoraría el problema, y no corresponde al profesional de cabina indicar concentraciones." },
+            { "texto": "Indicarle que se trata de una dermatitis y que aplique una crema con corticoide que tenga en casa.", "correcta": false, "retro": "No puedes diagnosticar ni recomendar medicamentos. Si se sospecha una enfermedad, la persona debe ir al dermatólogo." }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Incorpora a tu ficha de valoración tres preguntas fijas: ¿qué productos usas y con qué frecuencia?, ¿cómo sientes la piel después de lavarla? y ¿algún producto te arde últimamente? Con esas respuestas sabrás si conviene trabajar o primero proteger. Cuando la barrera está alterada, el mejor servicio que puedes ofrecer es una sesión calmante sin agresiones, una rutina sencilla para casa y una cita de seguimiento. Explica que una barrera bien cuidada tolera mejor los tratamientos que vendrán después."
+        }
+      ],
+      "glosario": [
+        { "termino": "Humectante", "definicion": "Ingrediente que atrae agua hacia el estrato córneo, como la glicerina." },
+        { "termino": "Emoliente", "definicion": "Ingrediente que suaviza la superficie y rellena los espacios entre corneocitos." },
+        { "termino": "Oclusivo", "definicion": "Ingrediente que forma una película sobre la piel y reduce la evaporación de agua, como el petrolato." },
+        { "termino": "Lípidos fisiológicos", "definicion": "Lípidos similares a los del mortero, como ceramidas, colesterol y ácidos grasos, usados en cosméticos de apoyo a la barrera." },
+        { "termino": "Piel sensibilizada", "definicion": "Piel que reacciona con ardor o enrojecimiento ante estímulos que antes toleraba, a menudo por barrera alterada." }
+      ],
+      "verificacion": [
+        {
+          "id": "t4.5-1",
+          "q": "¿Cómo puede verse una barrera alterada con inflamación en una piel oscura?",
+          "opciones": [
+            "Siempre de color rojo brillante, igual que en piel clara",
+            "Más oscura, violácea o grisácea, a veces con aspecto ceniciento",
+            "Completamente blanca",
+            "Nunca muestra cambios visibles"
+          ],
+          "correcta": 1,
+          "explicacion": "En pieles morenas y oscuras la inflamación puede verse como un tono más oscuro, violáceo o grisáceo, y la descamación como aspecto ceniciento. Por eso la entrevista es esencial."
+        },
+        {
+          "id": "t4.5-2",
+          "q": "¿Qué función cumple un oclusivo como el petrolato?",
+          "opciones": [
+            "Exfolia las células muertas",
+            "Atrae agua desde el ambiente hacia la piel",
+            "Disminuye el pH de la superficie de forma permanente",
+            "Forma una película que reduce la evaporación de agua"
+          ],
+          "correcta": 3,
+          "explicacion": "Los oclusivos frenan la pérdida de agua formando una película. Atraer agua es función de los humectantes y exfoliar no es su papel."
+        },
+        {
+          "id": "t4.5-3",
+          "q": "Durante una valoración observas placas engrosadas con comezón intensa y algunas grietas. ¿Qué haces?",
+          "opciones": [
+            "No trabajas sobre la zona, registras lo observado y sugieres consulta con dermatología",
+            "Aplicas una mascarilla exfoliante para retirar las placas",
+            "Recomiendas una crema medicada que conozcas",
+            "Realizas extracción para limpiar la zona"
+          ],
+          "correcta": 0,
+          "explicacion": "Placas, comezón intensa y grietas son señales que requieren diagnóstico médico. No se trabaja sobre ellas ni se recomiendan medicamentos."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Psychological stress perturbs epidermal permeability barrier homeostasis", "autor": "Garg A, et al. Archives of Dermatology", "anio": 2001 },
+        { "tipo": "academica", "titulo": "Moisturization and skin barrier function", "autor": "Rawlings AV, Harding CR. Dermatologic Therapy", "anio": 2004 },
+        { "tipo": "academica", "titulo": "The skin: an indispensable barrier", "autor": "Proksch E, Brandner JM, Jensen JM. Experimental Dermatology", "anio": 2008 },
+        { "tipo": "oficial", "titulo": "WHO Guidelines on Hand Hygiene in Health Care", "autor": "Organización Mundial de la Salud", "anio": 2009 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en recomendaciones de academias de dermatología sobre piel seca y sensibilizada y en la climatología general de México", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    }
+  ],
+  "minijuego": {
+    "tipo": "sopa",
+    "titulo": "Sopa de letras de la barrera cutánea",
+    "palabras": [
+      "CERAMIDAS",
+      "COLESTEROL",
+      "CORNEOCITO",
+      "FILAGRINA",
+      "MICROBIOMA",
+      "LAMELAR",
+      "BARRERA",
+      "SEBO",
+      "ACIDO",
+      "MANTO",
+      "OCLUSIVO",
+      "HUMECTANTE"
+    ]
+  },
+  "examen": {
+    "aprobar": 70,
+    "mostrar": 10,
+    "preguntas": [
+      {
+        "id": "m04-p01",
+        "q": "¿Qué capa de la piel concentra la mayor parte de la barrera de permeabilidad?",
+        "opciones": ["El estrato basal", "La dermis papilar", "El estrato córneo", "La hipodermis"],
+        "correcta": 2,
+        "explicacion": "El estrato córneo, con sus corneocitos y lípidos, es la principal barrera. El estrato basal produce células nuevas y la dermis e hipodermis cumplen otras funciones."
+      },
+      {
+        "id": "m04-p02",
+        "q": "En el modelo de ladrillos y mortero, los corneodesmosomas equivalen a…",
+        "opciones": ["Los remaches que unen los ladrillos", "El mortero entre ladrillos", "Los ladrillos", "La pintura de la pared"],
+        "correcta": 0,
+        "explicacion": "Los corneodesmosomas son uniones proteicas entre corneocitos, como remaches. El mortero son los lípidos y los ladrillos, los corneocitos."
+      },
+      {
+        "id": "m04-p03",
+        "q": "¿Cuáles son los tres lípidos principales del mortero del estrato córneo?",
+        "opciones": ["Triglicéridos, escualeno y ésteres de cera", "Fosfolípidos, glucosa y colágeno", "Melanina, queratina y elastina", "Ceramidas, colesterol y ácidos grasos libres"],
+        "correcta": 3,
+        "explicacion": "El mortero lo forman ceramidas, colesterol y ácidos grasos libres. Triglicéridos, escualeno y ésteres de cera son del sebo."
+      },
+      {
+        "id": "m04-p04",
+        "q": "¿Dónde se fabrican los cuerpos lamelares que aportan los precursores del mortero?",
+        "opciones": ["En las glándulas sebáceas", "En el estrato granuloso", "En los melanocitos", "En los fibroblastos de la dermis"],
+        "correcta": 1,
+        "explicacion": "Los queratinocitos del estrato granuloso fabrican los cuerpos lamelares y vierten su contenido entre las células."
+      },
+      {
+        "id": "m04-p05",
+        "q": "¿Por qué aplicar solo uno de los tres lípidos de barrera puede no ayudar a una barrera dañada?",
+        "opciones": ["Porque la barrera necesita los tres en una proporción equilibrada", "Porque los lípidos no penetran nunca en la piel", "Porque el colesterol es tóxico para la piel", "Porque las ceramidas solo existen en la dermis"],
+        "correcta": 0,
+        "explicacion": "Los estudios de Elias y Feingold mostraron que mezclas incompletas pueden retrasar la recuperación y que una mezcla equilibrada la favorece."
+      },
+      {
+        "id": "m04-p06",
+        "q": "¿Qué describe mejor al factor natural de hidratación?",
+        "opciones": ["Una capa de sebo que cubre la piel", "El agua que bebemos a diario", "Moléculas pequeñas dentro de los corneocitos que retienen agua", "Un tipo de bacteria de la piel"],
+        "correcta": 2,
+        "explicacion": "El NMF es una mezcla de aminoácidos, derivados de la filagrina, lactato, urea y sales dentro de los corneocitos."
+      },
+      {
+        "id": "m04-p07",
+        "q": "¿Qué indica una pérdida transepidérmica de agua elevada en un estudio de laboratorio?",
+        "opciones": ["Una barrera más eficiente", "Una mayor producción de melanina", "Exceso de sebo en la superficie", "Una barrera menos eficiente"],
+        "correcta": 3,
+        "explicacion": "Mientras más agua se evapora a través de la piel, menos eficiente es la barrera."
+      },
+      {
+        "id": "m04-p08",
+        "q": "¿Cuál es una fuente de la acidez de la superficie de la piel?",
+        "opciones": ["El colágeno de la dermis", "Los ácidos grasos libres del estrato córneo", "La melanina de la capa basal", "La sangre de los capilares"],
+        "correcta": 1,
+        "explicacion": "Los ácidos grasos libres, el intercambiador sodio-hidrógeno, los derivados de la filagrina y el sudor contribuyen a la acidez."
+      },
+      {
+        "id": "m04-p09",
+        "q": "Si el pH de la superficie se mantiene elevado, ¿qué ocurre con las proteasas que cortan los corneodesmosomas?",
+        "opciones": ["Se vuelven más activas y la pared se adelgaza", "Dejan de existir", "Se transforman en ceramidas", "Producen más melanina"],
+        "correcta": 0,
+        "explicacion": "Las calicreínas son más activas cerca de la neutralidad; cortan los remaches antes de tiempo y adelgazan el estrato córneo."
+      },
+      {
+        "id": "m04-p10",
+        "q": "¿Por qué los jabones tradicionales pueden alterar el manto ácido?",
+        "opciones": ["Porque son ácidos", "Porque contienen ceramidas", "Porque son estériles", "Porque su pH en solución suele ser alcalino, entre 9 y 10"],
+        "correcta": 3,
+        "explicacion": "Los jabones se obtienen con un álcali y su pH en solución es alcalino, lo que eleva temporalmente el pH de la piel."
+      },
+      {
+        "id": "m04-p11",
+        "q": "¿Qué zona del cuerpo es un microambiente húmedo donde predominan Staphylococcus y Corynebacterium?",
+        "opciones": ["La frente", "Las axilas", "El antebrazo", "Las alas de la nariz"],
+        "correcta": 1,
+        "explicacion": "Axilas, ingles y pliegues son zonas húmedas. Frente y nariz son sebáceas y el antebrazo es una zona seca."
+      },
+      {
+        "id": "m04-p12",
+        "q": "¿Qué es la disbiosis?",
+        "opciones": ["Una infección causada siempre por hongos", "La ausencia total de microbios en la piel", "Un desequilibrio de la comunidad microbiana", "Un tipo de limpiador suave"],
+        "correcta": 2,
+        "explicacion": "La disbiosis es la pérdida de diversidad o el crecimiento excesivo de un grupo dentro de la comunidad microbiana."
+      },
+      {
+        "id": "m04-p13",
+        "q": "Una clienta de fototipo V presenta tirantez, aspecto ceniciento y ardor con su crema habitual, sin placas ni lesiones. ¿Qué enfoque es más adecuado en cabina?",
+        "opciones": ["Peeling para retirar la capa ceniza", "Extracción profunda y vapor prolongado", "Recomendar jabón de barra para limpiar mejor", "Sesión calmante, rutina simple con limpieza suave, hidratante y fotoprotección, y seguimiento"],
+        "correcta": 3,
+        "explicacion": "Las señales apuntan a barrera alterada. Lo adecuado es proteger y simplificar; exfoliar, extraer o usar jabón alcalino la dañaría más."
+      },
+      {
+        "id": "m04-p14",
+        "q": "Un cliente quiere comprar un cosmético que promete «curar la dermatitis equilibrando la flora». ¿Qué le dices?",
+        "opciones": ["Que la dermatitis requiere diagnóstico y tratamiento del dermatólogo, y que esos productos no sustituyen la consulta", "Que lo use en lugar de ir al médico", "Que lo mezcle con alcohol para potenciarlo", "Que todos los probióticos cosméticos curan enfermedades"],
+        "correcta": 0,
+        "explicacion": "Las enfermedades de la piel corresponden al dermatólogo. La evidencia de los cosméticos con probióticos o posbióticos es limitada y no curan enfermedades."
+      },
+      {
+        "id": "m04-p15",
+        "q": "Durante la valoración, una persona muestra ampollas y zonas con supuración en el rostro. ¿Qué haces?",
+        "opciones": ["Realizas una limpieza profunda para retirar la supuración", "Aplicas un exfoliante enzimático", "No trabajas sobre la zona y sugieres atención médica dermatológica", "Recomiendas una crema antibiótica de venta libre"],
+        "correcta": 2,
+        "explicacion": "Ampollas y supuración son señales de alarma que requieren diagnóstico médico. No se trabaja sobre ellas ni se recomiendan medicamentos."
+      },
+      {
+        "id": "m04-p16",
+        "q": "¿Qué combinación de ingredientes describe mejor un hidratante pensado para apoyar la barrera?",
+        "opciones": ["Solo fragancia y alcohol", "Humectantes, emolientes, oclusivos ligeros y lípidos fisiológicos", "Exfoliantes y tensioactivos fuertes", "Bicarbonato y jugo de limón"],
+        "correcta": 1,
+        "explicacion": "La combinación de humectantes, emolientes, oclusivos y lípidos fisiológicos atrae agua, suaviza y reduce la evaporación. Las demás opciones irritan o alteran el pH."
+      }
+    ]
+  },
+  "fuentes": [
+    { "tipo": "academica", "titulo": "The skin: an indispensable barrier", "autor": "Proksch E, Brandner JM, Jensen JM. Experimental Dermatology", "anio": 2008 },
+    { "tipo": "academica", "titulo": "Thematic review series: skin lipids. The role of epidermal lipids in cutaneous permeability barrier homeostasis", "autor": "Feingold KR. Journal of Lipid Research", "anio": 2007 },
+    { "tipo": "academica", "titulo": "The human skin microbiome", "autor": "Byrd AL, Belkaid Y, Segre JA. Nature Reviews Microbiology", "anio": 2018 },
+    { "tipo": "academica", "titulo": "Skin pH: from basic science to basic skin care", "autor": "Ali SM, Yosipovitch G. Acta Dermato-Venereologica", "anio": 2013 },
+    { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en textos universitarios de dermatología y cosmetología", "autor": "Dermalysse", "anio": 2026 }
+  ]
+}

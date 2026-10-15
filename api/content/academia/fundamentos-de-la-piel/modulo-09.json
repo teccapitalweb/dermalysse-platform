@@ -1,0 +1,746 @@
+{
+  "programa": "fundamentos-de-la-piel",
+  "modulo": 9,
+  "titulo": "Factores externos: sol, contaminación, clima y estilo de vida",
+  "estado": "borrador",
+  "version": 1,
+  "resumen": "La piel está en contacto permanente con el entorno, y buena parte de su envejecimiento y de sus estados depende de lo que recibe desde fuera. En este módulo conoces el concepto de exposoma y estudias sus factores principales: la radiación solar en todas sus bandas, el índice UV y la altitud en México, la contaminación del aire, el clima y las estaciones, y hábitos como el tabaco, el sueño, el estrés y la alimentación. Aprendes a traducir ese conocimiento en recomendaciones de fotoprotección y cuidado realistas, sin prometer resultados y sabiendo cuándo derivar.",
+  "objetivos": [
+    "Explicar el concepto de exposoma y los mecanismos comunes por los que los factores externos dañan la piel.",
+    "Diferenciar las bandas de la radiación solar (UVB, UVA, luz visible e infrarrojo) y sus efectos en la piel.",
+    "Interpretar el índice UV y los factores geográficos que aumentan la radiación en México, como la latitud y la altitud.",
+    "Describir cómo la contaminación del aire, la humedad, la temperatura y las estaciones modifican el estado de la piel.",
+    "Relacionar el tabaco, el sueño, el estrés y la alimentación con cambios cutáneos, y orientar hábitos con base en la evidencia disponible."
+  ],
+  "duracionMin": 110,
+  "portada": {
+    "id": "fundamentos-de-la-piel/m09/portada",
+    "proporcion": "16:9",
+    "alt": "Una mujer joven camina por una calle soleada de una ciudad mexicana con sombrero de ala ancha y lentes de sol.",
+    "prompt": "Fotografía editorial realista y luminosa de una mujer de unos treinta años, fototipo V, que camina por la banqueta sombreada de una calle de una ciudad mexicana con fachadas coloniales en tonos crema, ocre y rosa empolvado. Lleva sombrero de ala ancha de paja, lentes de sol y una blusa ligera de manga larga color crema. Al fondo, árboles y cielo despejado de mediodía con luz intensa. Piel con textura natural, expresión tranquila. Encuadre horizontal a media distancia. Evitar: texto, letreros legibles, marcas, logotipos, autos con placas visibles, retoque digital, personas reales o famosas."
+  },
+  "temas": [
+    {
+      "n": "9.1",
+      "titulo": "El exposoma: la piel frente al entorno",
+      "minutos": 14,
+      "enPocasPalabras": "El exposoma es todo lo que recibe tu piel desde fuera a lo largo de la vida: sol, contaminación, humo de tabaco, clima, comida, sueño, estrés y productos. Muchos de estos factores dañan la piel de formas parecidas, y casi todos se pueden reducir con hábitos.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "En el módulo anterior viste que el envejecimiento de la piel tiene una parte intrínseca, ligada al paso del tiempo, y una parte extrínseca, que añaden los factores externos. Este módulo se dedica a esa segunda parte. Para estudiarla, la ciencia usa un concepto que conviene dominar: el **exposoma**. Comprenderlo te permite ver la piel de cada persona como el resultado de su historia de exposiciones, y explicarle con fundamentos qué puede hacer para protegerla."
+        },
+        { "tipo": "subtitulo", "texto": "Qué es el exposoma" },
+        {
+          "tipo": "texto",
+          "md": "El término **exposoma** lo propuso en 2005 el epidemiólogo Christopher Wild para describir el conjunto de exposiciones ambientales que recibe una persona desde la concepción hasta la muerte, como complemento del genoma. En 2017, un grupo de dermatólogos encabezado por Jean Krutmann aplicó la idea a la piel y definió el **exposoma del envejecimiento cutáneo**.\n\nSegún esa propuesta, los factores principales son la radiación solar, la contaminación del aire, el humo de tabaco, la alimentación, varios factores individuales menos estudiados, como el sueño y el estrés, y los productos cosméticos. Todos actúan durante décadas, se suman entre sí y su efecto depende también del fototipo, la edad y la genética de cada persona."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m09/d1",
+          "pie": "El exposoma de la piel: factores externos que actúan durante toda la vida.",
+          "descripcion": "Diagrama radial. En el centro, un círculo con un corte simple de piel. Alrededor, seis sectores iguales con un icono y una etiqueta cada uno. Entre los sectores y el centro, un anillo con los mecanismos comunes de daño. Una flecha curva alrededor de todo el diagrama indica el paso de los años.",
+          "elementos": ["Piel", "Radiación solar", "Contaminación del aire", "Humo de tabaco", "Alimentación", "Sueño y estrés", "Productos cosméticos", "Mecanismos comunes: estrés oxidativo, inflamación, daño a la barrera", "A lo largo de toda la vida"]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/01",
+          "proporcion": "16:9",
+          "alt": "Composición de escenas cotidianas: una calle soleada, tráfico urbano y una persona descansando.",
+          "pie": "Sol, aire urbano y hábitos diarios forman parte del exposoma de cada persona.",
+          "prompt": "Fotografía editorial realista en formato horizontal de una escena urbana cotidiana en una ciudad mexicana a media tarde: en primer plano, un hombre de unos cuarenta años, fototipo IV, espera en una parada de autobús bajo un techo que da sombra; detrás, una avenida con tráfico desenfocado y una ligera bruma en el horizonte; a un lado, la luz del sol cae sobre una banqueta. Paleta cálida de tonos crema, ocre y rosa empolvado. Piel con textura natural, expresión neutra. Evitar: texto, letreros legibles, marcas, logotipos, placas de autos, humo dramático, retoque digital, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Mecanismos que se repiten" },
+        {
+          "tipo": "texto",
+          "md": "Aunque los factores del exposoma son muy distintos entre sí, dañan la piel por caminos parecidos. El primero es el **estrés oxidativo**: la producción de especies reactivas de oxígeno, moléculas inestables que dañan lípidos, proteínas y ADN cuando superan la capacidad antioxidante de la piel. El segundo es la **inflamación** crónica de bajo grado, que activa enzimas como las metaloproteinasas que degradan el colágeno. El tercero es el **daño a la barrera**, que aumenta la pérdida de agua y la reactividad.\n\nA estos se suman efectos sobre los melanocitos, que responden con más pigmento, y sobre la reparación del ADN. Que los mecanismos se repitan explica por qué los factores se potencian: por ejemplo, la contaminación y la radiación solar juntas producen más daño oxidativo que cada una por separado."
+        },
+        { "tipo": "subtitulo", "texto": "La misma exposición no afecta igual a todos" },
+        {
+          "tipo": "texto",
+          "md": "El efecto del exposoma depende de quién lo recibe. En los fototipos I y II, el sol se traduce sobre todo en quemaduras, arrugas finas, vasos visibles y mayor riesgo de cáncer de piel. En los fototipos IV a VI, la mayor cantidad de melanina ofrece más protección frente a la quemadura, pero la respuesta más visible al sol, a la luz visible, a la contaminación y a la inflamación suele ser **pigmentaria**: manchas y tono desigual, más que arrugas tempranas. La edad, la genética y el estado previo de la barrera también modulan la respuesta. Por eso una misma recomendación general se ajusta a cada piel: en unas se insiste en evitar la quemadura; en otras, en prevenir manchas."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Factores del exposoma y sus efectos principales en la piel",
+          "columnas": ["Factor", "Mecanismo principal", "Signos asociados"],
+          "filas": [
+            ["Radiación solar", "Daño al ADN, estrés oxidativo, metaloproteinasas", "Quemadura, manchas, arrugas, cáncer de piel"],
+            ["Contaminación del aire", "Estrés oxidativo, activación de receptores de los queratinocitos", "Manchas pigmentarias, sequedad, irritación"],
+            ["Humo de tabaco", "Estrés oxidativo, menor flujo sanguíneo, degradación del colágeno", "Arrugas, tono apagado, cicatrización lenta"],
+            ["Alimentación", "Glicación del colágeno, influencia en el sebo", "Rigidez de fibras, posible relación con el acné"],
+            ["Sueño y estrés", "Cambios hormonales e inflamatorios, peor recuperación de la barrera", "Aspecto cansado, brotes, reactividad"],
+            ["Productos cosméticos", "Irritación o alergia si se usan mal; protección si se usan bien", "Reactividad o, al contrario, mejor barrera y fotoprotección"]
+          ]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "Lo que enseñan los gemelos",
+          "md": "Los gemelos idénticos comparten el mismo genoma, así que las diferencias en su aspecto reflejan sobre todo su exposoma. Un estudio con fotografías de gemelos idénticos, publicado en 2009 en Plastic and Reconstructive Surgery, encontró que el gemelo con más exposición solar o que fumaba era percibido como mayor que su hermano. Es una forma muy visual de entender que una parte importante del envejecimiento visible no está escrita en los genes."
+        },
+        { "tipo": "subtitulo", "texto": "Lo que sí se puede modificar" },
+        {
+          "tipo": "texto",
+          "md": "La buena noticia del exposoma es que muchos de sus factores dependen, al menos en parte, de decisiones diarias: protegerse del sol, no fumar, limpiar la piel al final del día, dormir lo suficiente, comer de forma variada y elegir pocos productos bien tolerados. No se trata de vivir en una burbuja, sino de **reducir la carga acumulada**.\n\nTambién conviene ser honesta con lo que no se controla: el lugar donde alguien vive o trabaja, su ocupación al aire libre, su acceso a sombra o a productos. En la cabina, las recomendaciones deben ser posibles para la vida real de cada persona. Para un repartidor que pasa ocho horas en la calle, una gorra con protección en la nuca y un protector solar fácil de reaplicar valen más que una rutina de diez pasos."
+        },
+        { "tipo": "subtitulo", "texto": "Los cosméticos también son parte del exposoma" },
+        {
+          "tipo": "texto",
+          "md": "Que los productos cosméticos aparezcan en la lista del exposoma sorprende a muchas personas, pero tiene sentido: son sustancias que se aplican sobre la piel a diario durante años. Bien elegidos, protegen: el protector solar reduce el daño de la radiación y los emolientes apoyan la barrera. Mal usados, suman carga: el exceso de exfoliación, la combinación de muchos activos irritantes, los perfumes y algunos conservadores pueden provocar irritación o alergia de contacto. La regla práctica es **pocos productos, bien tolerados y con una función clara**, e introducir los nuevos de uno en uno para identificar cualquier reacción."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/02",
+          "proporcion": "4:3",
+          "alt": "Un repartidor en bicicleta usa gorra con cubrenuca y manga larga ligera en una calle soleada.",
+          "pie": "Las recomendaciones útiles se adaptan a la vida real de cada persona.",
+          "prompt": "Fotografía editorial realista de un hombre de unos veinticinco años, fototipo VI, detenido junto a su bicicleta en una calle arbolada de una ciudad mexicana, con una gorra con protector de nuca, lentes de sol y una camiseta ligera de manga larga color crema. Sostiene una botella de agua y sonríe con tranquilidad. Luz solar de mediodía filtrada por los árboles, fondo desenfocado con fachadas en tonos rosa empolvado y ocre. Encuadre horizontal a media distancia. Evitar: texto, logotipos, marcas en ropa o bicicleta, letreros legibles, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Especies reactivas de oxígeno y defensa antioxidante",
+          "md": "Las especies reactivas de oxígeno, como el anión superóxido, el peróxido de hidrógeno y el radical hidroxilo, se forman normalmente en el metabolismo celular y cumplen funciones de señalización. La piel cuenta con defensas antioxidantes enzimáticas, como la superóxido dismutasa, la catalasa y la glutatión peroxidasa, y no enzimáticas, como las vitaminas C y E, el glutatión y los carotenoides. El problema aparece cuando la producción supera la capacidad de defensa: se oxidan los lípidos de las membranas y de la capa córnea, se dañan proteínas y ADN y se activan vías inflamatorias y de degradación de la matriz dérmica. La radiación ultravioleta, el ozono, las partículas contaminantes y el humo de tabaco agotan antioxidantes de la capa córnea, lo que explica la suma de sus efectos."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/03",
+          "proporcion": "4:3",
+          "alt": "Una cosmetóloga conversa con una clienta sobre sus hábitos diarios mientras toma notas.",
+          "pie": "Preguntar por la rutina diaria revela los factores del exposoma de cada persona.",
+          "prompt": "Fotografía editorial realista en una cabina estética cálida de tonos crema y rosa empolvado. Una cosmetóloga de unos cuarenta años, fototipo IV, con cabello recogido y uniforme claro, conversa sentada frente a una clienta de unos sesenta años, fototipo II, con cabello corto plateado y blusa lisa, que gesticula con la mano mientras explica algo. La cosmetóloga sostiene una tabla con hojas en blanco y sonríe. Luz natural suave de ventana, encuadre horizontal a media distancia. Evitar: texto legible, logotipos, marcas, documentos con letras, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "relacionar",
+          "titulo": "Relaciona cada factor con su efecto",
+          "instruccion": "Une cada factor del exposoma con el mecanismo o efecto que mejor lo describe.",
+          "pares": [
+            { "a": "Radiación ultravioleta", "b": "Daño directo e indirecto al ADN y aumento de enzimas que degradan colágeno" },
+            { "a": "Partículas contaminantes", "b": "Estrés oxidativo y asociación con manchas pigmentarias" },
+            { "a": "Humo de tabaco", "b": "Menor flujo sanguíneo en la piel y cicatrización más lenta" },
+            { "a": "Sueño insuficiente", "b": "Peor recuperación de la barrera y aspecto cansado" },
+            { "a": "Exceso de productos", "b": "Irritación y reactividad por uso inadecuado" }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Agrega a tu entrevista un bloque breve de exposoma: ¿cuántas horas pasa al aire libre y en qué horario?, ¿vive en una zona con mucho tráfico?, ¿fuma o convive con fumadores?, ¿cómo duerme?, ¿cuántos productos usa? Con esas cinco preguntas tendrás un mapa de los factores que más pesan en su piel y podrás elegir una o dos recomendaciones realistas para empezar."
+        }
+      ],
+      "glosario": [
+        { "termino": "Exposoma", "definicion": "Conjunto de exposiciones ambientales que recibe una persona a lo largo de la vida y que, junto con su genética, influye en su salud y en su piel." },
+        { "termino": "Estrés oxidativo", "definicion": "Desequilibrio en el que la producción de especies reactivas de oxígeno supera la capacidad antioxidante, con daño a lípidos, proteínas y ADN." },
+        { "termino": "Especies reactivas de oxígeno", "definicion": "Moléculas derivadas del oxígeno, muy reactivas e inestables, que en exceso dañan las estructuras celulares." },
+        { "termino": "Antioxidante", "definicion": "Sustancia o enzima que neutraliza especies reactivas de oxígeno y limita el daño oxidativo." },
+        { "termino": "Inflamación crónica de bajo grado", "definicion": "Respuesta inflamatoria leve pero sostenida que, con el tiempo, contribuye a degradar la matriz de la dermis." }
+      ],
+      "verificacion": [
+        { "id": "t9.1-1", "q": "¿Qué es el exposoma?", "opciones": ["El conjunto de exposiciones ambientales que recibe una persona a lo largo de la vida", "El conjunto de genes que determina el tipo de piel", "Un tipo de protector solar", "La capa más externa de la epidermis"], "correcta": 0, "explicacion": "El exposoma complementa al genoma: reúne lo que la persona recibe del entorno, como sol, contaminación, tabaco, alimentación y hábitos." },
+        { "id": "t9.1-2", "q": "¿Cuál es un mecanismo de daño que comparten varios factores del exposoma?", "opciones": ["El aumento del vérnix", "La producción de lanugo", "El estrés oxidativo", "La formación de corneocitos más grandes"], "correcta": 2, "explicacion": "Sol, contaminación y tabaco, entre otros, generan especies reactivas de oxígeno que superan las defensas antioxidantes de la piel." },
+        { "id": "t9.1-3", "q": "¿Qué mostró el estudio de gemelos idénticos sobre el envejecimiento facial?", "opciones": ["Que la genética lo explica todo", "Que el sol no influye en el aspecto", "Que fumar rejuvenece la piel", "Que el gemelo con más exposición solar o que fumaba se veía mayor"], "correcta": 3, "explicacion": "Al compartir genoma, las diferencias de aspecto entre gemelos reflejan su exposoma, como el sol y el tabaco." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Complementing the genome with an «exposome»: the outstanding challenge of environmental exposure measurement in molecular epidemiology. Cancer Epidemiology, Biomarkers & Prevention 14(8): 1847-1850", "autor": "Wild CP", "anio": 2005 },
+        { "tipo": "academica", "titulo": "The skin aging exposome. Journal of Dermatological Science 85(3): 152-161", "autor": "Krutmann J, Bouloc A, Sore G, Bernard BA, Passeron T", "anio": 2017 },
+        { "tipo": "academica", "titulo": "Factors contributing to the facial aging of identical twins. Plastic and Reconstructive Surgery 123(4): 1321-1331", "autor": "Guyuron B, Rowe DJ, Weinfeld AB, et al.", "anio": 2009 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en revisiones sobre estrés oxidativo y defensa antioxidante en la piel", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "9.2",
+      "titulo": "La radiación solar: UVB, UVA, luz visible e infrarrojo",
+      "minutos": 15,
+      "enPocasPalabras": "La luz del sol trae varios tipos de radiación. La UVB quema y daña el ADN; la UVA entra más profundo, atraviesa los vidrios y envejece la piel; la luz visible puede manchar las pieles morenas, y el infrarrojo da calor. Por eso la protección solar tiene que cubrir varias bandas, no solo la que quema.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "El sol emite energía en un espectro continuo de longitudes de onda, que se miden en nanómetros (nm). Cuanto más corta es la longitud de onda, más energía lleva cada fotón; cuanto más larga, más profundo suele penetrar en la piel. Para la piel interesan cuatro regiones: la **radiación ultravioleta B (UVB)**, la **ultravioleta A (UVA)**, la **luz visible** y la **radiación infrarroja**. Conocer qué hace cada una es la base de cualquier recomendación de fotoprotección."
+        },
+        { "tipo": "subtitulo", "texto": "El espectro solar que llega a la piel" },
+        {
+          "tipo": "tabla",
+          "titulo": "Bandas de la radiación solar y su efecto en la piel",
+          "columnas": ["Banda", "Longitud de onda", "Hasta dónde llega", "Efectos principales"],
+          "filas": [
+            ["UVC", "100 a 280 nm", "La absorben el ozono y la atmósfera; no llega a la superficie", "Solo relevante en fuentes artificiales"],
+            ["UVB", "280 a 315 nm", "Sobre todo la epidermis", "Quemadura solar, daño directo al ADN, bronceado tardío, síntesis de vitamina D"],
+            ["UVA", "315 a 400 nm", "Epidermis y dermis; atraviesa el vidrio", "Oscurecimiento inmediato del pigmento, estrés oxidativo, fotoenvejecimiento, contribución al cáncer de piel"],
+            ["Luz visible", "400 a 700 nm aprox.", "Epidermis y dermis", "Pigmentación persistente en fototipos medios y altos"],
+            ["Infrarrojo A", "760 a 1400 nm aprox.", "Hasta la hipodermis", "Calor; aumento de enzimas que degradan colágeno"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m09/d2",
+          "pie": "Cada banda de la radiación solar alcanza una profundidad distinta en la piel.",
+          "descripcion": "A la izquierda, una franja vertical con el espectro ordenado por longitud de onda, de UVC arriba a infrarrojo abajo. A la derecha, un corte de piel con epidermis, dermis e hipodermis. Desde cada banda sale una flecha horizontal de distinto color que penetra hasta una profundidad diferente: UVC se detiene antes de la piel en una capa de ozono; UVB llega a la epidermis; UVA alcanza la dermis; la luz visible llega a la dermis; el infrarrojo A llega a la hipodermis.",
+          "elementos": ["UVC 100-280 nm: bloqueada por el ozono", "UVB 280-315 nm: epidermis", "UVA 315-400 nm: dermis", "Luz visible 400-700 nm: dermis", "Infrarrojo A 760-1400 nm: hipodermis", "Epidermis", "Dermis", "Hipodermis"]
+        },
+        {
+          "tipo": "texto",
+          "md": "De toda la radiación ultravioleta que llega a la superficie terrestre, alrededor del 95 % es UVA y el resto UVB. La UVB es mucho más intensa en las horas centrales del día y en verano; la UVA es más constante a lo largo del día y del año, y atraviesa las nubes y el vidrio de ventanas. Por eso alguien que trabaja junto a una ventana o maneja muchas horas puede acumular más daño en el lado del cuerpo que queda hacia el vidrio."
+        },
+        { "tipo": "subtitulo", "texto": "UVB: la radiación que quema" },
+        {
+          "tipo": "texto",
+          "md": "La UVB es absorbida directamente por el ADN de las células de la epidermis y produce lesiones características, como los **dímeros de pirimidina**, que la célula debe reparar. Si el daño es excesivo, la célula muere o, si la reparación falla, puede quedar una mutación. La **quemadura solar** es la expresión visible de ese daño: enrojecimiento, calor y dolor que aparecen unas horas después de la exposición.\n\nLa UVB también estimula el **bronceado tardío**, que se nota a los dos o tres días porque los melanocitos fabrican melanina nueva, y es la banda que permite a la piel sintetizar vitamina D. El bronceado es una respuesta de defensa ante el daño, no una señal de salud, y ofrece una protección muy limitada.\n\nSobre la vitamina D, conviene evitar dos extremos. Para sintetizarla no hace falta broncearse ni quemarse: exposiciones cortas y habituales de piel son suficientes para muchas personas, y la alimentación también aporta. Si alguien teme tener deficiencia, la indicación es que lo valore su médico, que puede medirla y decidir si necesita suplementos; no corresponde dejar de protegerse del sol por esa razón."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/04",
+          "proporcion": "4:3",
+          "alt": "Una familia descansa en la playa bajo una sombrilla amplia, con sombreros y ropa ligera de manga larga.",
+          "pie": "En la playa se suman la UVB del mediodía y la radiación que reflejan la arena y el agua.",
+          "prompt": "Fotografía editorial realista y luminosa de una familia mexicana bajo una sombrilla amplia color crema en una playa de arena clara: una mujer de unos cuarenta años, fototipo IV, un niño de unos ocho años, fototipo IV, y un hombre de unos cuarenta y cinco años, fototipo III, todos con sombreros de ala ancha y camisas ligeras de manga larga en tonos rosa empolvado y blanco. Mar turquesa al fondo, luz intensa de mediodía con sombra bien definida. Encuadre horizontal a media distancia. Evitar: texto, logotipos, marcas, quemaduras visibles, piel enrojecida, retoque digital, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "UVA: la radiación que envejece" },
+        {
+          "tipo": "texto",
+          "md": "La UVA, sobre todo la de onda más larga, llamada UVA1 (340 a 400 nm), penetra hasta la dermis. Actúa principalmente de forma indirecta: genera especies reactivas de oxígeno que dañan lípidos, proteínas y ADN, y activa las metaloproteinasas que degradan el colágeno. Por eso tiene un papel central en el fotoenvejecimiento.\n\nTambién produce un **oscurecimiento inmediato del pigmento**, que aparece en minutos por oxidación de la melanina existente y se desvanece en horas, y contribuye a un oscurecimiento más persistente. La Agencia Internacional para la Investigación sobre el Cáncer clasifica la radiación solar y los aparatos de bronceado artificial, que emiten sobre todo UVA, como **carcinógenos del grupo 1**, la categoría con evidencia suficiente en humanos."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Las camas de bronceado no son una alternativa segura",
+          "md": "Las camas y cabinas de bronceado artificial emiten radiación ultravioleta, principalmente UVA, a intensidades que pueden superar a las del sol de mediodía. Su uso se asocia con mayor riesgo de melanoma y de otros cánceres de piel, especialmente cuando se empieza a edad temprana. No recomiendes el bronceado artificial para «preparar la piel» antes de las vacaciones: un bronceado previo no sustituye la fotoprotección y suma daño."
+        },
+        { "tipo": "subtitulo", "texto": "Luz visible e infrarrojo" },
+        {
+          "tipo": "texto",
+          "md": "Durante años se pensó que solo la radiación ultravioleta importaba para la piel. Hoy se sabe que la **luz visible**, en especial la de alta energía, azul y violeta, puede inducir una pigmentación intensa y duradera en fototipos medios y altos; un estudio de 2010 mostró este efecto en fototipos IV a VI y no en fototipo II. Más tarde se describió que los melanocitos detectan la luz azul mediante un receptor llamado opsina 3. Esto es especialmente relevante en la población mexicana y en personas con tendencia a manchas.\n\nLos protectores con filtros minerales o químicos clásicos protegen poco frente a la luz visible; los **protectores con color** que contienen óxidos de hierro sí la atenúan. En cuanto a las pantallas de los dispositivos, emiten luz azul en cantidades mucho menores que el sol y la evidencia sobre su efecto clínico en la piel es todavía limitada.\n\nEl **infrarrojo A** se percibe como calor y penetra hasta la hipodermis. Estudios de laboratorio y en piel humana mostraron que puede aumentar la producción de metaloproteinasas, por lo que se considera un contribuyente adicional al fotoenvejecimiento."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/05",
+          "proporcion": "3:4",
+          "alt": "Una mujer trabaja frente a una ventana soleada en una oficina luminosa.",
+          "pie": "La UVA atraviesa el vidrio de muchas ventanas: la exposición en interiores también cuenta.",
+          "prompt": "Fotografía editorial realista de una mujer de unos cuarenta y cinco años, fototipo V, con cabello rizado recogido, sentada frente a un escritorio de madera clara junto a una ventana grande por la que entra luz solar directa que ilumina un lado de su rostro y su brazo. Lleva una blusa ligera color rosa empolvado y trabaja con una libreta en blanco. Oficina luminosa en tonos crema con plantas. Encuadre vertical de medio cuerpo, luz cálida de media mañana. Evitar: texto, pantallas con contenido, logotipos, marcas, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Qué mide el FPS y qué no",
+          "md": "El **factor de protección solar (FPS)** se obtiene en laboratorio comparando la dosis de radiación que produce un enrojecimiento mínimo en piel protegida y en piel sin proteger. Como el enrojecimiento lo causa sobre todo la UVB, el FPS refleja principalmente la protección frente a UVB. La protección UVA se evalúa con otros métodos, como el oscurecimiento persistente del pigmento o la longitud de onda crítica, y en la etiqueta aparece como «amplio espectro» o con un indicador específico de UVA, según el país. Además, el FPS se mide aplicando 2 mg de producto por cada centímetro cuadrado de piel; diversos estudios muestran que las personas suelen aplicar bastante menos, por lo que la protección real es menor que la indicada. Ningún protector bloquea el 100 % de la radiación."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/06",
+          "proporcion": "4:3",
+          "alt": "Manos de una persona extienden protector solar con color sobre el dorso de la mano para comparar el tono.",
+          "pie": "Los protectores con color que contienen óxidos de hierro atenúan también la luz visible.",
+          "prompt": "Fotografía editorial realista en primer plano de las manos de una persona de unos treinta años, fototipo VI, que extiende con la yema del dedo una pequeña cantidad de crema con color tostado sobre el dorso de la otra mano, sobre una superficie de mármol color crema con una toalla rosa empolvado doblada. Piel con textura natural, uñas cortas y limpias. Luz natural suave y lateral, encuadre horizontal cerrado. Evitar: texto, logotipos, envases con etiqueta, marcas, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "ordenar",
+          "titulo": "Ordena el espectro solar",
+          "instruccion": "Ordena las bandas de la radiación solar de la longitud de onda más corta a la más larga.",
+          "elementos": [
+            "Ultravioleta C",
+            "Ultravioleta B",
+            "Ultravioleta A2",
+            "Ultravioleta A1",
+            "Luz visible",
+            "Infrarrojo A"
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Cuando recomiendes protección solar, explica en una frase las tres bandas que más importan: «la UVB quema, la UVA envejece y atraviesa ventanas, y la luz visible puede manchar las pieles morenas». Con esa idea, la persona entiende por qué buscar un protector de amplio espectro, por qué usarlo también en días nublados o en interiores con mucha luz y por qué, si tiende a mancharse, puede convenirle uno con color."
+        }
+      ],
+      "glosario": [
+        { "termino": "Radiación ultravioleta B (UVB)", "definicion": "Radiación de 280 a 315 nm que actúa sobre todo en la epidermis; causa quemadura solar y daño directo al ADN." },
+        { "termino": "Radiación ultravioleta A (UVA)", "definicion": "Radiación de 315 a 400 nm que alcanza la dermis, atraviesa el vidrio y contribuye al fotoenvejecimiento y al cáncer de piel." },
+        { "termino": "Luz visible de alta energía", "definicion": "Parte azul y violeta de la luz visible que puede inducir pigmentación persistente en fototipos medios y altos." },
+        { "termino": "Dímeros de pirimidina", "definicion": "Lesiones del ADN producidas por la radiación UVB que la célula debe reparar para evitar mutaciones." },
+        { "termino": "Factor de protección solar (FPS)", "definicion": "Medida de laboratorio de cuánto retrasa un producto el enrojecimiento de la piel; refleja sobre todo protección frente a UVB." },
+        { "termino": "Amplio espectro", "definicion": "Indicación de que un protector solar ofrece protección tanto frente a UVB como frente a UVA." }
+      ],
+      "verificacion": [
+        { "id": "t9.2-1", "q": "¿Qué banda de la radiación solar es la principal responsable de la quemadura solar?", "opciones": ["UVA1", "UVB", "Infrarrojo A", "Luz visible"], "correcta": 1, "explicacion": "La UVB es absorbida por el ADN de la epidermis y es la causa principal del enrojecimiento y la quemadura." },
+        { "id": "t9.2-2", "q": "¿Por qué se recomienda protección UVA aunque la persona esté dentro de una oficina con ventanas?", "opciones": ["Porque la UVC atraviesa las paredes", "Porque la UVB es más intensa en interiores", "Porque el infrarrojo se acumula en las pantallas", "Porque la UVA atraviesa el vidrio de muchas ventanas"], "correcta": 3, "explicacion": "El vidrio común bloquea gran parte de la UVB, pero deja pasar UVA, que contribuye al fotoenvejecimiento." },
+        { "id": "t9.2-3", "q": "¿Qué tipo de protector ayuda a atenuar la luz visible en una persona de fototipo V con tendencia a manchas?", "opciones": ["Un protector con color que contenga óxidos de hierro", "Un aceite bronceador", "Un protector con FPS bajo sin color", "Una crema hidratante sin filtros"], "correcta": 0, "explicacion": "Los óxidos de hierro de los protectores con color atenúan la luz visible, que puede pigmentar fototipos medios y altos." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Impact of long-wavelength UVA and visible light on melanocompetent skin. Journal of Investigative Dermatology 130(8): 2092-2097", "autor": "Mahmoud BH, Ruvolo E, Hexsel CL, et al.", "anio": 2010 },
+        { "tipo": "academica", "titulo": "Melanocytes sense blue light and regulate pigmentation through opsin-3. Journal of Investigative Dermatology 138(1): 171-178", "autor": "Regazzetti C, Sormani L, Debayle D, et al.", "anio": 2018 },
+        { "tipo": "academica", "titulo": "Infrared radiation-induced matrix metalloproteinase in human skin: implications for protection. Journal of Investigative Dermatology 128(10): 2491-2497", "autor": "Schroeder P, Lademann J, Darvin ME, et al.", "anio": 2008 },
+        { "tipo": "oficial", "titulo": "IARC Monographs Volume 100D: Radiation (solar and ultraviolet radiation)", "autor": "International Agency for Research on Cancer", "anio": 2012 },
+        { "tipo": "oficial", "titulo": "Global Solar UV Index: A Practical Guide", "autor": "Organización Mundial de la Salud, OMM, PNUMA e ICNIRP", "anio": 2002 }
+      ]
+    },
+    {
+      "n": "9.3",
+      "titulo": "El sol en México: índice UV, altitud y fotoprotección práctica",
+      "minutos": 15,
+      "enPocasPalabras": "En México el sol es muy fuerte casi todo el año porque estamos cerca del trópico y muchas ciudades están a gran altura. El índice UV te dice qué tan fuerte está: desde 3 ya hay que protegerse. La protección va por capas: sombra, ropa, sombrero, lentes y protector solar bien aplicado.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "México se extiende aproximadamente entre los 14 y los 32 grados de latitud norte, y el **trópico de Cáncer** cruza el país. Al sur de esa línea, el sol pasa justo por encima de la cabeza dos veces al año, y en casi todo el territorio llega con un ángulo alto durante buena parte del año. A eso se suma que muchas de las ciudades más pobladas están en el altiplano, a más de 2,000 metros sobre el nivel del mar. El resultado es una radiación ultravioleta alta o muy alta en gran parte del país durante muchos meses, lo que convierte la fotoprotección en un tema de salud pública y no solo de estética."
+        },
+        { "tipo": "subtitulo", "texto": "El índice UV" },
+        {
+          "tipo": "texto",
+          "md": "El **índice ultravioleta (IUV)** es una escala internacional, promovida por la Organización Mundial de la Salud junto con otros organismos, que expresa la intensidad de la radiación solar capaz de enrojecer la piel en un lugar y momento determinados. Empieza en 0 y no tiene límite superior: cuanto más alto es el número, mayor es el potencial de daño y menos tiempo tarda la piel en quemarse.\n\nSu gran ventaja es que se comunica con números y colores fáciles de entender. La recomendación general de la OMS es protegerse cuando el índice es 3 o más, y extremar precauciones desde 8. En muchas ciudades mexicanas, alrededor del mediodía, el índice alcanza con frecuencia valores muy altos o extremos."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Categorías del índice UV y recomendaciones generales de la OMS",
+          "columnas": ["Índice UV", "Categoría", "Qué hacer"],
+          "filas": [
+            ["0 a 2", "Bajo", "Protección mínima; lentes de sol en días brillantes"],
+            ["3 a 5", "Moderado", "Buscar sombra al mediodía, ropa, sombrero, lentes y protector solar"],
+            ["6 a 7", "Alto", "Las mismas medidas, con más rigor y reaplicando el protector"],
+            ["8 a 10", "Muy alto", "Evitar el sol en las horas centrales; protección completa"],
+            ["11 o más", "Extremo", "Permanecer en interiores o a la sombra en las horas centrales; protección completa si es imprescindible salir"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m09/d3",
+          "pie": "Escala del índice UV con sus cinco categorías y colores.",
+          "descripcion": "Barra horizontal graduada del 0 al 11 o más, dividida en cinco tramos de color: verde, amarillo, naranja, rojo y violeta. Sobre cada tramo, el nombre de la categoría; debajo, un icono simple con la medida clave: lentes, sombrero, protector, sombra e interior. Una marca en la barra señala un valor típico de mediodía en primavera en el altiplano mexicano.",
+          "elementos": ["0-2 Bajo (verde)", "3-5 Moderado (amarillo)", "6-7 Alto (naranja)", "8-10 Muy alto (rojo)", "11+ Extremo (violeta)", "Protegerse desde 3", "Mediodía de primavera en el altiplano"]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "mexico",
+          "titulo": "Dónde consultar el índice UV",
+          "md": "En la Ciudad de México, el Sistema de Monitoreo Atmosférico (SIMAT) mide la radiación solar y publica el índice UV en su sitio oficial. En primavera se han registrado valores de 11 o más, la categoría extrema, y las autoridades han recomendado reducir las actividades al aire libre aproximadamente entre las 11 y las 16 horas. En otras ciudades, el índice suele estar disponible en los servicios meteorológicos y en las aplicaciones del clima. Enseña a tus clientes a consultarlo igual que consultan si va a llover."
+        },
+        { "tipo": "subtitulo", "texto": "Lo que aumenta la radiación" },
+        {
+          "tipo": "lista",
+          "titulo": "Factores que elevan la radiación ultravioleta",
+          "items": [
+            "Latitud: cuanto más cerca del ecuador, más directa llega la radiación. Gran parte de México está en la zona tropical o muy cerca de ella.",
+            "Altitud: según la OMS, la radiación UV aumenta alrededor de 10 % por cada 1,000 metros, porque hay menos atmósfera que la filtre.",
+            "Hora: la radiación es máxima en torno al mediodía solar. Regla práctica: si tu sombra es más corta que tu estatura, el sol está en su momento más intenso.",
+            "Estación: en México, la primavera y el verano concentran los valores más altos; la primavera seca suele tener cielos despejados.",
+            "Nubes: las nubes delgadas o dispersas dejan pasar buena parte de la radiación; en días nublados también hay riesgo.",
+            "Reflexión: la nieve fresca refleja hasta 80 % de la radiación UV, la espuma del mar alrededor de 25 % y la arena seca alrededor de 15 %, que se suman a la que llega directamente."
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/07",
+          "proporcion": "16:9",
+          "alt": "Dos personas caminan por un sendero de alta montaña con un volcán al fondo, protegidas con sombrero, lentes y manga larga.",
+          "pie": "A mayor altitud, menos atmósfera filtra la radiación ultravioleta.",
+          "prompt": "Fotografía editorial realista de dos personas caminando por un sendero de alta montaña con pastizal y pinos, con un volcán de cumbre nevada al fondo bajo un cielo azul intenso. Una mujer de unos cincuenta años, fototipo III, y un hombre de unos treinta años, fototipo V, llevan sombrero de ala ancha, lentes de sol, camisas de manga larga ligeras en tonos crema y rosa empolvado, y mochilas pequeñas. Luz solar intensa de media mañana, encuadre horizontal amplio. Evitar: texto, logotipos, marcas en ropa o mochilas, piel quemada, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "calculadora",
+          "titulo": "Calcula el efecto de la altitud",
+          "instruccion": "Estima cuánto aumenta el índice UV con la altitud usando la aproximación de la OMS de alrededor de 10 % por cada 1,000 metros. Cambia los valores para comparar una playa con una ciudad del altiplano. Es una estimación didáctica: el índice que publican los servicios oficiales ya incluye la altitud, la latitud, el ozono y las nubes.",
+          "formula": "Índice UV estimado = índice UV a nivel del mar × (1 + 0.1 × altitud en metros ÷ 1,000)",
+          "variables": [
+            { "id": "uvBase", "etiqueta": "Índice UV a nivel del mar", "valor": 10, "unidad": "IUV" },
+            { "id": "altitud", "etiqueta": "Altitud del lugar", "valor": 2240, "unidad": "m" }
+          ],
+          "resultado": { "expresion": "uvBase * (1 + 0.1 * altitud / 1000)", "etiqueta": "Índice UV estimado a esa altitud", "unidad": "IUV", "decimales": 1 }
+        },
+        { "tipo": "subtitulo", "texto": "Fotoprotección por capas" },
+        {
+          "tipo": "pasos",
+          "titulo": "Las capas de la fotoprotección, de la más a la menos eficaz",
+          "pasos": [
+            { "titulo": "Sombra y horario", "md": "La medida más eficaz es reducir la exposición en las horas de máxima radiación y buscar sombra. Planear las actividades al aire libre temprano o al final de la tarde marca una gran diferencia." },
+            { "titulo": "Ropa", "md": "La ropa de tejido cerrado y manga larga protege de forma constante y no necesita reaplicarse. Algunas prendas indican un factor de protección ultravioleta en la etiqueta." },
+            { "titulo": "Sombrero y lentes", "md": "Un sombrero de ala ancha protege rostro, orejas y cuello, zonas donde se concentra el daño. Los lentes con filtro UV protegen los ojos y la piel delgada que los rodea." },
+            { "titulo": "Protector solar en la piel descubierta", "md": "Elige uno de amplio espectro con FPS 30 o más, como recomienda la American Academy of Dermatology, y aplica una cantidad generosa en todas las zonas que la ropa no cubre, incluidas orejas, cuello y dorso de las manos." },
+            { "titulo": "Reaplicación", "md": "Reaplica aproximadamente cada dos horas al aire libre y siempre después de nadar, sudar mucho o secarte con toalla. Un protector resistente al agua conserva su eficacia solo durante el tiempo que indique su etiqueta." }
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "El mejor protector es el que la persona usa todos los días, y eso depende mucho de la textura. En piel grasa o mixta suelen tolerarse mejor los fluidos, geles y acabados mate; en piel seca, las cremas con más emolientes; en piel sensible, fórmulas sencillas y sin perfume; y en fototipos altos, texturas que no dejen residuo blanco o versiones con color. Si alguien dice que el protector le «pica», le da brillo o le saca granitos, no abandones la recomendación: busca con esa persona otra textura."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/08",
+          "proporcion": "4:3",
+          "alt": "Una cosmetóloga muestra a un cliente cuánta crema protectora se necesita para el rostro, extendida sobre dos dedos.",
+          "pie": "Usar una cantidad generosa es tan importante como elegir un buen protector.",
+          "prompt": "Fotografía editorial realista en una cabina estética luminosa de tonos crema y rosa empolvado. Una cosmetóloga de unos treinta y cinco años, fototipo II, con cabello recogido y guantes de nitrilo, muestra a un cliente de unos cincuenta años, fototipo IV, sentado frente a ella, dos líneas de crema blanca extendidas a lo largo de sus dedos índice y medio. El cliente observa con interés. Luz natural suave, encuadre horizontal a corta distancia centrado en las manos y los rostros. Evitar: texto, logotipos, envases con etiqueta, marcas, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Errores frecuentes y cuándo derivar",
+          "md": "El protector solar no es una autorización para alargar la exposición: usarlo para «aguantar más tiempo» al sol anula buena parte de su beneficio. Algunos medicamentos pueden aumentar la sensibilidad al sol; si la persona toma alguno, que lo consulte con su médico. Una quemadura extensa con ampollas, fiebre, escalofríos o malestar general requiere atención médica. Y cualquier lunar o mancha que cambie se revisa con el dermatólogo, sin importar cuánto protector se use."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "ejemplo",
+          "titulo": "Una recomendación a la medida",
+          "md": "Un cliente de 52 años, fototipo IV, trabaja como supervisor de obra en Toluca, a más de 2,600 metros de altitud. Pasa casi toda la jornada al aire libre y tiene manchas en pómulos y dorso de las manos. En lugar de una rutina compleja, acuerdan cuatro medidas: sombrero de ala ancha o casco con cubrenuca, camisa de manga larga ligera, protector de amplio espectro en barra para reaplicar con facilidad al mediodía y revisar en la siguiente visita una mancha del dorso de la mano que, según él, «ha crecido», con sugerencia de valoración dermatológica."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/09",
+          "proporcion": "3:4",
+          "alt": "Un trabajador al aire libre con sombrero de ala ancha y camisa de manga larga se aplica protector en la nariz a mediodía.",
+          "pie": "Quien trabaja al aire libre necesita medidas fáciles de mantener durante toda la jornada.",
+          "prompt": "Fotografía editorial realista de un hombre de unos cincuenta años, fototipo IV, con bigote canoso, de pie en un espacio abierto con estructuras de construcción desenfocadas al fondo, que lleva un sombrero de ala ancha, lentes de seguridad levantados sobre el ala y una camisa de manga larga color crema. Se aplica con el dedo protector solar en barra sobre la nariz. Luz solar intensa de mediodía con sombras cortas, encuadre vertical de medio cuerpo, tonos cálidos con acentos rosa empolvado. Evitar: texto, logotipos, marcas, letreros, retoque digital, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Al recomendar fotoprotección, pregunta primero por la rutina real de la persona: dónde vive, a qué altitud, cuántas horas pasa al aire libre y en qué horario. Después propón primero las capas que no dependen de reaplicar, sombra, ropa y sombrero, y ajusta el protector a su tipo de piel y a su fototipo. Una recomendación que se cumple vale más que una perfecta que se abandona."
+        }
+      ],
+      "glosario": [
+        { "termino": "Índice ultravioleta (IUV)", "definicion": "Escala internacional que expresa la intensidad de la radiación solar capaz de enrojecer la piel; desde 3 se recomienda protegerse." },
+        { "termino": "Trópico de Cáncer", "definicion": "Paralelo situado a unos 23.4 grados de latitud norte que cruza México; al sur de él, el sol puede pasar por el cenit." },
+        { "termino": "Mediodía solar", "definicion": "Momento del día en que el sol alcanza su mayor altura y la radiación ultravioleta es máxima; no siempre coincide con las 12 del reloj." },
+        { "termino": "Regla de la sombra", "definicion": "Guía práctica: si tu sombra es más corta que tu estatura, la radiación ultravioleta es intensa." },
+        { "termino": "Reflexión", "definicion": "Radiación que rebota en superficies como nieve, agua o arena y se suma a la que llega directamente del sol." },
+        { "termino": "Factor de protección ultravioleta", "definicion": "Indicador de cuánta radiación ultravioleta bloquea un tejido; se usa en ropa de protección solar." }
+      ],
+      "verificacion": [
+        { "id": "t9.3-1", "q": "Según la OMS, ¿a partir de qué valor del índice UV conviene protegerse?", "opciones": ["Desde 11", "Desde 8", "Desde 3", "Solo si hace calor"], "correcta": 2, "explicacion": "La OMS recomienda protegerse desde un índice de 3 y extremar las precauciones desde 8. El calor no indica la intensidad de la radiación UV." },
+        { "id": "t9.3-2", "q": "¿Por qué la radiación UV suele ser mayor en ciudades del altiplano mexicano que en la costa, a igual latitud y hora?", "opciones": ["Porque hay más contaminación", "Porque hay menos atmósfera que filtre la radiación a mayor altitud", "Porque hace más calor", "Porque hay más humedad"], "correcta": 1, "explicacion": "La radiación UV aumenta alrededor de 10 % por cada 1,000 metros de altitud porque la capa de atmósfera que la filtra es más delgada." },
+        { "id": "t9.3-3", "q": "¿Cuál es la capa de fotoprotección más eficaz?", "opciones": ["Reducir la exposición en las horas de máxima radiación y buscar sombra", "Un protector con FPS alto aplicado una vez al día", "Broncearse antes de las vacaciones", "Tomar mucha agua"], "correcta": 0, "explicacion": "Evitar la exposición en las horas críticas reduce más la dosis que cualquier producto. El bronceado previo no protege y el agua no filtra radiación." }
+      ],
+      "fuentes": [
+        { "tipo": "oficial", "titulo": "Global Solar UV Index: A Practical Guide", "autor": "Organización Mundial de la Salud, OMM, PNUMA e ICNIRP", "anio": 2002 },
+        { "tipo": "oficial", "titulo": "Sunscreen FAQs", "autor": "American Academy of Dermatology" },
+        { "tipo": "oficial", "titulo": "Índice UV: información del Sistema de Monitoreo Atmosférico de la Ciudad de México", "autor": "Secretaría del Medio Ambiente de la Ciudad de México (SIMAT)" },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en la guía de la OMS sobre el índice UV y en recomendaciones de fotoprotección de academias de dermatología", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "9.4",
+      "titulo": "Contaminación, clima y estaciones",
+      "minutos": 15,
+      "enPocasPalabras": "El aire contaminado de las ciudades tiene partículas y gases que dañan la piel y se han relacionado con manchas. El clima también cuenta: el aire seco y el frío resecan, y el calor húmedo aumenta el sudor y la grasa. Por eso la rutina se ajusta según dónde vives y la época del año.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Después del sol, la **contaminación del aire** es el factor del exposoma cutáneo mejor estudiado en los últimos años. Y junto a ella está un factor tan cotidiano que a veces se olvida: el **clima**. Humedad, temperatura, viento y cambios de estación modifican el estado de la piel semana a semana. En un país con la diversidad geográfica de México, conocer estos factores te permite ajustar las recomendaciones a la ciudad y a la temporada de cada persona."
+        },
+        { "tipo": "subtitulo", "texto": "Qué contaminantes afectan la piel" },
+        {
+          "tipo": "texto",
+          "md": "Los contaminantes más relevantes para la piel son las **partículas en suspensión**, en especial las finas (PM2.5, de 2.5 micrómetros o menos) y las ultrafinas; el **ozono troposférico**; el **dióxido de nitrógeno**; y los **hidrocarburos aromáticos policíclicos**, compuestos de la combustión incompleta que viajan adheridos a las partículas.\n\nEl ozono a nivel del suelo se forma cuando la luz solar actúa sobre óxidos de nitrógeno y compuestos orgánicos volátiles; por eso aumenta en tardes soleadas y calurosas. Al contacto con la piel, oxida los lípidos de la capa córnea y agota antioxidantes como la vitamina E. Los hidrocarburos aromáticos policíclicos activan en queratinocitos y melanocitos el **receptor de hidrocarburos de arilo**, una vía relacionada con el estrés oxidativo y con la producción de pigmento. Cuánto penetran las partículas en la piel sana sigue en estudio; los folículos parecen ser una vía de entrada."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Contaminantes del aire y su relación con la piel",
+          "columnas": ["Contaminante", "Origen principal", "Efecto descrito en la piel"],
+          "filas": [
+            ["Partículas finas y ultrafinas", "Tráfico, industria, quema de biomasa", "Estrés oxidativo; asociación con manchas pigmentarias"],
+            ["Ozono troposférico", "Reacción de contaminantes con la luz solar", "Oxidación de lípidos de la capa córnea; pérdida de vitamina E"],
+            ["Dióxido de nitrógeno", "Combustión en motores y calderas", "Asociación con manchas en algunos estudios"],
+            ["Hidrocarburos aromáticos policíclicos", "Combustión incompleta; adheridos a partículas", "Activación del receptor de hidrocarburos de arilo; pigmentación y estrés oxidativo"],
+            ["Humo de tabaco ambiental", "Fumadores cercanos", "Suma de oxidantes y partículas en el aire que respira y toca la piel"]
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "La evidencia en personas procede sobre todo de estudios observacionales. Uno de los primeros, publicado en 2010 con mujeres mayores de Alemania, encontró que la exposición a partículas relacionadas con el tráfico se asociaba con más manchas pigmentarias en frente y mejillas y con surcos nasogenianos más marcados. Estudios posteriores en otras poblaciones encontraron asociaciones similares con el dióxido de nitrógeno. La contaminación también se ha relacionado con brotes en personas con dermatitis atópica y con sensibilidad cutánea. Que sean asociaciones significa que no todo está demostrado como causa directa, pero el conjunto de datos de laboratorio y poblacionales apunta en la misma dirección."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m09/d4",
+          "pie": "Cómo actúan los contaminantes sobre la piel, solos y junto con el sol.",
+          "descripcion": "A la izquierda, una nube con iconos de partículas, ozono y gases. Flechas que bajan hacia un corte de piel con capa córnea, epidermis con queratinocitos y melanocitos, y folículo piloso. En la capa córnea, una etiqueta de lípidos oxidados; en el folículo, partículas que entran; en las células, la activación del receptor de hidrocarburos de arilo. A la derecha, un sol cuya flecha converge con la de la contaminación en un símbolo de suma con la etiqueta de daño oxidativo potenciado. Abajo, los resultados: manchas, sequedad y reactividad.",
+          "elementos": ["Partículas PM2.5", "Ozono", "Hidrocarburos aromáticos policíclicos", "Lípidos de la capa córnea oxidados", "Entrada por el folículo", "Receptor de hidrocarburos de arilo", "Sol más contaminación: efecto sumado", "Manchas, sequedad, reactividad"]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "mexico",
+          "titulo": "El Índice AIRE Y SALUD",
+          "md": "En México, la calidad del aire se comunica con el **Índice AIRE Y SALUD**, cuyos lineamientos establece la norma NOM-172-SEMARNAT-2023, publicada en el Diario Oficial de la Federación el 25 de enero de 2024. El índice combina la concentración de los contaminantes con el riesgo para la salud y lo expresa con categorías de color y recomendaciones. El Sistema Nacional de Información de la Calidad del Aire reúne datos de las redes de monitoreo del país. En la zona metropolitana del Valle de México, la primavera seca y soleada concentra los episodios de ozono alto: son días en que conviene reforzar tanto la fotoprotección como la limpieza nocturna."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/10",
+          "proporcion": "16:9",
+          "alt": "Vista de una gran ciudad con bruma ligera en el horizonte y montañas al fondo al atardecer.",
+          "pie": "En las grandes ciudades, la contaminación y el sol actúan juntos sobre la piel.",
+          "prompt": "Fotografía editorial realista y serena de una vista panorámica de una gran ciudad mexicana del altiplano desde una azotea con plantas en macetas, al atardecer. En el horizonte se aprecia una bruma ligera de tono ocre sobre los edificios y, al fondo, el perfil de montañas. En primer plano, de espaldas y desenfocada, una persona de unos treinta años con cabello recogido observa la vista. Luz cálida dorada, paleta de tonos crema, ocre y rosa empolvado, encuadre horizontal amplio. Evitar: texto, letreros, logotipos, humo dramático, chimeneas industriales en primer plano, retoque excesivo, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "El cuidado frente a la contaminación" },
+        {
+          "tipo": "texto",
+          "md": "Las medidas con mejor fundamento son sencillas. Una **limpieza suave al final del día** retira partículas, residuos de protector y maquillaje; no hace falta tallar ni usar productos agresivos, que dañarían la barrera que se quiere proteger. Una **barrera íntegra**, apoyada con emolientes adecuados al tipo de piel, limita la entrada de contaminantes. La **fotoprotección** es indispensable, porque la radiación solar potencia el daño oxidativo de los contaminantes.\n\nLos antioxidantes tópicos, como las vitaminas C y E, tienen una base razonable en estudios de laboratorio. En cambio, muchas declaraciones comerciales de efecto «anticontaminación» se apoyan en pruebas limitadas. Explícalo con honestidad y sin prometer resultados."
+        },
+        { "tipo": "subtitulo", "texto": "Clima: humedad, temperatura y viento" },
+        {
+          "tipo": "texto",
+          "md": "La **humedad baja** hace que la capa córnea pierda agua hacia el ambiente: se vuelve menos flexible, aparecen tirantez, descamación fina, grietas y comezón. Las pieles con barrera frágil, como las de personas mayores o con tendencia atópica, lo notan antes. El **frío** contrae los vasos de la piel, reduce la producción de sebo y, combinado con viento, reseca labios, mejillas y manos.\n\nEl **calor húmedo** aumenta el sudor y el sebo. Cuando el sudor no puede salir con facilidad, por ropa ajustada o por textura muy oclusiva, aparecen granitos y sarpullido; la fricción y la humedad favorecen también la irritación en pliegues. Los **cambios bruscos**, como pasar del calor exterior al aire acondicionado intenso, aumentan la reactividad. Para la piel, el clima no es un detalle: cambia su estado, aunque su tipo siga siendo el mismo. En los días fríos, la tentación de bañarse con agua muy caliente agrava la sequedad; el agua tibia y un emoliente después del baño son la respuesta más sencilla."
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Temporadas y regiones en México: qué observar",
+          "items": [
+            "Temporada seca, aproximadamente de noviembre a abril en gran parte del país: más deshidratación y descamación, sobre todo en el altiplano.",
+            "Primavera: índice UV muy alto y, en las grandes ciudades, episodios de ozono; reforzar fotoprotección y limpieza nocturna.",
+            "Temporada de lluvias, aproximadamente de mayo o junio a octubre: más humedad, nubes que no eliminan la radiación UV y, en zonas cálidas, más sudor y sebo.",
+            "Inviernos del norte y del altiplano: frentes fríos, viento y aire muy seco; más labios agrietados y piel reactiva.",
+            "Costas del Golfo, del Pacífico y península de Yucatán: calor húmedo casi todo el año; texturas ligeras y atención al sarpullido."
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/11",
+          "proporcion": "4:3",
+          "alt": "Una mujer abrigada con bufanda camina en una mañana fría y ventosa del altiplano.",
+          "pie": "El frío, el viento y el aire seco aumentan la pérdida de agua de la piel.",
+          "prompt": "Fotografía editorial realista de una mujer de unos cuarenta años, fototipo IV, caminando por una plaza empedrada de una ciudad del altiplano mexicano en una mañana fría y despejada. Lleva un abrigo de lana color crema, una bufanda rosa empolvado que cubre parte del cuello y guantes ligeros. Sus mejillas muestran un leve rubor por el frío y su piel una textura natural. Luz fría y brillante de invierno, árboles sin hojas al fondo desenfocados. Encuadre horizontal de medio cuerpo. Evitar: texto, letreros, logotipos, marcas, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "Por qué los labios se agrietan primero",
+          "md": "La parte roja de los labios tiene una capa córnea muy delgada y prácticamente no tiene glándulas sebáceas ni sudoríparas. Por eso pierde agua con mucha facilidad y es de las primeras zonas en agrietarse con el frío, el viento o el sol. Además, recibe mucha radiación. Un bálsamo labial, de preferencia con protección solar, es una medida sencilla y muy útil en cualquier temporada."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/12",
+          "proporcion": "4:3",
+          "alt": "Un hombre joven se refresca bajo la sombra en una costa cálida y húmeda, con camisa ligera y holgada.",
+          "pie": "En climas cálidos y húmedos, la ropa holgada y las texturas ligeras ayudan a la piel.",
+          "prompt": "Fotografía editorial realista de un hombre de unos veinticinco años, fototipo V, sentado a la sombra de una palapa en una costa tropical, con camisa de lino holgada color crema y sombrero de palma. Su piel muestra un brillo natural por el calor húmedo, con textura real. Sostiene un vaso de agua. Al fondo, desenfocados, palmeras y el mar bajo un cielo con nubes blancas. Luz cálida y difusa de media tarde, encuadre horizontal de medio cuerpo, acentos rosa empolvado. Evitar: texto, logotipos, marcas, sudor exagerado, quemaduras, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "vf",
+          "titulo": "Mito o realidad: contaminación y clima",
+          "afirmaciones": [
+            { "texto": "La contaminación del aire se ha asociado con más manchas pigmentarias en el rostro.", "verdadero": true, "explicacion": "Estudios observacionales relacionaron las partículas del tráfico y el dióxido de nitrógeno con más manchas en frente y mejillas." },
+            { "texto": "El ozono que daña la piel es el mismo que protege la Tierra en la estratosfera, así que más ozono cerca del suelo es mejor.", "verdadero": false, "explicacion": "El ozono estratosférico filtra radiación UV; el troposférico, a nivel del suelo, es un contaminante que oxida los lípidos de la piel." },
+            { "texto": "Frente a la contaminación conviene tallar la piel con fuerza cada noche.", "verdadero": false, "explicacion": "Una limpieza suave basta; tallar daña la barrera, que es precisamente la que limita la entrada de contaminantes." },
+            { "texto": "En la temporada de lluvias la radiación UV desaparece.", "verdadero": false, "explicacion": "Las nubes delgadas o dispersas dejan pasar buena parte de la radiación; la fotoprotección sigue siendo necesaria." },
+            { "texto": "El aire seco del invierno puede cambiar el estado de la piel sin cambiar su tipo.", "verdadero": true, "explicacion": "La baja humedad aumenta la pérdida de agua y puede producir deshidratación, un estado; el tipo sigue siendo el mismo." }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Haz con cada persona un pequeño «calendario de su piel»: en qué meses la nota más seca, más grasa o más reactiva, y dónde pasa esos meses. Con eso puedes anticipar ajustes, como una textura más rica en la temporada seca o una más ligera en el calor húmedo, en lugar de esperar a que aparezca el problema."
+        }
+      ],
+      "glosario": [
+        { "termino": "Partículas PM2.5", "definicion": "Partículas en suspensión de 2.5 micrómetros o menos, procedentes sobre todo de combustión; se asocian con daño oxidativo y manchas en la piel." },
+        { "termino": "Ozono troposférico", "definicion": "Ozono que se forma a nivel del suelo por acción de la luz solar sobre otros contaminantes; oxida los lípidos de la piel." },
+        { "termino": "Hidrocarburos aromáticos policíclicos", "definicion": "Compuestos de la combustión incompleta que viajan adheridos a partículas y activan vías de estrés oxidativo y pigmentación." },
+        { "termino": "Receptor de hidrocarburos de arilo", "definicion": "Receptor celular presente en queratinocitos y melanocitos que se activa con ciertos contaminantes y participa en la pigmentación." },
+        { "termino": "Índice AIRE Y SALUD", "definicion": "Índice oficial en México para comunicar la calidad del aire y su riesgo para la salud con categorías de color." },
+        { "termino": "Sarpullido", "definicion": "Pequeños granitos causados por la obstrucción de las glándulas sudoríparas, frecuentes con calor húmedo y ropa ajustada." }
+      ],
+      "verificacion": [
+        { "id": "t9.4-1", "q": "¿Cómo se forma el ozono a nivel del suelo?", "opciones": ["Lo emiten directamente los árboles", "Viene de la estratosfera durante la noche", "Lo produce la piel al sudar", "Se forma por acción de la luz solar sobre óxidos de nitrógeno y compuestos orgánicos volátiles"], "correcta": 3, "explicacion": "El ozono troposférico es un contaminante secundario: se forma en tardes soleadas a partir de otros contaminantes." },
+        { "id": "t9.4-2", "q": "¿Qué medida frente a la contaminación tiene mejor fundamento?", "opciones": ["Limpieza suave al final del día, barrera íntegra y fotoprotección", "Tallar la piel con un cepillo cada noche", "Dejar de usar protector solar para que la piel respire", "Usar solo productos con la etiqueta anticontaminación"], "correcta": 0, "explicacion": "Retirar partículas sin dañar la barrera y protegerse del sol, que potencia el daño, son las medidas mejor fundamentadas." },
+        { "id": "t9.4-3", "q": "Una clienta del altiplano nota la piel tirante y con descamación fina cada invierno. ¿Qué explica mejor este cambio?", "opciones": ["Un cambio permanente de tipo de piel", "Un exceso de sebo por el frío", "La baja humedad y el frío aumentan la pérdida de agua: un estado de deshidratación", "Una alergia al invierno"], "correcta": 2, "explicacion": "El aire seco y frío aumenta la pérdida de agua de la capa córnea; es un estado estacional, no un cambio de tipo." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Airborne particle exposure and extrinsic skin aging. Journal of Investigative Dermatology 130(12): 2719-2726", "autor": "Vierkötter A, Schikowski T, Ranft U, et al.", "anio": 2010 },
+        { "tipo": "academica", "titulo": "Pollution and skin: from epidemiological and mechanistic studies to clinical implications. Journal of Dermatological Science 76(3): 163-168", "autor": "Krutmann J, Liu W, Li L, et al.", "anio": 2014 },
+        { "tipo": "academica", "titulo": "Recognizing the impact of ambient air pollution on skin health. Journal of the European Academy of Dermatology and Venereology 29(12): 2326-2332", "autor": "Mancebo SE, Wang SQ", "anio": 2015 },
+        { "tipo": "academica", "titulo": "The effect of environmental humidity and temperature on skin barrier function and dermatitis. Journal of the European Academy of Dermatology and Venereology 30(2): 223-249", "autor": "Engebretsen KA, Johansen JD, Kezic S, Linneberg A, Thyssen JP", "anio": 2016 },
+        { "tipo": "oficial", "titulo": "NOM-172-SEMARNAT-2023, Lineamientos para la obtención y comunicación del Índice de Calidad del Aire y Riesgos a la Salud (DOF 25 de enero de 2024)", "autor": "Secretaría de Medio Ambiente y Recursos Naturales", "anio": 2024 }
+      ]
+    },
+    {
+      "n": "9.5",
+      "titulo": "Estilo de vida: tabaco, sueño, estrés, alimentación y hábitos",
+      "minutos": 15,
+      "enPocasPalabras": "Lo que haces cada día también se nota en la piel. Fumar la envejece y la apaga, dormir poco y el estrés la hacen más frágil y pueden traer brotes, y la comida influye, aunque menos de lo que dicen las redes. No hay soluciones milagro: hay hábitos que suman.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "El último grupo de factores del exposoma depende directamente de la vida diaria: si la persona fuma, cuánto duerme, cómo maneja el estrés, qué come y qué pequeños hábitos repite sin pensar. Sobre estos temas circula mucha información exagerada. En este tema separarás lo que tiene buen respaldo de lo que todavía es incierto, para que tus recomendaciones sean honestas y útiles, y para que sepas cuándo un tema rebasa la cabina y corresponde a otro profesional de la salud."
+        },
+        { "tipo": "subtitulo", "texto": "Tabaco" },
+        {
+          "tipo": "texto",
+          "md": "El tabaco es, después del sol, el factor externo con evidencia más sólida de envejecimiento cutáneo. El humo contiene miles de sustancias, muchas de ellas oxidantes, que generan estrés oxidativo en la piel. La nicotina contrae los vasos sanguíneos y reduce el flujo de sangre y oxígeno que llega a la piel. Además, el humo aumenta la producción de metaloproteinasas que degradan el colágeno y disminuye la síntesis de colágeno nuevo.\n\nEn 1985 se describió la llamada **cara de fumador**: arrugas marcadas alrededor de los ojos y de la boca, rasgos más afilados y un tono grisáceo o apagado. Las líneas alrededor de la boca se acentúan también por el gesto repetido de fruncir los labios. Fumar retrasa además la cicatrización, razón por la que los cirujanos piden dejarlo antes de una operación. El humo ambiental expone también a quienes conviven con fumadores. Los vapeadores con nicotina comparten el efecto vasoconstrictor, y sus consecuencias a largo plazo en la piel siguen en estudio."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/13",
+          "proporcion": "4:3",
+          "alt": "Una mujer de mediana edad sonríe al aire libre, con piel de textura natural y líneas suaves alrededor de la boca.",
+          "pie": "Dejar de fumar beneficia la circulación de la piel y su capacidad de reparación a cualquier edad.",
+          "prompt": "Retrato editorial realista y positivo de una mujer de unos cincuenta y cinco años, fototipo III, con cabello castaño corto, sonriendo en un parque luminoso. Su piel muestra textura natural, líneas suaves alrededor de la boca y de los ojos y un tono cálido. Viste una chaqueta ligera color rosa empolvado sobre una blusa crema. Luz natural suave de mañana, fondo de árboles desenfocado, encuadre horizontal de busto. Evitar: texto, logotipos, cigarros, humo, ceniceros, aspecto enfermo, retoque digital, efecto antes y después, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Sueño" },
+        {
+          "tipo": "texto",
+          "md": "Durante el sueño se activan procesos de reparación y cambian los niveles de varias hormonas. Un estudio de 2015 en mujeres encontró que quienes dormían mal presentaban más signos de envejecimiento intrínseco, una recuperación más lenta de la barrera después de una agresión controlada y una recuperación más lenta del enrojecimiento tras la radiación ultravioleta. Otro estudio, de 2013, pidió a observadores que evaluaran fotografías de personas antes y después de una privación de sueño: tras dormir poco, los rostros se percibían con párpados más caídos, ojeras más marcadas, piel más pálida y aspecto más cansado.\n\nLas ojeras, sin embargo, no dependen solo del sueño: también influyen la pigmentación, los vasos visibles y la anatomía del contorno de los ojos. Por eso dormir más ayuda, pero no siempre las elimina."
+        },
+        { "tipo": "subtitulo", "texto": "Estrés" },
+        {
+          "tipo": "texto",
+          "md": "La piel y el sistema nervioso están conectados por hormonas, neurotransmisores y células inmunitarias, una relación que se describe como **eje cerebro-piel**. Ante el estrés aumentan el cortisol y otras moléculas que influyen en la barrera, la inflamación y las glándulas sebáceas.\n\nDos estudios con estudiantes lo ilustran. En uno, publicado en 2001, la barrera cutánea se recuperaba más lentamente durante los periodos de exámenes que después de las vacaciones. En otro, de 2003, el empeoramiento del acné durante los exámenes se correlacionó con el nivel de estrés percibido. El estrés puede empeorar también condiciones como la dermatitis atópica, la psoriasis o la rosácea, cuyo manejo corresponde al médico. La cabina puede ofrecer un momento de calma, pero no es una terapia: si notas angustia intensa, sugiere con tacto buscar apoyo profesional."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m09/d5",
+          "pie": "El eje cerebro-piel: cómo el estrés llega a la piel.",
+          "descripcion": "Diagrama vertical. Arriba, una cabeza con el cerebro y la etiqueta de estrés percibido. Una flecha baja hacia el hipotálamo, la hipófisis y las glándulas suprarrenales, con la etiqueta de cortisol. De ahí salen flechas hacia un corte de piel donde se señalan tres efectos: barrera que se recupera más lento, más inflamación y cambios en las glándulas sebáceas. A un lado, una flecha de retorno indica que los cambios visibles en la piel pueden aumentar a su vez el estrés.",
+          "elementos": ["Estrés percibido", "Hipotálamo", "Hipófisis", "Glándulas suprarrenales", "Cortisol", "Barrera: recuperación más lenta", "Más inflamación", "Glándulas sebáceas", "Círculo: la piel alterada aumenta el estrés"]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "La piel tiene su propio sistema de respuesta al estrés",
+          "md": "Además de responder a las hormonas que llegan por la sangre, la piel produce localmente varios mediadores del eje hipotálamo-hipófisis-suprarrenal, como la hormona liberadora de corticotropina, la corticotropina y el propio cortisol, en queratinocitos, melanocitos, folículos y glándulas sebáceas. Las terminaciones nerviosas de la piel liberan neuropéptidos, como la sustancia P, que activan a los mastocitos y desencadenan una **inflamación neurogénica**, con vasodilatación, enrojecimiento y picor. Este sistema local ayuda a explicar por qué el estrés puede desencadenar brotes en zonas concretas y por qué la piel reactiva suele empeorar en épocas de tensión."
+        },
+        { "tipo": "subtitulo", "texto": "Alimentación" },
+        {
+          "tipo": "texto",
+          "md": "La relación entre alimentación y piel es real, pero más modesta y matizada de lo que suelen afirmar las redes sociales. Una dieta variada con frutas y verduras aporta carotenoides y otras sustancias que se acumulan en la piel y contribuyen a su defensa antioxidante, sin sustituir la fotoprotección. En el acné, un ensayo clínico de 2007 encontró mejoría con una dieta de baja carga glucémica, y algunos estudios observacionales asocian ciertos lácteos con más acné; aun así, no existe una dieta única recomendada para todos.\n\nEl exceso de azúcares favorece la **glicación**: los azúcares se unen al colágeno y forman productos que lo vuelven más rígido y menos elástico, un proceso muy evidente en la diabetes mal controlada. El alcohol dilata los vasos y favorece el enrojecimiento. Sobre beber agua: mantenerse hidratado es importante para la salud, pero la evidencia de que beber más agua mejore la piel seca en personas bien hidratadas es limitada."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Hábitos y piel: qué tan sólida es la evidencia",
+          "columnas": ["Hábito", "Efecto descrito en la piel", "Solidez de la evidencia"],
+          "filas": [
+            ["Fumar", "Arrugas, tono apagado, cicatrización lenta", "Sólida"],
+            ["Dormir mal de forma habitual", "Peor recuperación de la barrera, aspecto cansado", "Moderada, con estudios pequeños"],
+            ["Estrés sostenido", "Barrera más lenta, brotes de acné y de otras condiciones", "Moderada"],
+            ["Dieta de alta carga glucémica", "Posible empeoramiento del acné", "Moderada a limitada"],
+            ["Beber más agua para hidratar la piel", "Mejoría de la piel seca", "Limitada"],
+            ["Consumo de alcohol", "Enrojecimiento y vasos visibles", "Moderada"]
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/14",
+          "proporcion": "4:3",
+          "alt": "Una mesa con platos de frutas, verduras, legumbres y una jarra de agua en una cocina luminosa.",
+          "pie": "Una alimentación variada contribuye a la salud de la piel, sin sustituir la fotoprotección.",
+          "prompt": "Fotografía editorial realista de una mesa de madera clara en una cocina luminosa con platos de cerámica color crema que contienen papaya y mango en trozos, jitomates, aguacate, frijoles, nopales asados y tortillas, junto a una jarra de agua con rodajas de limón. Manos de dos personas de distintos fototipos, IV y II, se sirven comida. Mantel de lino rosa empolvado, luz natural de mediodía desde una ventana, encuadre horizontal desde un ángulo ligeramente elevado. Evitar: texto, logotipos, envases con etiquetas, marcas, suplementos, pastillas, retoque excesivo, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Hábitos cotidianos que suman" },
+        {
+          "tipo": "lista",
+          "titulo": "Pequeños hábitos con efecto en la piel",
+          "items": [
+            "Tocarse la cara o manipular granitos: lleva bacterias, aumenta la inflamación y deja manchas.",
+            "Pantalla del teléfono y funda de la almohada: acumulan sebo y residuos; limpiarlas y cambiarlas con frecuencia ayuda a las pieles con tendencia acneica.",
+            "Cubrebocas durante muchas horas: la fricción, el calor y la humedad pueden provocar granitos e irritación en mejillas y mentón.",
+            "Duchas largas y muy calientes: arrastran lípidos y favorecen la sequedad.",
+            "Ejercicio: es beneficioso; retira el sudor después y reaplica protector si entrenas al aire libre.",
+            "Dormir con maquillaje: favorece comedones e irritación; retíralo siempre antes de dormir."
+          ]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Lo que no corresponde a la cabina",
+          "md": "No indiques dietas, ayunos ni suplementos: esas decisiones corresponden a profesionales de la medicina y la nutrición. Si una persona refiere preocupación extrema por la comida o el peso, consumo de sustancias o un nivel de estrés que la desborda, escucha con respeto y sugiere apoyo profesional. Si quiere dejar de fumar, anímala y recomiéndale acudir a su médico o a los servicios públicos de salud, que ofrecen apoyo para lograrlo."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "ejemplo",
+          "titulo": "Una conversación sobre hábitos",
+          "md": "Una clienta de 29 años, fototipo IV, estudiante de posgrado, refiere brotes en mentón y mandíbula en época de entregas, duerme cinco horas y usa cubrebocas en el laboratorio todo el día. Registras **tipo: mixta; estado: tendencia acneica que empeora en periodos de estrés**. Acuerdan dos cambios posibles: limpieza suave al llegar a casa y cambio de cubrebocas a media jornada, y le sugieres hablar de su descanso con su médico. Como las lesiones no son nodulares, no derivas de inmediato, pero le explicas qué señales lo harían necesario."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m09/15",
+          "proporcion": "3:4",
+          "alt": "Un hombre joven duerme profundamente en una habitación oscura y ordenada.",
+          "pie": "El sueño suficiente favorece la recuperación de la barrera cutánea.",
+          "prompt": "Fotografía editorial realista y serena de un hombre de unos treinta años, fototipo VI, durmiendo de lado en una cama con sábanas de algodón color crema y una funda de almohada rosa empolvado, en una habitación en penumbra iluminada solo por la luz tenue y cálida del amanecer que entra por una cortina. Expresión relajada, piel con textura natural. Encuadre vertical desde un costado de la cama, ambiente ordenado y tranquilo. Evitar: texto, logotipos, pantallas encendidas, teléfonos, desnudez, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "caso",
+          "titulo": "Caso en cabina: la promesa de un suplemento",
+          "situacion": "Un cliente de 38 años, fototipo II, fuma diez cigarros al día y casi no usa protector solar. Te muestra un anuncio de un suplemento que promete «borrar las arrugas desde adentro» y te pregunta si debería tomarlo en lugar de cuidar su piel.",
+          "opciones": [
+            { "texto": "Recomendarle el suplemento y la dosis que sugiere el anuncio.", "correcta": false, "retro": "Indicar suplementos y dosis no corresponde a la cabina, y la promesa del anuncio no tiene respaldo." },
+            { "texto": "Explicar que no hay suplementos que borren arrugas, que fumar y el sol son los factores con más peso, sugerir protector diario y animarlo a buscar apoyo médico para dejar de fumar.", "correcta": true, "retro": "Correcto. Priorizas los factores con más evidencia, no prometes resultados y derivas lo que corresponde a otro profesional." },
+            { "texto": "Decirle que, como ya fuma, el protector solar no le servirá de nada.", "correcta": false, "retro": "La fotoprotección reduce el daño solar aunque la persona fume; ambos factores suman y se pueden atender por separado." },
+            { "texto": "Ofrecerle una serie de faciales garantizando que eliminarán las arrugas causadas por el tabaco.", "correcta": false, "retro": "Ningún servicio cosmético puede garantizar ese resultado; prometerlo es engañoso." }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Cuando hables de hábitos, elige con la persona **un solo cambio** realista para las próximas semanas, el que tenga más peso en su caso: dejar de fumar, el protector diario, retirar el maquillaje antes de dormir o cambiar la funda de la almohada. Anótalo en la ficha y pregúntale por él en la siguiente visita. Los cambios pequeños y sostenidos son los que se notan en la piel."
+        }
+      ],
+      "glosario": [
+        { "termino": "Cara de fumador", "definicion": "Conjunto de rasgos descrito en fumadores: arrugas marcadas alrededor de ojos y boca, rasgos más afilados y tono apagado." },
+        { "termino": "Vasoconstricción", "definicion": "Estrechamiento de los vasos sanguíneos que reduce el flujo de sangre; la nicotina la provoca en la piel." },
+        { "termino": "Eje cerebro-piel", "definicion": "Conexión entre el sistema nervioso, las hormonas del estrés y la piel, que explica cómo el estrés modifica la barrera y la inflamación." },
+        { "termino": "Cortisol", "definicion": "Hormona que se eleva con el estrés; en exceso, retrasa la recuperación de la barrera cutánea." },
+        { "termino": "Glicación", "definicion": "Unión de azúcares a proteínas como el colágeno, que las vuelve más rígidas y menos elásticas." },
+        { "termino": "Carga glucémica", "definicion": "Medida de cuánto eleva un alimento o una dieta la glucosa en sangre, considerando la cantidad de carbohidratos que aporta." }
+      ],
+      "verificacion": [
+        { "id": "t9.5-1", "q": "¿Por qué la nicotina apaga el tono de la piel y retrasa la cicatrización?", "opciones": ["Porque aumenta la producción de sebo", "Porque contrae los vasos y reduce el flujo de sangre y oxígeno a la piel", "Porque aclara la melanina", "Porque bloquea la radiación UVB"], "correcta": 1, "explicacion": "La vasoconstricción reduce el aporte de sangre y oxígeno, lo que se refleja en un tono apagado y una reparación más lenta." },
+        { "id": "t9.5-2", "q": "¿Qué encontró el estudio de 2001 con estudiantes en época de exámenes?", "opciones": ["Que la barrera se reparaba más rápido", "Que el estrés no tenía relación con la piel", "Que el acné desaparecía", "Que la barrera cutánea se recuperaba más lentamente durante los exámenes"], "correcta": 3, "explicacion": "El estrés psicológico de los exámenes se asoció con una recuperación más lenta de la barrera cutánea." },
+        { "id": "t9.5-3", "q": "¿Qué afirmación sobre alimentación y piel es la más correcta?", "opciones": ["Beber mucha agua garantiza eliminar la piel seca", "Una dieta de baja carga glucémica mostró mejoría del acné en un ensayo, pero no hay una dieta única para todos", "El chocolate es la causa principal del acné", "Un suplemento puede sustituir la fotoprotección"], "correcta": 1, "explicacion": "Hay evidencia moderada sobre la carga glucémica y el acné, pero la evidencia sobre el agua es limitada y nada sustituye la fotoprotección." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Tobacco smoke causes premature skin aging. Journal of Dermatological Science 48(3): 169-175", "autor": "Morita A", "anio": 2007 },
+        { "tipo": "academica", "titulo": "Smoker's face: an underrated clinical sign? British Medical Journal 291(6511): 1760-1762", "autor": "Model D", "anio": 1985 },
+        { "tipo": "academica", "titulo": "Does poor sleep quality affect skin ageing? Clinical and Experimental Dermatology 40(1): 17-22", "autor": "Oyetakin-White P, Suggs A, Koo B, et al.", "anio": 2015 },
+        { "tipo": "academica", "titulo": "Cues of fatigue: effects of sleep deprivation on facial appearance. Sleep 36(9): 1355-1360", "autor": "Sundelin T, Lekander M, Kecklund G, et al.", "anio": 2013 },
+        { "tipo": "academica", "titulo": "Psychological stress perturbs epidermal permeability barrier homeostasis: implications for the pathogenesis of stress-associated skin disorders. Archives of Dermatology 137(1): 53-59", "autor": "Garg A, Chren MM, Sands LP, et al.", "anio": 2001 },
+        { "tipo": "academica", "titulo": "The response of skin disease to stress: changes in the severity of acne vulgaris as affected by examination stress. Archives of Dermatology 139(7): 897-900", "autor": "Chiu A, Chon SY, Kimball AB", "anio": 2003 },
+        { "tipo": "academica", "titulo": "A low-glycemic-load diet improves symptoms in acne vulgaris patients: a randomized controlled trial. American Journal of Clinical Nutrition 86(1): 107-115", "autor": "Smith RN, Mann NJ, Braue A, Mäkeläinen H, Varigos GA", "anio": 2007 }
+      ]
+    }
+  ],
+  "minijuego": {
+    "tipo": "memorama",
+    "titulo": "Memorama: factores externos y su efecto",
+    "pares": [
+      { "a": "UVB", "b": "Quemadura solar y daño directo al ADN" },
+      { "a": "UVA", "b": "Atraviesa el vidrio y llega a la dermis" },
+      { "a": "Luz visible", "b": "Puede pigmentar fototipos medios y altos" },
+      { "a": "Infrarrojo A", "b": "Calor y enzimas que degradan colágeno" },
+      { "a": "Índice UV de 11 o más", "b": "Riesgo extremo" },
+      { "a": "Partículas PM2.5", "b": "Asociadas con manchas pigmentarias" },
+      { "a": "Tabaco", "b": "Arrugas alrededor de la boca y tono apagado" },
+      { "a": "Exposoma", "b": "Suma de exposiciones externas a lo largo de la vida" }
+    ]
+  },
+  "examen": {
+    "aprobar": 70,
+    "mostrar": 10,
+    "preguntas": [
+      { "id": "m09-p01", "q": "¿Qué factores incluye el exposoma del envejecimiento cutáneo?", "opciones": ["Solo la radiación solar", "Radiación solar, contaminación, tabaco, alimentación, sueño y estrés, y productos cosméticos", "Solo los genes heredados", "Únicamente los medicamentos"], "correcta": 1, "explicacion": "El exposoma reúne todas las exposiciones externas relevantes para la piel; los genes forman parte del genoma, no del exposoma." },
+      { "id": "m09-p02", "q": "¿Qué proporción aproximada de la radiación ultravioleta que llega a la superficie terrestre es UVA?", "opciones": ["5 %", "25 %", "50 %", "95 %"], "correcta": 3, "explicacion": "Alrededor del 95 % de la radiación ultravioleta que llega a la superficie es UVA; el resto es UVB." },
+      { "id": "m09-p03", "q": "¿Qué banda de radiación atraviesa el vidrio común de las ventanas y alcanza la dermis?", "opciones": ["UVA", "UVB", "UVC", "Ninguna banda solar atraviesa el vidrio"], "correcta": 0, "explicacion": "El vidrio común bloquea gran parte de la UVB pero deja pasar UVA, que llega a la dermis. La UVC no alcanza la superficie terrestre." },
+      { "id": "m09-p04", "q": "¿Qué refleja principalmente el FPS de un protector solar?", "opciones": ["La protección frente a la luz visible", "La resistencia al agua", "La protección frente a la UVB, que causa el enrojecimiento", "La protección frente al infrarrojo"], "correcta": 2, "explicacion": "El FPS se mide por el retraso del enrojecimiento, causado sobre todo por UVB. La protección UVA se indica como amplio espectro." },
+      { "id": "m09-p05", "q": "¿En qué fototipos se ha descrito que la luz visible induce pigmentación persistente?", "opciones": ["Solo en el fototipo I", "Solo en el fototipo II", "En ningún fototipo", "En fototipos medios y altos, como IV a VI"], "correcta": 3, "explicacion": "Un estudio de 2010 mostró pigmentación persistente por luz visible en fototipos IV a VI y no en fototipo II." },
+      { "id": "m09-p06", "q": "Si el índice UV marca 9 al mediodía, ¿en qué categoría está?", "opciones": ["Moderado", "Muy alto", "Bajo", "Alto"], "correcta": 1, "explicacion": "La categoría muy alto abarca de 8 a 10; alto es 6 y 7, y extremo, 11 o más." },
+      { "id": "m09-p07", "q": "Según la OMS, ¿cuánto aumenta aproximadamente la radiación UV por cada 1,000 metros de altitud?", "opciones": ["1 %", "50 %", "10 %", "100 %"], "correcta": 2, "explicacion": "La OMS estima un aumento de alrededor de 10 % por cada 1,000 metros, porque hay menos atmósfera que filtre la radiación." },
+      { "id": "m09-p08", "q": "¿Qué indica la regla de la sombra?", "opciones": ["Si tu sombra es más corta que tu estatura, la radiación UV es intensa", "Si hay sombra, no hay radiación UV", "Una sombra muy larga indica el mediodía", "Solo es válida en la playa"], "correcta": 0, "explicacion": "Una sombra corta significa que el sol está alto y la radiación es intensa. La sombra reduce la radiación, pero no la elimina por la reflexión." },
+      { "id": "m09-p09", "q": "¿Cuál es la capa más eficaz de la fotoprotección?", "opciones": ["Evitar las horas de máxima radiación y buscar sombra", "Un protector de FPS muy alto aplicado una vez al día", "Broncearse de forma gradual", "Usar maquillaje sin filtro"], "correcta": 0, "explicacion": "Reducir la exposición en las horas críticas disminuye la dosis más que cualquier producto, que además debe reaplicarse." },
+      { "id": "m09-p10", "q": "Caso: una clienta de 35 años, fototipo V, con manchas en las mejillas, trabaja junto a una ventana y usa protector sin color solo cuando sale a la calle. ¿Qué recomendación es más completa?", "opciones": ["Que deje el protector porque pasa el día en interiores", "Que se broncee para emparejar el tono", "Usar a diario protector de amplio espectro, de preferencia con color con óxidos de hierro, también en interiores con luz intensa, y sugerir valoración dermatológica si las manchas persisten o cambian", "Que use solo una crema hidratante sin filtros"], "correcta": 2, "explicacion": "La UVA atraviesa la ventana y la luz visible pigmenta fototipos altos; el protector con color las atenúa. Las manchas persistentes o cambiantes las valora el dermatólogo." },
+      { "id": "m09-p11", "q": "¿Qué contaminante se forma por acción de la luz solar sobre otros contaminantes y oxida los lípidos de la capa córnea?", "opciones": ["Dióxido de carbono", "Vapor de agua", "Oxígeno", "Ozono troposférico"], "correcta": 3, "explicacion": "El ozono a nivel del suelo es un contaminante secundario que oxida lípidos de la piel y agota la vitamina E." },
+      { "id": "m09-p12", "q": "¿Qué norma establece en México los lineamientos del Índice AIRE Y SALUD?", "opciones": ["Una norma sobre etiquetado de alimentos", "La NOM-172-SEMARNAT-2023", "No existe un índice oficial de calidad del aire", "Una norma de COFEPRIS sobre cosméticos"], "correcta": 1, "explicacion": "La NOM-172-SEMARNAT-2023, publicada en el DOF el 25 de enero de 2024, establece cómo obtener y comunicar el índice." },
+      { "id": "m09-p13", "q": "¿Qué efecto tiene la humedad ambiental baja sobre la piel?", "opciones": ["Aumenta la producción de sebo", "Elimina la radiación UV", "Aumenta la pérdida de agua de la capa córnea y favorece tirantez y descamación", "Cierra los poros de forma permanente"], "correcta": 2, "explicacion": "El aire seco extrae agua de la capa córnea, que pierde flexibilidad; se produce un estado de deshidratación." },
+      { "id": "m09-p14", "q": "¿Por qué fumar retrasa la cicatrización y apaga el tono de la piel?", "opciones": ["Porque la nicotina contrae los vasos y reduce el flujo de sangre y oxígeno a la piel", "Porque aumenta la melanina", "Porque hidrata en exceso la capa córnea", "Porque bloquea la radiación UVB"], "correcta": 0, "explicacion": "La vasoconstricción y el estrés oxidativo del humo reducen la reparación y apagan el tono." },
+      { "id": "m09-p15", "q": "¿Qué mostraron los estudios con estudiantes en época de exámenes?", "opciones": ["Una recuperación más rápida de la barrera", "Una recuperación más lenta de la barrera y un empeoramiento del acné asociado al estrés", "La desaparición del acné", "Un aumento del colágeno"], "correcta": 1, "explicacion": "El estrés de los exámenes se asoció con una barrera que se recuperaba más lento y con más acné." },
+      { "id": "m09-p16", "q": "Caso: un cliente pregunta si tomar ocho vasos de agua al día eliminará su piel seca. ¿Qué respondes?", "opciones": ["Que sí, garantiza una piel hidratada", "Que tome los suplementos que tú le indiques", "Que el agua no tiene importancia para la salud", "Que hidratarse es bueno para la salud, pero la evidencia de que beber más agua mejore la piel seca es limitada; ayuda más cuidar la barrera con baños tibios y emolientes"], "correcta": 3, "explicacion": "La respuesta honesta reconoce el valor de hidratarse sin prometer un efecto en la piel que la evidencia no respalda, y orienta hacia el cuidado de la barrera." }
+    ]
+  },
+  "fuentes": [
+    { "tipo": "academica", "titulo": "The skin aging exposome. Journal of Dermatological Science 85(3): 152-161", "autor": "Krutmann J, Bouloc A, Sore G, Bernard BA, Passeron T", "anio": 2017 },
+    { "tipo": "oficial", "titulo": "Global Solar UV Index: A Practical Guide", "autor": "Organización Mundial de la Salud, OMM, PNUMA e ICNIRP", "anio": 2002 },
+    { "tipo": "academica", "titulo": "Impact of long-wavelength UVA and visible light on melanocompetent skin. Journal of Investigative Dermatology 130(8): 2092-2097", "autor": "Mahmoud BH, Ruvolo E, Hexsel CL, et al.", "anio": 2010 },
+    { "tipo": "academica", "titulo": "Airborne particle exposure and extrinsic skin aging. Journal of Investigative Dermatology 130(12): 2719-2726", "autor": "Vierkötter A, Schikowski T, Ranft U, et al.", "anio": 2010 },
+    { "tipo": "academica", "titulo": "Tobacco smoke causes premature skin aging. Journal of Dermatological Science 48(3): 169-175", "autor": "Morita A", "anio": 2007 },
+    { "tipo": "oficial", "titulo": "NOM-172-SEMARNAT-2023, Lineamientos para la obtención y comunicación del Índice de Calidad del Aire y Riesgos a la Salud (DOF 25 de enero de 2024)", "autor": "Secretaría de Medio Ambiente y Recursos Naturales", "anio": 2024 }
+  ]
+}

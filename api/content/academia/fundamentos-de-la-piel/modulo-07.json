@@ -1,0 +1,795 @@
+{
+  "programa": "fundamentos-de-la-piel",
+  "modulo": 7,
+  "titulo": "Tipos y estados de la piel: observar y clasificar en cabina",
+  "estado": "borrador",
+  "version": 1,
+  "resumen": "En la cabina, clasificar la piel es el primer paso para elegir un cuidado cosmético seguro. En este módulo aprendes a separar dos preguntas que suelen confundirse: qué tipo de piel tiene la persona, un rasgo constitucional ligado sobre todo a la producción de sebo, y en qué estado se encuentra hoy: hidratación, sensibilidad, tendencia acneica, pigmentación o fotoenvejecimiento. Practicas una evaluación ordenada con entrevista, luz, tacto y registro, y reconoces las señales que obligan a detenerse y derivar al dermatólogo. La meta es observar y describir, nunca diagnosticar.",
+  "objetivos": [
+    "Diferenciar el tipo de piel (constitucional) del estado de la piel (cambiante) con ejemplos concretos.",
+    "Describir los rasgos observables de la piel normal, seca, grasa y mixta.",
+    "Reconocer los estados más frecuentes: deshidratación, sensibilidad, tendencia acneica, hiperpigmentación y fotoenvejecimiento.",
+    "Aplicar una secuencia de evaluación en cabina basada en entrevista, observación, palpación y registro.",
+    "Redactar una conclusión descriptiva e identificar las señales de alerta que requieren derivar al dermatólogo."
+  ],
+  "duracionMin": 105,
+  "portada": {
+    "id": "fundamentos-de-la-piel/m07/portada",
+    "proporcion": "16:9",
+    "alt": "Una cosmetóloga observa con lupa de aumento el rostro de una clienta recostada en una cabina luminosa.",
+    "prompt": "Fotografía editorial realista de una cabina estética luminosa en tonos crema y rosa empolvado. Una cosmetóloga de piel morena clara, con el cabello recogido, guantes de nitrilo y cubrebocas, observa con una lupa de aumento con luz el rostro de una clienta de unos cuarenta años y fototipo intermedio, recostada en la camilla con una banda para el cabello. En un carrito auxiliar hay una tabla con hojas en blanco, toallas dobladas y frascos sin etiqueta. Luz natural suave desde una ventana lateral, encuadre horizontal a media distancia, piel con textura natural y poros visibles, ambiente sereno y profesional. Evitar: texto, letreros, marcas o logotipos, retoque excesivo de la piel, lesiones, gestos de dolor, rostros de personas reales o famosas."
+  },
+  "temas": [
+    {
+      "n": "7.1",
+      "titulo": "Tipo y estado: dos preguntas distintas",
+      "minutos": 14,
+      "enPocasPalabras": "El tipo de piel es lo que traes de base: sobre todo, cuánta grasa produce tu piel y dónde. El estado es cómo está tu piel hoy: si le falta agua, si está irritada, si tiene granitos o manchas. El tipo cambia muy lento; el estado puede cambiar en días.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Cuando una persona se acuesta en la camilla, la primera pregunta que te haces es «¿qué piel tiene?». Parece sencilla, pero en realidad son dos preguntas distintas. La primera es **qué tipo de piel tiene**: un rasgo de base, ligado sobre todo a cuánto sebo producen sus glándulas sebáceas y a cómo se reparten en el rostro. La segunda es **en qué estado se encuentra hoy**: si está deshidratada, irritada, reactiva, con brotes, con manchas o con signos de daño solar acumulado. Separar ambas preguntas es la habilidad central de este módulo y la base de cualquier cuidado cosmético bien elegido."
+        },
+        { "tipo": "subtitulo", "texto": "El tipo de piel: lo que viene de base" },
+        {
+          "tipo": "texto",
+          "md": "El **tipo de piel** es constitucional: depende en gran parte de la genética, del tamaño y la actividad de las glándulas sebáceas y del ambiente hormonal de cada etapa de la vida. Por eso se mantiene relativamente estable durante años. Una persona con piel grasa a los 25 años probablemente seguirá notando brillo en la frente y la nariz a los 35, aunque la intensidad varíe.\n\nEstable no significa inmóvil. Los andrógenos de la pubertad aumentan la producción de sebo y, con el paso de las décadas, sobre todo después de la menopausia, esa producción suele disminuir. El tipo cambia lento, a lo largo de años y etapas; no de una semana a otra."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/01",
+          "proporcion": "16:9",
+          "alt": "Dos personas de distinta edad y fototipo, sentadas lado a lado, muestran diferente brillo y textura en el rostro.",
+          "pie": "El tipo de piel se reconoce por el brillo y la textura habituales, con independencia de la edad o el fototipo.",
+          "prompt": "Retrato editorial realista en un estudio de fondo crema con acentos rosa empolvado. Dos personas sentadas lado a lado, mirando ligeramente hacia la cámara con expresión tranquila: un hombre joven de fototipo V con brillo natural visible en la frente y la nariz, y una mujer de unos cincuenta y cinco años de fototipo II con piel de aspecto mate y líneas finas alrededor de los ojos. Ambos visten ropa lisa de tonos neutros. Luz suave y difusa desde la izquierda que revela la textura real de la piel y los poros, encuadre horizontal de medio cuerpo. Evitar: texto, logotipos, maquillaje intenso, retoque digital de la piel, gestos exagerados, personas reales o famosas."
+        },
+        {
+          "tipo": "texto",
+          "md": "En cosmetología se usan cuatro tipos clásicos: **normal** (también llamada eudérmica), **seca**, **grasa** y **mixta**. Algunos textos agregan la piel sensible como un quinto tipo; en este programa la tratamos como un estado o una tendencia, porque lo que la define es la reactividad y no la cantidad de sebo. Verás cada tipo con detalle en el tema 7.2."
+        },
+        { "tipo": "subtitulo", "texto": "El estado de la piel: lo que le pasa ahora" },
+        {
+          "tipo": "texto",
+          "md": "El **estado de la piel** describe su condición en este momento. Responde a preguntas como: ¿le falta agua a la capa córnea?, ¿reacciona con ardor o enrojecimiento?, ¿tiene comedones o granitos?, ¿hay manchas recientes?, ¿se ven arrugas finas o pérdida de firmeza por el sol acumulado?\n\nLos estados cambian en días, semanas o meses, y dependen de factores que pueden modificarse: el clima, el aire acondicionado, una limpieza demasiado agresiva, un activo nuevo mal tolerado, el estrés, el sueño, el ciclo menstrual o la exposición solar. Un mismo rostro puede presentar varios estados a la vez, y cualquiera de ellos puede aparecer sobre cualquier tipo."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Tipo de piel frente a estado de la piel",
+          "columnas": ["Aspecto", "Tipo de piel", "Estado de la piel"],
+          "filas": [
+            ["Origen", "Constitucional: genética, glándulas sebáceas y hormonas de la etapa de vida", "Circunstancial: clima, rutina, productos, hábitos, sol y estrés"],
+            ["Velocidad de cambio", "Lenta, a lo largo de años", "Rápida, en días, semanas o meses"],
+            ["Pregunta que responde", "¿Cuánto sebo produce esta piel y en qué zonas?", "¿Qué le falta, qué le sobra o qué la altera hoy?"],
+            ["Ejemplos", "Normal, seca, grasa, mixta", "Deshidratada, sensible o reactiva, con tendencia acneica, con hiperpigmentación, fotoenvejecida"],
+            ["Cuántos a la vez", "Uno, que puede variar por zonas en la piel mixta", "Ninguno, uno o varios al mismo tiempo"],
+            ["Qué decide en la cabina", "La base del cuidado: tipo de limpieza y texturas", "Los objetivos del momento y la vigilancia de señales de alerta"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m07/d1",
+          "pie": "El estado se apoya sobre el tipo: son dos capas de la misma evaluación.",
+          "descripcion": "Diagrama en dos niveles. Abajo, una franja ancha y estable etiquetada como tipo de piel, dividida en sus cuatro opciones. Arriba, varias fichas sueltas etiquetadas como estados, dibujadas como piezas que pueden colocarse sobre cualquier tipo. A los lados, flechas que entran hacia las fichas de estado con los factores que las modifican.",
+          "elementos": ["Tipo de piel (constitucional)", "Normal", "Seca", "Grasa", "Mixta", "Estados (cambiantes)", "Deshidratada", "Sensible o reactiva", "Tendencia acneica", "Hiperpigmentación", "Fotoenvejecimiento", "Factores: clima, rutina, sol, estrés, hormonas"]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "Grasa y deshidratada al mismo tiempo",
+          "md": "Sebo y agua son cosas distintas. El sebo es una mezcla de lípidos que sale de las glándulas sebáceas; la hidratación se refiere al agua que retiene la capa córnea gracias a sus lípidos intercelulares y al factor natural de hidratación. Por eso una piel grasa puede brillar en la zona T y, al mismo tiempo, sentirse tirante y verse opaca por falta de agua, algo frecuente cuando se limpia en exceso o se usan productos muy secantes."
+        },
+        { "tipo": "subtitulo", "texto": "Por qué importa separar las dos preguntas" },
+        {
+          "tipo": "texto",
+          "md": "Confundir tipo y estado lleva a errores de cuidado. Si a una piel grasa deshidratada la tratas como si fuera seca, quizá le apliques texturas muy oclusivas que favorecen los comedones. Si a una piel seca con descamación la tratas como si le «sobraran» células muertas, quizá la exfolies de más y empeores su barrera. Y si etiquetas como «piel sensible de por vida» a alguien que solo está irritado por un producto, pierdes la oportunidad de identificar y retirar la causa.\n\nPensar en dos capas te permite elegir la base del cuidado según el tipo (limpieza y texturas) y los objetivos del momento según el estado (reparar la barrera, calmar, regular el brillo, fotoproteger)."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/02",
+          "proporcion": "4:3",
+          "alt": "Manos con guantes sostienen una tabla con una hoja de evaluación en blanco junto a una camilla.",
+          "pie": "Anotar tipo y estado en renglones separados ayuda a no confundirlos.",
+          "prompt": "Fotografía editorial realista en una cabina estética clara con paredes crema y textiles rosa empolvado. Primer plano de las manos de una cosmetóloga con guantes de nitrilo color lila que sostienen una tabla sujetapapeles con una hoja en blanco y una pluma, a la altura del pecho. Al fondo, desenfocada, una clienta de unos treinta años y fototipo IV recostada en la camilla con una banda para el cabello y una toalla sobre los hombros. Luz natural suave, profundidad de campo reducida, encuadre horizontal. Evitar: texto legible, formularios impresos con letras, logotipos, marcas, uñas largas decoradas, desorden, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "ejemplo",
+          "titulo": "Misma piel, dos momentos",
+          "md": "Una clienta de 32 años, fototipo IV, llega en abril: brillo en frente y nariz, poros visibles en la parte interna de las mejillas y algunos comedones. Registras **tipo: mixta**; **estado: tendencia comedogénica leve**. Regresa en diciembre, tras semanas de viento frío y de lavarse con jabón de barra: la zona T sigue con brillo, pero las mejillas están tirantes y con descamación fina. El tipo no cambió; el estado sí. Ahora agregas **deshidratación** y ajustas el plan."
+        },
+        { "tipo": "subtitulo", "texto": "Lo que la clasificación no es" },
+        {
+          "tipo": "texto",
+          "md": "Clasificar tipo y estado es una **descripción cosmética**: sirve para elegir limpieza, texturas y cuidados de cabina y de casa. No es un diagnóstico. Palabras como dermatitis, rosácea, psoriasis, melasma o acné moderado a severo nombran enfermedades o condiciones médicas, y confirmarlas corresponde al dermatólogo. Tu papel es observar con método, registrar lo que ves con lenguaje descriptivo («enrojecimiento persistente en mejillas», «pápulas y pústulas en mentón») y, cuando algo sale de lo cosmético, derivar."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Cuándo detener la evaluación",
+          "md": "Suspende el servicio y sugiere valoración dermatológica si observas un lunar o una mancha que la persona refiere como nuevo o cambiante, una herida que no cicatriza, lesiones que sangran o supuran, nódulos dolorosos, placas con descamación gruesa, signos de infección o una reacción intensa a un producto. No pongas nombre de enfermedad: describe lo que ves y explica que la valoración médica es el paso seguro."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Modelos de clasificación más allá de los cuatro tipos",
+          "md": "La clasificación de cuatro tipos es útil, pero simplifica. La dermatóloga Leslie Baumann propuso un modelo con cuatro ejes independientes (grasa o seca, sensible o resistente, pigmentada o no pigmentada, con tendencia a arrugas o firme) que combina rasgos constitucionales y estados en 16 perfiles. En investigación, la piel se describe además con mediciones biofísicas: la **corneometría** estima la hidratación de la capa córnea por capacitancia eléctrica, la **pérdida transepidérmica de agua** refleja la función de barrera y la **sebumetría** cuantifica el sebo superficial. El fototipo de Fitzpatrick, que viste en el módulo 6, es otro eje distinto: describe la respuesta al sol, no el sebo ni la hidratación."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/03",
+          "proporcion": "3:4",
+          "alt": "Una mujer joven se toca la mejilla frente al espejo de un baño en una mañana fría.",
+          "pie": "El frío y el aire seco cambian el estado de la piel, no su tipo.",
+          "prompt": "Fotografía editorial realista y cálida de una mujer de unos veinticinco años, fototipo III, de pie frente al espejo de un baño luminoso con azulejos crema, vestida con un suéter tejido color rosa empolvado. Se toca suavemente la mejilla con la yema de los dedos, con expresión de leve incomodidad, como quien nota tirantez. Luz natural fría de mañana de invierno que entra por una ventana, vapor tenue en el ambiente, piel real con textura natural y ligera opacidad en las mejillas. Encuadre vertical a la altura del hombro. Evitar: texto, marcas, frascos con etiquetas, enrojecimiento intenso, lesiones, gestos de dolor, retoque excesivo, personas reales o famosas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "vf",
+          "titulo": "Mito o realidad: tipo y estado",
+          "afirmaciones": [
+            { "texto": "El tipo de piel puede cambiar de una semana a otra según el clima.", "verdadero": false, "explicacion": "El clima modifica el estado, por ejemplo la hidratación. El tipo es constitucional y cambia lento, a lo largo de años y etapas hormonales." },
+            { "texto": "Una piel grasa puede estar deshidratada.", "verdadero": true, "explicacion": "El sebo son lípidos de las glándulas sebáceas; la deshidratación es falta de agua en la capa córnea. Ambos pueden coexistir." },
+            { "texto": "La piel sensible es siempre un tipo fijo de por vida.", "verdadero": false, "explicacion": "En este programa se trata como estado o tendencia: muchas veces la reactividad mejora al retirar la causa, como un producto irritante o una limpieza agresiva." },
+            { "texto": "Clasificar la piel en cabina equivale a diagnosticar una enfermedad.", "verdadero": false, "explicacion": "Es una descripción cosmética para elegir cuidados. Las enfermedades de la piel las diagnostica el dermatólogo." },
+            { "texto": "Una misma persona puede presentar varios estados a la vez.", "verdadero": true, "explicacion": "Por ejemplo, deshidratación y tendencia acneica, o hiperpigmentación y fotoenvejecimiento al mismo tiempo." }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "En tu ficha de evaluación escribe siempre dos renglones separados: **Tipo** (uno solo, con zonas si es mixta) y **Estados** (uno o varios, o «sin estados relevantes»). Cuando repitas la evaluación en visitas posteriores, compara sobre todo los estados: son los que el cuidado y los hábitos pueden mover, y los que te dirán si el plan está funcionando."
+        }
+      ],
+      "glosario": [
+        { "termino": "Tipo de piel", "definicion": "Rasgo constitucional y relativamente estable de la piel, definido sobre todo por la cantidad y distribución del sebo: normal, seca, grasa o mixta." },
+        { "termino": "Estado de la piel", "definicion": "Condición transitoria de la piel en un momento dado, como deshidratación, sensibilidad o hiperpigmentación; puede aparecer sobre cualquier tipo." },
+        { "termino": "Sebo", "definicion": "Mezcla de lípidos producida por las glándulas sebáceas que lubrica la superficie de la piel y el pelo." },
+        { "termino": "Capa córnea", "definicion": "Capa más externa de la epidermis, formada por células aplanadas sin núcleo y lípidos; es la principal barrera frente a la pérdida de agua." },
+        { "termino": "Hidratación cutánea", "definicion": "Cantidad de agua que retiene la capa córnea; no depende de la cantidad de sebo." },
+        { "termino": "Derivación", "definicion": "Recomendación de que la persona acuda con un médico, en este caso el dermatólogo, cuando un hallazgo sale del ámbito cosmético." }
+      ],
+      "verificacion": [
+        { "id": "t7.1-1", "q": "¿Qué describe principalmente el tipo de piel?", "opciones": ["El nivel de hidratación de la capa córnea en ese día", "La producción y distribución constitucional de sebo", "La reacción de la piel a un producto nuevo", "La cantidad de manchas por exposición solar"], "correcta": 1, "explicacion": "El tipo es constitucional y se define sobre todo por el sebo. La hidratación, la reactividad y las manchas son estados que cambian con el tiempo." },
+        { "id": "t7.1-2", "q": "¿Cuál de estas palabras nombra un estado y no un tipo de piel?", "opciones": ["Mixta", "Grasa", "Seca", "Deshidratada"], "correcta": 3, "explicacion": "Deshidratada describe falta de agua en la capa córnea, una condición transitoria. Mixta, grasa y seca son tipos." },
+        { "id": "t7.1-3", "q": "Una clienta con piel grasa refiere tirantez después de usar un limpiador muy espumoso. ¿Cómo lo registras?", "opciones": ["Tipo grasa con estado de deshidratación", "Cambio de tipo grasa a tipo seca", "Piel sensible como tipo permanente", "Diagnóstico de dermatitis"], "correcta": 0, "explicacion": "El tipo no cambia por un limpiador; lo que aparece es un estado de deshidratación. Poner nombres de enfermedad no corresponde a la cabina." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Understanding and treating various skin types: the Baumann Skin Type Indicator. Dermatologic Clinics 26(3): 359-373", "autor": "Baumann L", "anio": 2008 },
+        { "tipo": "academica", "titulo": "Cosmetic Dermatology: Principles and Practice, 2.ª ed.", "autor": "Baumann L", "anio": 2009 },
+        { "tipo": "academica", "titulo": "Moisturization and skin barrier function. Dermatologic Therapy 17 (supl. 1): 43-48", "autor": "Rawlings AV, Harding CR", "anio": 2004 },
+        { "tipo": "academica", "titulo": "Cosmetic Dermatology: Products and Procedures, 2.ª ed.", "autor": "Draelos ZD (ed.)", "anio": 2016 }
+      ]
+    },
+    {
+      "n": "7.2",
+      "titulo": "Los tipos de piel: normal, seca, grasa y mixta",
+      "minutos": 14,
+      "enPocasPalabras": "Hay cuatro tipos de piel. La normal está equilibrada, la seca produce poca grasa y se siente tirante, la grasa brilla y tiene poros grandes, y la mixta es grasa en frente, nariz y mentón pero no en las mejillas. Para saber cuál es, se mira, se toca y se pregunta.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Para reconocer el tipo de piel reúnes tres fuentes de información: **lo que ves** (brillo, tamaño de los poros, textura), **lo que sientes al tacto** con guante (suavidad, aspereza, grosor) y **lo que la persona te cuenta** (si se siente tirante después de lavarse o si brilla a media mañana). Ninguna de las tres basta por sí sola; juntas dan una imagen confiable. Recuerda evaluar con la piel limpia y sin maquillaje, porque los productos ocultan el brillo y la textura."
+        },
+        { "tipo": "subtitulo", "texto": "Piel normal o eudérmica" },
+        {
+          "tipo": "texto",
+          "md": "La **piel normal** tiene un equilibrio entre producción de sebo e hidratación. Se ve uniforme, con textura fina, poros pequeños y poco visibles, sin brillo marcado ni zonas ásperas. Al tacto es suave y elástica, y la persona no refiere tirantez ni sensación grasosa durante el día.\n\nEn adultos, una piel normal «pura» es menos frecuente de lo que se cree, y ser normal no significa ser perfecta: puede tener estados como deshidratación pasajera o manchas solares. El objetivo del cuidado es mantener ese equilibrio con limpieza suave, hidratación ligera y fotoprotección diaria."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/04",
+          "proporcion": "4:3",
+          "alt": "Primer plano de una mejilla con textura fina y uniforme y poros poco visibles.",
+          "pie": "La piel normal muestra textura fina, poros poco visibles y ausencia de brillo marcado.",
+          "prompt": "Fotografía macro editorial realista de la mejilla y el pómulo de una mujer de unos veintiocho años, fototipo IV, en perfil tres cuartos. Piel con textura fina y uniforme, poros pequeños apenas visibles, vello facial fino natural, sin brillo graso y sin maquillaje. Fondo desenfocado de tonos crema y rosa empolvado de una cabina estética. Luz natural lateral suave que revela el relieve real de la piel, enfoque nítido en la mejilla, encuadre horizontal cerrado. Evitar: texto, logotipos, piel de aspecto plástico o retocado, filtros de belleza, lesiones, maquillaje, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Piel seca" },
+        {
+          "tipo": "texto",
+          "md": "La **piel seca** como tipo produce poco sebo (por eso algunos textos la llaman alípica) y con frecuencia tiene también menos lípidos en su barrera. Se ve mate, con poros casi invisibles y textura fina, a veces con descamación muy fina en mejillas o en el contorno de la boca. Al tacto puede sentirse áspera, y la persona suele referir tirantez después de lavarse y necesidad de aplicar crema.\n\nLas líneas finas se notan antes en la piel seca, porque la superficie con menos lípidos refleja la luz de forma más irregular. Es más común en personas mayores y empeora con climas fríos y secos. Cuando la descamación es intensa, gruesa, con grietas o con comezón persistente, ya no hablas de un tipo cosmético: es motivo de valoración dermatológica."
+        },
+        { "tipo": "subtitulo", "texto": "Piel grasa" },
+        {
+          "tipo": "texto",
+          "md": "La **piel grasa** produce más sebo del promedio, condición que se llama seborrea. Se reconoce por el brillo en la zona T y a menudo también en las mejillas, por poros dilatados y por una textura más gruesa, a veces con aspecto de «cáscara de naranja». El maquillaje tiende a desvanecerse en pocas horas y la persona refiere sensación grasosa a media mañana.\n\nLas glándulas sebáceas responden a los andrógenos; por eso la piel grasa es frecuente desde la pubertad y, en promedio, los hombres producen más sebo que las mujeres. Este tipo tiene más tendencia a formar comedones, porque el sebo y las células que se desprenden pueden tapar la salida del folículo. Su cuidado busca regular el brillo sin despojar a la piel de su barrera: limpieza suave, texturas ligeras y no comedogénicas, y fotoprotección."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/05",
+          "proporcion": "4:3",
+          "alt": "Frente y nariz de un hombre joven con brillo natural y poros visibles.",
+          "pie": "En la piel grasa, el brillo y los poros dilatados se concentran en la zona T.",
+          "prompt": "Fotografía editorial realista en primer plano de la frente y la nariz de un hombre de unos treinta años, fototipo III, con cabello corto oscuro, mirando de frente con expresión neutra. Brillo natural visible en la frente y el dorso de la nariz, poros visibles en las alas nasales, piel con textura real y sin maquillaje. Fondo liso de tonos crema y rosa empolvado de un estudio luminoso. Luz suave frontal ligeramente cenital que hace notar el reflejo del sebo, encuadre horizontal cerrado desde las cejas hasta el labio superior. Evitar: texto, logotipos, lesiones inflamadas, sudor exagerado, retoque digital, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Piel mixta" },
+        {
+          "tipo": "texto",
+          "md": "La **piel mixta** combina zonas con distinto comportamiento: la zona T (frente, nariz y mentón) es grasa, con brillo y poros visibles, mientras que las mejillas y el contorno son normales o secos. Es el tipo más común en adolescentes y adultos jóvenes. La diferencia tiene base anatómica: la densidad de glándulas sebáceas es mayor en la parte central del rostro.\n\nEl cuidado de la piel mixta suele ser **por zonas**: una textura más ligera o un producto regulador en la zona T y una hidratación más nutritiva en las mejillas, en lugar de tratar todo el rostro como si fuera grasa o como si fuera seco."
+        },
+        { "tipo": "subtitulo", "texto": "Lo que puede confundir la lectura del tipo" },
+        {
+          "tipo": "lista",
+          "titulo": "Factores que distorsionan la observación",
+          "items": [
+            "Maquillaje o protector solar recién aplicados: ocultan el brillo o lo aumentan si tienen acabado luminoso.",
+            "Horas desde el último lavado: a primera hora casi toda piel se ve mate; por la tarde, casi toda brilla un poco.",
+            "Barba o vello facial abundante: retiene sebo y dificulta ver poros; observa también las zonas sin vello.",
+            "Calor, ejercicio o nervios: el sudor brilla y puede confundirse con sebo.",
+            "Un estado intenso, como una irritación o una deshidratación marcada, que enmascara el comportamiento habitual de la piel."
+          ]
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Rasgos observables por tipo de piel",
+          "columnas": ["Rasgo", "Normal", "Seca", "Grasa", "Mixta"],
+          "filas": [
+            ["Brillo", "Mínimo", "Ausente, aspecto mate", "Marcado en zona T y mejillas", "Marcado solo en zona T"],
+            ["Poros", "Pequeños, poco visibles", "Casi invisibles", "Dilatados y visibles", "Visibles en nariz y frente"],
+            ["Textura al tacto", "Suave y elástica", "Fina, a veces áspera", "Gruesa, untuosa", "Distinta según la zona"],
+            ["Sensación que refiere", "Cómoda todo el día", "Tirantez tras el lavado", "Grasa a media mañana", "Brillo central y mejillas cómodas o tirantes"],
+            ["Tendencia frecuente", "Mantener el equilibrio", "Líneas finas y descamación fina", "Comedones y brillo", "Comedones en zona T"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m07/d2",
+          "pie": "Mapa de zonas faciales que se usa para describir el tipo y su distribución.",
+          "descripcion": "Silueta frontal de un rostro sin rasgos identificables. La zona T, que va de la frente al dorso de la nariz y baja al mentón, aparece sombreada en un tono más intenso con la etiqueta de mayor densidad de glándulas sebáceas. Las mejillas y el contorno aparecen en un tono claro. Cada zona lleva su etiqueta y una flecha lateral indica que la piel mixta combina ambos tonos.",
+          "elementos": ["Frente", "Nariz", "Mentón", "Zona T: más glándulas sebáceas", "Mejillas", "Contorno mandibular", "Contorno de ojos", "Piel mixta: zona T grasa y mejillas normales o secas"]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "Por qué la zona T brilla más",
+          "md": "Las glándulas sebáceas existen en casi toda la piel, excepto en palmas y plantas, pero su densidad es mucho mayor en el rostro, el cuero cabelludo, la parte alta del pecho y la espalda. En la frente y la nariz se cuentan por cientos en cada centímetro cuadrado, y además son de mayor tamaño. Por eso esas zonas brillan antes y son donde se concentran los comedones."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "mexico",
+          "titulo": "Un país, muchos climas",
+          "md": "México reúne costas cálidas y húmedas, como las del Golfo y la península de Yucatán; un altiplano central seco y a gran altitud, donde están la Ciudad de México, Puebla y Toluca; y zonas áridas del norte con inviernos fríos y veranos muy calurosos. Una misma persona puede sentir su piel más grasa en el calor húmedo de la costa y más tirante en el invierno seco del altiplano. Eso es un cambio de estado, no de tipo: pregúntale siempre dónde vive y en qué temporada estás evaluando."
+        },
+        { "tipo": "subtitulo", "texto": "La prueba del papel secante" },
+        {
+          "tipo": "pasos",
+          "titulo": "Cómo observar el sebo de forma sencilla",
+          "pasos": [
+            { "titulo": "Limpia y espera", "md": "Retira maquillaje y realiza una limpieza suave. Deja pasar un tiempo para que la piel recupere su superficie habitual: justo después de lavar, casi cualquier piel se ve mate." },
+            { "titulo": "Aplica el papel por zonas", "md": "Con guantes, coloca hojas de papel secante o pañuelo fino sobre frente, nariz, cada mejilla y mentón, presionando con suavidad unos segundos." },
+            { "titulo": "Observa las marcas", "md": "Mira el papel a contraluz: las zonas con más sebo dejan manchas translúcidas más extensas. Anota qué zonas marcan y cuáles no." },
+            { "titulo": "Interpreta con el resto de datos", "md": "La prueba orienta, no mide. Combínala con lo que viste con lupa y con lo que la persona refiere a lo largo del día antes de concluir el tipo." }
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/06",
+          "proporcion": "4:3",
+          "alt": "Manos con guantes colocan una hoja de papel secante sobre la frente de una persona recostada.",
+          "pie": "La prueba del papel secante orienta sobre qué zonas producen más sebo.",
+          "prompt": "Fotografía editorial realista en una cabina estética luminosa de tonos crema y rosa empolvado. Manos de una cosmetóloga con guantes de nitrilo colocan con suavidad una hoja delgada de papel secante sobre la frente de una persona joven de fototipo VI, recostada en la camilla con una banda clara que recoge el cabello y los ojos cerrados con expresión relajada. Sobre una charola cercana hay más hojas dobladas. Luz natural difusa, encuadre horizontal a corta distancia, piel con textura real. Evitar: texto, marcas, logotipos, papel con impresiones, retoque excesivo, maquillaje, personas reales o famosas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "relacionar",
+          "titulo": "Relaciona cada tipo con su descripción",
+          "instruccion": "Une cada tipo de piel con los rasgos que mejor lo describen.",
+          "pares": [
+            { "a": "Normal", "b": "Textura fina, poros poco visibles, sin brillo ni tirantez" },
+            { "a": "Seca", "b": "Aspecto mate, poros casi invisibles y tirantez tras el lavado" },
+            { "a": "Grasa", "b": "Brillo en zona T y mejillas, poros dilatados y textura gruesa" },
+            { "a": "Mixta", "b": "Zona T con brillo y mejillas normales o secas" },
+            { "a": "Zona T", "b": "Frente, nariz y mentón, con mayor densidad de glándulas sebáceas" }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Antes de concluir el tipo, haz siempre la misma pregunta: «¿cómo sientes tu piel a media mañana, sin productos?». Esa respuesta, sumada a la observación con la piel limpia, te protege de clasificar a alguien por cómo se ve en un solo momento. Si dudas entre dos tipos, registra el más probable y anota la zona que te genera duda para revisarla en la siguiente visita."
+        }
+      ],
+      "glosario": [
+        { "termino": "Piel eudérmica", "definicion": "Otro nombre de la piel normal: equilibrada en sebo e hidratación, con textura fina y poros poco visibles." },
+        { "termino": "Seborrea", "definicion": "Producción de sebo superior al promedio; es el rasgo que define a la piel grasa." },
+        { "termino": "Piel alípica", "definicion": "Piel que produce poco sebo; se usa como sinónimo de piel seca como tipo." },
+        { "termino": "Zona T", "definicion": "Región central del rostro que forma una T: frente, dorso de la nariz y mentón, con mayor densidad de glándulas sebáceas." },
+        { "termino": "Glándula sebácea", "definicion": "Glándula anexa al folículo piloso que produce sebo; responde a las hormonas andrógenas." },
+        { "termino": "Comedón", "definicion": "Tapón de sebo y células en la salida del folículo; puede ser abierto (punto negro) o cerrado (punto blanco)." }
+      ],
+      "verificacion": [
+        { "id": "t7.2-1", "q": "¿Qué conjunto de rasgos es más característico de la piel grasa?", "opciones": ["Poros casi invisibles y tacto áspero", "Tirantez después de lavar y aspecto mate", "Brillo y poros dilatados en zona T y a veces en mejillas", "Descamación fina en todo el rostro"], "correcta": 2, "explicacion": "La piel grasa produce más sebo, lo que da brillo y poros visibles. Mate, tirante y con descamación fina describe a la piel seca." },
+        { "id": "t7.2-2", "q": "En la piel mixta, ¿dónde suele concentrarse el exceso de sebo?", "opciones": ["En frente, nariz y mentón", "En el cuello", "En el contorno de ojos", "En los lóbulos de las orejas"], "correcta": 0, "explicacion": "La zona T tiene mayor densidad de glándulas sebáceas; en la piel mixta es la parte grasa, mientras las mejillas son normales o secas." },
+        { "id": "t7.2-3", "q": "¿Para qué sirve la prueba del papel secante en cabina?", "opciones": ["Para medir con exactitud la cantidad de sebo", "Para diagnosticar acné", "Para determinar el fototipo", "Para orientar visualmente qué zonas producen más sebo"], "correcta": 3, "explicacion": "Es una ayuda visual que orienta, no una medición exacta ni un diagnóstico. El fototipo se determina por la respuesta al sol." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Epidermal surface lipids. Dermato-Endocrinology 1(2): 72-76", "autor": "Pappas A", "anio": 2009 },
+        { "tipo": "academica", "titulo": "Cosmetic Dermatology: Principles and Practice, 2.ª ed.", "autor": "Baumann L", "anio": 2009 },
+        { "tipo": "academica", "titulo": "Cosmetic Dermatology: Products and Procedures, 2.ª ed.", "autor": "Draelos ZD (ed.)", "anio": 2016 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en textos de cosmetología y dermatología cosmética sobre evaluación de tipos de piel", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "7.3",
+      "titulo": "Los estados de la piel: deshidratación, sensibilidad, tendencia acneica, manchas y fotoenvejecimiento",
+      "minutos": 15,
+      "enPocasPalabras": "Los estados son cómo está la piel ahora: puede faltarle agua, puede reaccionar con ardor, puede tener granitos, manchas o señales de sol acumulado. Muchos mejoran con buen cuidado, pero algunos necesitan que la persona vaya al dermatólogo.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Ya sabes reconocer el tipo. Ahora aprenderás a describir los **estados** más frecuentes que verás en la cabina. Para cada uno vas a identificar sus señales, sus causas habituales y el límite entre lo que se acompaña con cuidado cosmético y lo que corresponde al médico. Recuerda que los estados pueden sumarse: es común encontrar en un mismo rostro deshidratación en las mejillas, tendencia acneica en el mentón y manchas solares en los pómulos."
+        },
+        { "tipo": "subtitulo", "texto": "Piel deshidratada" },
+        {
+          "tipo": "texto",
+          "md": "La **deshidratación** es falta de agua en la capa córnea. Ocurre cuando la barrera pierde lípidos o se altera y deja escapar más agua de lo normal, un proceso que se mide como pérdida transepidérmica de agua. Sus causas típicas son el aire seco o con aire acondicionado, el agua muy caliente, los limpiadores agresivos, los productos con mucho alcohol, el exceso de exfoliación y algunos activos mal tolerados.\n\nSe reconoce por tirantez, aspecto opaco, maquillaje que se cuartea y líneas finas muy superficiales que se notan al empujar suavemente la piel con el dedo y desaparecen al soltar. A diferencia de la piel seca como tipo, la deshidratación suele mejorar en días o pocas semanas cuando se suaviza la limpieza y se apoya la barrera."
+        },
+        { "tipo": "subtitulo", "texto": "Piel sensible o reactiva" },
+        {
+          "tipo": "texto",
+          "md": "Un grupo internacional de expertos definió la **piel sensible** como la aparición de sensaciones desagradables, como ardor, escozor, picor, dolor u hormigueo, ante estímulos que normalmente no deberían provocarlas, sin que una enfermedad de la piel lo explique. La piel puede verse normal o con enrojecimiento.\n\nLos desencadenantes más comunes son los cambios bruscos de temperatura, el viento, el sol, ciertos perfumes o conservadores, el agua dura y el estrés. En la cabina lo notas porque la persona refiere molestias con productos que la mayoría tolera, o porque el enrojecimiento después de la limpieza tarda en desaparecer. Si el enrojecimiento es persistente, con episodios de rubor intenso, granitos o vasos visibles, describe lo que ves y sugiere valoración dermatológica."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/07",
+          "proporcion": "4:3",
+          "alt": "Un hombre adulto con enrojecimiento leve y difuso en las mejillas descansa en la camilla.",
+          "pie": "En la piel reactiva, el enrojecimiento tras estímulos suaves tarda en desaparecer.",
+          "prompt": "Fotografía editorial realista en una cabina estética de tonos crema y rosa empolvado. Un hombre de unos treinta y cinco años, fototipo II, con barba corta y cabello recogido bajo una banda clara, recostado en la camilla con los ojos cerrados y expresión tranquila. En sus mejillas se aprecia un enrojecimiento leve y difuso, sin granitos ni lesiones. Una toalla blanca cubre sus hombros. Luz natural suave desde un costado, encuadre horizontal a la altura del rostro, piel con textura real. Evitar: texto, logotipos, lesiones, enrojecimiento intenso o inflamado, gestos de dolor, retoque digital, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Piel con tendencia acneica" },
+        {
+          "tipo": "texto",
+          "md": "Hablamos de **tendencia acneica** cuando la piel forma con facilidad comedones abiertos (puntos negros) y cerrados (puntos blancos), y a veces pápulas o pústulas aisladas. Es frecuente sobre piel grasa o mixta, pero también aparece en adultos con otros tipos. El acné, en sí mismo, es una enfermedad del folículo pilosebáceo y su diagnóstico y tratamiento corresponden al médico.\n\nEn la cabina puedes acompañar una tendencia comedogénica leve con limpieza adecuada, productos no comedogénicos y educación sobre no manipular las lesiones. En cambio, si ves nódulos o quistes dolorosos, muchas lesiones inflamadas, cicatrices o un brote que afecta el ánimo de la persona, la indicación es derivar. Nunca intentes extraer un nódulo: se inflama más y aumenta el riesgo de cicatriz y de mancha."
+        },
+        { "tipo": "subtitulo", "texto": "Piel con hiperpigmentación" },
+        {
+          "tipo": "texto",
+          "md": "La **hiperpigmentación** es un tono desigual por exceso de melanina en ciertas zonas. En la cabina verás tres patrones frecuentes: las **manchas solares** o lentigos, pequeñas y bien delimitadas en zonas expuestas; la **hiperpigmentación postinflamatoria**, que queda después de un granito, una irritación o una quemadura, y que es más intensa y duradera en fototipos altos; y las **manchas extensas y simétricas** en mejillas, frente o labio superior, que pueden relacionarse con hormonas y sol.\n\nTu tarea es describir forma, color, tamaño y ubicación, nunca poner nombre. Cualquier mancha nueva, que cambie, que sea de varios colores o que sangre debe valorarla un dermatólogo antes de cualquier cuidado despigmentante."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Irritar puede manchar",
+          "md": "En fototipos IV a VI, frecuentes en la población mexicana, la inflamación activa a los melanocitos con facilidad. Una exfoliación demasiado intensa, una extracción traumática o un producto irritante pueden dejar manchas que duran meses. Por eso, en estas pieles, la prioridad es la suavidad: menos fricción, activos introducidos de forma gradual y fotoprotección diaria."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/08",
+          "proporcion": "4:3",
+          "alt": "Primer plano de la mejilla de una mujer con algunas manchas pequeñas y tenues de tono más oscuro.",
+          "pie": "Describe forma, color, tamaño y ubicación de las manchas, sin ponerles nombre.",
+          "prompt": "Fotografía editorial realista en primer plano de la mejilla y el pómulo de una mujer de unos treinta años, fototipo V, con algunas máculas pequeñas, planas y tenues de tono marrón un poco más oscuro que su piel, sin granitos activos ni inflamación. Piel con textura natural y poros visibles, sin maquillaje. Fondo desenfocado de tonos crema y rosa empolvado. Luz natural suave y difusa desde la ventana, encuadre horizontal cerrado en perfil tres cuartos. Evitar: texto, logotipos, lesiones abiertas, cicatrices marcadas, inflamación, retoque digital, efecto antes y después, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Piel fotoenvejecida" },
+        {
+          "tipo": "texto",
+          "md": "El **fotoenvejecimiento** es el conjunto de cambios que deja la radiación solar acumulada durante años: arrugas finas y profundas, textura áspera, manchas, pérdida de firmeza, vasos finos visibles y menor luminosidad. Se distingue del envejecimiento intrínseco, propio del paso del tiempo, porque se concentra en zonas expuestas: rostro, cuello, escote y dorso de las manos.\n\nPara describirlo de forma ordenada, muchos profesionales usan la **escala de Glogau**, que agrupa los signos en cuatro grados según la presencia de arrugas en movimiento y en reposo. Es una herramienta descriptiva útil para registrar y comparar visitas, no un diagnóstico."
+        },
+        { "tipo": "subtitulo", "texto": "Estados que se confunden entre sí" },
+        {
+          "tipo": "lista",
+          "titulo": "Pares que conviene distinguir",
+          "items": [
+            "Enrojecimiento por la limpieza frente a reactividad: el primero desaparece en minutos; el segundo persiste o se acompaña de ardor.",
+            "Descamación por piel seca frente a descamación por exceso de exfoliación: pregunta siempre qué productos usa y con qué frecuencia.",
+            "Mancha solar frente a mancha postinflamatoria: la solar aparece en zonas expuestas sin lesión previa; la postinflamatoria ocupa el lugar de un granito o una irritación anterior.",
+            "Comedón cerrado frente a pequeño quiste o bulto firme: si no tiene salida visible, es duro o duele, no lo manipules y deriva."
+          ]
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Estados frecuentes: señales, enfoque cosmético y límite",
+          "columnas": ["Estado", "Señales observables", "Enfoque cosmético general", "Cuándo derivar"],
+          "filas": [
+            ["Deshidratación", "Tirantez, opacidad, líneas finas superficiales", "Limpieza suave, apoyo a la barrera, hidratación", "Descamación gruesa, grietas o comezón persistente"],
+            ["Sensibilidad o reactividad", "Ardor, escozor, enrojecimiento transitorio", "Rutina corta, pocos ingredientes, evitar desencadenantes", "Enrojecimiento persistente, granitos o rubor intenso"],
+            ["Tendencia acneica", "Comedones, pápulas o pústulas aisladas", "Limpieza adecuada, texturas no comedogénicas", "Nódulos, quistes, cicatrices o muchas lesiones"],
+            ["Hiperpigmentación", "Manchas de forma, tamaño y color variables", "Fotoprotección diaria, cuidado suave", "Mancha nueva, cambiante, multicolor o que sangra"],
+            ["Fotoenvejecimiento", "Arrugas, textura áspera, manchas, laxitud", "Fotoprotección, hidratación, cuidado regular", "Cualquier lesión que cambie o no cicatrice"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m07/d3",
+          "pie": "Escala de Glogau: cuatro grados descriptivos del fotoenvejecimiento.",
+          "descripcion": "Banda horizontal dividida en cuatro bloques que avanzan de izquierda a derecha. Cada bloque muestra el grado, una frase con el signo principal y el rango de edad orientativo. Bajo la banda, una flecha indica que la exposición solar acumulada adelanta el paso de un grado a otro.",
+          "elementos": ["Grado I: sin arrugas, fotoenvejecimiento inicial (20 a 30 años aprox.)", "Grado II: arrugas en movimiento (30 a 40 años aprox.)", "Grado III: arrugas en reposo (desde los 50 años aprox.)", "Grado IV: arrugas generalizadas (60 a 70 años o más)", "La exposición solar acumulada adelanta los grados"]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/09",
+          "proporcion": "3:4",
+          "alt": "Retrato de una mujer mayor con arrugas, textura natural y algunas manchas en pómulos y frente.",
+          "pie": "El fotoenvejecimiento se concentra en las zonas que más sol han recibido.",
+          "prompt": "Retrato editorial realista y respetuoso de una mujer de unos setenta años, fototipo III, con cabello cano recogido, sentada junto a una ventana en un estudio de tonos crema y rosa empolvado. Su rostro muestra arrugas en reposo en frente y contorno de ojos, textura natural y algunas manchas solares pequeñas en pómulos y frente. Expresión serena y digna, ligera sonrisa. Viste una blusa lisa color vino suave. Luz natural cálida lateral, encuadre vertical de busto. Evitar: texto, logotipos, retoque digital, aspecto lastimoso, lesiones, efecto antes y después, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "ejemplo",
+          "titulo": "Un estado que se resolvió retirando la causa",
+          "md": "Un cliente de 41 años, fototipo III, refiere que desde hace tres semanas su piel arde al aplicar cualquier crema. Al preguntar, cuenta que empezó a usar un exfoliante en gel todas las noches. Observas enrojecimiento leve y descamación fina en mejillas. Registras **tipo: normal; estados: sensibilidad y deshidratación, probablemente asociadas al exceso de exfoliación**. Le recomiendas suspender el exfoliante, simplificar la rutina y volver en dos semanas; si no mejora, sugerirás valoración dermatológica."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "caso",
+          "titulo": "Caso en cabina: ardor con un producto nuevo",
+          "situacion": "Una clienta de 27 años, fototipo IV y piel mixta, llega con ardor y enrojecimiento leve en mejillas desde hace cinco días, después de cambiar de limpiador. No tiene granitos nuevos, vasos visibles ni hinchazón. Te pide una limpieza profunda con extracción para «sacar lo que le hizo daño».",
+          "opciones": [
+            { "texto": "Registrar un estado de sensibilidad, sugerir suspender el limpiador nuevo y ofrecer un cuidado calmante sin extracciones ni exfoliación.", "correcta": true, "retro": "Correcto. Identificas un estado probablemente asociado a un desencadenante, retiras la causa y evitas maniobras que irriten más. Si no mejora en pocos días, sugieres valoración dermatológica." },
+            { "texto": "Hacer la limpieza profunda con extracción que pidió.", "correcta": false, "retro": "La fricción y la extracción sobre una piel irritada pueden empeorar el enrojecimiento y, en un fototipo IV, dejar manchas." },
+            { "texto": "Registrar que su tipo de piel cambió a sensible de forma permanente.", "correcta": false, "retro": "Un cambio de cinco días tras un producto nuevo es un estado, no un cambio de tipo. Etiquetarlo como permanente impide buscar la causa." },
+            { "texto": "Decirle que tiene dermatitis de contacto y recomendarle una crema con medicamento.", "correcta": false, "retro": "Poner nombre de enfermedad y recomendar medicamentos está fuera del ámbito cosmético; eso corresponde al médico." }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Para cada estado que registres, anota también su **posible desencadenante** y la **fecha** en que lo observaste: «deshidratación en mejillas; empezó tras usar agua muy caliente; 12 de marzo». Esa pequeña nota te permite comprobar en la siguiente visita si al retirar la causa el estado mejoró, y es el dato más útil si después necesitas derivar."
+        }
+      ],
+      "glosario": [
+        { "termino": "Pérdida transepidérmica de agua", "definicion": "Agua que se evapora desde el interior de la piel hacia el ambiente a través de la capa córnea; aumenta cuando la barrera está alterada." },
+        { "termino": "Piel sensible", "definicion": "Estado en que aparecen ardor, escozor, picor u hormigueo ante estímulos que normalmente no deberían provocarlos, sin una enfermedad que lo explique." },
+        { "termino": "Pápula", "definicion": "Elevación pequeña, sólida y sin pus de la piel; en la tendencia acneica suele verse rojiza." },
+        { "termino": "Pústula", "definicion": "Elevación pequeña de la piel con contenido de pus visible." },
+        { "termino": "Hiperpigmentación postinflamatoria", "definicion": "Mancha que queda después de una inflamación o lesión de la piel; es más intensa y duradera en fototipos altos." },
+        { "termino": "Fotoenvejecimiento", "definicion": "Cambios en la piel causados por la exposición solar acumulada: arrugas, textura áspera, manchas y pérdida de firmeza en zonas expuestas." },
+        { "termino": "Escala de Glogau", "definicion": "Clasificación descriptiva del fotoenvejecimiento en cuatro grados según la presencia de arrugas en movimiento y en reposo." }
+      ],
+      "verificacion": [
+        { "id": "t7.3-1", "q": "¿Qué distingue a la deshidratación de la piel seca como tipo?", "opciones": ["La deshidratación es falta de agua en la capa córnea y suele ser transitoria", "La deshidratación es falta de sebo y es permanente", "Son exactamente lo mismo con otro nombre", "La deshidratación solo ocurre en la piel seca"], "correcta": 0, "explicacion": "La piel seca como tipo produce poco sebo de forma constitucional; la deshidratación es falta de agua, transitoria y posible en cualquier tipo." },
+        { "id": "t7.3-2", "q": "Una clienta refiere ardor y picor con productos que antes toleraba, sin lesiones visibles. ¿Cómo describes este estado?", "opciones": ["Como un diagnóstico de rosácea", "Como piel grasa", "Como sensibilidad o reactividad", "Como fotoenvejecimiento grado IV"], "correcta": 2, "explicacion": "Las sensaciones desagradables ante estímulos habituales, sin lesiones, describen un estado de sensibilidad. Poner nombre de enfermedad no corresponde a la cabina." },
+        { "id": "t7.3-3", "q": "¿Qué hallazgo exige derivar al dermatólogo en lugar de trabajarlo en cabina?", "opciones": ["Algunos comedones abiertos en la nariz", "Nódulos inflamados y dolorosos con cicatrices", "Brillo en la zona T", "Tirantez después de lavar el rostro"], "correcta": 1, "explicacion": "Los nódulos dolorosos y las cicatrices indican un acné que requiere tratamiento médico. Los otros hallazgos se acompañan con cuidado cosmético." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Definition of sensitive skin: an expert position paper from the Special Interest Group on Sensitive Skin of the International Forum for the Study of Itch. Acta Dermato-Venereologica 97(1): 4-6", "autor": "Misery L, Ständer S, Szepietowski JC, et al.", "anio": 2017 },
+        { "tipo": "academica", "titulo": "Aesthetic and anatomic analysis of the aging skin. Seminars in Cutaneous Medicine and Surgery 15(3): 134-138", "autor": "Glogau RG", "anio": 1996 },
+        { "tipo": "academica", "titulo": "Guidelines of care for the management of acne vulgaris. Journal of the American Academy of Dermatology 74(5): 945-973", "autor": "Zaenglein AL, Pathy AL, Schlosser BJ, et al.", "anio": 2016 },
+        { "tipo": "academica", "titulo": "Moisturization and skin barrier function. Dermatologic Therapy 17 (supl. 1): 43-48", "autor": "Rawlings AV, Harding CR", "anio": 2004 },
+        { "tipo": "academica", "titulo": "Dermatology, 4.ª ed.", "autor": "Bolognia JL, Schaffer JV, Cerroni L (eds.)", "anio": 2018 }
+      ]
+    },
+    {
+      "n": "7.4",
+      "titulo": "La evaluación en cabina paso a paso: entrevista, luz, tacto y registro",
+      "minutos": 15,
+      "enPocasPalabras": "Evaluar bien la piel sigue un orden: primero preguntas y llenas la ficha, luego limpias y preparas buena luz, después miras con lupa y tocas con guantes, y al final anotas y tomas fotos con permiso. Siempre en el mismo orden para no olvidar nada.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Una buena evaluación no depende del ojo «experto» de un momento, sino de un **método que se repite igual cada vez**. Seguir siempre la misma secuencia te protege de olvidar datos, te permite comparar visitas y te ayuda a detectar a tiempo las señales que obligan a derivar. En este tema recorrerás cuatro bloques: entrevista, preparación de la piel y la luz, observación y palpación, y registro."
+        },
+        { "tipo": "subtitulo", "texto": "Antes de mirar: la entrevista" },
+        {
+          "tipo": "texto",
+          "md": "La evaluación empieza con una conversación, que en cosmetología se llama **anamnesis**. Pregunta por el motivo de la visita y por lo que la persona espera, por su rutina actual y los productos que usa, por activos recientes como exfoliantes o retinoides, por procedimientos médicos o estéticos de los últimos meses y por cualquier tratamiento dermatológico que esté siguiendo.\n\nIncluye también alergias conocidas, reacciones previas a productos, embarazo o lactancia, exposición solar habitual, ocupación y hábitos como el tabaco. No necesitas saber qué medicamento toma ni en qué dosis para decidir: te basta saber que está en tratamiento médico para ser prudente y, si hay duda, pedir que lo consulte con su médico antes del servicio."
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Preguntas útiles en la entrevista",
+          "items": [
+            "¿Cómo sientes tu piel a media mañana, sin productos: tirante, cómoda o grasosa?",
+            "¿Qué productos usas por la mañana y por la noche, y desde cuándo usas el más reciente?",
+            "¿Algún producto te ha causado ardor, enrojecimiento o granitos?",
+            "¿Estás en algún tratamiento con tu dermatólogo o te hiciste un procedimiento en los últimos meses?",
+            "¿Cuánto tiempo pasas al sol en un día normal y usas protector solar?",
+            "¿Hay algún lunar o mancha que hayas notado nuevo o diferente?"
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/10",
+          "proporcion": "16:9",
+          "alt": "Una cosmetóloga conversa con un cliente mayor sentado en la cabina mientras toma notas.",
+          "pie": "La entrevista inicial aporta datos que la observación sola no revela.",
+          "prompt": "Fotografía editorial realista en una cabina estética cálida de paredes crema con detalles rosa empolvado. Una cosmetóloga de unos treinta años, fototipo VI, con cabello recogido y uniforme claro, sentada frente a un hombre de unos sesenta años, fototipo IV, con canas y camisa lisa, que conversa con gesto amable. Ella sostiene una tabla con hojas en blanco y escucha con atención. Entre ambos, una mesa pequeña con un vaso de agua. Luz natural suave de ventana, encuadre horizontal a media distancia. Evitar: texto legible, logotipos, marcas, documentos con letras, gestos de preocupación exagerada, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "mexico",
+          "titulo": "Los datos de salud son datos sensibles",
+          "md": "En México, quien recaba datos personales en un negocio debe informar mediante un **aviso de privacidad** qué datos pide y para qué los usa. La información sobre el estado de salud se considera **dato personal sensible** y requiere el consentimiento expreso de la persona. Guarda las fichas en un lugar seguro, no compartas fotos sin autorización y consulta en el Diario Oficial de la Federación la ley de protección de datos personales en posesión de particulares vigente."
+        },
+        { "tipo": "subtitulo", "texto": "Preparar la piel y la luz" },
+        {
+          "tipo": "texto",
+          "md": "Lávate las manos, recoge tu cabello y colócate guantes. Retira el maquillaje y realiza una limpieza suave, sin fricción intensa. La limpieza, el agua y el roce de la toalla producen un enrojecimiento transitorio y dejan la superficie temporalmente mate; por eso conviene esperar un momento antes de juzgar brillo o tono. Mientras tanto, puedes terminar la entrevista.\n\nLa luz importa tanto como tu mirada. La luz natural difusa, o una lámpara de luz día, muestra el color real de la piel. Una **lupa de aumento con luz** te permite ver poros, comedones y descamación fina. Evita las luces cálidas y tenues del ambiente relajante: suavizan las imperfecciones y alteran el tono.\n\nAjusta tu mirada al fototipo. En pieles de fototipo V y VI, el enrojecimiento y la inflamación pueden verse más bien violáceos, marrón oscuro o grisáceos, y pasar inadvertidos si solo buscas «lo rojo». Apóyate en la palpación (calor, relieve) y en lo que la persona refiere, como ardor o sensibilidad al tacto."
+        },
+        {
+          "tipo": "pasos",
+          "titulo": "Secuencia de observación y palpación",
+          "pasos": [
+            { "titulo": "Vista general a distancia", "md": "A un metro, observa el rostro completo: simetría, tono general, brillo, zonas enrojecidas o con manchas. Es la impresión de conjunto." },
+            { "titulo": "Observación por zonas con lupa", "md": "Recorre siempre en el mismo orden: frente, entrecejo, nariz, mejillas, mentón, contorno de ojos y de labios, cuello. Anota poros, comedones, descamación y manchas por zona." },
+            { "titulo": "Palpación con guante", "md": "Con las yemas, valora textura, grosor y temperatura. Un pellizco muy suave en la mejilla orienta sobre elasticidad y muestra líneas finas de deshidratación." },
+            { "titulo": "Prueba del papel secante", "md": "Confirma qué zonas producen más sebo, como viste en el tema 7.2." },
+            { "titulo": "Reactividad", "md": "Observa si el enrojecimiento de la limpieza ya desapareció o persiste, y pregunta si siente ardor o picor." },
+            { "titulo": "Revisión de señales de alerta", "md": "Antes de concluir, busca de forma deliberada lunares que la persona refiera como cambiantes, heridas que no cierran, lesiones que sangran o signos de infección." }
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/11",
+          "proporcion": "4:3",
+          "alt": "Una cosmetóloga observa la mejilla de una clienta a través de una lupa de aumento con luz.",
+          "pie": "La lupa con luz revela poros, comedones y descamación fina que no se ven a simple vista.",
+          "prompt": "Fotografía editorial realista en una cabina estética luminosa de tonos crema y rosa empolvado. Una cosmetóloga de unos cuarenta años, fototipo II, con cabello recogido, guantes de nitrilo y cubrebocas, se inclina para observar a través de una lupa de aumento circular con luz integrada la mejilla de una clienta de unos veinte años, fototipo III, recostada con una banda clara en el cabello. La lupa está sostenida por un brazo articulado. Luz blanca neutra, encuadre horizontal a corta distancia desde un costado. Evitar: texto, logotipos, marcas en el equipo, lesiones, reflejos deslumbrantes, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Bioseguridad durante la evaluación",
+          "md": "Usa guantes durante toda la palpación y cámbialos si tocas una zona con lesiones abiertas o si sales de la cabina. Limpia y desinfecta la lupa, la camilla y cualquier instrumento entre una persona y otra. No palpes ni manipules heridas, lesiones que supuran o zonas con signos de infección: obsérvalas sin tocar, regístralas y deriva."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/12",
+          "proporcion": "4:3",
+          "alt": "Dedos con guante palpan con suavidad la mejilla de una mujer mayor recostada.",
+          "pie": "La palpación con guante aporta información sobre textura, grosor y elasticidad.",
+          "prompt": "Fotografía editorial realista en primer plano dentro de una cabina estética de tonos crema y rosa empolvado. Dedos de una cosmetóloga con guantes de nitrilo tocan con suavidad la mejilla de una mujer de unos sesenta y cinco años, fototipo IV, recostada con los ojos cerrados y expresión relajada, cabello cano cubierto por una banda clara. Su piel muestra textura natural, líneas finas y ligera opacidad. Luz natural suave y lateral, profundidad de campo reducida, encuadre horizontal cerrado. Evitar: texto, logotipos, presión excesiva, gestos de molestia, lesiones, retoque digital, personas reales o famosas."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m07/d4",
+          "pie": "Mapa facial para registrar hallazgos siempre en las mismas zonas.",
+          "descripcion": "Silueta frontal de un rostro y cuello sin rasgos identificables, dividida en zonas numeradas en el orden en que se recorren durante la observación. Cada zona lleva su número y su nombre. Al lado, una leyenda con símbolos simples para anotar hallazgos: brillo, comedones, descamación, enrojecimiento, mancha y señal de alerta.",
+          "elementos": ["1 Frente", "2 Entrecejo", "3 Nariz", "4 Mejilla derecha", "5 Mejilla izquierda", "6 Mentón", "7 Contorno de ojos", "8 Contorno de labios", "9 Cuello", "Leyenda: brillo, comedones, descamación, enrojecimiento, mancha, alerta"]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Lámpara de Wood y analizadores faciales: ayudas, no veredictos",
+          "md": "La **lámpara de Wood** emite radiación ultravioleta A de onda larga, en torno a 365 nm, filtrada para dejar pasar muy poca luz visible. En dermatología es una ayuda diagnóstica: algunas bacterias y hongos producen fluorescencia, y el contraste de ciertas manchas cambia según la profundidad del pigmento. Los **analizadores faciales** con cámara combinan luz blanca, **luz polarizada cruzada**, que elimina el reflejo de la superficie y resalta vasos y pigmento, y luz ultravioleta, bajo la cual las porfirinas que produce *Cutibacterium acnes* en los folículos emiten fluorescencia anaranjada. Son útiles para mostrar y comparar, pero su interpretación tiene límites y nunca sustituyen la valoración médica. Si usas fuentes ultravioleta, protege los ojos de la persona y los tuyos."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "ordenar",
+          "titulo": "Ordena la evaluación en cabina",
+          "instruccion": "Coloca los pasos en el orden en que se realizan durante una evaluación completa.",
+          "elementos": [
+            "Entrevista y ficha con consentimiento",
+            "Higiene de manos, guantes y limpieza suave del rostro",
+            "Vista general a distancia con buena luz",
+            "Observación por zonas con lupa",
+            "Palpación con guante y prueba del papel secante",
+            "Revisión deliberada de señales de alerta",
+            "Registro escrito y fotográfico con autorización"
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Registrar para poder comparar" },
+        {
+          "tipo": "texto",
+          "md": "El registro es lo que convierte una impresión en información útil. Anota por zonas, con palabras descriptivas y concretas. Si la persona autoriza fotografías, estandarízalas: la misma luz, la misma distancia, el mismo fondo y los mismos ángulos (frente y ambos perfiles a tres cuartos), sin maquillaje y sin filtros. Así, en la siguiente visita podrás comparar de verdad y no de memoria. Las fotos de evaluación son parte de la ficha, no material publicitario: usarlas en redes exige un consentimiento distinto y específico."
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Errores frecuentes que distorsionan la evaluación",
+          "items": [
+            "Evaluar con maquillaje o con protector solar puesto.",
+            "Concluir el tipo justo después de lavar, cuando la piel todavía está roja y mate.",
+            "Usar solo la luz cálida y tenue del ambiente de relajación.",
+            "Saltar la entrevista y suponer qué productos usa la persona.",
+            "Registrar de memoria al final del día en lugar de anotar durante la evaluación.",
+            "Revisar solo el rostro y olvidar el cuello y el escote, que también reciben sol."
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Pega en tu cabina una tarjeta con la secuencia de evaluación y síguela aunque la persona tenga prisa. El paso que más se omite con la prisa es la revisión deliberada de señales de alerta; hazlo explícito y márcalo en la ficha como «revisado» en cada visita."
+        }
+      ],
+      "glosario": [
+        { "termino": "Anamnesis", "definicion": "Entrevista ordenada para reunir antecedentes, hábitos, productos y expectativas de la persona antes de evaluar su piel." },
+        { "termino": "Aviso de privacidad", "definicion": "Documento con el que un negocio informa qué datos personales recaba, para qué los usa y cómo pueden ejercerse los derechos sobre ellos." },
+        { "termino": "Dato personal sensible", "definicion": "Información cuyo mal uso puede dañar gravemente a la persona, como su estado de salud; requiere consentimiento expreso." },
+        { "termino": "Lupa de aumento con luz", "definicion": "Lente de aumento con iluminación integrada que permite observar con detalle la superficie de la piel." },
+        { "termino": "Palpación", "definicion": "Exploración con las yemas de los dedos, siempre con guante, para valorar textura, grosor, temperatura y elasticidad." },
+        { "termino": "Luz polarizada cruzada", "definicion": "Técnica de iluminación que elimina el reflejo de la superficie y deja ver mejor el pigmento y los vasos." }
+      ],
+      "verificacion": [
+        { "id": "t7.4-1", "q": "¿Por qué conviene esperar un momento después de la limpieza antes de evaluar?", "opciones": ["Para que la piel absorba el limpiador", "Para que el fototipo se estabilice", "Para poder aplicar maquillaje", "Porque el agua y la fricción causan enrojecimiento y una superficie mate transitorios"], "correcta": 3, "explicacion": "Justo después de lavar, la piel se ve más roja y más mate de lo habitual. Esperar evita conclusiones falsas sobre tono y brillo." },
+        { "id": "t7.4-2", "q": "¿Qué dato de la entrevista es clave antes de cualquier servicio?", "opciones": ["La hora a la que suele maquillarse", "Si sigue un tratamiento dermatológico o usa activos exfoliantes recientes", "Cuántas veces al año viaja", "Qué tono de base de maquillaje usa"], "correcta": 1, "explicacion": "Los tratamientos dermatológicos y los activos recientes pueden volver la piel más sensible a ciertos servicios; conocerlos permite ser prudente y derivar si hay duda." },
+        { "id": "t7.4-3", "q": "Al tomar fotos de evaluación, ¿qué práctica es correcta?", "opciones": ["Usar filtros para que la piel se vea mejor", "Tomarlas con cualquier luz disponible", "Pedir autorización y repetir la misma luz, distancia y ángulos", "Publicarlas en redes como antes y después"], "correcta": 2, "explicacion": "Las fotos estandarizadas y autorizadas permiten comparar visitas. Los filtros falsean la información y publicar exige un consentimiento distinto." }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Dermatology, 4.ª ed.", "autor": "Bolognia JL, Schaffer JV, Cerroni L (eds.)", "anio": 2018 },
+        { "tipo": "academica", "titulo": "Cosmetic Dermatology: Products and Procedures, 2.ª ed.", "autor": "Draelos ZD (ed.)", "anio": 2016 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en la legislación mexicana de protección de datos personales en posesión de particulares (consultar la versión vigente en el DOF)", "autor": "Dermalysse", "anio": 2026 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en protocolos de formación en cosmetología sobre evaluación facial y bioseguridad en cabina", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "7.5",
+      "titulo": "Del hallazgo al plan: clasificar, priorizar y derivar",
+      "minutos": 14,
+      "enPocasPalabras": "Al terminar de evaluar, escribes una conclusión con palabras que describen, no con nombres de enfermedades. Primero revisas que no haya señales de alarma; si las hay, recomiendas ir al dermatólogo. Si no, decides qué cuidar primero y cuándo volver a revisar.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Has entrevistado, observado, palpado y registrado. Ahora toca **integrar**: convertir los hallazgos en una conclusión clara y en un plan de cuidado razonable. Este paso es donde más se nota la diferencia entre una evaluación cosmética profesional y una opinión improvisada. Una buena conclusión es breve, usa lenguaje descriptivo, separa tipo y estados, deja constancia de que revisaste las señales de alerta y dice qué harás después."
+        },
+        { "tipo": "subtitulo", "texto": "Cómo redactar la conclusión" },
+        {
+          "tipo": "texto",
+          "md": "Escribe pensando en que otra persona, o tú misma dentro de tres meses, tendrá que entenderla sin haber estado presente. Evita adjetivos vagos como «maltratada» o «fea» y nombres de enfermedad que no te corresponde confirmar. Describe qué ves, dónde y desde cuándo, según lo que refiere la persona.\n\nEl fototipo se anota aparte: no es ni tipo ni estado, sino la respuesta de la piel al sol, y orienta sobre el riesgo de quemadura y de manchas postinflamatorias. Una estructura fija ayuda a no olvidar nada."
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Estructura de la conclusión",
+          "ordenada": true,
+          "items": [
+            "Tipo de piel, con zonas si es mixta.",
+            "Estados presentes, cada uno con su posible desencadenante.",
+            "Fototipo según la respuesta al sol que refiere la persona.",
+            "Hallazgos relevantes por zona del mapa facial.",
+            "Señales de alerta: revisadas, presentes o ausentes, y cuáles.",
+            "Plan de cuidado en cabina y recomendaciones para casa.",
+            "Derivación, si aplica, y fecha de seguimiento."
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Un ejemplo breve: «Tipo mixto. Estados: deshidratación en mejillas tras lavarse con agua muy caliente; comedones cerrados en frente. Fototipo IV. Señales de alerta revisadas, sin hallazgos. Plan: limpieza suave, hidratación ligera, protector solar diario. Seguimiento en tres semanas»."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Lenguaje descriptivo frente a lenguaje diagnóstico",
+          "columnas": ["En lugar de escribir…", "Escribe…"],
+          "filas": [
+            ["Rosácea", "Enrojecimiento persistente en mejillas y nariz con algunas pápulas; refiere rubor con el calor"],
+            ["Melasma", "Manchas marrón claro, simétricas, en ambas mejillas y labio superior"],
+            ["Dermatitis", "Placas rojizas con descamación fina en cejas y aletas nasales; refiere comezón"],
+            ["Acné severo", "Varios nódulos dolorosos en mandíbula y algunas cicatrices deprimidas"],
+            ["Piel horrible por el sol", "Arrugas en reposo en frente, textura áspera y manchas en pómulos"]
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/13",
+          "proporcion": "4:3",
+          "alt": "Una cosmetóloga escribe notas en una ficha sobre un escritorio claro después de la evaluación.",
+          "pie": "Una conclusión ordenada permite que cualquier colega entienda la evaluación.",
+          "prompt": "Fotografía editorial realista de un escritorio claro en el rincón de una cabina estética con tonos crema y rosa empolvado. Una cosmetóloga de unos treinta y cinco años, fototipo IV, con cabello recogido y uniforme claro, escribe con pluma en una hoja en blanco sujeta a una tabla. Junto a ella hay una taza, una planta pequeña y una tableta apagada. Luz natural suave de tarde que entra por la ventana, encuadre horizontal de medio cuerpo desde un costado, ambiente ordenado y tranquilo. Evitar: texto legible, letras en la hoja o la pantalla, logotipos, marcas, desorden, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Priorizar: primero la seguridad" },
+        {
+          "tipo": "texto",
+          "md": "Cuando hay varios hallazgos, el orden importa. Primero va la **seguridad**: si existe una señal de alerta, el plan cosmético se detiene en esa zona y se sugiere valoración médica. Después va la **barrera**: una piel irritada o muy deshidratada no tolera bien los activos ni las maniobras intensas, así que se calma y se repara antes de cualquier otra meta. En tercer lugar está la **fotoprotección**, que protege todo lo demás y previene nuevas manchas. Solo entonces se trabajan los **objetivos estéticos** que la persona trae, como el brillo, la textura o la luminosidad.\n\nEste orden también te ayuda a explicar por qué no haces hoy el servicio intenso que alguien pidió: no es una negativa, es una secuencia."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m07/d5",
+          "pie": "Árbol de decisión para pasar del hallazgo al plan.",
+          "descripcion": "Diagrama de flujo vertical con rombos de decisión y rectángulos de acción. El primer rombo pregunta si hay señal de alerta: el sí lleva a suspender el servicio en esa zona y derivar al dermatólogo; el no continúa. El segundo rombo pregunta si la barrera está alterada: el sí lleva a calmar y reparar antes de avanzar. Luego un rectángulo de fotoprotección diaria y, al final, el rectángulo de objetivos estéticos y la fecha de seguimiento.",
+          "elementos": ["¿Hay señal de alerta?", "Sí: suspender en esa zona y derivar al dermatólogo", "¿La barrera está alterada?", "Sí: calmar y reparar primero", "Fotoprotección diaria", "Objetivos estéticos: brillo, textura, luminosidad", "Seguimiento y nueva evaluación"]
+        },
+        { "tipo": "subtitulo", "texto": "Señales de alerta" },
+        {
+          "tipo": "lista",
+          "titulo": "Hallazgos que obligan a sugerir valoración dermatológica",
+          "items": [
+            "Un lunar o una mancha nuevos en un adulto, o uno que la persona refiere que cambió de tamaño, forma o color.",
+            "Una herida, costra o lesión que no cicatriza en varias semanas o que sangra con facilidad.",
+            "Nódulos o quistes dolorosos, o lesiones que dejan cicatriz.",
+            "Enrojecimiento persistente con granitos, vasos visibles o rubor intenso frecuente.",
+            "Placas con descamación gruesa, grietas o comezón intensa.",
+            "Signos de infección: calor, dolor, pus, costras amarillentas o fiebre.",
+            "Una reacción intensa a un producto: hinchazón, ampollas o ardor que no cede."
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Para los lunares, la American Academy of Dermatology difunde la regla **ABCDE**: **A**simetría (una mitad no se parece a la otra), **B**ordes irregulares o mal definidos, **C**olor variado dentro de la misma lesión, **D**iámetro mayor de unos 6 milímetros, aunque los melanomas pueden ser más pequeños, y **E**volución, es decir, cualquier cambio en tamaño, forma, color o síntomas. No la usas para diagnosticar, sino para reconocer cuándo una lesión merece que la vea un especialista."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Cómo comunicar una derivación sin alarmar",
+          "md": "Habla en privado, con calma y sin nombres de enfermedad. Describe lo que observaste y explica que no te corresponde valorarlo: «Noté este lunar más oscuro en un borde; como me dices que cambió, lo más seguro es que lo revise un dermatólogo antes de trabajar esa zona». Ofrece continuar el servicio en otras áreas si es seguro, anota la recomendación en la ficha y pregunta en la siguiente visita si acudió."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/14",
+          "proporcion": "16:9",
+          "alt": "Una cosmetóloga conversa con calma con una clienta sentada en la camilla.",
+          "pie": "Una derivación se comunica en privado, con calma y con lenguaje descriptivo.",
+          "prompt": "Fotografía editorial realista en una cabina estética cálida de tonos crema y rosa empolvado. Una cosmetóloga de unos cincuenta años, fototipo III, con cabello recogido y uniforme claro, sentada en un banco bajo, conversa con calma y gesto empático con una clienta de unos treinta años, fototipo V, sentada en el borde de la camilla con una bata clara. Ambas se miran con atención y tranquilidad. Luz natural suave desde una ventana, encuadre horizontal a media distancia, ambiente privado y sereno. Evitar: texto, logotipos, gestos de miedo o llanto, instrumental médico, lesiones visibles, personas reales o famosas."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "ejemplo",
+          "titulo": "Una derivación bien hecha",
+          "md": "Durante la evaluación de un cliente de 58 años, fototipo V, observas en la sien una lesión pequeña con costra que, según cuenta, sangra al secarse con la toalla desde hace dos meses. Registras: **«Lesión de unos 5 mm en sien derecha, con costra, refiere sangrado fácil desde hace dos meses. Se sugiere valoración dermatológica; no se trabaja la zona»**. Haces el resto del servicio lejos de la sien y en la siguiente cita preguntas si ya acudió."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "caso",
+          "titulo": "Caso en cabina: una petición y una señal",
+          "situacion": "Una clienta de 45 años, fototipo III, piel mixta con deshidratación en mejillas, pide un servicio exfoliante para mejorar la textura. Al revisar el cuello ves un lunar de bordes irregulares con dos tonos de marrón; ella dice que «antes era más chico».",
+          "opciones": [
+            { "texto": "Hacer el servicio exfoliante en todo el rostro y el cuello, evitando tocar el lunar.", "correcta": false, "retro": "Ignoras una señal de alerta y además exfolias una piel deshidratada. La seguridad va primero." },
+            { "texto": "Explicar con calma que ese lunar debe revisarlo un dermatólogo, registrarlo y ofrecer hoy un cuidado suave de hidratación en el rostro.", "correcta": true, "retro": "Correcto. Derivas la señal de alerta, respetas la prioridad de la barrera antes de exfoliar y dejas todo registrado." },
+            { "texto": "Decirle que parece un melanoma para que se asuste y vaya pronto.", "correcta": false, "retro": "No te corresponde nombrar enfermedades, y alarmar no ayuda. Describe y deriva con calma." },
+            { "texto": "Aplicar un producto despigmentante sobre el lunar para aclararlo.", "correcta": false, "retro": "Nunca se aplica un cuidado sobre una lesión con señales de alerta: puede retrasar una valoración necesaria." }
+          ]
+        },
+        { "tipo": "subtitulo", "texto": "Seguimiento" },
+        {
+          "tipo": "texto",
+          "md": "La evaluación no termina el día de la cita. Al acordar un plan, fija una fecha para revisar los estados que registraste. En la siguiente visita repite la misma secuencia, compara con las fotos estandarizadas y anota qué mejoró, qué sigue igual y qué apareció. Si un estado no mejora pese a retirar su posible causa y ajustar el cuidado, o si empeora, esa falta de respuesta es en sí misma un motivo para sugerir valoración dermatológica.\n\nSi la persona decide no acudir al dermatólogo, respeta su decisión, pero deja constancia en la ficha de que se le dio la recomendación y en qué fecha. No trabajes la zona con señal de alerta en visitas posteriores mientras no exista una valoración médica."
+        },
+        { "tipo": "subtitulo", "texto": "Del plan a la rutina en casa" },
+        {
+          "tipo": "texto",
+          "md": "Lo que pasa en casa entre visitas pesa más que cualquier servicio de cabina. Por eso las recomendaciones deben ser **pocas, claras y coherentes con la prioridad**: si el estado principal es la deshidratación, la rutina se centra en una limpieza suave, una hidratación adecuada al tipo y protector solar cada mañana; no en sumar cinco productos nuevos al mismo tiempo. Introducir un cambio a la vez te permite saber qué ayudó y qué molestó. Entrega las indicaciones por escrito, con palabras sencillas, y pide a la persona que traiga sus productos a la siguiente cita para revisarlos juntas."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m07/15",
+          "proporcion": "4:3",
+          "alt": "Un rincón de la cabina con cámara sobre tripié, fondo neutro y luz difusa para fotos de registro.",
+          "pie": "Las fotos con la misma luz, distancia y ángulos permiten un seguimiento objetivo.",
+          "prompt": "Fotografía editorial realista de un rincón de cabina estética preparado para fotografías de registro. Un fondo liso color crema, un banco blanco, una cámara compacta sobre un tripié y una lámpara de luz difusa con difusor redondo, todo en tonos crema y rosa empolvado. Sentado en el banco, un adolescente de unos dieciséis años, fototipo IV, con banda clara en el cabello, mira de frente con expresión neutra mientras una cosmetóloga con guantes ajusta la cámara. Luz suave y uniforme, encuadre horizontal. Evitar: texto, logotipos, marcas en el equipo, pantallas con imágenes, lesiones, personas reales o famosas."
+        },
+        { "tipo": "subtitulo", "texto": "Idea práctica" },
+        {
+          "tipo": "texto",
+          "md": "Cierra cada evaluación con una frase para la persona que resuma, en lenguaje sencillo, su tipo, sus estados y la prioridad del plan: «Tu piel es mixta; hoy está algo deshidratada en las mejillas, así que primero vamos a calmarla y protegerla del sol, y en tres semanas revisamos la textura». Comprender el porqué aumenta la confianza y la constancia en casa."
+        }
+      ],
+      "glosario": [
+        { "termino": "Lenguaje descriptivo", "definicion": "Forma de registrar hallazgos diciendo qué se ve, dónde y desde cuándo, sin nombres de enfermedad." },
+        { "termino": "Señal de alerta", "definicion": "Hallazgo que sale del ámbito cosmético y obliga a suspender el servicio en esa zona y sugerir valoración médica." },
+        { "termino": "Regla ABCDE", "definicion": "Guía para reconocer lunares que merecen revisión: asimetría, bordes, color, diámetro y evolución." },
+        { "termino": "Plan de cuidado", "definicion": "Conjunto ordenado de servicios en cabina y recomendaciones para casa, priorizado según seguridad, barrera, fotoprotección y objetivos estéticos." },
+        { "termino": "Seguimiento", "definicion": "Nueva evaluación programada para comparar los estados registrados y comprobar si el plan funciona." }
+      ],
+      "verificacion": [
+        { "id": "t7.5-1", "q": "¿Cuál es la primera prioridad al cerrar una evaluación?", "opciones": ["Elegir el aroma del producto", "Descartar señales de alerta y derivar si existen", "Programar la siguiente cita", "Determinar el fototipo"], "correcta": 1, "explicacion": "La seguridad va primero: si hay una señal de alerta, el plan cosmético se detiene en esa zona y se sugiere valoración médica." },
+        { "id": "t7.5-2", "q": "¿Qué redacción es adecuada para una ficha cosmética?", "opciones": ["Enrojecimiento persistente en mejillas con pápulas; se sugiere valoración dermatológica", "Rosácea papulopustular", "Melasma epidérmico", "Dermatitis seborreica activa"], "correcta": 0, "explicacion": "La ficha cosmética describe lo observado y deriva. Las otras opciones son nombres de enfermedad que solo puede confirmar el médico." },
+        { "id": "t7.5-3", "q": "En la regla ABCDE para lunares, ¿qué significa la letra E?", "opciones": ["Elasticidad", "Exfoliación", "Edad de la persona", "Evolución o cambio con el tiempo"], "correcta": 3, "explicacion": "La E se refiere a la evolución: cualquier cambio en tamaño, forma, color o síntomas es motivo para que lo revise un dermatólogo." }
+      ],
+      "fuentes": [
+        { "tipo": "oficial", "titulo": "What to look for: ABCDEs of melanoma", "autor": "American Academy of Dermatology" },
+        { "tipo": "academica", "titulo": "Dermatology, 4.ª ed.", "autor": "Bolognia JL, Schaffer JV, Cerroni L (eds.)", "anio": 2018 },
+        { "tipo": "academica", "titulo": "Aesthetic and anatomic analysis of the aging skin. Seminars in Cutaneous Medicine and Surgery 15(3): 134-138", "autor": "Glogau RG", "anio": 1996 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en criterios de derivación de la dermatología cosmética y de la formación en cosmetología", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    }
+  ],
+  "minijuego": {
+    "tipo": "sopa",
+    "titulo": "Sopa de letras: tipos, estados y evaluación",
+    "palabras": ["NORMAL", "SECA", "GRASA", "MIXTA", "SENSIBLE", "DESHIDRATADA", "SEBO", "PALPACION", "LUPA", "FICHA", "DERIVAR"]
+  },
+  "examen": {
+    "aprobar": 70,
+    "mostrar": 10,
+    "preguntas": [
+      { "id": "m07-p01", "q": "¿Qué define principalmente al tipo de piel?", "opciones": ["La actividad constitucional de las glándulas sebáceas y su distribución", "El clima del día de la evaluación", "El último producto que usó la persona", "Las horas que durmió la noche anterior"], "correcta": 0, "explicacion": "El tipo es constitucional y depende sobre todo del sebo. El clima, los productos y el sueño influyen en el estado, no en el tipo." },
+      { "id": "m07-p02", "q": "¿Cuál de estas combinaciones de tipo y estado es posible?", "opciones": ["Ninguna, porque tipo y estado son lo mismo", "Solo piel seca con estado de sequedad", "Piel grasa con estado de deshidratación", "Piel normal, que no puede tener estados"], "correcta": 2, "explicacion": "Sebo y agua son distintos, por lo que una piel grasa puede estar deshidratada. Cualquier estado puede aparecer sobre cualquier tipo, incluida la piel normal." },
+      { "id": "m07-p03", "q": "¿Qué rasgos describen mejor a la piel seca como tipo?", "opciones": ["Brillo intenso en la zona T a media mañana", "Aspecto mate, poros poco visibles y tirantez tras el lavado", "Comedones abiertos en nariz y mentón", "Enrojecimiento súbito al cambiar de temperatura"], "correcta": 1, "explicacion": "La piel seca produce poco sebo: se ve mate y se siente tirante. El brillo y los comedones son propios de la piel grasa; el enrojecimiento súbito describe reactividad." },
+      { "id": "m07-p04", "q": "En la piel mixta, ¿qué zona suele tener más sebo?", "opciones": ["El cuello y el escote", "El contorno de ojos", "Las mejillas externas", "La zona T: frente, nariz y mentón"], "correcta": 3, "explicacion": "La zona T concentra más glándulas sebáceas y de mayor tamaño; por eso es la parte grasa de la piel mixta." },
+      { "id": "m07-p05", "q": "Una persona refiere ardor, picor y hormigueo con productos que la mayoría tolera, sin lesiones que lo expliquen. ¿Qué estado describe?", "opciones": ["Piel alípica", "Piel eudérmica", "Piel sensible o reactiva", "Fotoenvejecimiento"], "correcta": 2, "explicacion": "Así se define la piel sensible: sensaciones desagradables ante estímulos habituales, sin una enfermedad que lo explique." },
+      { "id": "m07-p06", "q": "¿Qué signo orienta hacia un estado de deshidratación?", "opciones": ["Líneas finas superficiales y tirantez que mejoran al apoyar la barrera", "Poros dilatados en todo el rostro", "Un lunar que crece", "Brillo graso persistente en la zona T"], "correcta": 0, "explicacion": "La deshidratación da tirantez y líneas finas superficiales que mejoran al cuidar la barrera. Los poros dilatados y el brillo hablan de sebo; un lunar que crece es una señal de alerta." },
+      { "id": "m07-p07", "q": "¿Qué describe la escala de Glogau?", "opciones": ["La producción de sebo", "El fototipo según la respuesta al sol", "El grado de sensibilidad de la piel", "El grado de fotoenvejecimiento según las arrugas y otros signos visibles"], "correcta": 3, "explicacion": "Glogau agrupa el fotoenvejecimiento en cuatro grados según las arrugas en movimiento y en reposo. El fototipo se describe con la escala de Fitzpatrick." },
+      { "id": "m07-p08", "q": "¿Por qué la hiperpigmentación postinflamatoria merece especial cuidado en fototipos altos?", "opciones": ["Porque no se presenta en fototipos altos", "Porque la irritación o la inflamación pueden dejar manchas más marcadas y duraderas", "Porque desaparece en un día", "Porque indica que la piel es seca"], "correcta": 1, "explicacion": "En fototipos IV a VI los melanocitos responden con facilidad a la inflamación, y las manchas resultantes pueden durar meses." },
+      { "id": "m07-p09", "q": "¿Qué paso va primero en una evaluación en cabina?", "opciones": ["La prueba del papel secante", "La entrevista y la ficha con consentimiento", "La fotografía de registro", "La palpación de las mejillas"], "correcta": 1, "explicacion": "La entrevista aporta antecedentes, productos y tratamientos que condicionan el resto de la evaluación, y el consentimiento debe obtenerse antes de tocar o fotografiar." },
+      { "id": "m07-p10", "q": "¿Qué iluminación es la más adecuada para observar la piel?", "opciones": ["Luz cálida y tenue de ambiente", "Luz de color rosa para relajar", "Luz ultravioleta continua sin protección ocular", "Luz natural difusa o lámpara de luz día, con lupa"], "correcta": 3, "explicacion": "La luz día muestra el color real y la lupa revela detalles. La luz cálida tenue disimula; la ultravioleta sin protección es un riesgo para los ojos." },
+      { "id": "m07-p11", "q": "Caso: al palpar la mejilla de una clienta de 60 años notas piel delgada, áspera y con descamación fina; refiere tirantez constante desde hace años. No hay lesiones. ¿Qué registro es adecuado?", "opciones": ["Tipo seca; estados: deshidratación y signos de fotoenvejecimiento por describir", "Diagnóstico de ictiosis", "Tipo grasa con estado de tendencia acneica", "Sin hallazgos relevantes"], "correcta": 0, "explicacion": "La tirantez constante y el aspecto áspero orientan a piel seca, con estados que se describen. Nombrar una enfermedad no corresponde, y omitir los hallazgos sería un error." },
+      { "id": "m07-p12", "q": "Caso: un cliente comenta que un lunar de su mejilla creció y cambió de color en los últimos meses. ¿Qué haces?", "opciones": ["Lo extraes para revisarlo mejor", "Lo cubres con producto y continúas el servicio", "No trabajas esa zona, lo registras y sugieres valoración dermatológica pronto", "Le dices que es normal con la edad"], "correcta": 2, "explicacion": "Un lunar que evoluciona es una señal de alerta según la regla ABCDE. Se deriva sin manipularlo y sin restarle importancia." },
+      { "id": "m07-p13", "q": "¿Qué redacción corresponde a una ficha cosmética?", "opciones": ["Psoriasis en placas en la frente", "Rosácea papulopustular", "Melasma mixto", "Placas rojizas con descamación en cejas; se sugiere valoración dermatológica"], "correcta": 3, "explicacion": "La ficha cosmética describe y deriva. Las otras opciones son diagnósticos médicos que no corresponden a la cabina." },
+      { "id": "m07-p14", "q": "¿Qué refleja la pérdida transepidérmica de agua?", "opciones": ["La cantidad de sebo de la superficie", "El agua que se evapora a través de la piel, indicador de la función de barrera", "El color de la piel", "El número de poros por zona"], "correcta": 1, "explicacion": "Cuando la barrera se altera, se evapora más agua a través de la capa córnea. El sebo se estima con sebumetría, no con esta medición." },
+      { "id": "m07-p15", "q": "Según el orden de prioridades del plan, ¿qué va antes de los objetivos estéticos como el brillo o la textura?", "opciones": ["Elegir el aroma de la cabina", "Recomendar maquillaje", "Descartar alertas, calmar la barrera y fotoproteger", "Agendar varias sesiones"], "correcta": 2, "explicacion": "El orden es seguridad, barrera, fotoprotección y, al final, objetivos estéticos." },
+      { "id": "m07-p16", "q": "Caso: una clienta de fototipo V con piel mixta quiere una exfoliación intensa para quitar unas manchas que le quedaron tras unos granitos. ¿Qué enfoque es el más prudente?", "opciones": ["Explicar que la irritación puede oscurecer más las manchas, priorizar un cuidado suave y fotoprotección, y sugerir valoración si persisten", "Aplicar la exfoliación más intensa disponible", "Recomendarle dejar el protector solar para que la piel respire", "Prometerle que desaparecerán en una sesión"], "correcta": 0, "explicacion": "En fototipos altos, la irritación empeora la hiperpigmentación postinflamatoria. La fotoprotección es clave y nunca se prometen resultados." }
+    ]
+  },
+  "fuentes": [
+    { "tipo": "academica", "titulo": "Understanding and treating various skin types: the Baumann Skin Type Indicator. Dermatologic Clinics 26(3): 359-373", "autor": "Baumann L", "anio": 2008 },
+    { "tipo": "academica", "titulo": "Definition of sensitive skin: an expert position paper from the Special Interest Group on Sensitive Skin of the International Forum for the Study of Itch. Acta Dermato-Venereologica 97(1): 4-6", "autor": "Misery L, Ständer S, Szepietowski JC, et al.", "anio": 2017 },
+    { "tipo": "academica", "titulo": "Aesthetic and anatomic analysis of the aging skin. Seminars in Cutaneous Medicine and Surgery 15(3): 134-138", "autor": "Glogau RG", "anio": 1996 },
+    { "tipo": "academica", "titulo": "Dermatology, 4.ª ed.", "autor": "Bolognia JL, Schaffer JV, Cerroni L (eds.)", "anio": 2018 },
+    { "tipo": "oficial", "titulo": "What to look for: ABCDEs of melanoma", "autor": "American Academy of Dermatology" }
+  ]
+}

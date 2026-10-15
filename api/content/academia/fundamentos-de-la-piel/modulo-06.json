@@ -1,0 +1,1123 @@
+{
+  "programa": "fundamentos-de-la-piel",
+  "modulo": 6,
+  "titulo": "Melanina, pigmentación y fototipos",
+  "estado": "borrador",
+  "version": 1,
+  "resumen": "El color de la piel es una de sus características más visibles y también una de las más malinterpretadas. En este módulo descubrirás cómo los melanocitos fabrican y reparten la melanina, por qué todas las personas tienen un número similar de melanocitos aunque su piel sea muy distinta, cómo responde la piel al sol y qué significan los fototipos de Fitzpatrick, con sus usos y sus límites. Con especial atención a la diversidad de la población mexicana, aprenderás a reconocer en cabina las alteraciones de la pigmentación más frecuentes, a describirlas sin diagnosticar y a saber cuándo y cómo derivar al dermatólogo.",
+  "objetivos": [
+    "Explicar la estructura y la función de la unidad epidermomelánica.",
+    "Describir los pasos principales de la melanogénesis y las diferencias entre eumelanina y feomelanina.",
+    "Diferenciar las respuestas pigmentarias al sol y explicar por qué el bronceado no es una protección suficiente.",
+    "Clasificar a una persona según los fototipos de Fitzpatrick mediante preguntas, reconociendo los límites de la escala.",
+    "Reconocer alteraciones frecuentes de la pigmentación y aplicar criterios de derivación al dermatólogo sin emitir diagnósticos."
+  ],
+  "duracionMin": 105,
+  "portada": {
+    "id": "fundamentos-de-la-piel/m06/portada",
+    "proporcion": "16:9",
+    "alt": "Seis personas de distintos tonos de piel, de muy clara a muy oscura, sentadas juntas en un estudio cálido y luminoso.",
+    "prompt": "Fotografía editorial realista en formato horizontal de seis personas adultas de distintas edades y géneros sentadas una junto a otra en un estudio luminoso con fondo crema y rosa empolvado, mostrando con naturalidad la diversidad de tonos de piel, desde muy clara con pecas hasta muy oscura, pasando por varios tonos morenos. Visten prendas lisas en tonos neutros y miran a cámara o entre sí con expresiones tranquilas y amables. Luz natural cálida y difusa que respeta el tono real de cada piel, sin aclarar ni oscurecer. Textura de piel auténtica. Evitar: texto, logotipos, marcas, filtros que alteren el tono, maquillaje intenso, poses publicitarias, personas famosas."
+  },
+  "temas": [
+    {
+      "n": "6.1",
+      "titulo": "El melanocito y la unidad epidermomelánica",
+      "minutos": 13,
+      "enPocasPalabras": "La melanina la fabrican unas células llamadas melanocitos, que están en la capa más profunda de la epidermis. Cada melanocito reparte su pigmento a decenas de células vecinas. Personas con piel clara y con piel oscura tienen casi el mismo número de melanocitos: lo que cambia es cuánta melanina hacen, de qué tipo y cómo la reparten.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "El color de la piel depende de varios pigmentos: la hemoglobina de la sangre aporta tonos rosados o rojizos, los carotenos de la dieta aportan matices amarillentos y la **melanina** es la que más influye en la enorme variedad de tonos humanos. Comprender cómo se produce y se reparte la melanina es la base para entender el bronceado, los fototipos y las manchas, y para hablar del color de la piel con precisión y respeto.\n\nEn este tema conocerás a la célula protagonista, el **melanocito**, y la forma en que trabaja en equipo con los queratinocitos."
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Pigmentos que participan en el color de la piel",
+          "items": [
+            "Eumelanina: pigmento café oscuro a negro, el principal responsable de las diferencias de tono entre personas.",
+            "Feomelanina: pigmento amarillo rojizo, más abundante en proporción en pieles muy claras y cabello rojizo.",
+            "Hemoglobina: aporta el tono rosado o rojizo según la cantidad de sangre y su oxigenación en la dermis.",
+            "Carotenos: pigmentos de algunos alimentos, como la zanahoria o el mango, que pueden dar un matiz amarillento si se consumen en abundancia."
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Un color moldeado por el sol"
+        },
+        {
+          "tipo": "texto",
+          "md": "La diversidad de tonos de piel humanos no es un accidente. Los trabajos de la antropóloga Nina Jablonski y del geógrafo George Chaplin, publicados en el año 2000, mostraron que el color de la piel de las poblaciones originarias se relaciona estrechamente con la intensidad de la radiación ultravioleta de la región donde vivieron sus antepasados. Donde el sol es intenso, una piel rica en eumelanina protege frente al daño y ayuda a conservar nutrientes sensibles a la luz, como el folato. Donde la radiación es baja, una piel más clara facilita la producción de vitamina D. Desde esta perspectiva, cada tono de piel es una adaptación valiosa, y ninguno es «mejor» que otro."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Un viajero de la cresta neural"
+        },
+        {
+          "tipo": "texto",
+          "md": "Los melanocitos tienen un origen curioso. Durante el desarrollo del embrión nacen en la **cresta neural**, un grupo de células cercano al sistema nervioso en formación, y desde ahí migran hacia la piel. Se instalan en el **estrato basal** de la epidermis, intercalados entre los queratinocitos, y también en el bulbo de los folículos pilosos, donde dan color al pelo. Hay melanocitos en otras partes del cuerpo, como el ojo y el oído interno.\n\nEl melanocito tiene forma de estrella: de su cuerpo salen prolongaciones largas llamadas **dendritas**, que se extienden entre los queratinocitos vecinos como los brazos de un pulpo. A través de ellas entrega el pigmento."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "La unidad epidermomelánica"
+        },
+        {
+          "tipo": "texto",
+          "md": "Cada melanocito abastece de pigmento a un grupo de queratinocitos. En la década de 1960 se describió esta asociación como **unidad epidermomelánica** y se estimó que un melanocito se relaciona con unos 36 queratinocitos. La melanina se fabrica y se almacena dentro de pequeños organelos llamados **melanosomas**, que viajan por las dendritas y se transfieren a los queratinocitos.\n\nUna vez dentro del queratinocito, los melanosomas se acomodan sobre el núcleo formando una especie de sombrilla o **capuchón supranuclear**. Esa posición no es casual: protege el ADN de la célula de la radiación ultravioleta que llega desde arriba. La melanina absorbe buena parte de esa radiación y, además, neutraliza radicales libres."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m06/d1",
+          "pie": "La unidad epidermomelánica: un melanocito entrega melanosomas a los queratinocitos vecinos.",
+          "descripcion": "Corte de epidermis con el estrato basal en la parte inferior. Un melanocito en forma de estrella situado en la capa basal, con dendritas largas que se extienden entre varios queratinocitos de las capas superiores. Dentro del melanocito, melanosomas pequeños en distintas etapas de maduración, de claros a oscuros. Flechas que muestran la transferencia de melanosomas a los queratinocitos. En dos queratinocitos, los melanosomas forman un capuchón sobre el núcleo. Rayos ultravioleta que llegan desde arriba y se detienen en el capuchón.",
+          "elementos": [
+            "Melanocito",
+            "Dendritas",
+            "Melanosomas",
+            "Queratinocitos",
+            "Capuchón supranuclear",
+            "Núcleo protegido",
+            "Estrato basal",
+            "Radiación ultravioleta"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Mismo número, distinto trabajo"
+        },
+        {
+          "tipo": "texto",
+          "md": "Una idea fundamental, y a menudo sorprendente, es que personas de piel muy clara y de piel muy oscura tienen un **número similar de melanocitos** en la misma zona del cuerpo. La diferencia de color no está en cuántas células hay, sino en cómo trabajan: cuánta melanina producen, qué tipo de melanina predomina, qué tamaño tienen los melanosomas y cómo se distribuyen y se degradan dentro de los queratinocitos.\n\nLa densidad de melanocitos sí varía según la región del cuerpo: es mayor, por ejemplo, en la cara y en la región genital que en el tronco. Y con la edad el número de melanocitos activos disminuye poco a poco, lo que contribuye a que la piel de las personas mayores se pigmente de forma menos uniforme.\n\nEl color de la piel, del cabello y de los ojos depende de la melanina, pero cada uno está influido por combinaciones de genes en parte distintas. Por eso es posible encontrar personas de piel morena con ojos claros o personas de piel clara con cabello muy oscuro. Ninguno de estos rasgos, por sí solo, permite deducir cómo reaccionará una piel al sol, algo que retomarás al estudiar los fototipos."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Qué cambia entre una piel clara y una piel oscura",
+          "columnas": ["Característica", "Piel clara", "Piel oscura"],
+          "filas": [
+            ["Número de melanocitos", "Similar", "Similar"],
+            ["Tamaño de los melanosomas", "Más pequeños", "Más grandes"],
+            ["Distribución en el queratinocito", "Agrupados en pequeños conjuntos", "Dispersos de forma individual"],
+            ["Degradación", "Más rápida; llega menos melanina a capas altas", "Más lenta; la melanina persiste hasta el estrato córneo"],
+            ["Tipo de melanina", "Mayor proporción relativa de feomelanina", "Predominio claro de eumelanina"]
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/01",
+          "proporcion": "16:9",
+          "alt": "Cuatro antebrazos de personas con distintos tonos de piel apoyados en paralelo sobre una tela de lino crema.",
+          "pie": "Las diferencias de color no se deben al número de melanocitos, sino a cómo producen y reparten la melanina.",
+          "prompt": "Fotografía editorial realista en formato horizontal, vista cenital de cuatro antebrazos y manos de personas adultas apoyados en paralelo sobre una tela de lino color crema: piel muy clara con pecas, piel morena clara, piel morena media y piel muy oscura. Textura real de cada piel, con vello fino, pliegues de la muñeca y uñas naturales cortas. Luz natural cálida, difusa y uniforme que respeta el tono auténtico de cada piel. Composición limpia y armónica. Evitar: texto, logotipos, joyería, tatuajes, filtros que alteren el color, piel retocada, lesiones."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Cómo pasan los melanosomas de una célula a otra",
+          "md": "La transferencia de melanosomas sigue en estudio y se han propuesto varios mecanismos: que el queratinocito fagocite la punta de la dendrita, que el melanocito libere melanosomas envueltos en membrana que luego son captados, o que ambas células fusionen sus membranas. Uno de los reguladores mejor descritos es el receptor PAR-2 del queratinocito, cuya activación aumenta la captación de melanosomas. Este conocimiento ha tenido aplicaciones cosméticas: la niacinamida, por ejemplo, ha mostrado en estudios que reduce la transferencia de melanosomas, lo que explica parte de su uso para unificar el tono. La transferencia, y no solo la síntesis, es por tanto un punto clave del color final de la piel."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "Albinismo: hay melanocitos, pero no melanina",
+          "md": "En el albinismo oculocutáneo, los melanocitos están presentes en número normal, pero por variantes genéticas no pueden fabricar melanina o producen muy poca; en la forma más conocida, el problema está en la tirosinasa, la enzima clave del proceso. Las personas con albinismo tienen una sensibilidad muy alta al sol y suelen presentar alteraciones de la visión. Requieren seguimiento dermatológico y oftalmológico y una fotoprotección rigurosa durante toda la vida. En cabina, un trato respetuoso y sin comentarios sobre su apariencia es parte de la ética profesional."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/02",
+          "proporcion": "4:3",
+          "alt": "Cosmetóloga explica a una clienta un modelo anatómico de la piel en una cabina luminosa.",
+          "pie": "Explicar al cliente que el color depende del trabajo de los melanocitos ayuda a desmontar mitos sobre la piel oscura y la piel clara.",
+          "prompt": "Fotografía editorial realista en formato 4:3 en una cabina estética luminosa en tonos crema y rosa empolvado. Una cosmetóloga de unos cuarenta años con piel morena de fototipo IV, bata clara y cabello recogido, señala con un bolígrafo un modelo anatómico tridimensional de un corte de piel colocado sobre una mesa, mientras una clienta de unos veinticinco años con piel oscura de fototipo VI escucha con interés. Luz natural cálida, ambiente didáctico y cercano. Evitar: texto, etiquetas legibles en el modelo, logotipos, marcas, pantallas, gestos exagerados, piel retocada."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/03",
+          "proporcion": "1:1",
+          "alt": "Retrato de perfil de una adolescente de piel muy clara con pecas y cabello rojizo, junto a la ventana.",
+          "pie": "Las pieles con más feomelanina, como muchas pieles con pecas y cabello rojizo, se queman con más facilidad.",
+          "prompt": "Retrato fotográfico editorial realista en formato cuadrado de una adolescente de unos quince años con piel muy clara de fototipo I, pecas abundantes en nariz y mejillas y cabello rojizo ondulado recogido a medias, sentada de perfil junto a una ventana con cortina de lino crema. Luz natural suave y cálida, fondo en rosa empolvado desenfocado, textura de piel real sin retoque. Expresión serena y pensativa. Evitar: texto, logotipos, marcas, quemaduras solares, maquillaje, retoque excesivo, filtros de color."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "relacionar",
+          "titulo": "El equipo del pigmento",
+          "instruccion": "Relaciona cada estructura con su función o característica.",
+          "pares": [
+            { "a": "Melanocito", "b": "Célula del estrato basal que fabrica melanina" },
+            { "a": "Dendritas", "b": "Prolongaciones que llevan el pigmento a las células vecinas" },
+            { "a": "Melanosoma", "b": "Organelo donde se fabrica y almacena la melanina" },
+            { "a": "Capuchón supranuclear", "b": "Melanina colocada sobre el núcleo para proteger el ADN" },
+            { "a": "Cresta neural", "b": "Origen embrionario de los melanocitos" }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Cuando un cliente diga que tiene «pocos melanocitos» porque es de piel clara, o «demasiados» porque tiene la piel oscura, aprovecha para explicar que el número es similar en todas las personas y que la diferencia está en su actividad. Esta idea sencilla ayuda a entender por qué todas las pieles necesitan fotoprotección, por qué las pieles oscuras tienden a mancharse tras una inflamación y por qué ningún producto cosmético debe prometer «cambiar» el color natural de alguien."
+        }
+      ],
+      "glosario": [
+        { "termino": "Melanina", "definicion": "Pigmento producido por los melanocitos que da color a piel, pelo y ojos y absorbe radiación ultravioleta." },
+        { "termino": "Melanocito", "definicion": "Célula dendrítica del estrato basal que fabrica melanina dentro de melanosomas." },
+        { "termino": "Melanosoma", "definicion": "Organelo del melanocito donde se sintetiza y almacena la melanina." },
+        { "termino": "Unidad epidermomelánica", "definicion": "Asociación funcional entre un melanocito y los queratinocitos a los que entrega melanina." },
+        { "termino": "Capuchón supranuclear", "definicion": "Acumulación de melanina sobre el núcleo del queratinocito que protege su ADN." },
+        { "termino": "Albinismo oculocutáneo", "definicion": "Condición genética en la que los melanocitos no producen melanina o producen muy poca." }
+      ],
+      "verificacion": [
+        {
+          "id": "t6.1-1",
+          "q": "¿Qué diferencia principal explica que una piel sea más oscura que otra?",
+          "opciones": [
+            "Tiene muchos más melanocitos",
+            "Sus melanocitos producen más melanina, con melanosomas más grandes y que se degradan más lento",
+            "No tiene queratinocitos",
+            "Tiene más vasos sanguíneos"
+          ],
+          "correcta": 1,
+          "explicacion": "El número de melanocitos es similar; cambian la actividad, el tamaño, la distribución y la degradación de los melanosomas."
+        },
+        {
+          "id": "t6.1-2",
+          "q": "¿Para qué sirve el capuchón supranuclear de melanina?",
+          "opciones": [
+            "Para proteger el ADN del núcleo frente a la radiación ultravioleta",
+            "Para dar brillo a la piel",
+            "Para producir sebo",
+            "Para unir los corneocitos"
+          ],
+          "correcta": 0,
+          "explicacion": "La melanina se coloca sobre el núcleo como una sombrilla que absorbe radiación ultravioleta."
+        },
+        {
+          "id": "t6.1-3",
+          "q": "¿Dónde se ubican los melanocitos en la epidermis?",
+          "opciones": [
+            "En el estrato córneo",
+            "En el estrato granuloso",
+            "En la hipodermis",
+            "En el estrato basal"
+          ],
+          "correcta": 3,
+          "explicacion": "Los melanocitos están en el estrato basal, intercalados entre los queratinocitos."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Human skin pigmentation: melanocytes modulate skin color in response to stress", "autor": "Costin GE, Hearing VJ. The FASEB Journal", "anio": 2007 },
+        { "tipo": "academica", "titulo": "Physiological factors that regulate skin pigmentation", "autor": "Yamaguchi Y, Hearing VJ. BioFactors", "anio": 2009 },
+        { "tipo": "academica", "titulo": "The protease-activated receptor 2 regulates pigmentation via keratinocyte-melanocyte interactions", "autor": "Seiberg M, et al. Experimental Cell Research", "anio": 2000 },
+        { "tipo": "academica", "titulo": "The effect of niacinamide on reducing cutaneous pigmentation and suppression of melanosome transfer", "autor": "Hakozaki T, et al. British Journal of Dermatology", "anio": 2002 },
+        { "tipo": "academica", "titulo": "The evolution of human skin coloration", "autor": "Jablonski NG, Chaplin G. Journal of Human Evolution", "anio": 2000 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en textos universitarios de dermatología sobre biología del melanocito", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "6.2",
+      "titulo": "La melanogénesis: cómo se fabrica la melanina",
+      "minutos": 13,
+      "enPocasPalabras": "La melanina se fabrica a partir de un aminoácido, la tirosina, gracias a una enzima llamada tirosinasa. Según el camino que tome la reacción, se forma eumelanina, de color café oscuro, o feomelanina, de tono amarillo rojizo. El sol, las hormonas y la inflamación pueden encender esta fábrica.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "La **melanogénesis** es el proceso por el cual el melanocito fabrica melanina dentro de los melanosomas. Es una cadena de reacciones químicas regulada por señales que llegan desde los queratinocitos, desde las hormonas y desde el ambiente. Entenderla te permitirá comprender por qué aparecen las manchas, por qué el sol las empeora y por qué tantos activos cosméticos se describen como reguladores del tono."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "De la tirosina a la melanina"
+        },
+        {
+          "tipo": "pasos",
+          "titulo": "Etapas principales de la síntesis de melanina",
+          "pasos": [
+            { "titulo": "Maduración del melanosoma", "md": "El melanosoma pasa por cuatro etapas: en las dos primeras arma su estructura interna sin pigmento, y en la tercera y la cuarta acumula melanina hasta quedar completamente oscuro y listo para transferirse." },
+            { "titulo": "Primera reacción", "md": "La enzima **tirosinasa**, que contiene cobre, transforma el aminoácido tirosina en DOPA y luego en dopaquinona. Es el paso que limita la velocidad de todo el proceso, por eso es el blanco de muchos activos que buscan unificar el tono." },
+            { "titulo": "La bifurcación", "md": "A partir de la dopaquinona el camino se divide. Si hay cisteína o glutatión disponibles, la reacción se desvía hacia la feomelanina. Si no, continúa hacia la eumelanina con ayuda de otras enzimas relacionadas con la tirosinasa." },
+            { "titulo": "Polimerización", "md": "Las moléculas intermedias se unen en cadenas grandes y forman el pigmento final, que se deposita en el melanosoma." },
+            { "titulo": "Transferencia", "md": "El melanosoma maduro viaja por las dendritas y se entrega a los queratinocitos, donde forma el capuchón supranuclear." }
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m06/d2",
+          "pie": "Ruta simplificada de la melanogénesis y sus dos productos principales.",
+          "descripcion": "Diagrama de flujo de arriba abajo. Arriba, la tirosina. Una flecha con la etiqueta de la tirosinasa lleva a DOPA y luego a dopaquinona. Desde la dopaquinona, el camino se divide en dos ramas: a la izquierda, con la entrada de cisteína, se llega a la feomelanina, representada con un tono amarillo rojizo; a la derecha, sin cisteína, se llega a la eumelanina, representada con un tono café oscuro. Al lado de cada producto, un ícono simple de escudo grande para la eumelanina y de escudo pequeño para la feomelanina. A un costado, una barra con las cuatro etapas del melanosoma, de vacío a completamente pigmentado.",
+          "elementos": [
+            "Tirosina",
+            "Tirosinasa",
+            "DOPA",
+            "Dopaquinona",
+            "Cisteína o glutatión",
+            "Feomelanina",
+            "Eumelanina",
+            "Etapas I a IV del melanosoma"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Dos melaninas con propiedades distintas"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Eumelanina y feomelanina",
+          "columnas": ["Característica", "Eumelanina", "Feomelanina"],
+          "filas": [
+            ["Color", "Café oscuro a negro", "Amarillo a rojizo"],
+            ["Composición", "Sin azufre", "Contiene azufre procedente de la cisteína"],
+            ["Protección frente a la radiación ultravioleta", "Alta: absorbe radiación y neutraliza radicales libres", "Baja; con la radiación puede generar especies reactivas de oxígeno"],
+            ["Dónde predomina", "Pieles morenas y oscuras, cabello castaño y negro", "Pieles muy claras con pecas y cabello rojizo"]
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Todas las personas tienen una mezcla de ambas melaninas; lo que cambia es la proporción. La genética decide en gran parte esa mezcla. Un ejemplo bien estudiado es el **receptor MC1R** del melanocito: cuando se activa con normalidad favorece la producción de eumelanina, y algunas variantes del gen que lo codifica reducen su función y desvían la producción hacia la feomelanina. Esas variantes son frecuentes en personas con cabello rojizo, pecas y piel que se quema con facilidad, y se asocian con mayor riesgo de cáncer de piel."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "La señal que enciende el bronceado",
+          "md": "Cuando la radiación ultravioleta daña el ADN de los queratinocitos, se activa la proteína p53, que estimula la producción de proopiomelanocortina (POMC). De esa molécula se obtiene la hormona estimulante de melanocitos alfa (alfa-MSH), que se une al receptor MC1R del melanocito. Esa unión eleva el AMP cíclico dentro de la célula y activa el factor de transcripción MITF, considerado el regulador maestro del melanocito, que aumenta la producción de tirosinasa y de otras enzimas. El trabajo de Cui y colaboradores, publicado en *Cell* en 2007, describió el papel central de p53 en esta respuesta. Otras señales, como la endotelina-1 y el factor de células madre, refuerzan el proceso. La conclusión práctica es clara: el bronceado es una respuesta al daño."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Qué enciende la fábrica de melanina"
+        },
+        {
+          "tipo": "lista",
+          "items": [
+            "Radiación ultravioleta B y A: el estímulo más conocido, a través del daño al ADN y del estrés oxidativo.",
+            "Luz visible, en especial la de longitud de onda corta: en pieles morenas y oscuras puede provocar una pigmentación intensa y duradera.",
+            "Hormonas: los estrógenos y la progesterona influyen en el oscurecimiento de areolas, línea media del abdomen y manchas faciales durante el embarazo o con algunos anticonceptivos.",
+            "Inflamación: acné, eczema, picaduras, quemaduras o procedimientos agresivos pueden dejar manchas al estimular a los melanocitos.",
+            "Fricción y presión repetidas, como en codos, rodillas o zonas de roce con la ropa.",
+            "Algunos medicamentos y sustancias que aumentan la sensibilidad al sol, que solo el médico puede valorar."
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Un estudio de Mahmoud y colaboradores, publicado en 2010, mostró que la luz visible induce una pigmentación más intensa y prolongada en personas de fototipos IV a VI que la radiación UVA larga, mientras que en fototipo II no produjo pigmentación apreciable. Esto tiene una consecuencia práctica en México, donde predominan los fototipos intermedios y oscuros: los protectores solares con color, que contienen óxidos de hierro, pueden ofrecer protección adicional frente a la luz visible. Un ensayo realizado en San Luis Potosí por Castanedo-Cázares y colaboradores, publicado en 2014, encontró mejor respuesta en personas con melasma que usaron un protector con protección frente a luz visible además de ultravioleta, dentro de un tratamiento indicado por dermatólogos."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/04",
+          "proporcion": "3:4",
+          "alt": "Mujer embarazada de piel morena sentada junto a una ventana con la mano sobre el vientre, con luz suave.",
+          "pie": "Durante el embarazo los cambios hormonales pueden estimular a los melanocitos; la fotoprotección es parte del cuidado.",
+          "prompt": "Fotografía editorial realista en formato vertical de una mujer de unos treinta y dos años con piel morena de fototipo IV, embarazada de unos seis meses, sentada en un sillón junto a una ventana con cortinas de lino crema, con una mano apoyada sobre el vientre cubierto por un vestido de algodón rosa empolvado. Luz natural suave y cálida filtrada por la cortina, mirada tranquila hacia afuera. Piel con textura real y tono uniforme natural. Evitar: texto, logotipos, marcas, desnudez, manchas exageradas, maquillaje intenso, retoque excesivo."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Por qué algunas manchas tardan tanto en irse"
+        },
+        {
+          "tipo": "texto",
+          "md": "La melanina que queda en los queratinocitos sube con ellos hacia la superficie y se elimina con la descamación, en un recorrido de varias semanas. Por eso una mancha superficial puede aclarar de forma gradual si se suprime el estímulo que la produjo. En cambio, cuando la inflamación daña la unión entre epidermis y dermis, parte del pigmento cae a la dermis y es atrapado por células llamadas **melanófagos**, que pueden retenerlo durante meses o años. Esas manchas suelen verse de un tono más grisáceo o azulado y responden mucho peor a los cuidados cosméticos. Esta diferencia explica por qué el dermatólogo examina cada mancha con detalle antes de proponer un tratamiento, y por qué prevenir la inflamación es tan importante."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Despigmentantes: no todo es cosmético",
+          "md": "Algunas sustancias que reducen la producción de melanina son medicamentos y solo deben usarse con indicación y vigilancia de un dermatólogo, porque su uso prolongado o sin control puede irritar, provocar manchas paradójicas más oscuras o dañar la piel de forma permanente. En productos ilegales o sin registro se han detectado además corticoides y mercurio, que pueden causar daños graves. En cabina, no recomiendes ni apliques productos despigmentantes de origen desconocido y nunca sugieras usar cremas medicadas de otra persona."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/05",
+          "proporcion": "4:3",
+          "alt": "Cosmetóloga con guantes aplica protector solar con color en la mejilla de una mujer de piel morena oscura en la cabina.",
+          "pie": "Los protectores con color, que contienen óxidos de hierro, añaden protección frente a la luz visible.",
+          "prompt": "Fotografía editorial realista en formato 4:3 en una cabina estética luminosa en tonos crema y rosa empolvado. Una cosmetóloga de unos treinta años con piel clara, guantes de nitrilo y cabello recogido extiende con las yemas de los dedos un protector solar cremoso con un ligero tono beige en la mejilla de una mujer de unos cuarenta años con piel morena oscura de fototipo V, recostada con una banda para el cabello. El producto se funde con naturalidad sin dejar residuo blanco. Luz cálida y suave. Evitar: texto, logotipos, marcas, envases con etiquetas, manchas exageradas, residuo blanco, retoque excesivo."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/06",
+          "proporcion": "1:1",
+          "alt": "Hombre joven de piel trigueña con marcas oscuras leves en las mejillas, se mira en un espejo de baño.",
+          "pie": "La inflamación del acné puede dejar manchas oscuras que tardan meses en aclarar, sobre todo en pieles morenas.",
+          "prompt": "Fotografía editorial realista en formato cuadrado de un hombre de unos veintidós años con piel trigueña de fototipo IV y cabello negro corto, frente a un espejo de baño, observando con calma su mejilla, donde se aprecian algunas marcas planas de color café claro, discretas y sin inflamación activa. Baño luminoso con azulejos crema, toalla rosa empolvado y luz cálida de mañana. Textura de piel real. Evitar: texto, logotipos, marcas, acné inflamado, lesiones abiertas, sangre, gestos de angustia, retoque excesivo."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "ordenar",
+          "titulo": "La ruta del pigmento",
+          "instruccion": "Ordena los pasos desde el estímulo del sol hasta que el queratinocito queda protegido.",
+          "elementos": [
+            "La radiación ultravioleta daña el ADN del queratinocito",
+            "El queratinocito libera alfa-MSH y otras señales",
+            "La señal se une al receptor MC1R del melanocito",
+            "Aumenta la actividad de la tirosinasa en el melanosoma",
+            "El melanosoma maduro se transfiere al queratinocito",
+            "La melanina forma un capuchón sobre el núcleo"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Antes de proponer cualquier servicio, pregunta por los estímulos que encienden la melanina: exposición al sol, embarazo o anticonceptivos, acné o irritaciones recientes y uso de productos aclaradores. Esa información te ayuda a decidir si conviene un servicio suave en lugar de uno agresivo. Y recuerda que, en todas las personas que tienen o han tenido manchas, la fotoprotección diaria de amplio espectro, idealmente con color, es la base de cualquier cuidado."
+        }
+      ],
+      "glosario": [
+        { "termino": "Melanogénesis", "definicion": "Proceso de síntesis de melanina dentro de los melanosomas." },
+        { "termino": "Tirosinasa", "definicion": "Enzima con cobre que inicia la transformación de la tirosina en melanina y limita la velocidad del proceso." },
+        { "termino": "Eumelanina", "definicion": "Melanina de color café oscuro a negro con alta capacidad de protección frente a la radiación ultravioleta." },
+        { "termino": "Feomelanina", "definicion": "Melanina amarillo rojiza que contiene azufre y protege poco frente a la radiación ultravioleta." },
+        { "termino": "MC1R", "definicion": "Receptor del melanocito que, al activarse, favorece la producción de eumelanina." },
+        { "termino": "Óxidos de hierro", "definicion": "Pigmentos minerales de los protectores con color que añaden protección frente a la luz visible." }
+      ],
+      "verificacion": [
+        {
+          "id": "t6.2-1",
+          "q": "¿Qué enzima inicia la transformación de la tirosina en melanina?",
+          "opciones": [
+            "La tirosinasa",
+            "La colagenasa",
+            "La lipasa",
+            "La amilasa"
+          ],
+          "correcta": 0,
+          "explicacion": "La tirosinasa transforma la tirosina en DOPA y dopaquinona; es el paso limitante de la melanogénesis."
+        },
+        {
+          "id": "t6.2-2",
+          "q": "¿Qué melanina ofrece mayor protección frente a la radiación ultravioleta?",
+          "opciones": [
+            "La feomelanina",
+            "Ambas protegen exactamente igual",
+            "Ninguna protege",
+            "La eumelanina"
+          ],
+          "correcta": 3,
+          "explicacion": "La eumelanina absorbe radiación y neutraliza radicales libres; la feomelanina protege poco y con la radiación puede generar especies reactivas."
+        },
+        {
+          "id": "t6.2-3",
+          "q": "¿Por qué se sugieren protectores con color a personas de fototipos intermedios y oscuros con tendencia a mancharse?",
+          "opciones": [
+            "Porque aclaran la piel de forma permanente",
+            "Porque sustituyen la consulta con el dermatólogo",
+            "Porque sus óxidos de hierro añaden protección frente a la luz visible, que pigmenta más en esas pieles",
+            "Porque eliminan la melanina existente"
+          ],
+          "correcta": 2,
+          "explicacion": "La luz visible pigmenta más en fototipos IV a VI y los óxidos de hierro la filtran; no aclaran la piel ni sustituyen la valoración médica."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Central role of p53 in the suntan response and pathologic hyperpigmentation", "autor": "Cui R, et al. Cell", "anio": 2007 },
+        { "tipo": "academica", "titulo": "Impact of long-wavelength UVA and visible light on melanocompetent skin", "autor": "Mahmoud BH, et al. Journal of Investigative Dermatology", "anio": 2010 },
+        { "tipo": "academica", "titulo": "Near-visible light and UV photoprotection in the treatment of melasma: a double-blind randomized trial", "autor": "Castanedo-Cázares JP, et al. Photodermatology, Photoimmunology and Photomedicine", "anio": 2014 },
+        { "tipo": "academica", "titulo": "Physiological factors that regulate skin pigmentation", "autor": "Yamaguchi Y, Hearing VJ. BioFactors", "anio": 2009 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en revisiones sobre melanogénesis y fotoprotección frente a luz visible", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "6.3",
+      "titulo": "Bronceado y respuesta pigmentaria al sol",
+      "minutos": 13,
+      "enPocasPalabras": "Al exponernos al sol, la piel se oscurece en minutos por la melanina que ya tenía y, días después, fabrica melanina nueva. Ese bronceado es una señal de que el ADN recibió daño y protege muy poco. Todas las personas, de cualquier tono de piel, necesitan fotoprotección.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Para muchas personas, el bronceado es sinónimo de salud y de vacaciones. Para la ciencia de la piel, es una **respuesta de defensa** que aparece porque la radiación ya produjo daño. Conocer cómo se produce y cuánto protege en realidad te dará argumentos sólidos para hablar de fotoprotección con tus clientes, sin regaños y sin mitos."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Tres respuestas con tiempos distintos"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Respuestas pigmentarias a la radiación solar",
+          "columnas": ["Respuesta", "Cuándo aparece y cuánto dura", "Qué ocurre"],
+          "filas": [
+            ["Oscurecimiento pigmentario inmediato", "En minutos durante la exposición; se desvanece en horas", "La melanina que ya existía se oxida y se redistribuye; lo provoca sobre todo la radiación UVA y la luz visible"],
+            ["Oscurecimiento pigmentario persistente", "En horas; puede durar días", "Continúa la oxidación de la melanina existente, también por UVA y luz visible"],
+            ["Bronceado tardío", "Comienza unos dos a tres días después y dura semanas", "Los melanocitos fabrican melanina nueva y la transfieren; lo desencadena sobre todo la radiación UVB"]
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "El oscurecimiento inmediato y el persistente no aportan melanina nueva: cambian el estado de la que ya había. Por eso dan color sin aumentar realmente la protección. El bronceado tardío sí implica más melanina y un estrato córneo algo más grueso, pero su protección es modesta: las estimaciones de la literatura la sitúan en el equivalente a un factor de protección bajo, de un solo dígito, muy por debajo de lo que necesita la piel bajo el sol de México.\n\nAdemás, el bronceado no evita el daño acumulado que conduce al fotoenvejecimiento y al cáncer de piel. La Organización Mundial de la Salud y las academias de dermatología coinciden: no existe un bronceado seguro producido por radiación ultravioleta."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Quemadura solar: la otra respuesta"
+        },
+        {
+          "tipo": "texto",
+          "md": "La **quemadura solar** es una reacción inflamatoria provocada sobre todo por la radiación UVB. El enrojecimiento empieza a notarse algunas horas después de la exposición y suele alcanzar su máximo hacia el día siguiente; en casos intensos aparecen dolor, hinchazón y ampollas, situaciones en las que conviene buscar atención médica. La cantidad mínima de radiación que produce un enrojecimiento apenas visible se llama **dosis eritematosa mínima** y es mucho menor en los fototipos claros que en los oscuros. En pieles morenas y oscuras la quemadura existe, aunque requiere más radiación, y puede verse como un oscurecimiento con ardor y descamación más que como un rojo intenso. Cada quemadura suma daño, y las quemaduras en la infancia y la adolescencia se asocian con mayor riesgo de melanoma en la vida adulta."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "¿Y la vitamina D?"
+        },
+        {
+          "tipo": "texto",
+          "md": "Es una duda frecuente: si me protejo del sol, ¿me faltará vitamina D? La piel produce vitamina D con la radiación UVB, pero para ello basta una exposición breve y ocasional de áreas pequeñas, sin necesidad de broncearse ni de quemarse. Los estudios con usuarios habituales de protector solar no han mostrado que su uso cotidiano provoque deficiencia en la mayoría de las personas. Hay grupos con mayor riesgo de deficiencia, como personas mayores, personas que casi no salen de casa o que cubren casi toda la piel; en ellos, la evaluación y la decisión sobre suplementos corresponden al médico."
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Fotoprotección combinada para todos los fototipos",
+          "items": [
+            "Buscar la sombra en las horas de radiación más intensa, en general alrededor del mediodía.",
+            "Usar ropa de manga larga, de tejido cerrado, y sombrero de ala ancha.",
+            "Proteger los ojos con lentes de sol que filtren la radiación ultravioleta.",
+            "Aplicar protector de amplio espectro en cantidad suficiente y reaplicarlo tras sudar, nadar o secarse con toalla.",
+            "Consultar el índice UV del día para planear actividades al aire libre."
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m06/d3",
+          "pie": "Línea de tiempo de las respuestas pigmentarias después de una exposición al sol.",
+          "descripcion": "Línea de tiempo horizontal que va de minutos a semanas, con una escala logarítmica marcada en minutos, horas, días y semanas. Sobre la línea, tres curvas de intensidad de color: una curva breve que sube y baja en minutos y horas para el oscurecimiento inmediato; una curva más amplia que dura horas a días para el oscurecimiento persistente; y una curva que empieza a subir a los dos o tres días, alcanza su máximo en una o dos semanas y desciende lentamente para el bronceado tardío. Debajo, íconos de UVA y luz visible en las dos primeras curvas y de UVB en la tercera.",
+          "elementos": [
+            "Oscurecimiento pigmentario inmediato",
+            "Oscurecimiento pigmentario persistente",
+            "Bronceado tardío",
+            "UVA y luz visible",
+            "UVB",
+            "Minutos, horas, días y semanas"
+          ]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Camas de bronceado y carcinógenos",
+          "md": "En 2009, la Agencia Internacional para la Investigación sobre el Cáncer (IARC), parte de la Organización Mundial de la Salud, clasificó los dispositivos de bronceado que emiten radiación ultravioleta en el grupo 1, el de los agentes con evidencia suficiente de que causan cáncer en seres humanos, el mismo grupo que la propia radiación solar. Los análisis que respaldaron esa decisión encontraron mayor riesgo de melanoma en quienes comenzaron a usarlos antes de los 30 años. Por eso, una cabina profesional no debe promover el bronceado artificial con radiación ultravioleta como servicio de belleza. Los autobronceadores con dihidroxiacetona, que tiñen las capas superficiales del estrato córneo, son una alternativa cosmética para quien desea color, aunque no protegen del sol."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "La piel oscura también necesita protección"
+        },
+        {
+          "tipo": "texto",
+          "md": "Existe la creencia de que las pieles morenas y oscuras «no necesitan» protector. Es cierto que la eumelanina abundante reduce la frecuencia de quemaduras y de algunos cánceres de piel, pero no los elimina. En personas de fototipos oscuros, el cáncer de piel es menos frecuente, pero con frecuencia se diagnostica más tarde, en parte porque se piensa menos en él. Además, una forma de melanoma que aparece en palmas, plantas y uñas, el **melanoma lentiginoso acral**, no depende del sol y representa una proporción mayor de los melanomas en personas de piel oscura.\n\nLa fotoprotección en estas pieles tiene otros motivos de peso: la luz visible y la radiación ultravioleta empeoran el melasma y prolongan las manchas posinflamatorias, que son motivos de consulta muy frecuentes. Un protector de amplio espectro con color puede integrarse bien en el tono de piel y evitar el aspecto blanquecino que muchas personas rechazan."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "mexico",
+          "titulo": "El índice UV en México",
+          "md": "La Organización Mundial de la Salud propone el **índice UV** para comunicar la intensidad de la radiación ultravioleta: de 3 a 5 es moderado, de 6 a 7 alto, de 8 a 10 muy alto y de 11 en adelante extremo, y recomienda protegerse a partir de 3. Por su latitud y por la altitud de muchas de sus ciudades, en buena parte de México el índice alcanza con frecuencia niveles muy altos o extremos en primavera y verano, y puede ser alto incluso en días nublados. Varias autoridades ambientales y meteorológicas del país publican el pronóstico diario del índice UV; consultarlo y compartirlo con tus clientes es una forma sencilla de educar."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/07",
+          "proporcion": "16:9",
+          "alt": "Familia de piel morena descansa bajo una sombrilla en una playa, con sombreros y ropa ligera de manga larga.",
+          "pie": "Sombra, ropa, sombrero y protector solar se combinan para proteger a todas las edades y fototipos.",
+          "prompt": "Fotografía editorial realista en formato horizontal de una familia mexicana descansando bajo una amplia sombrilla de tela color crema en una playa de arena clara a media mañana: una madre de piel morena de fototipo IV, un padre de piel morena oscura de fototipo V y dos niños pequeños, todos con sombreros de ala ancha y ropa ligera de manga larga en tonos crema y rosa empolvado. Mar turquesa suave al fondo, luz cálida y sombras definidas. Ambiente alegre y tranquilo. Evitar: texto, logotipos, marcas, quemaduras solares, piel enrojecida, cuerpos semidesnudos, personas identificables al fondo, colores saturados."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/08",
+          "proporcion": "4:3",
+          "alt": "Trabajador agrícola de piel morena con sombrero de ala ancha y camisa de manga larga en un campo al amanecer.",
+          "pie": "Las personas que trabajan al aire libre acumulan mucha exposición solar; la protección física es fundamental.",
+          "prompt": "Fotografía editorial realista en formato 4:3 de un trabajador agrícola de unos cincuenta años con piel morena curtida de fototipo V, con sombrero de palma de ala ancha, paliacate claro en el cuello y camisa de manga larga de algodón, de pie en un campo de cultivo al amanecer. Luz dorada cálida y suave, cielo despejado, expresión digna y serena. Textura de piel real con arrugas finas. Evitar: texto, logotipos, marcas, lesiones en la piel, quemaduras, estereotipos, gestos de sufrimiento, retoque excesivo."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/09",
+          "proporcion": "1:1",
+          "alt": "Manos de una mujer de piel oscura aplicando una porción de protector solar en el dorso de la otra mano.",
+          "pie": "Un protector de amplio espectro bien elegido se integra en cualquier tono de piel.",
+          "prompt": "Fotografía editorial realista en formato cuadrado, primer plano de las manos de una mujer de unos treinta años con piel muy oscura de fototipo VI, extendiendo una pequeña porción de protector solar fluido en el dorso de una mano con los dedos de la otra. El producto se funde sin dejar residuo blanco. Fondo de tela de lino crema y luz natural cálida y suave. Uñas cortas y naturales, textura real de la piel. Evitar: texto, logotipos, marcas, envases con etiquetas, residuo blanco, joyería llamativa, retoque excesivo."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "vf",
+          "titulo": "Mito o realidad del bronceado",
+          "afirmaciones": [
+            { "texto": "El bronceado es una respuesta de la piel al daño producido por la radiación.", "verdadero": true, "explicacion": "La síntesis de melanina nueva se activa cuando la radiación daña el ADN de los queratinocitos." },
+            { "texto": "Una piel bronceada ya no necesita protector solar.", "verdadero": false, "explicacion": "El bronceado protege muy poco, equivalente a un factor bajo, y no evita el daño acumulado." },
+            { "texto": "Las personas de piel oscura no pueden tener cáncer de piel.", "verdadero": false, "explicacion": "Es menos frecuente, pero ocurre y a menudo se diagnostica más tarde; el melanoma acral no depende del sol." },
+            { "texto": "La IARC clasificó las camas de bronceado con radiación ultravioleta como carcinógenas para los seres humanos.", "verdadero": true, "explicacion": "En 2009 las incluyó en el grupo 1, el de mayor evidencia." },
+            { "texto": "En días nublados el índice UV siempre es cero.", "verdadero": false, "explicacion": "Las nubes no bloquean toda la radiación ultravioleta; el índice puede ser alto aunque el cielo esté cubierto." }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Habla de fotoprotección con el mismo cuidado con todos tus clientes, sin importar su tono de piel. Adapta el argumento: a quien se quema con facilidad, explícale el riesgo de quemaduras y cáncer; a quien tiene piel morena u oscura, explícale que el sol y la luz visible prolongan las manchas y que el cáncer de piel también puede aparecer. Recomienda combinar sombra, ropa, sombrero, lentes y protector de amplio espectro, y evita ofrecer o promover el bronceado con radiación ultravioleta."
+        }
+      ],
+      "glosario": [
+        { "termino": "Oscurecimiento pigmentario inmediato", "definicion": "Oscurecimiento en minutos por oxidación de melanina existente, que se desvanece en horas." },
+        { "termino": "Bronceado tardío", "definicion": "Aumento de melanina nueva que aparece días después de la exposición y dura semanas." },
+        { "termino": "Índice UV", "definicion": "Escala de la OMS que comunica la intensidad de la radiación ultravioleta en un lugar y momento." },
+        { "termino": "Melanoma lentiginoso acral", "definicion": "Forma de melanoma de palmas, plantas y uñas que no depende de la exposición solar." },
+        { "termino": "Autobronceador", "definicion": "Producto que tiñe las capas superficiales del estrato córneo sin radiación y sin aportar protección solar." }
+      ],
+      "verificacion": [
+        {
+          "id": "t6.3-1",
+          "q": "¿Qué respuesta pigmentaria implica la fabricación de melanina nueva?",
+          "opciones": [
+            "El oscurecimiento pigmentario inmediato",
+            "El bronceado tardío",
+            "El oscurecimiento pigmentario persistente",
+            "El enrojecimiento de la piel"
+          ],
+          "correcta": 1,
+          "explicacion": "El bronceado tardío aparece días después e implica síntesis de melanina nueva; los oscurecimientos inmediato y persistente oxidan melanina existente."
+        },
+        {
+          "id": "t6.3-2",
+          "q": "Según la escala de la OMS, ¿qué categoría corresponde a un índice UV de 11?",
+          "opciones": [
+            "Moderado",
+            "Alto",
+            "Muy alto",
+            "Extremo"
+          ],
+          "correcta": 3,
+          "explicacion": "De 11 en adelante el índice UV se considera extremo."
+        },
+        {
+          "id": "t6.3-3",
+          "q": "Un cliente de fototipo V dice que no usa protector porque «nunca se quema». ¿Qué argumento es más adecuado?",
+          "opciones": [
+            "Que tiene razón y no necesita protegerse",
+            "Que debe usar camas de bronceado para fortalecer la piel",
+            "Que el sol y la luz visible prolongan las manchas, que el cáncer de piel también puede aparecer y que hay protectores con color que se integran a su tono",
+            "Que su piel tiene menos melanocitos que una piel clara"
+          ],
+          "correcta": 2,
+          "explicacion": "Las pieles oscuras también se benefician de la fotoprotección; el número de melanocitos es similar y las camas de bronceado son carcinógenas."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "oficial", "titulo": "Global Solar UV Index: A Practical Guide", "autor": "Organización Mundial de la Salud", "anio": 2002 },
+        { "tipo": "academica", "titulo": "A review of human carcinogens, part D: radiation", "autor": "El Ghissassi F, et al. The Lancet Oncology", "anio": 2009 },
+        { "tipo": "academica", "titulo": "Variations in skin colour and the biological consequences of ultraviolet radiation exposure", "autor": "Del Bino S, Bernerd F. British Journal of Dermatology", "anio": 2013 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en textos de fotobiología cutánea y recomendaciones de academias de dermatología sobre fotoprotección en todos los fototipos", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "6.4",
+      "titulo": "Los fototipos de Fitzpatrick y la diversidad de la piel en México",
+      "minutos": 14,
+      "enPocasPalabras": "Los fototipos clasifican la piel según cómo reacciona al sol: si se quema y si se broncea. Van del I, que siempre se quema, al VI, que casi nunca se quema. Son útiles en cabina, pero no miden la raza ni el origen de nadie, y en México conviven todos los fototipos.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "En 1975 el dermatólogo estadounidense Thomas B. Fitzpatrick propuso una clasificación de la piel según su reacción al sol, pensada inicialmente para calcular la dosis de un tratamiento médico con radiación ultravioleta. La primera versión incluía cuatro tipos para pieles claras; después se agregaron los tipos V y VI para pieles morenas oscuras y oscuras. En 1988 el propio Fitzpatrick publicó la versión con los seis tipos que hoy se usa en todo el mundo.\n\nLa escala no clasifica el color de la piel ni el origen de la persona: clasifica su **respuesta al sol**, es decir, la tendencia a quemarse y la capacidad de broncearse."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Los seis fototipos"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Fototipos de Fitzpatrick",
+          "columnas": ["Fototipo", "Reacción al sol", "Rasgos frecuentes, con muchas excepciones"],
+          "filas": [
+            ["I", "Siempre se quema, nunca se broncea", "Piel muy clara, a menudo con pecas; cabello rojizo o rubio; ojos claros"],
+            ["II", "Se quema con facilidad, se broncea poco", "Piel clara; cabello rubio o castaño claro"],
+            ["III", "A veces se quema, se broncea de forma gradual", "Piel clara a morena clara; cabello castaño"],
+            ["IV", "Rara vez se quema, se broncea con facilidad", "Piel morena clara a morena; cabello castaño oscuro o negro"],
+            ["V", "Muy rara vez se quema, se broncea intensamente", "Piel morena oscura; cabello negro"],
+            ["VI", "Casi nunca se quema, piel con pigmentación profunda", "Piel muy oscura; cabello negro"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m06/d4",
+          "pie": "Escala de fototipos de Fitzpatrick: de mayor a menor tendencia a quemarse.",
+          "descripcion": "Barra horizontal dividida en seis segmentos numerados del I al VI con tonos de piel progresivamente más oscuros, representados con colores planos realistas. Encima de la barra, una flecha que disminuye de izquierda a derecha con la etiqueta de tendencia a quemarse. Debajo, una flecha que aumenta de izquierda a derecha con la etiqueta de capacidad de broncearse. En la parte inferior, una nota visual de que todos los fototipos necesitan fotoprotección, representada con un pequeño ícono de sombrilla que abarca los seis segmentos.",
+          "elementos": [
+            "Fototipo I",
+            "Fototipo II",
+            "Fototipo III",
+            "Fototipo IV",
+            "Fototipo V",
+            "Fototipo VI",
+            "Tendencia a quemarse",
+            "Capacidad de broncearse",
+            "Fotoprotección para todos"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cómo se determina en cabina"
+        },
+        {
+          "tipo": "pasos",
+          "titulo": "Preguntas y observaciones para estimar el fototipo",
+          "pasos": [
+            { "titulo": "Preguntar por la reacción al sol", "md": "¿Qué le pasa a tu piel si te expones al sol del mediodía sin protección, sobre todo al inicio de la temporada? ¿Te quemas, te enrojeces, te bronceas? Esta es la pregunta central de la escala." },
+            { "titulo": "Preguntar por el bronceado", "md": "¿Te bronceas con facilidad? ¿El bronceado es leve, moderado o intenso? ¿Cuánto dura?" },
+            { "titulo": "Observar la piel no expuesta", "md": "Mira la cara interna del brazo, una zona que recibe poco sol, para estimar el color natural sin el efecto del bronceado." },
+            { "titulo": "Considerar ojos, cabello y pecas", "md": "Son datos de apoyo, no definitivos: hay personas con ojos claros y fototipo IV y personas de cabello oscuro que se queman con facilidad." },
+            { "titulo": "Registrar y explicar", "md": "Anota el fototipo estimado en la ficha y explica a la persona qué significa para sus cuidados y para los servicios que elija." }
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "El fototipo no debe confundirse con el **tipo de piel**, que describe si una piel es seca, grasa, mixta o sensible y que estudiarás en el siguiente módulo. Una persona de fototipo II puede tener piel grasa y una de fototipo V puede tener piel seca. Son dos datos independientes y ambos deben figurar en la ficha."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Por qué el fototipo importa en cabina"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Consideraciones de cabina según el fototipo",
+          "columnas": ["Fototipos", "Riesgo que más vigilar", "Precauciones útiles"],
+          "filas": [
+            ["I y II", "Quemadura solar, enrojecimiento e irritación visibles; mayor riesgo de cáncer de piel", "Fotoprotección estricta, observar lunares y pecas que cambien, evitar servicios que dejen la piel sensible antes de exponerse al sol"],
+            ["III y IV", "Manchas tras la inflamación y melasma; quemaduras ocasionales", "Preferir servicios suaves, hacer prueba en una zona pequeña con productos nuevos, fotoprotección con color"],
+            ["V y VI", "Hiperpigmentación o hipopigmentación posinflamatoria intensa y duradera; cicatrices engrosadas en algunas personas", "Evitar fricción, extracciones traumáticas y exfoliaciones intensas; no subestimar la quemadura; derivar ante cualquier lesión que cambie"]
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "Los equipos que emiten luz o calor merecen una mención aparte: la melanina de la epidermis absorbe parte de esa energía, por lo que los fototipos altos tienen más riesgo de quemaduras y manchas si no se usan la tecnología y los parámetros adecuados. Por eso el fototipo es un dato de seguridad que debe registrarse siempre antes de cualquier servicio con aparatología, y por eso la capacitación específica y el cumplimiento de la regulación vigente son indispensables."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Límites de la escala"
+        },
+        {
+          "tipo": "texto",
+          "md": "La escala de Fitzpatrick es útil, pero tiene limitaciones importantes. Se basa en lo que la persona recuerda y cuenta, por lo que es subjetiva. Distingue bien entre pieles claras, pero agrupa en pocas categorías la enorme variedad de pieles morenas y oscuras. Y con frecuencia se ha usado de forma incorrecta como sinónimo de raza o etnia, algo para lo que nunca fue diseñada.\n\nPor eso se han propuesto herramientas complementarias. En investigación se usa el **ángulo de tipología individual** (ITA), que se calcula a partir de mediciones objetivas del color con un colorímetro. Para representar mejor la diversidad de tonos en imágenes y tecnología se han creado escalas como la de tono de piel de Monk, de diez tonos. Ninguna sustituye la observación cuidadosa y la conversación con la persona."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "El ángulo de tipología individual",
+          "md": "El ITA se obtiene a partir de dos valores del espacio de color CIELAB medidos con un colorímetro: la luminosidad (L*) y el componente amarillo-azul (b*). El resultado, expresado en grados, permite ordenar el color constitutivo de la piel en categorías que van de muy clara a oscura, y se ha usado en estudios para relacionar el color de la piel con la respuesta biológica a la radiación ultravioleta, como en la revisión de Del Bino y Bernerd de 2013. Su ventaja es la objetividad; su límite es que mide el color, no la respuesta al sol, por lo que no equivale exactamente al fototipo de Fitzpatrick y ambas herramientas se consideran complementarias."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "mexico",
+          "titulo": "Diversidad de fototipos en el país",
+          "md": "México es un país con enorme diversidad de pieles, resultado de su historia de pueblos originarios, mestizaje y migraciones. No existe un estudio nacional representativo que indique qué porcentaje de la población corresponde a cada fototipo. Las series publicadas por servicios de dermatología mexicanos describen con frecuencia fototipos III y IV entre sus pacientes, pero en las consultas se atiende a personas de todos los fototipos, del I al VI. La lección es clara: no supongas el fototipo por la región, el apellido o la apariencia; pregúntalo y obsérvalo siempre."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/10",
+          "proporcion": "16:9",
+          "alt": "Retratos de seis rostros de distintas edades y géneros que representan la variedad de tonos de piel, de muy claro a muy oscuro.",
+          "pie": "En México y en el mundo conviven todos los fototipos; la escala describe la reacción al sol, no el origen de las personas.",
+          "prompt": "Composición fotográfica editorial realista en formato horizontal de seis retratos de rostros alineados sobre un fondo continuo color crema, con personas de distintas edades y géneros que representan con naturalidad la variedad de tonos de piel, desde muy clara con pecas hasta muy oscura: una niña, un joven, una mujer adulta, un hombre adulto, una mujer mayor y un hombre mayor. Iluminación de estudio cálida, uniforme y suave que respeta el tono real de cada piel, expresiones tranquilas y dignas. Evitar: texto, números, logotipos, marcas, filtros que alteren el color, maquillaje intenso, estereotipos, personas famosas."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/11",
+          "proporcion": "4:3",
+          "alt": "Cosmetóloga observa la cara interna del antebrazo de un cliente de piel morena clara para estimar su color natural.",
+          "pie": "La cara interna del brazo muestra el color natural de la piel, con poca influencia del bronceado.",
+          "prompt": "Fotografía editorial realista en formato 4:3 en una cabina estética luminosa en tonos crema y rosa empolvado. Una cosmetóloga de unos treinta y cinco años con piel morena, bata clara, cabello recogido y una tablilla con hojas en blanco sobre la mesa, observa con atención la cara interna del antebrazo de un cliente de unos cuarenta años con piel morena clara de fototipo III, que extiende el brazo con la palma hacia arriba. Se nota la diferencia sutil entre el antebrazo interno y el dorso de la mano, más bronceado. Luz natural cálida. Evitar: texto, escritura legible, logotipos, marcas, lesiones, tatuajes, retoque excesivo."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/12",
+          "proporcion": "3:4",
+          "alt": "Hombre de unos treinta años con piel clara y ojos oscuros conversa con una cosmetóloga mientras responde preguntas.",
+          "pie": "Ojos, cabello y pecas son datos de apoyo; la pregunta central es cómo reacciona la piel al sol.",
+          "prompt": "Fotografía editorial realista en formato vertical de un hombre de unos treinta años con piel clara de fototipo II, cabello negro y ojos cafés oscuros, sentado en una silla de cabina, conversando con una cosmetóloga de piel oscura de la que solo se ve el hombro y una mano sosteniendo una tablilla con hojas en blanco. Ambiente cálido y luminoso en tonos crema y rosa empolvado, luz natural difusa, expresión relajada y abierta. Evitar: texto, escritura legible, logotipos, marcas, quemaduras solares, retoque excesivo, gestos forzados."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "caso",
+          "titulo": "Caso en cabina: no supongas el fototipo",
+          "situacion": "Llega por primera vez una clienta de 38 años con piel morena clara y cabello negro. Una compañera, al verla, anota en la ficha «fototipo IV» y propone un servicio con equipo de luz. Cuando le preguntas, la clienta cuenta que, si va a la playa sin protección, se pone roja y le arde la piel el mismo día, y que casi no se broncea.",
+          "opciones": [
+            { "texto": "Mantener el fototipo IV porque su piel se ve morena.", "correcta": false, "retro": "El fototipo se basa en la reacción al sol, no solo en la apariencia. Ignorar lo que cuenta la clienta puede llevar a decisiones de riesgo." },
+            { "texto": "Corregir la ficha con base en su respuesta, estimando un fototipo más bajo, como II o III, y revisar con ese dato si el servicio propuesto es adecuado.", "correcta": true, "retro": "Correcto. La respuesta al sol es el dato central; con ella se reconsideran los cuidados y los servicios." },
+            { "texto": "Asignar el fototipo según su apellido y lugar de origen.", "correcta": false, "retro": "El apellido o el origen no determinan el fototipo y suponerlo es un error técnico y de trato." },
+            { "texto": "No registrar el fototipo porque la escala tiene limitaciones.", "correcta": false, "retro": "Las limitaciones no la vuelven inútil: es un dato importante para la seguridad, que debe registrarse con cuidado." }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Incluye en tu ficha de valoración la pregunta sobre la reacción al sol con estas mismas palabras y regístrala junto con el tipo de piel. Usa el fototipo para tomar decisiones de seguridad: en fototipos I y II, prioriza la prevención de quemaduras; en fototipos III a VI, considera el riesgo de manchas tras la inflamación antes de cualquier procedimiento que irrite. Y explica a tus clientes, con naturalidad, que el fototipo describe cómo responde su piel al sol, no quiénes son."
+        }
+      ],
+      "glosario": [
+        { "termino": "Fototipo", "definicion": "Clasificación de la piel según su tendencia a quemarse y su capacidad de broncearse con el sol." },
+        { "termino": "Escala de Fitzpatrick", "definicion": "Clasificación de seis fototipos propuesta por Thomas B. Fitzpatrick en 1975 y ampliada después." },
+        { "termino": "Ángulo de tipología individual (ITA)", "definicion": "Valor en grados calculado a partir de mediciones colorimétricas que clasifica de forma objetiva el color constitutivo de la piel." },
+        { "termino": "Color constitutivo", "definicion": "Color natural de la piel sin influencia del bronceado, que se observa en zonas poco expuestas." },
+        { "termino": "Tipo de piel", "definicion": "Descripción de la piel como seca, grasa, mixta o sensible; es independiente del fototipo." }
+      ],
+      "verificacion": [
+        {
+          "id": "t6.4-1",
+          "q": "¿Qué clasifica realmente la escala de Fitzpatrick?",
+          "opciones": [
+            "La respuesta de la piel al sol: tendencia a quemarse y capacidad de broncearse",
+            "La raza o el origen étnico de la persona",
+            "Si la piel es seca o grasa",
+            "La cantidad de melanocitos"
+          ],
+          "correcta": 0,
+          "explicacion": "La escala describe la reacción al sol. No mide raza, tipo de piel ni número de melanocitos."
+        },
+        {
+          "id": "t6.4-2",
+          "q": "¿Qué zona del cuerpo conviene observar para estimar el color natural de la piel?",
+          "opciones": [
+            "El dorso de la mano",
+            "La nariz",
+            "La cara interna del brazo",
+            "La nuca"
+          ],
+          "correcta": 2,
+          "explicacion": "La cara interna del brazo recibe poco sol y muestra el color constitutivo; las otras zonas suelen estar bronceadas."
+        },
+        {
+          "id": "t6.4-3",
+          "q": "¿Cuál es una limitación reconocida de la escala de Fitzpatrick?",
+          "opciones": [
+            "Que solo se puede aplicar con un equipo de laboratorio",
+            "Que agrupa en pocas categorías la gran variedad de pieles morenas y oscuras y depende de lo que la persona recuerda",
+            "Que solo sirve para personas mayores",
+            "Que clasifica únicamente el color del cabello"
+          ],
+          "correcta": 1,
+          "explicacion": "Es subjetiva y discrimina mejor entre pieles claras que entre pieles morenas y oscuras."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "The validity and practicality of sun-reactive skin types I through VI", "autor": "Fitzpatrick TB. Archives of Dermatology", "anio": 1988 },
+        { "tipo": "academica", "titulo": "Variations in skin colour and the biological consequences of ultraviolet radiation exposure", "autor": "Del Bino S, Bernerd F. British Journal of Dermatology", "anio": 2013 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en series publicadas por servicios de dermatología mexicanos, que describen fototipos de sus pacientes sin representatividad nacional", "autor": "Dermalysse", "anio": 2026 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en la literatura sobre limitaciones de la escala de Fitzpatrick y escalas complementarias de tono de piel", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "6.5",
+      "titulo": "Alteraciones de la pigmentación: reconocer, orientar y derivar",
+      "minutos": 15,
+      "enPocasPalabras": "Las manchas de la piel pueden ser más oscuras o más claras que el tono normal y tienen muchas causas distintas. En cabina no se diagnostican: se describen, se protege la piel del sol y se orienta a la persona al dermatólogo. Un lunar que cambia es una señal de alerta que no debe esperar.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Las manchas son uno de los motivos de consulta más frecuentes en cabina. Algunas son variaciones normales, otras son condiciones benignas que pueden mejorar con cuidados, y otras pueden ser señales de enfermedades que requieren atención médica. Desde fuera, varias se parecen entre sí. Por eso tu papel no es ponerles nombre, sino **observar, describir, proteger y derivar**. Este tema te presenta las alteraciones más frecuentes con fines educativos, para que entiendas lo que el dermatólogo podría explicarle a tu cliente."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cuando la piel se oscurece"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Hiperpigmentaciones frecuentes, con fines educativos",
+          "columnas": ["Alteración", "Cómo suele describirse", "Por qué corresponde al dermatólogo"],
+          "filas": [
+            ["Melasma", "Manchas café simétricas en mejillas, frente, labio superior o mentón; más frecuente en mujeres de fototipos intermedios", "Es crónico y recurrente; su manejo combina varias medidas que el dermatólogo indica y vigila"],
+            ["Hiperpigmentación posinflamatoria", "Manchas planas que quedan después de acné, eczema, picaduras, quemaduras o procedimientos; más intensas y duraderas en pieles morenas y oscuras", "Hay que controlar la causa de la inflamación"],
+            ["Léntigos solares", "Manchas café bien delimitadas en zonas expuestas al sol, sobre todo después de los 40 años", "Algunas lesiones pigmentadas pueden parecerse a lesiones malignas"],
+            ["Efélides o pecas", "Pequeñas manchas que se oscurecen en verano, en pieles claras", "Suelen ser benignas, pero indican piel sensible al sol"],
+            ["Acantosis nigricans", "Piel oscura y aterciopelada en cuello, axilas o ingles", "Puede asociarse con resistencia a la insulina y otras condiciones que requieren estudio médico"]
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "El **melasma** merece una mención especial porque es muy frecuente en mujeres latinoamericanas y mexicanas. Intervienen la predisposición genética, las hormonas, la radiación ultravioleta y la luz visible, y la investigación actual lo considera un trastorno en el que participan también la dermis y los vasos. Tiende a empeorar con el sol y el calor, y a reaparecer. Ningún servicio de cabina lo «elimina»: prometerlo genera frustración y puede empujar a la persona a procedimientos agresivos que lo empeoran.\n\nLa **hiperpigmentación posinflamatoria** es especialmente relevante en los fototipos III a VI. Cualquier inflamación, incluida la que provoca un procedimiento estético mal indicado, puede dejar manchas que tardan meses en aclarar. Prevenirla es mucho más fácil que tratarla."
+        },
+        {
+          "tipo": "texto",
+          "md": "La **acantosis nigricans** también merece atención en México, donde el sobrepeso, la obesidad y la diabetes son problemas de salud pública frecuentes. Muchas personas creen que la piel oscura y aterciopelada del cuello es «suciedad» y la tallan con fuerza o con productos abrasivos, lo que solo irrita. Explícales con tacto que no se trata de falta de higiene y que conviene comentarla con su médico, porque puede ser una señal útil para detectar a tiempo alteraciones del metabolismo."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cuando la piel pierde color"
+        },
+        {
+          "tipo": "texto",
+          "md": "El **vitiligo** es una condición en la que el sistema inmunitario destruye los melanocitos de ciertas zonas, que se vuelven blancas, con bordes definidos. Se estima que afecta a entre el 0.5 y el 2 % de la población mundial, en todos los fototipos, aunque se nota más en pieles oscuras. No es contagioso y puede tener un impacto emocional importante; existen tratamientos médicos que debe valorar un dermatólogo.\n\nOtras pérdidas de color frecuentes son la **pitiriasis alba**, manchas claras y con descamación fina en el rostro de niñas y niños, a menudo relacionadas con piel seca o atópica; la **hipopigmentación posinflamatoria**, que puede seguir a irritaciones o procedimientos; y la **pitiriasis versicolor**, causada por hongos *Malassezia*, que produce manchas claras u oscuras con descamación fina en tronco y hombros y que requiere diagnóstico y tratamiento médico."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/13",
+          "proporcion": "4:3",
+          "alt": "Retrato digno de un hombre de piel morena oscura con zonas de vitiligo en manos y alrededor de los ojos, sonriendo con serenidad.",
+          "pie": "El vitiligo afecta a personas de todos los fototipos; el trato respetuoso es parte de la ética profesional.",
+          "prompt": "Retrato fotográfico editorial realista en formato 4:3 de un hombre de unos cuarenta y cinco años con piel morena oscura de fototipo V y zonas despigmentadas de vitiligo bien delimitadas en el dorso de las manos y alrededor de los ojos, sonriendo con serenidad y seguridad mientras sostiene una taza de cerámica. Fondo de estudio en tonos crema y rosa empolvado, luz natural cálida y suave que respeta el contraste real de su piel. Imagen digna, sin dramatismo. Evitar: texto, logotipos, marcas, expresión triste, encuadre clínico, maquillaje correctivo, retoque que oculte las manchas."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Lunares que cambian: el ABCDE"
+        },
+        {
+          "tipo": "texto",
+          "md": "La mayoría de los lunares son benignos, pero el melanoma, el cáncer de piel más grave, puede aparecer como un lunar nuevo o como un cambio en uno existente. Para ayudar a reconocer señales de alerta se usa la regla **ABCDE**, cuya letra E, de evolución, fue destacada por Abbasi y colaboradores en 2004. Esta regla no sirve para diagnosticar, sino para saber cuándo derivar. Recuerda también que en personas de piel oscura el melanoma aparece con más frecuencia en palmas, plantas y uñas, por lo que también hay que mirar ahí."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m06/d5",
+          "pie": "La regla ABCDE: señales de alerta en un lunar que obligan a derivar al dermatólogo.",
+          "descripcion": "Cinco paneles horizontales, cada uno con una letra grande y dos dibujos esquemáticos planos lado a lado: a la izquierda un lunar de aspecto habitual y a la derecha uno con la señal de alerta. A: lunar simétrico frente a lunar asimétrico. B: borde regular frente a borde irregular o difuso. C: un solo color frente a varios tonos de café, negro, rojo o azul. D: lunar pequeño frente a lunar de más de 6 milímetros, con una pequeña regla. E: el mismo lunar en dos momentos, con un cambio de tamaño, forma o color. Dibujos esquemáticos, no fotográficos.",
+          "elementos": [
+            "A: asimetría",
+            "B: bordes irregulares",
+            "C: varios colores",
+            "D: diámetro mayor de 6 mm",
+            "E: evolución o cambio"
+          ]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Derivación prioritaria",
+          "md": "Recomienda una consulta dermatológica pronta, sin trabajar sobre la zona, si observas: un lunar nuevo en una persona adulta, un lunar que cambia de tamaño, forma o color, una lesión que sangra, pica o no cicatriza, una banda oscura nueva en una uña, una mancha en palma o planta que crece, o una lesión que se ve distinta de los demás lunares de la persona. Explica tu observación con calma y sin alarmar, por ejemplo: «noté esta zona y me gustaría que la revisara un dermatólogo antes de trabajarla». Registra la recomendación en la ficha."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "mexico",
+          "titulo": "Cuidado con los productos aclaradores ilegales",
+          "md": "En septiembre de 2025, COFEPRIS emitió un comunicado de riesgo sobre cremas y jabones aclaradores de la piel que contienen mercurio, una sustancia que no se declara en la etiqueta y que puede dañar los riñones, el sistema nervioso y la propia piel. La Organización Mundial de la Salud también ha advertido sobre el mercurio en productos aclaradores. Recomienda a tus clientes no comprar productos sin registro, sin etiquetado claro o de venta informal en línea, y consultar los comunicados vigentes en el sitio oficial de COFEPRIS. Si alguien ya los usó y tiene síntomas, debe acudir al médico."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Tu papel en cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Cuando una persona te consulte por manchas, describe lo que ves con lenguaje neutral: forma, color, ubicación, desde cuándo y si cambió. Evita frases como «esto es melasma» o «es un lunar sin importancia». Puedes acompañar con cuidados cosméticos de apoyo, como fotoprotección diaria de amplio espectro y con color, limpieza suave e hidratación, y explicar que algunos activos cosméticos pueden ayudar a unificar el tono como complemento, sin prometer resultados. Evita procedimientos que inflamen, como exfoliaciones intensas, en pieles con tendencia a mancharse, y deja al dermatólogo el diagnóstico y los tratamientos médicos, incluidos los peelings profundos y los láseres médicos."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/14",
+          "proporcion": "16:9",
+          "alt": "Dermatóloga con guantes revisa con un dermatoscopio la espalda de un hombre mayor de piel clara sentado en la camilla de un consultorio.",
+          "pie": "La valoración de los lunares con dermatoscopio corresponde al dermatólogo.",
+          "prompt": "Fotografía editorial realista en formato horizontal en un consultorio dermatológico luminoso y cálido, con paredes crema y detalles en rosa empolvado. Una dermatóloga de unos cincuenta años con piel morena, bata blanca, guantes de nitrilo y cabello recogido, examina con un dermatoscopio de mano la parte alta de la espalda de un hombre de unos sesenta y cinco años con piel clara de fototipo II, sentado en la camilla y cubierto con una bata abierta por detrás. Lunares pequeños y discretos, sin detalle clínico. Luz suave, ambiente profesional y tranquilo. Evitar: texto, pantallas con imágenes, logotipos, marcas, lesiones grandes o sangrantes, cicatrices, desnudez."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m06/15",
+          "proporcion": "3:4",
+          "alt": "Mujer de piel morena con sombrero de ala ancha y lentes de sol camina por un mercado al aire libre bajo un toldo.",
+          "pie": "Sombra, sombrero y protector con color forman parte del cuidado diario de una piel con tendencia a mancharse.",
+          "prompt": "Fotografía editorial realista en formato vertical de una mujer de unos cuarenta años con piel morena de fototipo IV, sombrero de ala ancha de palma, lentes de sol y blusa de lino crema de manga larga, caminando con calma por un mercado mexicano al aire libre bajo toldos de tela rosa empolvado, con frutas coloridas desenfocadas al fondo. Luz cálida de mediodía filtrada por el toldo, piel con textura natural y tono uniforme. Evitar: texto, letreros legibles, logotipos, marcas, personas identificables al fondo, manchas exageradas, retoque excesivo."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "caso",
+          "titulo": "Caso en cabina: manchas después del embarazo",
+          "situacion": "Una clienta de 34 años, fototipo IV, tiene manchas café simétricas en las mejillas y el labio superior desde su segundo embarazo, hace dos años. Dice que empeoran en vacaciones de playa. Vio en redes un peeling «que borra manchas en una sesión» y te pide que se lo hagas. También usa una crema aclaradora que compró en un tianguis, sin etiqueta clara.",
+          "opciones": [
+            { "texto": "Realizar el peeling más intenso disponible para obtener resultados rápidos.", "correcta": false, "retro": "En fototipos intermedios, un procedimiento agresivo puede inflamar y empeorar las manchas. Además, no se deben prometer resultados." },
+            { "texto": "Decirle que tiene melasma y recomendarle una crema despigmentante médica.", "correcta": false, "retro": "No corresponde diagnosticar ni recomendar medicamentos." },
+            { "texto": "Sugerirle que siga con la crema del tianguis porque parece funcionar.", "correcta": false, "retro": "Los productos sin registro pueden contener mercurio o corticoides; COFEPRIS ha emitido alertas al respecto." },
+            { "texto": "Explicarle que no harás un procedimiento agresivo, recomendar suspender la crema sin etiqueta, reforzar la fotoprotección con color y sugerir una valoración dermatológica.", "correcta": true, "retro": "Correcto: proteges su piel, la alertas sobre un riesgo real y la orientas al profesional que puede diagnosticar y tratar." }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Crea en tu ficha un espacio para «lesiones pigmentadas observadas» con fecha, ubicación y descripción, y otro para «recomendación de valoración dermatológica». Revísalo en cada cita: si una mancha cambió, vuelve a sugerir la consulta. Con este hábito sencillo, tu cabina se convierte en un espacio de detección temprana que cuida a tus clientes sin salir de tu alcance profesional."
+        }
+      ],
+      "glosario": [
+        { "termino": "Hiperpigmentación", "definicion": "Oscurecimiento de una zona de la piel por exceso de melanina u otros pigmentos." },
+        { "termino": "Hipopigmentación", "definicion": "Aclaramiento de una zona de la piel por disminución de melanina." },
+        { "termino": "Melasma", "definicion": "Alteración crónica con manchas café simétricas en el rostro, influida por hormonas, sol y luz visible." },
+        { "termino": "Hiperpigmentación posinflamatoria", "definicion": "Mancha oscura que queda después de una inflamación de la piel, más frecuente en fototipos III a VI." },
+        { "termino": "Vitiligo", "definicion": "Condición autoinmune en la que se pierden los melanocitos de ciertas zonas, que se vuelven blancas." },
+        { "termino": "Regla ABCDE", "definicion": "Guía de señales de alerta en lunares: asimetría, bordes, color, diámetro y evolución." }
+      ],
+      "verificacion": [
+        {
+          "id": "t6.5-1",
+          "q": "¿Qué letra de la regla ABCDE se refiere a cambios del lunar con el tiempo?",
+          "opciones": [
+            "A",
+            "C",
+            "D",
+            "E"
+          ],
+          "correcta": 3,
+          "explicacion": "La E corresponde a evolución: cambios de tamaño, forma o color."
+        },
+        {
+          "id": "t6.5-2",
+          "q": "¿Por qué se deben evitar procedimientos que inflamen en pieles de fototipos III a VI con tendencia a mancharse?",
+          "opciones": [
+            "Porque la inflamación puede dejar hiperpigmentación posinflamatoria duradera",
+            "Porque esas pieles no tienen melanocitos",
+            "Porque la inflamación aclara la piel de forma permanente",
+            "Porque esas pieles no pueden hidratarse"
+          ],
+          "correcta": 0,
+          "explicacion": "En esos fototipos la inflamación estimula a los melanocitos y puede dejar manchas que tardan meses en aclarar."
+        },
+        {
+          "id": "t6.5-3",
+          "q": "¿Cuál es la forma correcta de comunicar a un cliente que observaste un lunar que cambió?",
+          "opciones": [
+            "«Tienes un melanoma, ve al hospital»",
+            "«Es un lunar sin importancia, no te preocupes»",
+            "«Noté este lunar y me gustaría que lo revisara un dermatólogo antes de trabajar la zona»",
+            "No decir nada para no preocuparlo"
+          ],
+          "correcta": 2,
+          "explicacion": "Se describe la observación sin diagnosticar ni alarmar, y se recomienda la valoración dermatológica."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Melasma, a photoaging disorder", "autor": "Passeron T, Picardo M. Pigment Cell and Melanoma Research", "anio": 2018 },
+        { "tipo": "academica", "titulo": "Postinflammatory hyperpigmentation: a review of the epidemiology, clinical features, and treatment options in skin of color", "autor": "Davis EC, Callender VD. Journal of Clinical and Aesthetic Dermatology", "anio": 2010 },
+        { "tipo": "academica", "titulo": "Vitiligo", "autor": "Ezzedine K, Eleftheriadou V, Whitton M, van Geel N. The Lancet", "anio": 2015 },
+        { "tipo": "academica", "titulo": "Early diagnosis of cutaneous melanoma: revisiting the ABCD criteria", "autor": "Abbasi NR, et al. JAMA", "anio": 2004 },
+        { "tipo": "oficial", "titulo": "Mercury in skin lightening products", "autor": "Organización Mundial de la Salud" },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en el comunicado de riesgo de COFEPRIS de septiembre de 2025 sobre productos aclaradores de piel con mercurio, según lo difundieron medios nacionales", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    }
+  ],
+  "minijuego": {
+    "tipo": "memorama",
+    "titulo": "Memorama del color de la piel",
+    "pares": [
+      { "a": "Melanocito", "b": "Célula del estrato basal que fabrica melanina" },
+      { "a": "Tirosinasa", "b": "Enzima clave que inicia la síntesis de melanina" },
+      { "a": "Eumelanina", "b": "Pigmento café oscuro con alta protección frente a la radiación ultravioleta" },
+      { "a": "Feomelanina", "b": "Pigmento amarillo rojizo que protege poco del sol" },
+      { "a": "Fototipo", "b": "Clasificación según la tendencia a quemarse y a broncearse" },
+      { "a": "Bronceado tardío", "b": "Melanina nueva que aparece días después del sol" },
+      { "a": "Hiperpigmentación posinflamatoria", "b": "Mancha oscura que queda tras una inflamación" },
+      { "a": "Vitiligo", "b": "Pérdida autoinmune de melanocitos en ciertas zonas" }
+    ]
+  },
+  "examen": {
+    "aprobar": 70,
+    "mostrar": 10,
+    "preguntas": [
+      {
+        "id": "m06-p01",
+        "q": "¿De qué estructura embrionaria proceden los melanocitos?",
+        "opciones": ["Del mesodermo de la dermis", "De la cresta neural", "De la glándula sebácea", "Del estrato córneo"],
+        "correcta": 1,
+        "explicacion": "Los melanocitos nacen en la cresta neural y migran hacia la piel durante el desarrollo embrionario."
+      },
+      {
+        "id": "m06-p02",
+        "q": "¿Con cuántos queratinocitos se relaciona aproximadamente un melanocito en la unidad epidermomelánica?",
+        "opciones": ["Con 2", "Con 500", "Con unos 36", "Con ninguno"],
+        "correcta": 2,
+        "explicacion": "La estimación clásica es de un melanocito por unos 36 queratinocitos."
+      },
+      {
+        "id": "m06-p03",
+        "q": "¿Qué afirmación sobre el número de melanocitos es correcta?",
+        "opciones": ["Es similar en personas de piel clara y de piel oscura en una misma zona del cuerpo", "Las pieles oscuras tienen diez veces más melanocitos", "Las pieles claras no tienen melanocitos", "Aumenta mucho con la edad"],
+        "correcta": 0,
+        "explicacion": "El número es similar; cambian la actividad y el manejo de los melanosomas. Con la edad, los melanocitos activos disminuyen."
+      },
+      {
+        "id": "m06-p04",
+        "q": "¿Qué ocurre en la bifurcación de la melanogénesis cuando hay cisteína disponible?",
+        "opciones": ["Se detiene toda la síntesis", "Se forma colágeno", "Se produce más eumelanina", "La reacción se desvía hacia la feomelanina"],
+        "correcta": 3,
+        "explicacion": "La cisteína o el glutatión desvían la dopaquinona hacia la feomelanina, que contiene azufre."
+      },
+      {
+        "id": "m06-p05",
+        "q": "¿Qué receptor del melanocito, al activarse, favorece la producción de eumelanina?",
+        "opciones": ["El receptor de insulina", "El receptor MC1R", "El receptor de estrógenos de la uña", "El receptor PAR-2 del sebocito"],
+        "correcta": 1,
+        "explicacion": "La activación del MC1R por alfa-MSH favorece la eumelanina; variantes con menos función desvían hacia la feomelanina."
+      },
+      {
+        "id": "m06-p06",
+        "q": "¿Qué estímulo produce una pigmentación más intensa y duradera en fototipos IV a VI que en fototipos claros, según estudios recientes?",
+        "opciones": ["La luz visible", "El agua fría", "El viento", "La humedad ambiental"],
+        "correcta": 0,
+        "explicacion": "La luz visible pigmenta de forma intensa y prolongada en pieles de fototipos IV a VI."
+      },
+      {
+        "id": "m06-p07",
+        "q": "¿Qué protección ofrece el bronceado?",
+        "opciones": ["Total, equivalente a un FPS 50", "Ninguna, porque no implica melanina", "Modesta, equivalente a un factor bajo, y no evita el daño acumulado", "Protege solo de la luz visible"],
+        "correcta": 2,
+        "explicacion": "El bronceado tardío aporta una protección baja y es en sí una respuesta al daño."
+      },
+      {
+        "id": "m06-p08",
+        "q": "¿En qué grupo clasificó la IARC en 2009 a los dispositivos de bronceado con radiación ultravioleta?",
+        "opciones": ["Grupo 1, carcinógenos para los seres humanos", "Grupo 3, no clasificables", "Grupo 4, probablemente no carcinógenos", "No los ha evaluado"],
+        "correcta": 0,
+        "explicacion": "La IARC los incluyó en el grupo 1, con evidencia suficiente de que causan cáncer."
+      },
+      {
+        "id": "m06-p09",
+        "q": "¿Para qué se diseñó originalmente la escala de fototipos de Fitzpatrick?",
+        "opciones": ["Para clasificar a las personas por raza", "Para elegir el color del maquillaje", "Para medir la cantidad de sebo", "Para calcular la dosis de un tratamiento médico con radiación ultravioleta"],
+        "correcta": 3,
+        "explicacion": "Fitzpatrick la propuso en 1975 para dosificar un tratamiento con radiación ultravioleta; nunca fue una clasificación racial."
+      },
+      {
+        "id": "m06-p10",
+        "q": "Una persona cuenta que siempre se quema y nunca se broncea. ¿Qué fototipo le corresponde?",
+        "opciones": ["VI", "IV", "III", "I"],
+        "correcta": 3,
+        "explicacion": "El fototipo I siempre se quema y nunca se broncea."
+      },
+      {
+        "id": "m06-p11",
+        "q": "¿Qué afirmación sobre los fototipos en México es correcta?",
+        "opciones": ["Toda la población es fototipo IV", "No hay un estudio nacional representativo y en las consultas se atiende a personas de todos los fototipos", "El fototipo se determina por el apellido", "Solo existen fototipos V y VI"],
+        "correcta": 1,
+        "explicacion": "No existe una cifra nacional representativa; conviven todos los fototipos y no deben suponerse por la apariencia o el origen."
+      },
+      {
+        "id": "m06-p12",
+        "q": "¿Qué diferencia hay entre fototipo y tipo de piel?",
+        "opciones": ["Son sinónimos", "El tipo de piel solo existe en fototipos claros", "El fototipo describe la respuesta al sol y el tipo de piel describe si es seca, grasa, mixta o sensible", "El fototipo describe la grasa de la piel"],
+        "correcta": 2,
+        "explicacion": "Son datos independientes y ambos deben registrarse en la ficha."
+      },
+      {
+        "id": "m06-p13",
+        "q": "Una clienta de fototipo IV con manchas simétricas en las mejillas desde su embarazo pide un peeling intenso que «borre» las manchas. ¿Qué haces?",
+        "opciones": ["Explicas que no harás un procedimiento agresivo, refuerzas la fotoprotección con color y sugieres valoración dermatológica", "Haces el peeling más fuerte disponible", "Le aseguras que las manchas desaparecerán en una sesión", "Le recomiendas una crema despigmentante médica"],
+        "correcta": 0,
+        "explicacion": "Un procedimiento agresivo puede empeorar las manchas; no se diagnostica, no se prescribe y no se prometen resultados."
+      },
+      {
+        "id": "m06-p14",
+        "q": "Durante un masaje de espalda observas un lunar de bordes irregulares, con varios colores, que el cliente dice que ha crecido. ¿Qué haces?",
+        "opciones": ["Lo cubres con un apósito y sigues el masaje sin comentarlo", "Le dices que es un melanoma", "Exfolias la zona para ver si se aclara", "No trabajas sobre la zona, le explicas con calma lo observado y le recomiendas una consulta dermatológica pronta"],
+        "correcta": 3,
+        "explicacion": "Asimetría, bordes irregulares, varios colores y evolución son señales ABCDE que exigen derivación sin diagnosticar."
+      },
+      {
+        "id": "m06-p15",
+        "q": "¿Qué riesgo señaló COFEPRIS en 2025 sobre algunas cremas y jabones aclaradores?",
+        "opciones": ["Que contienen demasiada agua", "Que pueden contener mercurio no declarado en la etiqueta", "Que contienen protector solar en exceso", "Que manchan la ropa"],
+        "correcta": 1,
+        "explicacion": "El comunicado de riesgo advirtió sobre mercurio, que puede dañar riñones, sistema nervioso y piel."
+      },
+      {
+        "id": "m06-p16",
+        "q": "¿Por qué conviene revisar palmas, plantas y uñas en personas de piel oscura cuando se observan lesiones pigmentadas?",
+        "opciones": ["Porque ahí no hay melanocitos", "Porque es donde se produce el sebo", "Porque en esas zonas aparece con más frecuencia relativa el melanoma acral, que no depende del sol", "Porque el bronceado empieza ahí"],
+        "correcta": 2,
+        "explicacion": "El melanoma lentiginoso acral representa una proporción mayor de los melanomas en pieles oscuras y aparece en palmas, plantas y uñas."
+      }
+    ]
+  },
+  "fuentes": [
+    { "tipo": "academica", "titulo": "The validity and practicality of sun-reactive skin types I through VI", "autor": "Fitzpatrick TB. Archives of Dermatology", "anio": 1988 },
+    { "tipo": "academica", "titulo": "Human skin pigmentation: melanocytes modulate skin color in response to stress", "autor": "Costin GE, Hearing VJ. The FASEB Journal", "anio": 2007 },
+    { "tipo": "academica", "titulo": "Variations in skin colour and the biological consequences of ultraviolet radiation exposure", "autor": "Del Bino S, Bernerd F. British Journal of Dermatology", "anio": 2013 },
+    { "tipo": "oficial", "titulo": "Global Solar UV Index: A Practical Guide", "autor": "Organización Mundial de la Salud", "anio": 2002 },
+    { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en textos universitarios de dermatología y literatura sobre pigmentación en piel diversa", "autor": "Dermalysse", "anio": 2026 }
+  ]
+}

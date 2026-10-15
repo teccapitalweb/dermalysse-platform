@@ -1,0 +1,1113 @@
+{
+  "programa": "fundamentos-de-la-piel",
+  "modulo": 5,
+  "titulo": "Anexos cutáneos: glándulas, folículo piloso y uñas",
+  "estado": "borrador",
+  "version": 1,
+  "resumen": "Pelo, uñas, glándulas sebáceas y glándulas sudoríparas nacen de la epidermis y se hunden en la dermis para cumplir tareas muy distintas: lubricar, enfriar, proteger, sentir y comunicar. En este módulo conocerás cómo está construido cada anexo, cómo funciona y cómo cambia con la edad y las hormonas. Aprenderás el ciclo del pelo, las partes de la uña y las diferencias entre sudor ecrino y apocrino. Todo ello con un enfoque práctico para la cabina y con criterios claros para reconocer cuándo una caída de cabello, un cambio en la uña o un problema de sudoración debe valorarlo un médico.",
+  "objetivos": [
+    "Identificar los anexos cutáneos y describir la función de cada uno.",
+    "Explicar la estructura de la glándula sebácea, la composición del sebo y su regulación hormonal.",
+    "Diferenciar las glándulas sudoríparas ecrinas y apocrinas por su ubicación, secreción y función.",
+    "Describir las partes del folículo piloso y las fases del ciclo del pelo.",
+    "Reconocer las partes de la uña, su velocidad de crecimiento y las señales que obligan a derivar al dermatólogo."
+  ],
+  "duracionMin": 100,
+  "portada": {
+    "id": "fundamentos-de-la-piel/m05/portada",
+    "proporcion": "16:9",
+    "alt": "Composición de tres personas de distintas edades y tonos de piel que muestran cabello, manos y uñas naturales en un estudio luminoso.",
+    "prompt": "Fotografía editorial realista en formato horizontal en un estudio luminoso con fondo crema y rosa empolvado. Tres personas sentadas de perfil y en semiperfil: una joven de piel oscura con cabello rizado natural voluminoso, un hombre de mediana edad de piel morena con barba corta y cabello lacio con algunas canas, y una mujer mayor de piel clara con cabello blanco corto. Sus manos descansan sobre las rodillas mostrando uñas cortas y naturales, sin esmalte. Luz natural cálida y difusa que resalta la textura del cabello y de la piel. Ambiente sereno y respetuoso. Evitar: texto, logotipos, marcas, joyería llamativa, uñas postizas, maquillaje intenso, retoque excesivo."
+  },
+  "temas": [
+    {
+      "n": "5.1",
+      "titulo": "Los anexos cutáneos y la glándula sebácea",
+      "minutos": 13,
+      "enPocasPalabras": "Los anexos son estructuras que nacen de la epidermis y se meten en la dermis: pelos, uñas y glándulas. Las glándulas sebáceas fabrican sebo, una grasa que suaviza y protege la piel. Las hormonas, sobre todo los andrógenos, controlan cuánto sebo se produce.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Se llaman **anexos cutáneos** las estructuras que derivan de la epidermis durante el desarrollo embrionario y que, aunque se hunden en la dermis, mantienen una conexión con la superficie. Son cuatro grandes grupos: los **folículos pilosos**, las **glándulas sebáceas**, las **glándulas sudoríparas** y las **uñas**.\n\nSus funciones son muy variadas: regulan la temperatura, lubrican la superficie, protegen la punta de los dedos, perciben el tacto a través del pelo y participan en la comunicación química entre personas. Además, guardan una reserva de células madre que ayuda a reparar la epidermis: cuando una herida superficial pierde la epidermis, la piel nueva crece en parte desde los restos de folículos y glándulas que quedaron en la dermis."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Los anexos cutáneos de un vistazo",
+          "columnas": ["Anexo", "Dónde abunda", "Función principal"],
+          "filas": [
+            ["Folículo piloso", "Casi toda la piel, excepto palmas, plantas, labios y algunas mucosas", "Producir pelo: protección, tacto y regulación térmica"],
+            ["Glándula sebácea", "Rostro, cuero cabelludo, pecho y parte alta de la espalda", "Producir sebo que lubrica la superficie"],
+            ["Glándula sudorípara ecrina", "Toda la piel, con mayor densidad en palmas, plantas y frente", "Sudor acuoso para enfriar el cuerpo"],
+            ["Glándula sudorípara apocrina", "Axilas, región anogenital y areola", "Secreción con lípidos y proteínas relacionada con el olor corporal"],
+            ["Uña", "Extremo dorsal de dedos de manos y pies", "Proteger la punta del dedo y ayudar a manipular objetos"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m05/d1",
+          "pie": "La unidad pilosebácea y las glándulas sudoríparas en un corte de piel.",
+          "descripcion": "Corte vertical de piel con epidermis, dermis e hipodermis. En el centro, un folículo piloso oblicuo con su pelo saliendo a la superficie, una glándula sebácea lobulada que desemboca en el folículo, el músculo erector del pelo que va desde el folículo hacia la dermis superior y una glándula apocrina cuyo conducto se abre en el folículo por encima de la glándula sebácea. A un lado, una glándula ecrina enrollada en la dermis profunda con un conducto recto y en espiral que se abre directamente en la superficie como un poro.",
+          "elementos": [
+            "Epidermis",
+            "Dermis",
+            "Hipodermis",
+            "Folículo piloso",
+            "Glándula sebácea",
+            "Músculo erector del pelo",
+            "Glándula apocrina",
+            "Glándula ecrina",
+            "Poro de sudor"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "La glándula sebácea por dentro"
+        },
+        {
+          "tipo": "texto",
+          "md": "La glándula sebácea tiene forma de racimo y casi siempre desemboca en un folículo piloso; el conjunto se llama **unidad pilosebácea**. Sus células, los **sebocitos**, se forman en el borde de la glándula y avanzan hacia el centro mientras se llenan de gotas de grasa. Al final se rompen por completo y su contenido, ya convertido en sebo, sale por el conducto hacia el folículo y la superficie. Este tipo de secreción, en la que la célula entera se convierte en producto, se llama **holocrina**.\n\nLas glándulas sebáceas abundan en el rostro, sobre todo en la frente, la nariz y el mentón, y también en el cuero cabelludo, el pecho y la espalda; por eso estas zonas se ven más brillantes y son las que se afectan en el acné. No existen en las palmas ni en las plantas. Hay además glándulas sebáceas que se abren directamente en la superficie, sin folículo: en el borde de los labios y la mucosa de la boca, en los párpados (las glándulas de Meibomio, que aportan grasa a la lágrima) y en la areola."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/01",
+          "proporcion": "4:3",
+          "alt": "Cosmetóloga con guantes observa con lámpara de aumento la frente y la nariz de una adolescente de piel morena en la camilla.",
+          "pie": "La zona T concentra glándulas sebáceas; por eso brilla más y es donde aparecen con más frecuencia los comedones.",
+          "prompt": "Fotografía editorial realista en formato 4:3 de una cabina estética luminosa en tonos crema y rosa empolvado. Una cosmetóloga de unos treinta y cinco años, piel clara, guantes de nitrilo, cubrebocas y cabello recogido, observa con una lámpara de aumento la frente y la nariz de una adolescente de unos dieciséis años con piel morena de fototipo IV, recostada con una banda para el cabello y una toalla blanca. La piel muestra brillo leve en la zona T, poros visibles y algunos comedones pequeños, con textura natural. Luz cálida y ambiente tranquilo. Evitar: texto, logotipos, marcas, acné severo o inflamado, extracción en curso, sangre, expresiones de incomodidad."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Qué contiene el sebo y para qué sirve"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Composición aproximada del sebo humano al llegar a la superficie",
+          "columnas": ["Componente", "Proporción aproximada", "Comentario"],
+          "filas": [
+            ["Triglicéridos y ácidos grasos libres", "Algo más de la mitad", "Las bacterias residentes transforman parte de los triglicéridos en ácidos grasos libres"],
+            ["Ésteres de cera", "Alrededor de una cuarta parte", "Exclusivos del sebo; no se fabrican en la epidermis"],
+            ["Escualeno", "Alrededor de una octava parte", "Característico del sebo humano; se oxida con la radiación ultravioleta"],
+            ["Colesterol y sus ésteres", "Pequeña proporción", "En el sebo es minoritario, a diferencia del mortero del estrato córneo"]
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "El sebo forma, junto con el sudor, la película hidrolipídica de la superficie. Suaviza la piel y el pelo, ayuda a reducir la pérdida de agua, transporta antioxidantes como la vitamina E hacia la superficie y contiene ácidos grasos con actividad antimicrobiana. Además, la degradación de sus triglicéridos libera glicerol, que contribuye a la hidratación del estrato córneo.\n\nEl problema aparece cuando el sebo es muy abundante o cambia su composición: en ese caso favorece la obstrucción del folículo y la proliferación de *Cutibacterium acnes*, dos de los factores que participan en el acné junto con la inflamación y la queratinización anormal del folículo."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Las hormonas al mando"
+        },
+        {
+          "tipo": "texto",
+          "md": "La producción de sebo depende sobre todo de los **andrógenos**, hormonas presentes en todas las personas, aunque en distintas cantidades. Las glándulas son activas al nacer por influencia de las hormonas maternas, casi se apagan durante la infancia y se reactivan en la pubertad, cuando aumentan los andrógenos; por eso el brillo y el acné aparecen en la adolescencia. Con los años la producción disminuye, de forma más marcada en las mujeres después de la menopausia, lo que se asocia con una piel más seca.\n\nOtros factores influyen en cuánto sebo vemos: el calor aumenta su fluidez y su salida, y algunas condiciones hormonales y medicamentos pueden modificarlo. Por eso, un cambio brusco en la grasa de la piel, sobre todo si se acompaña de acné de inicio tardío, exceso de vello o alteraciones menstruales, merece una valoración médica."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "Puntitos amarillos en los labios",
+          "md": "Muchas personas descubren en el borde de los labios o en el interior de las mejillas pequeños puntos amarillentos o blanquecinos, agrupados y sin molestias. Suelen corresponder a **gránulos de Fordyce**, glándulas sebáceas libres que se abren sin folículo y que se consideran una variante normal. No se exprimen ni se «limpian». Si una lesión de la boca cambia, duele, sangra o no cicatriza, debe valorarla un médico o un dentista."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Un ácido graso exclusivo del ser humano",
+          "md": "El sebo humano contiene ácido sapiénico (un ácido graso de 16 carbonos con un doble enlace en la posición 6), que no se encuentra en cantidades relevantes en el sebo de otros mamíferos estudiados. Se ha demostrado que tiene actividad antimicrobiana, entre otros, frente a *Staphylococcus aureus*. Los sebocitos también expresan receptores hormonales y enzimas capaces de convertir la testosterona en dihidrotestosterona, un andrógeno más potente, por lo que la glándula sebácea funciona como un pequeño órgano endocrino. Esta capacidad explica por qué algunos tratamientos médicos del acné actúan sobre las hormonas, algo que solo puede indicar un médico."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "El acné no es falta de limpieza",
+          "md": "El acné es una enfermedad del folículo pilosebáceo y no se debe a «suciedad». Lavar en exceso o usar exfoliantes agresivos irrita y no lo resuelve. En cabina no se manipulan lesiones inflamadas, nódulos ni quistes, porque la presión puede empujar el contenido hacia la dermis y favorecer manchas y cicatrices. El acné moderado o intenso, el que deja cicatrices o el que afecta el ánimo de la persona debe tratarlo un dermatólogo."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/02",
+          "proporcion": "3:4",
+          "alt": "Mujer de unos cincuenta y cinco años de piel clara aplica crema en su rostro frente a un espejo.",
+          "pie": "Después de la menopausia la producción de sebo disminuye y muchas personas notan la piel más seca.",
+          "prompt": "Fotografía editorial realista en formato vertical de una mujer de unos cincuenta y cinco años con piel clara de fototipo II, cabello castaño con canas recogido en un moño bajo, aplicando con las yemas de los dedos una crema hidratante en la mejilla frente a un espejo redondo. Piel con textura natural, líneas finas de expresión y ligera sequedad. Tocador ordenado con frascos de vidrio sin etiqueta, toalla en rosa empolvado y luz de ventana cálida y lateral. Expresión serena y segura. Evitar: texto, logotipos, marcas, piel retocada, arrugas exageradas, gestos de preocupación, antes y después."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/03",
+          "proporcion": "1:1",
+          "alt": "Bodegón de una hoja de papel secante presionada contra la frente de un joven de piel oscura, que muestra brillo de grasa.",
+          "pie": "Un papel secante permite observar de forma sencilla la cantidad de sebo de una zona del rostro.",
+          "prompt": "Fotografía editorial realista en formato cuadrado, primer plano del perfil de un joven de unos veinte años con piel oscura de fototipo V y cabello rizado corto, presionando suavemente con dos dedos una hoja de papel secante translúcido contra su frente. Se aprecia un ligero brillo natural en la piel y textura real con poros visibles. Fondo liso en tono crema, luz suave y cálida desde un lado, enfoque nítido en la frente y el papel. Evitar: texto, logotipos, marcas, acné inflamado, piel retocada, colores saturados, gestos exagerados."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "relacionar",
+          "titulo": "Sebo en contexto",
+          "instruccion": "Relaciona cada concepto con su descripción.",
+          "pares": [
+            { "a": "Secreción holocrina", "b": "La célula entera se rompe y se convierte en producto" },
+            { "a": "Unidad pilosebácea", "b": "Folículo piloso junto con su glándula sebácea" },
+            { "a": "Glándulas de Meibomio", "b": "Glándulas sebáceas de los párpados que aportan grasa a la lágrima" },
+            { "a": "Escualeno", "b": "Lípido característico del sebo que se oxida con la radiación ultravioleta" },
+            { "a": "Andrógenos", "b": "Hormonas que estimulan la producción de sebo" }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Cuando valores una piel con brillo, registra en qué zonas aparece, desde cuándo y si coincide con cambios hormonales, como la adolescencia, el embarazo o la suspensión de anticonceptivos, sin interpretar ni recomendar medicamentos. Explica a la persona que el objetivo no es eliminar el sebo, porque cumple funciones, sino equilibrar la limpieza y elegir texturas ligeras que no obstruyan. Si hay acné inflamado, cicatrices o aparición tardía con otros síntomas, recomienda acudir al dermatólogo."
+        }
+      ],
+      "glosario": [
+        { "termino": "Anexos cutáneos", "definicion": "Estructuras derivadas de la epidermis que se extienden hacia la dermis: folículos, glándulas y uñas." },
+        { "termino": "Unidad pilosebácea", "definicion": "Conjunto formado por el folículo piloso, su pelo y la glándula sebácea que desemboca en él." },
+        { "termino": "Sebocito", "definicion": "Célula de la glándula sebácea que se llena de lípidos y se rompe para formar sebo." },
+        { "termino": "Secreción holocrina", "definicion": "Forma de secreción en la que la célula completa se desintegra y se convierte en producto." },
+        { "termino": "Andrógenos", "definicion": "Hormonas como la testosterona y la dihidrotestosterona que estimulan la glándula sebácea y el vello terminal." },
+        { "termino": "Escualeno", "definicion": "Lípido característico del sebo humano, sensible a la oxidación por radiación ultravioleta." }
+      ],
+      "verificacion": [
+        {
+          "id": "t5.1-1",
+          "q": "¿Por qué la secreción de la glándula sebácea se llama holocrina?",
+          "opciones": [
+            "Porque se produce solo por la noche",
+            "Porque la célula entera se rompe y se convierte en sebo",
+            "Porque sale directamente a la sangre",
+            "Porque contiene solo agua y sales"
+          ],
+          "correcta": 1,
+          "explicacion": "En la secreción holocrina el sebocito completo se desintegra para formar el producto. No sale a la sangre ni es acuosa."
+        },
+        {
+          "id": "t5.1-2",
+          "q": "¿En qué zona no existen glándulas sebáceas?",
+          "opciones": [
+            "La frente",
+            "El cuero cabelludo",
+            "La parte alta de la espalda",
+            "Las palmas de las manos"
+          ],
+          "correcta": 3,
+          "explicacion": "Palmas y plantas carecen de glándulas sebáceas. Frente, cuero cabelludo y espalda alta tienen muchas."
+        },
+        {
+          "id": "t5.1-3",
+          "q": "¿Qué hormonas estimulan principalmente la producción de sebo?",
+          "opciones": [
+            "Los andrógenos",
+            "La insulina exclusivamente",
+            "La melatonina",
+            "La hormona del crecimiento exclusivamente"
+          ],
+          "correcta": 0,
+          "explicacion": "Los andrógenos son los principales reguladores de la glándula sebácea; por eso su actividad aumenta en la pubertad."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Sebaceous gland lipids", "autor": "Picardo M, Ottaviani M, Camera E, Mastrofrancesco A. Dermato-Endocrinology", "anio": 2009 },
+        { "tipo": "academica", "titulo": "Regulation of human sebaceous glands", "autor": "Thiboutot D. Journal of Investigative Dermatology", "anio": 2004 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en textos universitarios de dermatología e histología sobre anexos cutáneos", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "5.2",
+      "titulo": "Glándulas sudoríparas: ecrinas y apocrinas",
+      "minutos": 13,
+      "enPocasPalabras": "Tenemos dos tipos principales de glándulas de sudor. Las ecrinas están en casi toda la piel y producen un sudor acuoso que nos enfría. Las apocrinas están en axilas e ingles, se activan en la pubertad y su secreción, al mezclarse con bacterias, produce el olor corporal.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "El ser humano es uno de los mamíferos que más depende del sudor para enfriarse. Esa capacidad, que nos permite caminar o trabajar bajo el sol durante horas, se debe a millones de **glándulas sudoríparas ecrinas**. Junto a ellas existen las **glándulas apocrinas**, concentradas en pocas zonas y con una función distinta. Conocer ambas te permitirá explicar por qué sudar no es lo mismo que oler, qué diferencia hay entre un desodorante y un antitranspirante y cuándo la sudoración merece una consulta médica."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Las glándulas ecrinas: el sistema de enfriamiento"
+        },
+        {
+          "tipo": "texto",
+          "md": "Se calcula que una persona tiene entre dos y cuatro millones de glándulas ecrinas, distribuidas por casi toda la piel, con mayor densidad en las palmas, las plantas, la frente y las axilas. Cada glándula tiene una porción secretora enrollada como un ovillo en la dermis profunda y un conducto que sube y se abre directamente en la superficie, en un poro independiente del folículo.\n\nEl sudor ecrino es sobre todo agua, con cloruro de sodio, potasio, lactato, urea y bicarbonato. Al evaporarse de la superficie se lleva calor y enfría el cuerpo. En condiciones de calor intenso y ejercicio, una persona puede perder más de un litro de sudor por hora, por lo que la reposición de líquidos es indispensable. Además de la sudoración térmica existe la **sudoración emocional**, que aparece con el estrés o los nervios, sobre todo en palmas, plantas y axilas."
+        },
+        {
+          "tipo": "texto",
+          "md": "El cuerpo también se adapta. Cuando una persona se expone al calor de forma repetida durante una o dos semanas, se produce la **aclimatación**: empieza a sudar antes, produce más sudor y este contiene menos sal, porque el conducto reabsorbe mejor el sodio. Por eso quien se muda de una ciudad templada a una costa calurosa suele sentirse peor los primeros días y mejor con el paso de las semanas."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/04",
+          "proporcion": "16:9",
+          "alt": "Mujer de piel oscura con ropa deportiva descansa después de correr, con gotas de sudor en la frente, y bebe agua.",
+          "pie": "La evaporación del sudor ecrino es el principal mecanismo para enfriar el cuerpo durante el ejercicio y el calor.",
+          "prompt": "Fotografía editorial realista en formato horizontal de una mujer de unos treinta años con piel oscura de fototipo VI, cabello trenzado recogido y ropa deportiva en tonos crema y rosa empolvado, sentada en una banca de un parque después de correr. Tiene gotas de sudor naturales en la frente y el cuello y bebe agua de una botella de vidrio sin etiqueta. Luz cálida de media mañana, fondo de árboles desenfocado, expresión relajada y saludable. Evitar: texto, logotipos, marcas en ropa o botella, gestos de agotamiento extremo, piel retocada, colores saturados."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Un nervio simpático con mensajero inusual",
+          "md": "Las glándulas ecrinas están inervadas por fibras del sistema nervioso simpático, pero, a diferencia de la mayoría de los órganos con ese tipo de inervación, el mensajero químico que las activa es la acetilcolina y no la noradrenalina. Por eso algunos medicamentos que bloquean la acetilcolina reducen el sudor como efecto secundario. En el conducto, la glándula reabsorbe parte del sodio y del cloruro, de modo que el sudor que llega a la superficie es más diluido que el líquido que se produjo en la porción secretora; en la fibrosis quística esa reabsorción falla y el sudor es más salado, base de la prueba del sudor usada en su diagnóstico. El sudor ecrino también contiene péptidos antimicrobianos, como la dermcidina."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Las glándulas apocrinas: más que sudor"
+        },
+        {
+          "tipo": "texto",
+          "md": "Las glándulas apocrinas son más grandes y se concentran en las axilas, la región anogenital y la areola. A diferencia de las ecrinas, su conducto desemboca en el folículo piloso, por encima de la glándula sebácea. Permanecen casi inactivas durante la infancia y se activan en la pubertad por influencia hormonal.\n\nSu secreción es escasa, algo viscosa y contiene lípidos, proteínas y otras moléculas. Al salir es prácticamente **inodora**. El olor corporal aparece cuando las bacterias de la axila, sobre todo especies de *Corynebacterium* y de *Staphylococcus*, transforman esas moléculas en compuestos volátiles con olor característico. Por eso el olor depende tanto de la secreción como de la microbiota de cada persona.\n\nExisten glándulas apocrinas modificadas en otros sitios: las **ceruminosas** del conducto auditivo, que participan en la formación del cerumen; las **glándulas de Moll**, en el borde de los párpados; y las glándulas mamarias, que se consideran apocrinas muy especializadas."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Ecrinas y apocrinas comparadas",
+          "columnas": ["Característica", "Ecrina", "Apocrina"],
+          "filas": [
+            ["Ubicación", "Casi toda la piel", "Axilas, región anogenital y areola"],
+            ["Desembocadura", "Directamente en la superficie", "En el folículo piloso"],
+            ["Inicio de actividad", "Desde la infancia", "En la pubertad"],
+            ["Secreción", "Acuosa, con sales", "Escasa y viscosa, con lípidos y proteínas"],
+            ["Función principal", "Enfriar el cuerpo", "Señales químicas y olor corporal tras la acción bacteriana"]
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m05/d2",
+          "pie": "Glándula ecrina y glándula apocrina: estructura y desembocadura.",
+          "descripcion": "Dos paneles lado a lado sobre un corte de piel. Panel izquierdo: glándula ecrina con un ovillo secretor en la dermis profunda, un conducto que asciende en línea recta por la dermis y en espiral por la epidermis, y que se abre en un poro en la superficie; pequeñas gotas de sudor y una flecha de calor que sale. Panel derecho: glándula apocrina de mayor tamaño con su porción secretora en la dermis profunda o hipodermis y un conducto que desemboca en un folículo piloso por encima de la glándula sebácea; pequeñas bacterias en la superficie que transforman la secreción en moléculas de olor.",
+          "elementos": [
+            "Glándula ecrina",
+            "Ovillo secretor",
+            "Conducto ecrino",
+            "Poro en la superficie",
+            "Glándula apocrina",
+            "Desembocadura en el folículo",
+            "Bacterias de la axila",
+            "Compuestos de olor"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Desodorante o antitranspirante"
+        },
+        {
+          "tipo": "texto",
+          "md": "Un **desodorante** actúa sobre el olor: contiene ingredientes que reducen la actividad de las bacterias de la axila y, a menudo, fragancias que lo enmascaran. Un **antitranspirante** actúa sobre la cantidad de sudor: sus sales de aluminio forman tapones temporales en los conductos de las glándulas ecrinas y reducen la salida de sudor durante horas o días. Muchos productos combinan ambas funciones.\n\nCon frecuencia circula la idea de que los antitranspirantes con aluminio causan cáncer de mama. Las revisiones del Instituto Nacional del Cáncer de Estados Unidos señalan que no hay evidencia concluyente que respalde esa relación. Lo que sí puede ocurrir es irritación o alergia a fragancias u otros componentes, sobre todo después de depilar o rasurar la axila."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "mexico",
+          "titulo": "Temporada de calor",
+          "md": "En buena parte de México, la primavera y el verano traen temperaturas muy altas, sobre todo en el norte, el noroeste, la península de Yucatán y las costas. Cada año la Secretaría de Salud emite recomendaciones para la temporada de calor, que incluyen beber agua con frecuencia, evitar la exposición al sol en las horas de mayor intensidad y vigilar a niñas, niños y personas mayores. En cabina, ofrece agua a tus clientes, cuida la ventilación del espacio y evita mantas térmicas o procedimientos que eleven la temperatura en días muy calurosos."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cuando el sudor es un problema"
+        },
+        {
+          "tipo": "texto",
+          "md": "La **hiperhidrosis** es una sudoración excesiva, mayor de la necesaria para regular la temperatura, que afecta la vida diaria: manos que mojan papeles, ropa empapada o pena para dar la mano. Puede ser primaria, sin una causa detrás, o secundaria a otras condiciones, como alteraciones hormonales o efectos de medicamentos. Las opciones de tratamiento, que incluyen productos de prescripción y procedimientos como la toxina botulínica, son médicas y deben indicarlas un dermatólogo. Tu papel es escuchar sin juzgar y orientar a la consulta.\n\nOtra situación frecuente en climas cálidos y húmedos es la **miliaria**, conocida como sarpullido por calor, que aparece cuando los conductos ecrinos se obstruyen y el sudor queda atrapado; es común en bebés abrigados en exceso. Ropa fresca y ambientes ventilados ayudan a prevenirla; si las lesiones persisten o se infectan, se debe consultar a un médico."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/05",
+          "proporcion": "4:3",
+          "alt": "Hombre de piel morena con camisa de lino camina por una calle costera soleada a la sombra de unas palmeras.",
+          "pie": "En climas cálidos y húmedos, la ropa fresca y la sombra ayudan a que el sudor cumpla su función sin irritar la piel.",
+          "prompt": "Fotografía editorial realista en formato 4:3 de un hombre de unos cuarenta años con piel morena de fototipo V, cabello corto oscuro, camisa de lino color crema y sombrero de ala ancha, caminando tranquilo por una calle costera a la sombra de unas palmeras en una tarde cálida. Ligero brillo de sudor en el cuello y la frente, textura de piel real. Fachadas en tonos pastel desenfocadas y luz dorada suave. Evitar: texto, letreros legibles, logotipos, marcas, personas identificables al fondo, quemaduras solares, colores saturados."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/06",
+          "proporcion": "1:1",
+          "alt": "Bodegón de dos envases lisos de producto para axila sobre una repisa de baño junto a una toalla y una planta.",
+          "pie": "Desodorantes y antitranspirantes actúan de forma distinta: uno sobre el olor y otro sobre la cantidad de sudor.",
+          "prompt": "Fotografía editorial realista de bodegón en formato cuadrado: dos envases cilíndricos lisos de producto para axila, uno en barra y otro en roll-on, ambos de color crema sin etiquetas, sobre una repisa de mármol claro en un baño luminoso. A un lado, una toalla de algodón rosa empolvado doblada y una pequeña planta verde en maceta de cerámica. Luz natural cálida y difusa, sombras suaves, composición limpia y minimalista. Evitar: texto, etiquetas, logotipos, marcas, desorden, reflejos duros, colores saturados."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "vf",
+          "titulo": "Mito o realidad del sudor",
+          "afirmaciones": [
+            { "texto": "La secreción apocrina recién producida tiene un olor fuerte.", "verdadero": false, "explicacion": "Al salir es prácticamente inodora; el olor aparece cuando las bacterias de la axila la transforman." },
+            { "texto": "Las glándulas ecrinas desembocan directamente en la superficie de la piel.", "verdadero": true, "explicacion": "El conducto ecrino se abre en un poro propio, independiente del folículo piloso." },
+            { "texto": "Un desodorante reduce la cantidad de sudor.", "verdadero": false, "explicacion": "El desodorante actúa sobre el olor; el que reduce la cantidad de sudor es el antitranspirante." },
+            { "texto": "Las glándulas apocrinas se activan en la pubertad.", "verdadero": true, "explicacion": "Permanecen casi inactivas en la infancia y se activan con los cambios hormonales de la pubertad." },
+            { "texto": "Existe evidencia concluyente de que los antitranspirantes causan cáncer de mama.", "verdadero": false, "explicacion": "Las revisiones del Instituto Nacional del Cáncer de Estados Unidos no han encontrado evidencia concluyente de esa relación." }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Antes de una depilación de axila, pregunta si la persona usa antitranspirante o desodorante y pídele que no lo aplique ese día; después del servicio, sugiere esperar unas horas antes de usarlo y evitar productos con fragancia para reducir el ardor. Si un cliente te comenta que suda tanto que le afecta en el trabajo o en su vida social, no minimices la situación: explícale que existe la hiperhidrosis y que un dermatólogo puede valorarla."
+        }
+      ],
+      "glosario": [
+        { "termino": "Glándula ecrina", "definicion": "Glándula sudorípara distribuida por casi toda la piel que produce sudor acuoso para enfriar el cuerpo." },
+        { "termino": "Glándula apocrina", "definicion": "Glándula de axilas, región anogenital y areola que desemboca en el folículo y se activa en la pubertad." },
+        { "termino": "Antitranspirante", "definicion": "Producto que reduce la cantidad de sudor formando tapones temporales en los conductos ecrinos." },
+        { "termino": "Desodorante", "definicion": "Producto que reduce o enmascara el olor corporal sin disminuir la cantidad de sudor." },
+        { "termino": "Hiperhidrosis", "definicion": "Sudoración excesiva que supera lo necesario para regular la temperatura y afecta la vida diaria." },
+        { "termino": "Miliaria", "definicion": "Erupción por obstrucción de los conductos del sudor, frecuente en climas cálidos y húmedos." }
+      ],
+      "verificacion": [
+        {
+          "id": "t5.2-1",
+          "q": "¿Cuál es la función principal del sudor ecrino?",
+          "opciones": [
+            "Producir el olor corporal",
+            "Lubricar el pelo",
+            "Enfriar el cuerpo al evaporarse",
+            "Formar el cerumen"
+          ],
+          "correcta": 2,
+          "explicacion": "El sudor ecrino enfría al evaporarse. El olor se relaciona con la secreción apocrina y el cerumen con glándulas ceruminosas."
+        },
+        {
+          "id": "t5.2-2",
+          "q": "¿Por qué la axila huele aunque la secreción apocrina sea inodora al salir?",
+          "opciones": [
+            "Porque las bacterias de la axila transforman esa secreción en compuestos volátiles",
+            "Porque el sudor ecrino contiene perfume natural",
+            "Porque el sebo se convierte en sudor",
+            "Porque las glándulas apocrinas producen ácido láctico concentrado"
+          ],
+          "correcta": 0,
+          "explicacion": "El olor surge de la acción bacteriana sobre la secreción apocrina."
+        },
+        {
+          "id": "t5.2-3",
+          "q": "Un cliente comenta que sus manos sudan tanto que moja los papeles en el trabajo. ¿Qué es lo adecuado?",
+          "opciones": [
+            "Decirle que es normal y no tiene solución",
+            "Recomendarle un medicamento que conoces",
+            "Aplicarle una mascarilla de arcilla en las manos",
+            "Explicarle que puede tratarse de hiperhidrosis y que un dermatólogo puede valorarla"
+          ],
+          "correcta": 3,
+          "explicacion": "La hiperhidrosis tiene opciones médicas. Tu papel es escuchar y orientar a la consulta, sin recomendar medicamentos."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Physiology of sweat gland function: The roles of sweating and sweat composition in human health", "autor": "Baker LB. Temperature", "anio": 2019 },
+        { "tipo": "academica", "titulo": "Biology of sweat glands and their disorders", "autor": "Sato K, Kang WH, Saga K, Sato KT. Journal of the American Academy of Dermatology", "anio": 1989 },
+        { "tipo": "oficial", "titulo": "Antiperspirants/Deodorants and Breast Cancer", "autor": "National Cancer Institute (Estados Unidos)" },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en las recomendaciones generales de la Secretaría de Salud para la temporada de calor y textos de dermatología", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "5.3",
+      "titulo": "El folículo piloso: estructura y tipos de pelo",
+      "minutos": 13,
+      "enPocasPalabras": "Cada pelo nace en un pequeño saco de la piel llamado folículo. En su base, la papila y la matriz fabrican el pelo y le dan color. Hay pelos muy finos, como el vello, y pelos gruesos, como el del cuero cabelludo, y su forma depende de la forma del folículo.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "El **folículo piloso** es una invaginación de la epidermis que penetra en la dermis y, en el cuero cabelludo, llega hasta la hipodermis. Es un pequeño órgano completo: produce una fibra de queratina, la colorea, la ancla, la mueve y se renueva por ciclos durante toda la vida. Las personas nacemos con todos los folículos que tendremos; se estima que el cuerpo tiene alrededor de cinco millones y que el cuero cabelludo reúne cerca de cien mil, con variaciones entre personas."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Las partes del folículo"
+        },
+        {
+          "tipo": "texto",
+          "md": "De arriba abajo, el folículo se divide en tres segmentos. El **infundíbulo** va desde la superficie hasta el punto donde desemboca la glándula sebácea; es la zona donde se forman los comedones. El **istmo** va desde ese punto hasta la inserción del músculo erector del pelo. El **segmento inferior** termina en el **bulbo**, una dilatación en forma de cebolla que envuelve a la **papila dérmica**.\n\nLa papila es un grupo de células de la dermis con vasos sanguíneos que envía señales para que el pelo crezca. Alrededor de ella está la **matriz**, formada por células que se dividen con enorme rapidez y que, al madurar, forman el tallo del pelo. Entre esas células hay melanocitos que entregan pigmento al pelo en formación. El tallo está rodeado por la **vaina radicular interna**, que lo moldea, y la **vaina radicular externa**, continuación de la epidermis."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m05/d3",
+          "pie": "Partes del folículo piloso, desde la superficie hasta el bulbo.",
+          "descripcion": "Corte longitudinal de un folículo piloso en fase de crecimiento, inclinado dentro de la piel. Arriba, la abertura en la superficie y el infundíbulo; luego el conducto de la glándula sebácea; debajo, el istmo con la inserción del músculo erector del pelo y una zona sombreada que marca la protuberancia con células madre. Más abajo, el segmento inferior y el bulbo que rodea a la papila dérmica con un pequeño vaso sanguíneo. En el bulbo se distinguen la matriz y algunos melanocitos. Alrededor del tallo, dos capas concéntricas para las vainas radiculares interna y externa. A la derecha, un corte transversal del tallo con cutícula, corteza y médula.",
+          "elementos": [
+            "Infundíbulo",
+            "Glándula sebácea",
+            "Istmo",
+            "Músculo erector del pelo",
+            "Protuberancia con células madre",
+            "Vaina radicular externa",
+            "Vaina radicular interna",
+            "Matriz",
+            "Melanocitos del bulbo",
+            "Papila dérmica",
+            "Cutícula, corteza y médula"
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "El **músculo erector del pelo** es un pequeño haz de músculo liso que se une al folículo a la altura del istmo. Cuando se contrae por frío o por una emoción intensa, endereza el pelo y produce la «piel de gallina». En ese mismo punto de unión está la **protuberancia**, una región que guarda células madre capaces de regenerar la parte inferior del folículo en cada ciclo y de ayudar a reparar la epidermis tras una herida."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Privilegio inmunitario del bulbo",
+          "md": "Durante la fase de crecimiento, el bulbo del folículo goza de un relativo **privilegio inmunitario**: expresa muy pocas moléculas del complejo mayor de histocompatibilidad de clase I y produce sustancias que frenan la respuesta inmunitaria local, de modo que las defensas no atacan sus propias proteínas. En la alopecia areata, una enfermedad autoinmune, este privilegio se pierde y linfocitos T rodean el bulbo, lo que interrumpe el crecimiento y provoca placas sin pelo. Este conocimiento ha orientado el desarrollo de tratamientos médicos dirigidos, cuya indicación corresponde exclusivamente al dermatólogo."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "El tallo: cutícula, corteza y médula"
+        },
+        {
+          "tipo": "texto",
+          "md": "La parte visible del pelo, el **tallo**, tiene tres capas. La **cutícula** es la más externa y está formada por escamas superpuestas como tejas; cuando está íntegra, el pelo refleja la luz y se ve brillante, y cuando se levanta por calor, tintes o fricción, el pelo se ve opaco y se enreda. La **corteza** es la capa más gruesa: contiene la queratina que da resistencia y elasticidad, y los gránulos de melanina que dan color. La **médula** es un canal central que puede faltar en los pelos finos.\n\nEl color depende de la cantidad y del tipo de melanina: más eumelanina da tonos castaños y negros; la feomelanina aporta tonos rojizos y dorados. Las **canas** aparecen cuando los melanocitos del bulbo reducen o dejan de aportar pigmento, un proceso en el que influye sobre todo la genética y la edad."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/07",
+          "proporcion": "16:9",
+          "alt": "Cuatro personas de espaldas con cabello lacio, ondulado, rizado y muy rizado en un estudio luminoso.",
+          "pie": "La forma del pelo depende de la forma y la curvatura del folículo: lacio, ondulado, rizado o muy rizado.",
+          "prompt": "Fotografía editorial realista en formato horizontal de cuatro personas de espaldas y en semiperfil en un estudio luminoso con fondo crema y rosa empolvado, mostrando diversidad de cabello natural: una mujer de piel morena clara con cabello negro lacio y largo, un hombre de piel clara con cabello castaño ondulado, una joven de piel morena con cabello rizado definido y una mujer de piel oscura con cabello muy rizado y voluminoso. Luz suave y cálida que resalta brillo y textura de cada tipo de pelo. Ropa en tonos neutros. Evitar: texto, logotipos, marcas, accesorios llamativos, cabello teñido de colores intensos, retoque excesivo."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Tipos de pelo y forma del tallo"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Tipos de pelo a lo largo de la vida",
+          "columnas": ["Tipo", "Características", "Dónde y cuándo"],
+          "filas": [
+            ["Lanugo", "Muy fino, suave y sin pigmento", "Cubre al feto; se desprende antes del nacimiento o en las primeras semanas de vida"],
+            ["Vello", "Corto, fino, poco pigmentado y sin médula", "Gran parte del cuerpo en niñas, niños y personas adultas"],
+            ["Terminal", "Largo, grueso, pigmentado y con médula", "Cuero cabelludo, cejas y pestañas desde la infancia; axilas, pubis y barba a partir de la pubertad"]
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "En la pubertad, los andrógenos transforman folículos de vello en folículos de pelo terminal en zonas sensibles a ellos, como axilas, pubis y, en los hombres, barba y pecho. Paradójicamente, en el cuero cabelludo de personas con predisposición genética los andrógenos hacen lo contrario: miniaturizan los folículos, que producen pelos cada vez más finos, lo que da lugar a la alopecia androgenética.\n\nLa forma del pelo depende del folículo: un folículo recto con tallo de sección redonda produce pelo lacio, mientras que un folículo curvo con tallo de sección ovalada o aplanada produce pelo rizado. El pelo muy rizado tiene puntos de torsión que lo hacen más propenso a quebrarse con el peinado agresivo, por lo que requiere técnicas suaves de desenredo e hidratación."
+        },
+        {
+          "tipo": "texto",
+          "md": "Los estudios describen diferencias promedio entre poblaciones en el diámetro del pelo, la forma de su sección y la densidad de folículos, pero la variación entre personas de un mismo origen es enorme. En México conviven todas estas texturas, a menudo dentro de una misma familia. Lo profesional es observar el pelo que tienes delante, sin suponer sus necesidades por el tono de piel o por la apariencia de la persona, y preguntar cómo lo cuida y qué le ha funcionado."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "ejemplo",
+          "titulo": "La barba que se encarna",
+          "md": "Julián, de 26 años, fototipo V y barba rizada, se rasura a diario a contrapelo y tiene pequeños granitos en el cuello. Su cosmetóloga le explica que el pelo rizado, cortado al ras, puede curvarse y volver a entrar en la piel. Le sugiere no estirar la piel al rasurar, seguir la dirección del pelo, usar una navaja limpia de pocas hojas y preparar la zona con agua tibia. Como algunos granitos están inflamados y le dejan manchas oscuras, también le recomienda una valoración dermatológica."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/08",
+          "proporcion": "4:3",
+          "alt": "Profesional con guantes revisa con una lupa iluminada el cuero cabelludo de un hombre mayor de piel morena.",
+          "pie": "Observar el cuero cabelludo con aumento permite apreciar la densidad y el grosor de los pelos.",
+          "prompt": "Fotografía editorial realista en formato 4:3 de una profesional de unos cuarenta años con piel clara, bata clara, guantes de nitrilo y cabello recogido, que separa con suavidad el cabello de un hombre de unos sesenta años con piel morena de fototipo IV y cabello canoso, y lo observa con una lupa iluminada de mano. Cabina estética luminosa en tonos crema y rosa empolvado, luz cálida, ambiente tranquilo y respetuoso. Evitar: texto, pantallas con imágenes, logotipos, marcas, lesiones en el cuero cabelludo, descamación intensa, instrumentos invasivos."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/09",
+          "proporcion": "1:1",
+          "alt": "Macrofotografía del antebrazo de una persona de piel morena clara con vello fino iluminado a contraluz.",
+          "pie": "El vello es corto, fino y poco pigmentado; cubre gran parte del cuerpo.",
+          "prompt": "Macrofotografía editorial realista en formato cuadrado del antebrazo de una persona adulta con piel morena clara de fototipo III, mostrando vello fino y corto iluminado a contraluz con una luz dorada cálida que lo hace visible. Textura de piel natural con microrrelieve y algún lunar pequeño plano. Fondo desenfocado en tono crema. Enfoque nítido en la superficie de la piel y el vello. Evitar: texto, logotipos, piel de gallina exagerada, heridas, tatuajes, retoque excesivo."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "ordenar",
+          "titulo": "De la superficie al bulbo",
+          "instruccion": "Ordena las partes del folículo desde la superficie de la piel hasta la parte más profunda.",
+          "elementos": [
+            "Infundíbulo",
+            "Desembocadura de la glándula sebácea",
+            "Istmo",
+            "Inserción del músculo erector y protuberancia",
+            "Segmento inferior",
+            "Bulbo con la papila dérmica"
+          ]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "El pelo también siente",
+          "md": "Alrededor de cada folículo hay terminaciones nerviosas que detectan el más mínimo movimiento del pelo. Por eso puedes sentir que un insecto camina sobre tu brazo antes de que toque la piel. El vello funciona como una red de antenas táctiles."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "En servicios faciales y de depilación, observa la dirección de crecimiento del pelo, su grosor y su forma. El pelo rizado que vuelve a crecer puede curvarse y quedar atrapado bajo la piel, sobre todo después de rasurar, lo que da lugar a pelos encarnados; trabajar a favor de la dirección del pelo y evitar tirones bruscos reduce ese riesgo. Si notas zonas sin pelo bien delimitadas, enrojecimiento o descamación del cuero cabelludo, registra la observación y sugiere una valoración dermatológica."
+        }
+      ],
+      "glosario": [
+        { "termino": "Folículo piloso", "definicion": "Estructura en forma de saco que produce y ancla el pelo." },
+        { "termino": "Papila dérmica", "definicion": "Grupo de células de la dermis con vasos sanguíneos en la base del folículo que dirige el crecimiento del pelo." },
+        { "termino": "Matriz del pelo", "definicion": "Células del bulbo que se dividen rápidamente y forman el tallo." },
+        { "termino": "Protuberancia", "definicion": "Zona del folículo junto a la inserción del músculo erector que contiene células madre." },
+        { "termino": "Cutícula del pelo", "definicion": "Capa externa del tallo formada por escamas superpuestas que dan brillo y protección." },
+        { "termino": "Pelo terminal", "definicion": "Pelo largo, grueso y pigmentado, como el del cuero cabelludo o la barba." },
+        { "termino": "Vello", "definicion": "Pelo corto, fino y poco pigmentado que cubre gran parte del cuerpo." }
+      ],
+      "verificacion": [
+        {
+          "id": "t5.3-1",
+          "q": "¿Qué estructura de la base del folículo envía señales para que el pelo crezca y contiene vasos sanguíneos?",
+          "opciones": [
+            "La cutícula",
+            "La papila dérmica",
+            "El infundíbulo",
+            "La médula"
+          ],
+          "correcta": 1,
+          "explicacion": "La papila dérmica dirige el crecimiento. La cutícula y la médula son capas del tallo y el infundíbulo es la parte superior del folículo."
+        },
+        {
+          "id": "t5.3-2",
+          "q": "¿Qué capa del tallo contiene la mayor parte de la queratina y del pigmento?",
+          "opciones": [
+            "La cutícula",
+            "La médula",
+            "La corteza",
+            "La vaina radicular externa"
+          ],
+          "correcta": 2,
+          "explicacion": "La corteza es la capa más gruesa del tallo, con la queratina que da resistencia y la melanina que da color."
+        },
+        {
+          "id": "t5.3-3",
+          "q": "¿Qué determina principalmente que un pelo sea lacio o rizado?",
+          "opciones": [
+            "La cantidad de sebo de la persona",
+            "El tipo de champú que usa",
+            "La temperatura del agua",
+            "La forma y curvatura del folículo y la sección del tallo"
+          ],
+          "correcta": 3,
+          "explicacion": "Un folículo recto con tallo redondo produce pelo lacio; uno curvo con tallo ovalado o aplanado produce pelo rizado."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "The biology of hair follicles", "autor": "Paus R, Cotsarelis G. New England Journal of Medicine", "anio": 1999 },
+        { "tipo": "academica", "titulo": "The hair follicle as a dynamic miniorgan", "autor": "Schneider MR, Schmidt-Ullrich R, Paus R. Current Biology", "anio": 2009 },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en textos universitarios de dermatología e histología del folículo piloso", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "5.4",
+      "titulo": "El ciclo del pelo y sus alteraciones",
+      "minutos": 14,
+      "enPocasPalabras": "Cada pelo pasa por una fase de crecimiento, una de transición y una de reposo antes de caerse y ser reemplazado. Es normal perder entre 50 y 100 cabellos al día. Cuando la caída aumenta mucho, aparecen placas sin pelo o crece vello donde antes no había, hay que consultar a un médico.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "El folículo no trabaja de forma continua: alterna periodos de actividad y de descanso. En las personas, cada folículo sigue su propio ritmo, independiente de sus vecinos, por lo que no mudamos el pelo por temporadas como muchos animales. Esta organización en mosaico hace que, en condiciones normales, la caída diaria pase casi inadvertida. Entender el ciclo te ayudará a explicar por qué la caída tras un parto o una enfermedad aparece meses después, y por qué los resultados de la depilación definitiva requieren varias sesiones."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Las fases del ciclo"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Fases del ciclo del pelo en el cuero cabelludo",
+          "columnas": ["Fase", "Qué ocurre", "Duración aproximada y proporción"],
+          "filas": [
+            ["Anágeno", "Crecimiento activo: la matriz se divide y forma el tallo", "De dos a seis años o más; alrededor del 85 al 90 % de los cabellos"],
+            ["Catágeno", "Transición: la matriz deja de dividirse y el folículo se acorta", "Unas dos a tres semanas; una pequeña fracción de los cabellos"],
+            ["Telógeno", "Reposo: el pelo queda anclado como un pelo en maza", "Alrededor de tres meses; aproximadamente el 10 al 15 %"],
+            ["Exógeno", "Desprendimiento activo del pelo viejo", "Ocurre al final del reposo o cuando el pelo nuevo empuja"]
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "La duración del anágeno determina el largo máximo que puede alcanzar un pelo. En el cuero cabelludo crece alrededor de un centímetro por mes y la fase dura años, por eso el cabello puede crecer mucho. En las cejas, las pestañas y el vello del cuerpo el anágeno dura solo unos meses, y por eso esos pelos se mantienen cortos sin necesidad de cortarlos.\n\nSegún la Academia Americana de Dermatología, es normal perder entre 50 y 100 cabellos al día. Se notan más al lavar o peinar, sobre todo si la persona pasó varios días sin hacerlo, porque los pelos en telógeno ya sueltos se acumulan y salen juntos."
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m05/d4",
+          "pie": "El ciclo del folículo piloso: crecimiento, transición, reposo y desprendimiento.",
+          "descripcion": "Diagrama circular con cuatro folículos dibujados en secuencia y unidos por flechas en el sentido de las agujas del reloj. Primero, un folículo largo en anágeno con bulbo grande, papila dérmica y pelo pigmentado en crecimiento. Segundo, un folículo que se acorta en catágeno, con la papila ascendiendo. Tercero, un folículo corto en telógeno con un pelo en maza sin pigmento en la base. Cuarto, el pelo viejo saliendo en exógeno mientras un pelo nuevo empieza a crecer desde abajo. En el centro, la proporción aproximada de cabellos en cada fase.",
+          "elementos": [
+            "Anágeno: crecimiento",
+            "Catágeno: transición",
+            "Telógeno: reposo",
+            "Exógeno: desprendimiento",
+            "Papila dérmica",
+            "Pelo en maza",
+            "Pelo nuevo"
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cuando la caída cambia"
+        },
+        {
+          "tipo": "texto",
+          "md": "Algunas situaciones empujan a muchos folículos a pasar de golpe del anágeno al telógeno. Como el reposo dura unos tres meses, la caída aparece entre dos y tres meses después del desencadenante. Esto se conoce como **efluvio telógeno** y puede seguir a un parto, una fiebre alta, una cirugía, una dieta muy restrictiva, una enfermedad importante o un periodo de estrés intenso. Suele ser difusa y, si se corrige la causa, tiende a recuperarse en meses; aun así, requiere valoración médica para confirmar el origen y descartar otras causas, como alteraciones de tiroides o deficiencias de hierro.\n\nOtras alteraciones tienen un patrón distinto. La **alopecia androgenética** produce un adelgazamiento progresivo: en los hombres suele empezar en las entradas y la coronilla, y en las mujeres se manifiesta como una raya cada vez más ancha en la parte superior. La **alopecia areata** provoca placas redondas sin pelo de aparición rápida. La **alopecia por tracción** se debe a peinados que jalan el pelo de forma sostenida, como trenzas muy apretadas, coletas tensas o extensiones pesadas, y es especialmente relevante para quienes trabajan en estética."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Señales para derivar al dermatólogo",
+          "md": "Recomienda consulta dermatológica si observas o te cuentan: placas sin pelo, caída abundante que dura más de unos meses, adelgazamiento progresivo, cuero cabelludo con enrojecimiento, descamación intensa, dolor o costras, zonas brillantes donde el folículo parece haber desaparecido, o pelos rotos a distinta altura. También si una mujer nota aparición rápida de vello grueso en cara, pecho o abdomen, acompañada de acné o alteraciones menstruales: puede tratarse de **hirsutismo** de origen hormonal, que requiere estudio médico. Algunas alopecias dejan cicatriz y la pérdida de folículos es permanente, por lo que la consulta temprana importa."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/10",
+          "proporcion": "3:4",
+          "alt": "Mujer joven de piel morena con su bebé en brazos se peina con un cepillo de cerdas suaves frente a la ventana.",
+          "pie": "La caída de cabello que aparece meses después del parto suele ser un efluvio telógeno; aun así, conviene la valoración médica.",
+          "prompt": "Fotografía editorial realista en formato vertical de una mujer de unos treinta años con piel morena de fototipo IV y cabello largo oscuro y ondulado, que sostiene a su bebé de pocos meses dormido en un brazo mientras se cepilla suavemente el cabello con un cepillo de cerdas naturales frente a una ventana. Habitación luminosa con cortinas de lino crema y cojines rosa empolvado, luz cálida de mañana. Expresión tranquila y cansada a la vez, natural. Evitar: texto, logotipos, marcas, mechones de pelo en exceso, gestos de angustia, calvas, retoque excesivo."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "Miniaturización y dihidrotestosterona",
+          "md": "En la alopecia androgenética, los folículos genéticamente sensibles responden a la dihidrotestosterona, formada a partir de la testosterona por la enzima 5-alfa-reductasa. Con cada ciclo, el anágeno se acorta y la papila dérmica se reduce, de modo que el folículo produce pelos cada vez más cortos y delgados, hasta parecer vello. La proporción de cabellos en telógeno aumenta y el tiempo entre la caída de un pelo y la aparición del siguiente se alarga. Estos mecanismos son la base de los tratamientos médicos, que debe indicar y vigilar un dermatólogo; en cabina se trabaja solo el cuidado cosmético del cabello y del cuero cabelludo."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Lo que la cosmética puede y no puede hacer"
+        },
+        {
+          "tipo": "texto",
+          "md": "Los champús, acondicionadores y mascarillas actúan sobre el tallo: suavizan la cutícula, reducen el frizz, protegen del calor y mejoran el aspecto. No cambian la duración del ciclo ni «despiertan» folículos. Las promesas de detener la caída o hacer crecer pelo nuevo en semanas deben despertar tu desconfianza.\n\nLa alimentación sí importa: las deficiencias de hierro, de proteínas o de algunas vitaminas pueden acompañar a la caída, y solo un estudio médico puede confirmarlas. En cambio, tomar suplementos sin una deficiencia comprobada no ha demostrado beneficio claro. Además, la FDA de Estados Unidos advirtió en 2017 que las dosis altas de biotina, muy populares en suplementos para cabello y uñas, pueden alterar los resultados de algunos análisis de laboratorio. Por eso, cualquier suplemento debe comentarse con el médico."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "El ciclo y la eliminación del vello"
+        },
+        {
+          "tipo": "texto",
+          "md": "Conviene distinguir dos términos. **Depilar** significa cortar o disolver el pelo a la altura de la superficie, como con la rasuradora o las cremas depilatorias; el pelo reaparece en pocos días. **Epilar** significa arrancarlo desde la raíz, como con la cera, las pinzas o el hilo; el pelo tarda más en salir porque debe crecer desde el bulbo.\n\nLos sistemas de láser y de luz pulsada intensa buscan dañar el folículo a través de la melanina del bulbo, que solo está bien conectada con el pelo durante el anágeno. Por eso se necesitan varias sesiones espaciadas. Estos equipos implican riesgo de quemaduras y manchas, mayor en fototipos oscuros si no se elige la tecnología y los parámetros adecuados, y su uso debe ajustarse a la capacitación y a la regulación sanitaria vigente; consulta los requisitos con COFEPRIS."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/11",
+          "proporcion": "4:3",
+          "alt": "Cosmetóloga con guantes aplica cera tibia con espátula en la pantorrilla de una clienta de piel clara en la camilla.",
+          "pie": "La epilación con cera arranca el pelo desde el bulbo; hay que trabajar con higiene y respetando la dirección del crecimiento.",
+          "prompt": "Fotografía editorial realista en formato 4:3 de una cabina estética luminosa en tonos crema y rosa empolvado. Una cosmetóloga de unos treinta años con piel oscura de fototipo V, guantes de nitrilo, bata clara y cabello recogido, aplica con una espátula de madera desechable una capa fina de cera tibia de color miel sobre la pantorrilla de una clienta de unos cuarenta años con piel clara, recostada y cubierta con una toalla. Calentador de cera limpio y bandeja ordenada al lado. Luz cálida y ambiente higiénico. Evitar: texto, logotipos, marcas, piel enrojecida, gestos de dolor, cera goteando, desorden."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/12",
+          "proporcion": "1:1",
+          "alt": "Estilista con guantes peina con suavidad el cabello muy rizado de una adolescente de piel oscura usando un peine de dientes anchos.",
+          "pie": "Los peinados sin tensión excesiva y el desenredo suave ayudan a prevenir la alopecia por tracción.",
+          "prompt": "Fotografía editorial realista en formato cuadrado de una estilista de unos treinta y cinco años con piel morena, guantes de nitrilo y cabello recogido, que desenreda con suavidad, sección por sección, el cabello muy rizado y voluminoso de una adolescente de unos quince años con piel oscura de fototipo VI, sentada tranquila. Usa un peine de dientes anchos de madera y el cabello luce hidratado y definido. Estudio luminoso en tonos crema y rosa empolvado, luz cálida suave. Evitar: texto, logotipos, marcas, trenzas muy tensas, calvas visibles, gestos de dolor, productos con etiquetas."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "caso",
+          "titulo": "Caso en cabina: la caída después del parto",
+          "situacion": "Una clienta de 29 años, fototipo IV, tuvo a su bebé hace tres meses. Durante un facial te cuenta, preocupada, que desde hace unas semanas se le cae mucho cabello al lavarlo y al peinarse, de forma pareja, sin placas visibles. Te pide que le recomiendes una ampolleta que vio en redes para «detener la caída».",
+          "opciones": [
+            { "texto": "Recomendarle la ampolleta y asegurarle que detendrá la caída en dos semanas.", "correcta": false, "retro": "No puedes prometer resultados ni recomendar productos para un problema que requiere valoración. Además, la caída suele tener una causa que conviene identificar." },
+            { "texto": "Decirle que tiene alopecia androgenética y que la pérdida será permanente.", "correcta": false, "retro": "No corresponde diagnosticar. Además, el antecedente de parto reciente sugiere otra explicación, que solo un médico puede confirmar." },
+            { "texto": "Explicarle que la caída algunos meses después del parto es frecuente y suele recuperarse, pero que conviene consultar a su médico o a un dermatólogo para confirmar la causa y revisar, por ejemplo, su nivel de hierro.", "correcta": true, "retro": "Es la respuesta adecuada: tranquilizas con información general, sin diagnosticar ni prometer, y orientas a la consulta médica." },
+            { "texto": "Sugerirle que no se lave el cabello durante un mes para no perder más.", "correcta": false, "retro": "Lavar no provoca la caída; solo hace visibles los pelos que ya estaban sueltos. Evitar el lavado no cambia el ciclo." }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Cuando un cliente hable de caída de cabello, pregunta desde cuándo la nota, si es pareja o en placas y si hubo algún cambio importante dos o tres meses antes. Registra la información sin interpretarla y explícale que la valoración médica es el camino para saber la causa. Si trabajas con peinados, extensiones o depilación, recuerda que tus técnicas también influyen en la salud del folículo: evita tensiones sostenidas y tirones."
+        }
+      ],
+      "glosario": [
+        { "termino": "Anágeno", "definicion": "Fase de crecimiento activo del pelo, que en el cuero cabelludo dura años." },
+        { "termino": "Catágeno", "definicion": "Fase breve de transición en la que el folículo deja de producir pelo y se acorta." },
+        { "termino": "Telógeno", "definicion": "Fase de reposo de unos tres meses al final de la cual el pelo se desprende." },
+        { "termino": "Efluvio telógeno", "definicion": "Caída difusa que aparece meses después de un desencadenante que lleva a muchos folículos al reposo a la vez." },
+        { "termino": "Alopecia por tracción", "definicion": "Pérdida de pelo causada por peinados o extensiones que lo jalan de forma sostenida." },
+        { "termino": "Hirsutismo", "definicion": "Crecimiento de pelo terminal en zonas dependientes de andrógenos en mujeres; requiere estudio médico." },
+        { "termino": "Epilación", "definicion": "Eliminación del pelo desde la raíz, como con cera, pinzas o hilo." }
+      ],
+      "verificacion": [
+        {
+          "id": "t5.4-1",
+          "q": "¿En qué fase del ciclo se encuentra la mayoría de los cabellos del cuero cabelludo?",
+          "opciones": [
+            "Anágeno",
+            "Catágeno",
+            "Telógeno",
+            "Exógeno"
+          ],
+          "correcta": 0,
+          "explicacion": "Alrededor del 85 al 90 % de los cabellos está en anágeno, la fase de crecimiento."
+        },
+        {
+          "id": "t5.4-2",
+          "q": "¿Por qué la caída por efluvio telógeno aparece entre dos y tres meses después del desencadenante?",
+          "opciones": [
+            "Porque el pelo tarda ese tiempo en volverse blanco",
+            "Porque la fase de reposo dura alrededor de tres meses antes del desprendimiento",
+            "Porque el champú tarda en hacer efecto",
+            "Porque el catágeno dura varios años"
+          ],
+          "correcta": 1,
+          "explicacion": "Los folículos pasan al reposo de golpe y los pelos se desprenden al terminar el telógeno, unos tres meses después."
+        },
+        {
+          "id": "t5.4-3",
+          "q": "¿Qué diferencia hay entre depilar y epilar?",
+          "opciones": [
+            "Son exactamente lo mismo",
+            "Depilar arranca el pelo desde la raíz y epilar lo corta",
+            "Depilar corta o disuelve el pelo en la superficie y epilar lo arranca desde la raíz",
+            "Epilar solo se hace con láser"
+          ],
+          "correcta": 2,
+          "explicacion": "La depilación actúa en la superficie, como la rasuradora; la epilación retira el pelo desde la raíz, como la cera o las pinzas."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "The biology of hair follicles", "autor": "Paus R, Cotsarelis G. New England Journal of Medicine", "anio": 1999 },
+        { "tipo": "oficial", "titulo": "Hair loss: who gets and causes", "autor": "American Academy of Dermatology" },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en textos de dermatología sobre ciclo del pelo, alopecias y métodos de eliminación del vello", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    },
+    {
+      "n": "5.5",
+      "titulo": "Las uñas: estructura, crecimiento y señales de alerta",
+      "minutos": 14,
+      "enPocasPalabras": "La uña es una lámina dura de queratina que nace en la matriz, bajo el pliegue de la piel, y se apoya sobre el lecho ungueal. Las de las manos crecen unos 3 milímetros al mes y las de los pies, la mitad. Una banda oscura nueva, un cambio de color o un dolor en la uña son motivos para ir al dermatólogo.",
+      "bloques": [
+        {
+          "tipo": "texto",
+          "md": "Las uñas protegen la punta de los dedos, aumentan la sensibilidad fina, porque la pulpa del dedo se apoya contra una superficie firme, y nos permiten tomar objetos pequeños y rascar. También son un reflejo de la salud general: cambios en su forma o color pueden acompañar a enfermedades de la piel o del organismo. Para quien trabaja en manicura, pedicura o estética, conocer su estructura es indispensable para trabajar con seguridad."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Las partes de la uña"
+        },
+        {
+          "tipo": "lista",
+          "titulo": "Estructuras del aparato ungueal",
+          "items": [
+            "Lámina ungueal: la placa dura, translúcida y formada por queratina que vemos y pintamos.",
+            "Matriz: el tejido que fabrica la lámina; está oculto bajo el pliegue proximal y su parte más visible es la lúnula.",
+            "Lúnula: la media luna blanquecina en la base de la uña, más visible en los pulgares.",
+            "Lecho ungueal: la piel sobre la que se apoya la lámina; su rosado se debe a los vasos sanguíneos.",
+            "Pliegue proximal y pliegues laterales: los bordes de piel que enmarcan la uña.",
+            "Cutícula: capa de queratina que sale del pliegue proximal y se adhiere a la lámina, sellando la entrada a gérmenes y agua.",
+            "Hiponiquio: el sello de piel bajo el borde libre de la uña."
+          ]
+        },
+        {
+          "tipo": "diagrama",
+          "id": "fundamentos-de-la-piel/m05/d5",
+          "pie": "Anatomía de la uña en vista superior y en corte longitudinal.",
+          "descripcion": "Dos vistas de la punta de un dedo. Izquierda, vista superior: lámina ungueal, lúnula, cutícula, pliegue proximal, pliegues laterales y borde libre. Derecha, corte longitudinal: la matriz bajo el pliegue proximal, la lámina que avanza hacia la punta sobre el lecho ungueal, el hiponiquio bajo el borde libre y el hueso de la falange debajo. Una flecha horizontal indica la dirección de crecimiento desde la matriz hacia el borde libre.",
+          "elementos": [
+            "Lámina ungueal",
+            "Matriz",
+            "Lúnula",
+            "Cutícula",
+            "Pliegue proximal",
+            "Pliegues laterales",
+            "Lecho ungueal",
+            "Hiponiquio",
+            "Borde libre",
+            "Dirección de crecimiento"
+          ]
+        },
+        {
+          "tipo": "texto",
+          "md": "La matriz es la zona más importante: si se lesiona, la uña puede crecer deformada de forma permanente. Por eso nunca se presiona ni se empuja con fuerza la zona de la cutícula con instrumentos metálicos. La cutícula, por su parte, no es «piel muerta que sobra»: es un sello. La Academia Americana de Dermatología recomienda no cortarla, porque al hacerlo se abre una puerta a bacterias y hongos; basta con hidratarla y, si se desea, empujarla con suavidad."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Cómo crece la uña"
+        },
+        {
+          "tipo": "texto",
+          "md": "Un estudio publicado en 2010 por Yaemsiri y colaboradores midió el crecimiento en personas adultas jóvenes sanas y encontró un promedio de unos 3.5 milímetros al mes en las uñas de las manos y de unos 1.6 milímetros al mes en las de los pies. En la práctica, una uña de la mano tarda alrededor de seis meses en renovarse por completo y una de los pies, entre doce y dieciocho meses. El crecimiento es más rápido en personas jóvenes y más lento con la edad, y puede frenarse durante una enfermedad.\n\nEsto tiene una consecuencia práctica: cualquier cambio en la uña tarda meses en «salir». Una línea transversal que aparece tras una enfermedad o una quimioterapia avanza con la uña y permite calcular cuándo ocurrió el evento."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "sabias",
+          "titulo": "Las uñas no respiran",
+          "md": "Es común escuchar que hay que dejar «respirar» las uñas entre esmaltes. La lámina es queratina sin vida y no intercambia oxígeno con el aire: la matriz y el lecho reciben oxígeno de la sangre. Lo que sí tiene sentido es dar descansos para que la lámina no se debilite con la remoción repetida de esmaltes de gel o acrílicos, que suele implicar limado y disolventes."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Uñas frágiles: un problema frecuente"
+        },
+        {
+          "tipo": "texto",
+          "md": "Las uñas que se abren en capas en el borde libre o que se quiebran con facilidad son motivo frecuente de consulta en cabina. Entre las causas más comunes están los ciclos repetidos de mojado y secado, como lavar trastes sin guantes, el uso frecuente de quitaesmaltes con acetona, el limado agresivo de la superficie y la edad, porque con los años la lámina se vuelve más seca y quebradiza. Ayuda usar guantes con forro de algodón para las tareas con agua, limar el borde en una sola dirección, mantener las uñas cortas y aplicar crema en manos, uñas y cutículas después del lavado. Si la fragilidad aparece de pronto, afecta a muchas uñas o se acompaña de cambios de color o de forma, conviene una valoración médica."
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "profundizar",
+          "titulo": "De dónde viene el pigmento de la uña",
+          "md": "La matriz contiene melanocitos que normalmente permanecen en reposo, por eso la lámina suele ser translúcida. Cuando esos melanocitos se activan o aumentan en número, depositan melanina en la lámina en formación y aparece una banda longitudinal que recorre la uña desde la base hasta el borde libre: la **melanoniquia longitudinal**. Puede deberse a causas benignas, como traumatismos repetidos, medicamentos, embarazo o una activación frecuente en fototipos oscuros, pero también a un nevo de la matriz o a un melanoma. La extensión del pigmento a los pliegues se conoce como signo de Hutchinson y es una señal de alarma. Distinguir entre estas causas requiere dermatoscopia y, a menudo, biopsia, procedimientos exclusivos del dermatólogo."
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Datos clave del crecimiento ungueal",
+          "columnas": ["Característica", "Uñas de las manos", "Uñas de los pies"],
+          "filas": [
+            ["Crecimiento promedio en adultos jóvenes", "Unos 3.5 mm al mes", "Unos 1.6 mm al mes"],
+            ["Renovación completa aproximada", "Alrededor de seis meses", "De doce a dieciocho meses"],
+            ["Factores que lo hacen más lento", "Edad avanzada, enfermedades, mala circulación", "Los mismos, con mayor efecto"]
+          ]
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/13",
+          "proporcion": "16:9",
+          "alt": "Varias manos de personas de distintas edades y tonos de piel apoyadas sobre una mesa de madera clara, con uñas naturales cortas.",
+          "pie": "Las uñas varían con la edad y el tono de piel; conocer su aspecto normal ayuda a reconocer cambios.",
+          "prompt": "Fotografía editorial realista en formato horizontal, vista cenital de seis manos de personas de distintas edades y tonos de piel apoyadas con naturalidad sobre una mesa de madera clara: una mano infantil de piel morena, una de mujer joven de piel oscura, una de hombre adulto de piel clara, una de mujer mayor de piel morena con arrugas finas, una de hombre joven de piel trigueña y una de persona mayor de piel clara. Uñas naturales cortas y limpias, sin esmalte, con lúnulas visibles. Luz natural cálida y suave, fondo en tonos crema. Evitar: texto, logotipos, anillos llamativos, uñas postizas, hongos, lesiones, retoque excesivo."
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Señales de alerta en la uña"
+        },
+        {
+          "tipo": "tabla",
+          "titulo": "Cambios que debes reconocer y derivar",
+          "columnas": ["Lo que observas", "Por qué importa", "Qué hacer"],
+          "filas": [
+            ["Banda oscura longitudinal nueva, que se ensancha o cambia", "Puede ser benigna, pero también un signo de melanoma de la uña", "No cubrir con esmalte ni gel y derivar al dermatólogo con prontitud"],
+            ["Pigmento que se extiende a la piel del pliegue", "Es una señal de alarma para melanoma", "Derivar al dermatólogo de forma urgente"],
+            ["Uña engrosada, amarillenta, que se desmorona o se despega", "Puede deberse a hongos, psoriasis u otras causas", "No tratar en cabina; derivar para diagnóstico"],
+            ["Pliegue rojo, caliente, inflamado o con pus", "Puede ser una infección del pliegue", "No manipular; derivar a atención médica"],
+            ["Hoyuelos, líneas transversales o cambios en varias uñas a la vez", "Pueden acompañar enfermedades de la piel o generales", "Registrar y sugerir consulta médica"]
+          ]
+        },
+        {
+          "tipo": "recuadro",
+          "variante": "atencion",
+          "titulo": "Geles, acrílicos y lámparas",
+          "md": "Los esmaltes de gel y los acrílicos contienen acrilatos y metacrilatos que, si tocan la piel antes de curarse, pueden causar alergia de contacto; la Asociación Británica de Dermatólogos ha advertido sobre el aumento de estos casos. Una vez sensibilizada, la persona puede reaccionar también a otros productos con acrilatos, incluidos algunos materiales dentales y médicos. Evita que el producto sin curar toque la piel, usa guantes de nitrilo y respeta las indicaciones del fabricante. Ante las lámparas de curado con luz ultravioleta, la Academia Americana de Dermatología sugiere proteger las manos con protector solar de amplio espectro o guantes sin dedos."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/14",
+          "proporcion": "4:3",
+          "alt": "Manicurista con guantes y cubrebocas empuja con suavidad la cutícula de una clienta de piel morena usando un palito de madera.",
+          "pie": "La cutícula es un sello: se hidrata y se empuja con suavidad, sin cortarla.",
+          "prompt": "Fotografía editorial realista en formato 4:3, primer plano de una mesa de manicura limpia en tonos crema y rosa empolvado. Una manicurista con guantes de nitrilo y cubrebocas empuja con suavidad, con un palito de madera de naranjo desechable, la cutícula de la uña de una clienta de unos cincuenta años con piel morena de fototipo IV. Uñas naturales cortas, sin esmalte, con piel de las manos hidratada. Al lado, un cuenco con agua tibia, una toalla doblada y una bolsa sellada de instrumental esterilizado. Luz cálida y suave. Evitar: texto, logotipos, marcas, sangre, cortes en la piel, alicates sobre la cutícula, uñas con hongos."
+        },
+        {
+          "tipo": "figura",
+          "id": "fundamentos-de-la-piel/m05/15",
+          "proporcion": "1:1",
+          "alt": "Bandeja de acero con instrumental de manicura dentro de bolsas de esterilización selladas y limas nuevas desechables.",
+          "pie": "El instrumental metálico se limpia y esteriliza entre clientes; las limas y palitos de madera son de un solo uso.",
+          "prompt": "Fotografía editorial realista de bodegón en formato cuadrado: una bandeja de acero inoxidable sobre una mesa clara con instrumental de manicura, como alicates y empujadores metálicos, dentro de bolsas de esterilización selladas y transparentes, junto a limas nuevas de cartón y palitos de madera envueltos individualmente. Fondo de cabina en tonos crema y rosa empolvado, luz natural cálida y difusa, composición ordenada que transmite higiene profesional. Evitar: texto, etiquetas legibles, logotipos, marcas, instrumentos sucios, sangre, desorden."
+        },
+        {
+          "tipo": "actividad",
+          "actividad": "caso",
+          "titulo": "Caso en cabina: la línea oscura",
+          "situacion": "Un cliente de 47 años, fototipo V, acude para una manicura. Al retirar el esmalte transparente notas en la uña del pulgar una banda oscura longitudinal de unos milímetros de ancho. Te dice que la descubrió hace unos meses y que cree que se ha hecho más ancha, pero que no le duele. Pide que se la cubras con gel de color oscuro.",
+          "opciones": [
+            { "texto": "Cubrir la banda con gel oscuro, como lo pide, porque no le duele.", "correcta": false, "retro": "Cubrir la uña ocultaría un cambio que debe valorarse. Que no duela no descarta un problema importante." },
+            { "texto": "Limar la superficie de la uña para ver si la mancha desaparece.", "correcta": false, "retro": "Limar no aclara el origen y puede dañar la lámina. El pigmento suele venir de la matriz, no de la superficie." },
+            { "texto": "Explicarle que en personas de piel oscura las bandas son siempre normales.", "correcta": false, "retro": "Aunque las bandas pigmentadas benignas son más frecuentes en fototipos oscuros, una banda que aparece o cambia debe valorarla un dermatólogo." },
+            { "texto": "No cubrir la uña, explicarle con calma que una banda nueva o que cambia debe revisarla un dermatólogo pronto, y registrar lo observado.", "correcta": true, "retro": "Es la respuesta adecuada. No diagnosticas ni alarmas, pero priorizas la valoración médica de un signo que puede ser importante." }
+          ]
+        },
+        {
+          "tipo": "subtitulo",
+          "texto": "Idea práctica para la cabina"
+        },
+        {
+          "tipo": "texto",
+          "md": "Antes de cualquier manicura o pedicura, observa las uñas sin esmalte, con buena luz, y registra su aspecto. No cortes cutículas, no trabajes sobre pliegues inflamados ni uñas con signos de hongos, y usa instrumental esterilizado y materiales de un solo uso. Recomienda a tus clientes guantes para tareas domésticas con agua y detergentes, hidratar uñas y cutículas, y dar descansos a la uña entre servicios de gel o acrílico. Ante una banda oscura nueva, un cambio de color o dolor, la indicación es el dermatólogo."
+        }
+      ],
+      "glosario": [
+        { "termino": "Lámina ungueal", "definicion": "Placa dura y translúcida de queratina que forma la parte visible de la uña." },
+        { "termino": "Matriz ungueal", "definicion": "Tejido bajo el pliegue proximal que fabrica la lámina; su lesión puede deformar la uña de forma permanente." },
+        { "termino": "Lúnula", "definicion": "Media luna blanquecina en la base de la uña, que corresponde a la parte visible de la matriz." },
+        { "termino": "Cutícula", "definicion": "Capa de queratina adherida a la lámina que sella la entrada bajo el pliegue proximal." },
+        { "termino": "Hiponiquio", "definicion": "Sello de piel situado bajo el borde libre de la uña." },
+        { "termino": "Melanoniquia longitudinal", "definicion": "Banda pigmentada a lo largo de la uña; si es nueva o cambia, debe valorarla un dermatólogo." }
+      ],
+      "verificacion": [
+        {
+          "id": "t5.5-1",
+          "q": "¿Qué estructura fabrica la lámina de la uña?",
+          "opciones": [
+            "El hiponiquio",
+            "El lecho ungueal",
+            "La matriz",
+            "El pliegue lateral"
+          ],
+          "correcta": 2,
+          "explicacion": "La matriz, oculta bajo el pliegue proximal, produce la lámina. El lecho la sostiene y el hiponiquio sella el borde libre."
+        },
+        {
+          "id": "t5.5-2",
+          "q": "¿Por qué no se recomienda cortar la cutícula?",
+          "opciones": [
+            "Porque hace que la uña crezca más rápido",
+            "Porque es el sello que protege contra la entrada de bacterias y hongos",
+            "Porque contiene la matriz completa",
+            "Porque es la parte que da color a la uña"
+          ],
+          "correcta": 1,
+          "explicacion": "La cutícula sella el espacio bajo el pliegue proximal; cortarla abre una puerta a infecciones."
+        },
+        {
+          "id": "t5.5-3",
+          "q": "¿Aproximadamente cuánto crece al mes una uña de la mano en una persona adulta joven?",
+          "opciones": [
+            "Un centímetro",
+            "Medio milímetro",
+            "Dos centímetros",
+            "Unos 3.5 milímetros"
+          ],
+          "correcta": 3,
+          "explicacion": "El estudio de Yaemsiri y colaboradores encontró un promedio de unos 3.5 mm al mes en uñas de las manos y de 1.6 mm en las de los pies."
+        }
+      ],
+      "fuentes": [
+        { "tipo": "academica", "titulo": "Growth rate of human fingernails and toenails in healthy American young adults", "autor": "Yaemsiri S, Hou N, Slining MM, He K. Journal of the European Academy of Dermatology and Venereology", "anio": 2010 },
+        { "tipo": "academica", "titulo": "Nail anatomy", "autor": "de Berker D. Clinics in Dermatology", "anio": 2013 },
+        { "tipo": "oficial", "titulo": "Recomendaciones para el cuidado de las uñas y las cutículas", "autor": "American Academy of Dermatology" },
+        { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en advertencias de academias de dermatología sobre alergia a acrilatos y lámparas de curado, y textos de dermatología de la uña", "autor": "Dermalysse", "anio": 2026 }
+      ]
+    }
+  ],
+  "minijuego": {
+    "tipo": "crucigrama",
+    "titulo": "Crucigrama de los anexos cutáneos",
+    "pistas": [
+      { "palabra": "SEBACEA", "pista": "Glándula de secreción holocrina que desemboca en el folículo y produce sebo." },
+      { "palabra": "ECRINA", "pista": "Glándula sudorípara de casi toda la piel cuyo sudor acuoso enfría el cuerpo." },
+      { "palabra": "APOCRINA", "pista": "Glándula de axilas y región anogenital que se activa en la pubertad." },
+      { "palabra": "ANAGENO", "pista": "Fase de crecimiento activo del pelo, que en el cuero cabelludo dura años." },
+      { "palabra": "CATAGENO", "pista": "Fase breve de transición en la que el folículo se acorta." },
+      { "palabra": "TELOGENO", "pista": "Fase de reposo del pelo, de unos tres meses, antes del desprendimiento." },
+      { "palabra": "PAPILA", "pista": "Grupo de células de la dermis con vasos en la base del folículo que dirige el crecimiento del pelo." },
+      { "palabra": "MATRIZ", "pista": "Tejido oculto bajo el pliegue proximal que fabrica la lámina de la uña." },
+      { "palabra": "LUNULA", "pista": "Media luna blanquecina en la base de la uña." },
+      { "palabra": "CUTICULA", "pista": "Sello de queratina adherido a la uña que no se debe cortar." }
+    ]
+  },
+  "examen": {
+    "aprobar": 70,
+    "mostrar": 10,
+    "preguntas": [
+      {
+        "id": "m05-p01",
+        "q": "¿Cuál de las siguientes estructuras es un anexo cutáneo?",
+        "opciones": ["El tejido adiposo de la hipodermis", "La glándula sudorípara ecrina", "Las fibras de colágeno", "Los capilares de la dermis"],
+        "correcta": 1,
+        "explicacion": "Las glándulas sudoríparas, las sebáceas, los folículos y las uñas son anexos derivados de la epidermis. Las demás opciones son componentes de la dermis o la hipodermis."
+      },
+      {
+        "id": "m05-p02",
+        "q": "¿Cuál es el componente más abundante del sebo humano?",
+        "opciones": ["El colesterol", "El ácido láctico", "Los triglicéridos y ácidos grasos libres", "Las ceramidas"],
+        "correcta": 2,
+        "explicacion": "Triglicéridos y ácidos grasos libres forman algo más de la mitad del sebo. El colesterol es minoritario y las ceramidas pertenecen al mortero del estrato córneo."
+      },
+      {
+        "id": "m05-p03",
+        "q": "¿Por qué el brillo facial y el acné suelen aparecer en la adolescencia?",
+        "opciones": ["Porque aumentan los andrógenos que estimulan las glándulas sebáceas", "Porque la piel deja de producir sudor", "Porque disminuye el número de folículos", "Porque las uñas crecen más rápido"],
+        "correcta": 0,
+        "explicacion": "En la pubertad suben los andrógenos y las glándulas sebáceas se reactivan."
+      },
+      {
+        "id": "m05-p04",
+        "q": "¿Dónde desemboca el conducto de una glándula apocrina?",
+        "opciones": ["Directamente en un poro de la superficie", "En la glándula ecrina", "En los vasos sanguíneos", "En el folículo piloso"],
+        "correcta": 3,
+        "explicacion": "La glándula apocrina se abre en el folículo, por encima de la glándula sebácea; la ecrina se abre directamente en la superficie."
+      },
+      {
+        "id": "m05-p05",
+        "q": "¿Qué diferencia a un antitranspirante de un desodorante?",
+        "opciones": ["El antitranspirante solo contiene fragancia", "El antitranspirante reduce la cantidad de sudor y el desodorante actúa sobre el olor", "El desodorante cierra los conductos ecrinos", "No hay ninguna diferencia"],
+        "correcta": 1,
+        "explicacion": "Las sales de aluminio del antitranspirante forman tapones temporales; el desodorante reduce bacterias o enmascara el olor."
+      },
+      {
+        "id": "m05-p06",
+        "q": "¿Qué zona del folículo contiene células madre y se encuentra junto a la inserción del músculo erector?",
+        "opciones": ["La protuberancia", "El infundíbulo", "La médula", "La cutícula del tallo"],
+        "correcta": 0,
+        "explicacion": "La protuberancia guarda células madre que regeneran el folículo en cada ciclo y ayudan a reparar la epidermis."
+      },
+      {
+        "id": "m05-p07",
+        "q": "¿Qué tipo de pelo es corto, fino, poco pigmentado y cubre gran parte del cuerpo?",
+        "opciones": ["Pelo terminal", "Lanugo", "Vello", "Pestaña"],
+        "correcta": 2,
+        "explicacion": "El vello es fino y poco pigmentado. El terminal es grueso y pigmentado; el lanugo es fetal."
+      },
+      {
+        "id": "m05-p08",
+        "q": "¿Cuántos cabellos al día se considera normal perder, según la Academia Americana de Dermatología?",
+        "opciones": ["Entre 5 y 10", "Entre 500 y 1,000", "Ninguno", "Entre 50 y 100"],
+        "correcta": 3,
+        "explicacion": "La pérdida de 50 a 100 cabellos al día se considera normal."
+      },
+      {
+        "id": "m05-p09",
+        "q": "¿Por qué las cejas se mantienen cortas sin necesidad de cortarlas?",
+        "opciones": ["Porque no tienen bulbo", "Porque su fase de anágeno dura solo unos meses", "Porque no tienen melanina", "Porque están siempre en catágeno"],
+        "correcta": 1,
+        "explicacion": "La duración del anágeno determina el largo máximo; en las cejas es corta."
+      },
+      {
+        "id": "m05-p10",
+        "q": "Una clienta usa trenzas muy apretadas desde hace años y notas que el pelo de las sienes se ve escaso. ¿Qué es lo más adecuado?",
+        "opciones": ["Recomendar trenzas aún más apretadas para cubrir la zona", "Asegurarle que el pelo volverá a crecer siempre", "Explicarle que la tensión sostenida puede dañar el folículo, sugerir peinados sin tensión y una valoración dermatológica", "Aplicar cera en la zona para estimular el crecimiento"],
+        "correcta": 2,
+        "explicacion": "La alopecia por tracción se relaciona con peinados tensos; si se mantiene, puede volverse permanente, por lo que conviene la valoración médica."
+      },
+      {
+        "id": "m05-p11",
+        "q": "¿Por qué la depilación con láser o luz pulsada requiere varias sesiones?",
+        "opciones": ["Porque solo actúa bien sobre los folículos en anágeno, que no están todos en esa fase a la vez", "Porque el pelo se vuelve más grueso después de cada sesión", "Porque la piel necesita broncearse antes", "Porque destruye las glándulas sudoríparas"],
+        "correcta": 0,
+        "explicacion": "La melanina del bulbo está conectada con el pelo durante el anágeno; los folículos en otras fases deben tratarse en sesiones posteriores."
+      },
+      {
+        "id": "m05-p12",
+        "q": "¿Qué parte de la uña corresponde a la porción visible de la matriz?",
+        "opciones": ["El hiponiquio", "El borde libre", "El pliegue lateral", "La lúnula"],
+        "correcta": 3,
+        "explicacion": "La lúnula es la media luna blanquecina que corresponde a la parte distal visible de la matriz."
+      },
+      {
+        "id": "m05-p13",
+        "q": "¿Aproximadamente cuánto tarda en renovarse por completo una uña del pie?",
+        "opciones": ["Dos semanas", "Un mes", "De doce a dieciocho meses", "Cinco años"],
+        "correcta": 2,
+        "explicacion": "Las uñas de los pies crecen unos 1.6 mm al mes, por lo que su renovación completa tarda de doce a dieciocho meses."
+      },
+      {
+        "id": "m05-p14",
+        "q": "Durante una pedicura observas una uña engrosada, amarillenta y que se desmorona. ¿Qué haces?",
+        "opciones": ["Limarla a fondo y cubrirla con esmalte", "No trabajar sobre ella y sugerir valoración médica para su diagnóstico", "Aplicar vinagre para curarla", "Recomendar un antimicótico que conoces"],
+        "correcta": 1,
+        "explicacion": "Puede deberse a hongos, psoriasis u otras causas; requiere diagnóstico médico y no se trata en cabina."
+      },
+      {
+        "id": "m05-p15",
+        "q": "Una clienta presenta una banda oscura nueva en una uña y el pigmento se extiende a la piel del pliegue. ¿Cuál es la conducta correcta?",
+        "opciones": ["Derivarla al dermatólogo de forma urgente y no cubrir la uña", "Cubrirla con gel y revisarla en la próxima cita", "Explicarle que es un golpe sin importancia", "Retirar la cutícula para ver mejor"],
+        "correcta": 0,
+        "explicacion": "El pigmento que se extiende al pliegue es una señal de alarma de melanoma de la uña y requiere valoración urgente."
+      },
+      {
+        "id": "m05-p16",
+        "q": "¿Qué medida reduce el riesgo de alergia a acrilatos en servicios de gel o acrílico?",
+        "opciones": ["Aplicar el producto directamente sobre la cutícula", "Usar el producto sin curar como crema de manos", "Retirar los guantes para trabajar con más precisión", "Evitar que el producto sin curar toque la piel y usar guantes de nitrilo"],
+        "correcta": 3,
+        "explicacion": "La alergia se produce por contacto del acrilato sin curar con la piel; evitar ese contacto y protegerse con guantes de nitrilo reduce el riesgo."
+      }
+    ]
+  },
+  "fuentes": [
+    { "tipo": "academica", "titulo": "The biology of hair follicles", "autor": "Paus R, Cotsarelis G. New England Journal of Medicine", "anio": 1999 },
+    { "tipo": "academica", "titulo": "Physiology of sweat gland function: The roles of sweating and sweat composition in human health", "autor": "Baker LB. Temperature", "anio": 2019 },
+    { "tipo": "academica", "titulo": "Sebaceous gland lipids", "autor": "Picardo M, Ottaviani M, Camera E, Mastrofrancesco A. Dermato-Endocrinology", "anio": 2009 },
+    { "tipo": "academica", "titulo": "Growth rate of human fingernails and toenails in healthy American young adults", "autor": "Yaemsiri S, Hou N, Slining MM, He K. Journal of the European Academy of Dermatology and Venereology", "anio": 2010 },
+    { "tipo": "propia", "titulo": "Elaboración propia Dermalysse con base en textos universitarios de dermatología, histología y cosmetología", "autor": "Dermalysse", "anio": 2026 }
+  ]
+}
