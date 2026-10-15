@@ -82,6 +82,14 @@ Archivos principales: `src/site/render.ts`, `src/site/interactions.ts`, `src/sit
 - Certificados con galería, muestra, sello, folio y QR verificable.
 - El modo demo diferencia explícitamente una vista de muestra de una emisión oficial.
 
+### Academia (rama `feat/academia`, 15 de octubre de 2026)
+
+- Programas de lectura por módulos (`#/academia…`): lector con índice y glosario, actividades, minijuegos (sopa, crucigrama, memorama) y examen. Plan, formato y brief en `docs/PLAN-ACADEMIA.md`, `docs/ACADEMIA-FORMATO.md` y `docs/ACADEMIA-BRIEF-AGENTES.md`; validador `npm run academia:validar -- <programa> --estricto`.
+- Catálogo de 5 programas; piloto **«Fundamentos de la piel»** con 12 módulos completos (~62 mil palabras), todos en `borrador`. Los otros 4 programas aparecen «en preparación».
+- API (dev, puertos y adaptadores): módulo 1 gratis y resto VIP; desbloqueo con 70 %; borradores solo para admin salvo `ACADEMIA_MOSTRAR_BORRADORES`; examen calificado en servidor, una vez por emisión, sin revelar respuestas al reprobar; exige temas leídos; espera de 3 min tras reprobar. Revisión en `#/admin/academia` (borrador → revisión → aprobado).
+- En demo los borradores se ven con aviso de vista previa. El certificado del programa aún no existe y se anuncia como «pronto».
+- Pendiente: revisión y aprobación por un profesional (dermatólogo o cosmetóloga con cédula), imágenes (prompts listos en cada módulo), persistencia real (Firestore u otro almacén) y producción con autorización.
+
 ## Controles de contenido y seguridad
 
 - Toda cadena dinámica al DOM pasa por `esc()`.
