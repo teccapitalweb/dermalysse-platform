@@ -17,6 +17,7 @@ import './styles/quiz.css';
 import './styles/certificado.css';
 import './styles/historia.css';
 import './styles/recompensas.css';
+import './styles/curso-gratis.css';
 import './styles/noticias.css';
 import './styles/dashboard.css';
 import './styles/experiencia.css';
@@ -84,6 +85,7 @@ import { adminAcademia, montarAdminAcademia } from './admin/academia';
 import { ganarXP } from './core/juegos';
 import { celebrar } from './ui/celebracion';
 import { montarTicker } from './ui/noticias';
+import { abrirAnuncioCursoGratis, pedirElegirCursoGratis } from './ui/anuncio-curso-gratis';
 import { instalarAvisosLogros } from './ui/logro-desbloqueado';
 
 let _showQuiz = false;
@@ -267,6 +269,8 @@ route('/admin/ajustes', adminAjustes);
 onRender(() => {
   const { path } = current();
   if (shellActual === 'admin') marcarAdminActivo(path); else marcarNavActivo(path);
+  // Anuncio de primera vez «Escoge tu curso gratis» (solo miembro gratuito que aún no eligió).
+  if (shellActual === 'miembro') abrirAnuncioCursoGratis();
   const crumb = document.querySelector('[data-crumb]'); if (crumb) crumb.textContent = document.querySelector('#outlet h1')?.textContent?.trim() || 'Administración';
   if (Datos.modo === 'api') {
     const video = document.querySelector<HTMLElement>('[data-video-api]');
@@ -684,6 +688,10 @@ document.addEventListener('click', async (e) => {
   const el = e.target as HTMLElement;
   const pw = el.closest<HTMLElement>('[data-paywall]');
   if (pw) { mostrarPaywall(pw.dataset.paywall || undefined); return; }
+
+  // «Escoge tu curso gratis»: elegir desde la página del curso (confirma, es permanente).
+  const elegirCurso = el.closest<HTMLElement>('[data-elegir-curso]');
+  if (elegirCurso) { e.preventDefault(); pedirElegirCursoGratis(elegirCurso.dataset.elegirCurso!); return; }
 
   // Modo API: material con archivo protegido y enlaces de En vivo (los pide a la API con sesión).
   const abrirMaterial = el.closest<HTMLElement>('[data-abrir-material]');

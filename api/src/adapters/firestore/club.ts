@@ -16,6 +16,7 @@ import { aIso, aMillis, texto, type Datos, type FirestorePort } from './port.js'
 export const CAMPOS_PROTEGIDOS_USERS = [
   'subscription', 'vigenciaHasta', 'regaloDesde', 'stripeCustomerId', 'stripeSubscriptionId', 'plan', 'status',
   'role', 'admin', 'courtesy', 'isCourtesy', 'progress', 'playbackProgress',
+  'cursoGratis', 'cursoGratisDesde',
 ] as const;
 
 /** Precios por defecto: los MISMOS que cobra el webhook si config/club no los define (leerPreciosConfig). */

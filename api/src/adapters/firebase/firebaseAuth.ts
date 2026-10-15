@@ -61,6 +61,7 @@ export class FirebaseAuthAdapter implements AuthAdapter {
       nombre: nombreDoc || decodificado.name || email.split('@')[0] || 'Miembro',
       acceso: { plan: acceso.plan, vence: acceso.vence, motivo: acceso.motivo },
       cuenta: { nombre: decodificado.name || '', foto: decodificado.picture || '' },
+      cursoGratis: texto(datos.cursoGratis) || undefined,
     };
   }
 }

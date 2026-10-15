@@ -3,6 +3,7 @@ import { Progreso } from '../core/progreso';
 import { Acceso } from '../core/acceso';
 import { examenAprobado } from '../core/examen-final';
 import { esc, tarjetaCurso, placeholder } from '../ui/partials';
+import { debeElegir, esMiCursoGratis, cursoAbierto, aplicaMetodologia } from '../core/curso-gratis';
 
 export function curso(params: Record<string, string>) {
   const c = getCurso(params.id);
@@ -45,9 +46,22 @@ export function curso(params: Record<string, string>) {
   const relacionados = cursos.filter((x) => x.id !== c.id && x.area === c.area).slice(0, 3);
   const otros = relacionados.length ? relacionados : cursos.filter((x) => x.id !== c.id).slice(0, 3);
 
+  // Banner de la metodología «curso gratis»: elegir este (si aún no elige) o invitar a VIP (si es otro).
+  const puedeElegirEste = debeElegir();
+  const esElegido = esMiCursoGratis(c.id);
+  const cerradoVip = aplicaMetodologia() && !puedeElegirEste && !cursoAbierto(c.id);
+  const banner = puedeElegirEste
+    ? `<div class="cg-banner cg-banner--elegir"><span class="cg-banner__ic"><i data-lucide="gift" class="i"></i></span><div class="cg-banner__txt"><strong>Hazlo tu curso gratis</strong><span>Estudia este curso completo gratis, solo la última clase es VIP. Tu elección queda fija.</span></div><button type="button" class="btn btn--gradient" data-elegir-curso="${esc(c.id)}"><i data-lucide="check" class="i"></i>Elegir este gratis</button></div>`
+    : esElegido
+      ? `<div class="cg-banner cg-banner--mio"><span class="cg-banner__ic"><i data-lucide="unlock" class="i"></i></span><div class="cg-banner__txt"><strong>Este es tu curso gratis</strong><span>Tienes todas las clases menos la última. Hazte VIP para abrir esa y todos los demás cursos.</span></div></div>`
+      : cerradoVip
+        ? `<div class="cg-banner cg-banner--vip"><span class="cg-banner__ic"><i data-lucide="crown" class="i"></i></span><div class="cg-banner__txt"><strong>Curso para miembros VIP</strong><span>Tu curso gratis ya fue elegido. Con VIP abres este y todo el catálogo.</span></div><button type="button" class="btn btn--gradient" data-paywall="Este curso es para miembros VIP."><i data-lucide="crown" class="i"></i>Hazte VIP</button></div>`
+        : '';
+
   return `
   <section class="stack" style="gap:24px">
     <a class="section-head__cta" href="#/cursos" style="align-self:flex-start"><span class="circle-btn circle-btn--glass" style="width:34px;height:34px"><i data-lucide="arrow-left" class="i" style="width:15px;height:15px"></i></span>Catálogo</a>
+    ${banner}
     <div class="course-hero">
       <img src="${c.portada}" alt="">
       <div class="course-hero__body">

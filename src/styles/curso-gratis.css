@@ -1,0 +1,115 @@
+/* «Escoge tu curso gratis»: anuncio de primera vez + candados de curso en el catálogo. */
+
+/* ── Candado en la tarjeta de curso ── */
+.pcard--bloqueado .pcard__img { filter: grayscale(.5) brightness(.82); }
+.pcard--bloqueado { opacity: .96; }
+.pcard__lock {
+  position: absolute; top: 12px; left: 12px; z-index: 2; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; background: rgba(11, 36, 53, .72); color: #fff;
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); box-shadow: var(--shadow-sm);
+}
+.pcard__lock .i { width: 16px; height: 16px; }
+.pcard--elegible { outline: 2px solid color-mix(in srgb, var(--primary) 55%, transparent); outline-offset: 2px; }
+
+/* ── Anuncio a pantalla completa ── */
+.acg {
+  position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 24px;
+  background: rgba(11, 18, 32, .62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  animation: acg-fade .25s var(--ease) both; overflow-y: auto;
+}
+@keyframes acg-fade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes acg-rise { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: none } }
+.acg__box {
+  position: relative; width: min(920px, 100%); max-height: calc(100vh - 48px); overflow-y: auto;
+  border-radius: var(--r-2xl); background: var(--surface); border: 1px solid var(--line);
+  box-shadow: var(--shadow-cover); animation: acg-rise .3s var(--ease) both;
+}
+.acg__x {
+  position: absolute; top: 16px; right: 16px; z-index: 3; width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255, 255, 255, .16); color: #fff; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .25);
+}
+.acg__x:hover { background: rgba(255, 255, 255, .28); }
+.acg__x .i { width: 18px; height: 18px; }
+
+.acg__head {
+  position: relative; padding: 40px 36px 28px; color: #fff; overflow: hidden;
+  background: var(--hero-gradient); border-radius: var(--r-2xl) var(--r-2xl) 0 0;
+}
+.acg__head::after {
+  content: ''; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 160, 155, .4), transparent 70%); pointer-events: none;
+}
+.acg__badge {
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 14px; border-radius: var(--r-full);
+  background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .3);
+  font-size: var(--fs-xs); font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+}
+.acg__badge .i { width: 14px; height: 14px; }
+.acg__title { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight: 800; line-height: 1.08; margin: 16px 0 10px; }
+.acg__title em { font-style: normal; color: var(--brand-gold); }
+.acg__sub { max-width: 60ch; color: rgba(255, 255, 255, .9); font-size: var(--fs-md); line-height: 1.55; }
+.acg__sub strong { color: #fff; }
+.acg__pasos { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 20px; margin: 18px 0 0; padding: 0; }
+.acg__pasos li { display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-sm); font-weight: 600; color: rgba(255, 255, 255, .92); }
+.acg__pasos .i { width: 17px; height: 17px; color: var(--brand-gold); }
+
+.acg__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; padding: 24px 36px; }
+.acg-card {
+  display: flex; flex-direction: column; text-align: left; overflow: hidden; cursor: pointer;
+  border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface);
+  transition: transform var(--t-base, .2s) var(--ease), box-shadow var(--t-base, .2s) var(--ease), border-color var(--t-base, .2s) var(--ease);
+}
+.acg-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: var(--shadow-md); }
+.acg-card__img { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--surface-2); }
+.acg-card__img img { width: 100%; height: 100%; object-fit: cover; }
+.acg-card__body { display: grid; gap: 6px; padding: 14px 16px 6px; }
+.acg-card__area { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-xs); font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: .04em; }
+.acg-card__area .i { width: 13px; height: 13px; }
+.acg-card__titulo { font-family: var(--font-display); font-size: var(--fs-base); font-weight: 700; line-height: 1.25; color: var(--text); }
+.acg-card__meta { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-xs); color: var(--text-2); }
+.acg-card__meta .i { width: 13px; height: 13px; }
+.acg-card__pick {
+  display: flex; align-items: center; gap: 8px; margin-top: auto; padding: 12px 16px 14px;
+  font-size: var(--fs-sm); font-weight: 700; color: var(--primary);
+}
+.acg-card:hover .acg-card__pick { gap: 11px; }
+.acg-card__pick .i { width: 16px; height: 16px; }
+
+.acg__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; padding: 0 36px 28px; }
+.acg__despues { padding: 11px 22px; border-radius: var(--r-full); border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--text); font-weight: 600; font-size: var(--fs-sm); }
+.acg__despues:hover { background: var(--surface-3); }
+.acg__nota { display: inline-flex; align-items: center; gap: 7px; font-size: var(--fs-xs); color: var(--text-3); }
+.acg__nota .i { width: 14px; height: 14px; }
+
+/* ── Confirmación de elección (permanente) ── */
+.acg-confirm { position: absolute; inset: 0; z-index: 4; display: grid; place-items: center; padding: 20px; background: rgba(11, 18, 32, .55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); border-radius: var(--r-2xl); }
+.acg-confirm__box { width: min(440px, 100%); display: grid; justify-items: center; gap: 12px; text-align: center; padding: 32px 28px; border-radius: var(--r-xl); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-lg); animation: acg-rise .25s var(--ease) both; }
+.acg-confirm__ic { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: var(--hero-gradient); color: #fff; }
+.acg-confirm__ic .i { width: 28px; height: 28px; }
+.acg-confirm__box h3 { font-family: var(--font-display); font-size: var(--fs-lg); line-height: 1.25; }
+.acg-confirm__box h3 em { font-style: normal; color: var(--primary); }
+.acg-confirm__box p { font-size: var(--fs-sm); color: var(--text-2); max-width: 40ch; line-height: 1.55; }
+.acg-confirm__acciones { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 6px; width: 100%; }
+.acg-confirm__acciones .btn { flex: 1 1 auto; }
+.acg-confirm__estado { color: var(--primary); font-size: var(--fs-xs); font-weight: 600; }
+
+@media (max-width: 560px) {
+  .acg__head { padding: 32px 22px 24px; }
+  .acg__grid, .acg__foot { padding-left: 22px; padding-right: 22px; }
+  .acg__title { font-size: var(--fs-xl); }
+}
+@media (prefers-reduced-motion: reduce) { .acg, .acg__box, .acg-confirm__box { animation: none; } }
+
+/* ── Banner en la página del curso ── */
+.cg-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 16px 20px; border-radius: var(--r-xl); border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow-sm); }
+.cg-banner__ic { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; }
+.cg-banner__ic .i { width: 22px; height: 22px; }
+.cg-banner__txt { display: grid; gap: 2px; min-width: 0; flex: 1 1 260px; }
+.cg-banner__txt strong { font-family: var(--font-display); font-size: var(--fs-md); color: var(--text); }
+.cg-banner__txt span { font-size: var(--fs-sm); color: var(--text-2); line-height: 1.5; }
+.cg-banner .btn { flex: 0 0 auto; }
+.cg-banner--elegir { border-color: color-mix(in srgb, var(--primary) 40%, var(--line)); background: var(--primary-soft); }
+.cg-banner--elegir .cg-banner__ic { background: var(--hero-gradient); }
+.cg-banner--mio { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); background: var(--accent-soft); }
+.cg-banner--mio .cg-banner__ic { background: var(--brand-gradient); }
+.cg-banner--vip .cg-banner__ic { background: var(--brand-navy); }
