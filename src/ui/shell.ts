@@ -41,7 +41,7 @@ export function shellHTML() {
         </div>`}
         <a class="user-card" href="#/perfil">
           <div class="avatar">${avatar}</div>
-          <div><div class="user-card__name">${Perfil.get().nombre}</div><div class="user-card__plan">${Acceso.vip() ? `<i data-lucide="crown" class="i"></i>VIP ${Perfil.get().plan}` : `<i data-lucide="user" class="i"></i>Plan gratis`}</div></div>
+          <div><div class="user-card__name">${esc(Perfil.get().nombre)}</div><div class="user-card__plan">${Acceso.vip() ? `<i data-lucide="crown" class="i"></i>VIP ${esc(Perfil.get().plan)}` : `<i data-lucide="user" class="i"></i>Plan gratis`}</div></div>
           <span class="btn btn--ghost btn--icon" aria-label="Configuración"><i data-lucide="settings" class="i"></i></span>
         </a>
         <button type="button" class="btn btn--ghost sidebar__logout" data-salir><i data-lucide="log-out" class="i"></i>Cerrar sesión</button>

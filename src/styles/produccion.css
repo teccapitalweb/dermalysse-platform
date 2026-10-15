@@ -1,0 +1,65 @@
+/* ═══════════════════════════════════════════════════════════════
+   Producción (modo API): reproductor con avance real, mantenimiento
+   y confirmación de pago. Usa los tokens de Dermalysse.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Reproductor firmado de Bunny ── */
+.player-api { position: absolute; inset: 0; }
+.player-api__iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.player-estado {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 20px; text-align: center; color: #fff;
+  background: radial-gradient(circle at 50% 20%, rgba(143, 64, 86, .38), transparent 60%), linear-gradient(160deg, #0b2435 0%, #0a0d18 100%);
+}
+.player-estado__ic {
+  display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%;
+  color: #fff; background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 255, 255, .26);
+}
+.player-estado__ic .i { width: 26px; height: 26px; }
+.player-estado strong { font-family: var(--font-display); font-size: clamp(1.05rem, 1.6vw, 1.4rem); max-width: 30ch; }
+/* Blanco al 90 % sobre tinta: contraste AA holgado. */
+.player-estado p { max-width: 44ch; margin: 0; font-size: var(--fs-sm); line-height: 1.5; color: rgba(255, 255, 255, .9); overflow-wrap: anywhere; }
+.player-estado .btn { margin-top: 4px; }
+.player-estado [data-lucide="loader-circle"], .player-estado svg.lucide-loader-circle { animation: dlGiro 1s linear infinite; }
+@keyframes dlGiro { to { transform: rotate(360deg); } }
+
+@media (max-width: 480px) {
+  .player-estado { gap: 6px; padding: 12px; }
+  .player-estado__ic { width: 40px; height: 40px; }
+  .player-estado__ic .i { width: 20px; height: 20px; }
+  .player-estado p { font-size: var(--fs-xs); }
+}
+
+/* Estado del avance bajo el video */
+.video-avance {
+  margin: -4px 0 0; padding: 9px 12px; border-radius: var(--r-md); border: 1px solid var(--line);
+  background: var(--surface); color: var(--text-2); font-size: var(--fs-sm); line-height: 1.45; overflow-wrap: anywhere;
+}
+.video-avance[data-tono="ok"] { border-color: color-mix(in srgb, var(--success) 40%, var(--line)); color: var(--text); background: color-mix(in srgb, var(--success) 9%, var(--surface)); }
+.video-avance[data-tono="aviso"] { border-color: color-mix(in srgb, var(--warning) 45%, var(--line)); color: var(--text); background: color-mix(in srgb, var(--warning) 9%, var(--surface)); }
+
+/* Acciones de la clase en modo API: pueden partirse en dos líneas en teléfono. */
+.lesson-acciones { flex-wrap: wrap !important; justify-content: flex-end; }
+.lesson-pendiente { white-space: normal; text-align: left; }
+
+/* ── Mantenimiento ── */
+.mantenimiento { min-height: 100dvh; display: grid; place-items: center; padding: 32px 16px; background: var(--bg); }
+.mantenimiento__card {
+  width: min(100%, 460px); display: grid; justify-items: center; gap: 14px; padding: 32px 24px; text-align: center;
+  border: 1px solid var(--line); border-radius: var(--r-2xl); background: var(--surface); box-shadow: var(--shadow-lg);
+}
+.mantenimiento__logo { height: 30px; width: auto; }
+:root[data-theme="dark"] .mantenimiento__logo { filter: brightness(0) invert(1); }
+.mantenimiento__ic { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%; color: var(--primary); background: var(--primary-soft); }
+.mantenimiento__ic .i { width: 26px; height: 26px; }
+.mantenimiento h1 { font-family: var(--font-display); font-size: var(--fs-xl); color: var(--text); }
+.mantenimiento p { color: var(--text-2); font-size: var(--fs-base); line-height: 1.55; }
+.mantenimiento__acciones { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+/* ── Confirmación de pago ── */
+.pago-estado .btn { margin-top: 8px; display: inline-flex; }
+
+@media (prefers-reduced-motion: reduce) {
+  .player-estado [data-lucide="loader-circle"], .player-estado svg.lucide-loader-circle { animation: none; }
+}

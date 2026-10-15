@@ -1,11 +1,15 @@
 import { Datos } from '../core/datos';
 import { cursos } from '../core/catalogo';
 import { esc } from '../ui/partials';
+import { cargarPlataforma } from '../core/plataforma';
+import { MENSAJE_REGISTRO_CERRADO } from '../core/auth';
 
-export function login(_: Record<string, string>, query: URLSearchParams) {
+export async function login(_: Record<string, string>, query: URLSearchParams) {
   const modo = query.get('modo') === 'registro' ? 'registro' : query.get('modo') === 'recuperar' ? 'recuperar' : 'entrar';
   const vistaPrevia = query.get('vista') === '1';
   const demo = Datos.modo === 'demo';
+  // API: /config decide si hay registro y si el club está en mantenimiento. Demo: siempre abierto.
+  const { registroAbierto, mantenimiento } = demo ? { registroAbierto: true, mantenimiento: false } : await cargarPlataforma();
 
   const google = `<button type="button" class="login__google" ${demo ? 'data-login-demo' : 'data-login-google'}><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.35 11.1H12v2.9h5.4c-.25 1.4-1 2.6-2.1 3.4v2.8h3.4c2-1.85 3.15-4.55 3.15-7.75 0-.65-.05-1.1-.5-1.35z"/><path fill="#34A853" d="M12 22c2.85 0 5.25-.95 7-2.55l-3.4-2.8c-.95.65-2.15 1.05-3.6 1.05-2.75 0-5.1-1.85-5.95-4.4H2.55v2.9C4.3 19.6 7.85 22 12 22z"/><path fill="#FBBC05" d="M6.05 13.3c-.2-.65-.35-1.3-.35-2s.15-1.35.35-2V6.4H2.55A9.9 9.9 0 0 0 2 11.3c0 1.6.4 3.1 1.05 4.5l3-2.5z"/><path fill="#EA4335" d="M12 5.9c1.55 0 2.95.55 4.05 1.6l3-3C17.25 2.85 14.85 2 12 2 7.85 2 4.3 4.4 2.55 7.9l3.5 2.9C6.9 8.25 9.25 5.9 12 5.9z"/></svg>${demo ? 'Explorar acceso con Google' : 'Continuar con Google'}</button>`;
 
@@ -23,10 +27,17 @@ export function login(_: Record<string, string>, query: URLSearchParams) {
         <p class="login__error" data-login-error hidden></p>
         <button class="login__submit" ${demo ? 'type="button" data-login-demo' : 'type="submit"'}><span>${demo ? 'Entrar al club demo' : 'Entrar al club'}</span><i data-lucide="arrow-right" class="i"></i></button>
       </form>
-      <p class="login__alt">¿Aún no tienes cuenta? <a href="#/login?modo=registro${vistaPrevia ? '&vista=1' : ''}" data-login-modo="registro">Crear cuenta</a></p>
+      ${registroAbierto
+        ? `<p class="login__alt">¿Aún no tienes cuenta? <a href="#/login?modo=registro${vistaPrevia ? '&vista=1' : ''}" data-login-modo="registro">Crear cuenta</a></p>`
+        : '<p class="login__alt">El registro de cuentas nuevas está cerrado por ahora.</p>'}
     </div>`;
 
-  const formRegistro = `
+  const formRegistro = !registroAbierto ? `
+    <div class="login__modo" data-modo="registro">
+      <div class="login__intro"><span>Registro cerrado</span><h1>Por ahora no abrimos <em>cuentas nuevas.</em></h1><p>${esc(MENSAJE_REGISTRO_CERRADO)}</p></div>
+      <div class="login__demo-note" role="status"><i data-lucide="info" class="i"></i><p><strong>¿Ya eras miembro del club?</strong><span>Tu correo, tu contraseña y tu cuenta de Google siguen funcionando igual. Si olvidaste tu contraseña, puedes recuperarla.</span></p></div>
+      <p class="login__alt"><a href="#/login${vistaPrevia ? '?vista=1' : ''}" data-login-modo="entrar"><i data-lucide="arrow-left" class="i"></i>Iniciar sesión</a></p>
+    </div>` : `
     <div class="login__modo" data-modo="registro">
       <div class="login__intro"><span>Tu espacio profesional</span><h1>Comienza a formar <em>tu criterio.</em></h1><p>Crea tu acceso y descubre la experiencia educativa Dermalysse.</p></div>
       ${google}
@@ -54,7 +65,9 @@ export function login(_: Record<string, string>, query: URLSearchParams) {
       <p class="login__alt"><a href="#/login${vistaPrevia ? '?vista=1' : ''}" data-login-modo="entrar"><i data-lucide="arrow-left" class="i"></i>Volver a iniciar sesión</a></p>
     </div>`;
 
-  const demoBlock = demo ? `<div class="login__demo-note"><i data-lucide="flask-conical" class="i"></i><p><strong>Vista local de demostración</strong><span>Los botones abren el demo; no crean cuentas ni envían correos reales.</span></p></div>` : '';
+  const demoBlock = demo ? `<div class="login__demo-note"><i data-lucide="flask-conical" class="i"></i><p><strong>Vista local de demostración</strong><span>Los botones abren el demo; no crean cuentas ni envían correos reales.</span></p></div>`
+    : mantenimiento ? `<div class="login__demo-note" role="status"><i data-lucide="wrench" class="i"></i><p><strong>Club en mantenimiento</strong><span>Estamos haciendo mejoras. Por ahora solo el equipo de Dermalysse puede entrar; vuelve a intentar en unos minutos.</span></p></div>`
+    : '';
 
   return `
   <div class="login-page">

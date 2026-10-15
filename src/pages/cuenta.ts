@@ -42,19 +42,54 @@ export function perfil() {
   </section>`;
 }
 
+const ESPERA_PAGO_MS = [0, 2000, 3000, 4000, 5000, 6000];
+
+/**
+ * Tras volver de Stripe: consulta POST /stripe/confirmar hasta que la membresía esté activa
+ * (unos 20 s). Si no se confirma, deja un aviso honesto con opción de reintentar.
+ */
+export async function confirmarPagoStripe(tarjeta: HTMLElement, alActivar: () => void) {
+  if (tarjeta.dataset.consultando === '1') return;
+  tarjeta.dataset.consultando = '1';
+  const sessionId = tarjeta.dataset.confirmarPago || undefined;
+  const titulo = tarjeta.querySelector<HTMLElement>('[data-pago-titulo]');
+  const texto = tarjeta.querySelector<HTMLElement>('[data-pago-texto]');
+  let ultimoError = '';
+  for (const espera of ESPERA_PAGO_MS) {
+    if (espera) await new Promise((ok) => setTimeout(ok, espera));
+    if (!tarjeta.isConnected) return;
+    try {
+      const r = await api<{ activa?: boolean }>('/stripe/confirmar', { method: 'POST', json: sessionId ? { sessionId } : {} });
+      if (r.activa) {
+        try { await Auth.refrescarEstado(); } catch { /* el acceso se reconsulta al volver a entrar */ }
+        if (!tarjeta.isConnected) return;
+        history.replaceState(null, '', '#/suscripcion?pago=confirmado');
+        alActivar();
+        return;
+      }
+      ultimoError = '';
+    } catch (e) { ultimoError = mensajeError(e); }
+    if (texto && tarjeta.isConnected) texto.textContent = 'Seguimos esperando la confirmación de Stripe. No vuelvas a pagar.';
+  }
+  if (!tarjeta.isConnected) return;
+  tarjeta.dataset.consultando = '';
+  if (titulo) titulo.textContent = 'Tu pago sigue en confirmación';
+  if (texto) {
+    texto.textContent = `${ultimoError ? `${ultimoError} ` : ''}Si Stripe ya mostró el cobro como exitoso, no vuelvas a pagar: la membresía se activa en cuanto Stripe nos avise. `;
+    const reintentar = Object.assign(document.createElement('button'), { type: 'button', className: 'btn btn--secondary btn--sm', textContent: 'Consultar de nuevo' });
+    reintentar.addEventListener('click', () => { reintentar.remove(); if (titulo) titulo.textContent = 'Estamos confirmando tu pago'; void confirmarPagoStripe(tarjeta, alActivar); });
+    texto.append(reintentar);
+  }
+}
+
 export async function suscripcion(_params: Record<string, string>, query: URLSearchParams) {
   let avisoPago = '';
   const pago = query.get('pago');
   const sessionId = query.get('session_id');
-  if (Datos.modo === 'api' && pago === 'exito' && sessionId) {
-    try {
-      await api('/stripe/confirmar', { method: 'POST', json: { sessionId } });
-      await Auth.refrescarEstado();
-      avisoPago = `<div class="card card--pad row" style="gap:12px;border-color:color-mix(in srgb,var(--primary) 35%,var(--line));background:var(--primary-soft)"><span class="circle-btn" style="background:var(--primary);color:#fff"><i data-lucide="badge-check" class="i"></i></span><div><strong>Pago confirmado y membresía activa</strong><p class="muted" style="font-size:var(--fs-sm)">Ya puedes acceder al contenido VIP. Tu recibo y método de pago están disponibles en el portal de facturación.</p></div></div>`;
-      history.replaceState(null, '', '#/suscripcion?pago=confirmado');
-    } catch (e) {
-      avisoPago = `<div class="card card--pad row" style="gap:12px;border-color:var(--accent);background:var(--accent-soft)"><span class="circle-btn" style="color:var(--accent)"><i data-lucide="clock-3" class="i"></i></span><div><strong>Estamos confirmando tu pago</strong><p class="muted" style="font-size:var(--fs-sm)">${esc(mensajeError(e))} Si Stripe ya mostró el cobro como exitoso, no vuelvas a pagar; actualiza esta página en unos segundos.</p></div></div>`;
-    }
+  if (Datos.modo === 'api' && pago === 'exito') {
+    // Stripe regresa aquí antes de que el webhook active la membresía: main.ts consulta
+    // POST /stripe/confirmar unos segundos (confirmarPagoStripe) y actualiza esta tarjeta.
+    avisoPago = `<div class="card card--pad row pago-estado" data-confirmar-pago="${esc(sessionId || '')}" role="status" aria-live="polite" style="gap:12px;border-color:var(--accent);background:var(--accent-soft)"><span class="circle-btn" style="color:var(--accent)"><i data-lucide="clock-3" class="i"></i></span><div><strong data-pago-titulo>Estamos confirmando tu pago</strong><p class="muted" data-pago-texto style="font-size:var(--fs-sm)">Stripe nos avisa en unos segundos. No cierres esta página ni vuelvas a pagar.</p></div></div>`;
   } else if (pago === 'confirmado') {
     avisoPago = `<div class="card card--pad row" style="gap:12px;border-color:color-mix(in srgb,var(--primary) 35%,var(--line));background:var(--primary-soft)"><span class="circle-btn" style="background:var(--primary);color:#fff"><i data-lucide="badge-check" class="i"></i></span><div><strong>Pago confirmado</strong><p class="muted" style="font-size:var(--fs-sm)">Tu membresía VIP está activa.</p></div></div>`;
   } else if (pago === 'cancelado') {

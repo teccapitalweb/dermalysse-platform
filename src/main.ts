@@ -24,6 +24,7 @@ import './styles/admin-experiencia.css';
 import './styles/login.css';
 import './styles/logros.css';
 import './styles/academia.css';
+import './styles/produccion.css';
 import './styles/responsive.css';
 import { createIcons, icons } from 'lucide';
 import { route, startRouter, onRender, onBeforeRender, current, navigate, render } from './core/router';
@@ -40,7 +41,10 @@ import { esc } from './ui/partials';
 import { inicio } from './pages/inicio';
 import { catalogo } from './pages/cursos';
 import { curso } from './pages/curso';
-import { clase } from './pages/clase';
+import { clase, refrescarClaseEnSitio } from './pages/clase';
+import { montarReproductorApi, type Reproductor, type RespuestaEvento } from './ui/reproductor';
+import { cargarPlataforma, plataforma } from './core/plataforma';
+import { busquedaSinCodigo, hashVerificacionLegada } from './core/legado';
 import { alternarMaterialGuardado, biblioteca, material } from './pages/materiales';
 import { visor, montarVisor } from './pages/visor';
 import { envivo, toggleReserva } from './pages/envivo';
@@ -58,11 +62,11 @@ import { paginaBienvenida, paginaEncuestas } from './pages/experiencia';
 import { paginaAdminExperiencia, montarAdminExperiencia } from './admin/experiencia';
 import { VISIT_KEYS, ocultarChecklist } from './ui/checklist';
 import { certificados, certificado, certificadoMuestra, verificarCertificado } from './pages/certificados';
-import { limpiarCertificados, registrarCertificado, type CertificadoRemoto } from './core/certificados-remotos';
+import { emitirCertificado, limpiarCertificados } from './core/certificados-remotos';
 import { herramientas, montarHerramientas } from './pages/herramientas';
 import { paginaPraxia } from './pages/praxia';
 import { paginaRecompensas } from './pages/recompensas';
-import { perfil, suscripcion, configuracion, mas } from './pages/cuenta';
+import { perfil, suscripcion, configuracion, mas, confirmarPagoStripe } from './pages/cuenta';
 import { login } from './pages/login';
 import { adminCursos, adminCurso, adminQuizzes, adminQuiz, adminMateriales, adminMaterial, adminEnVivo, adminEvento } from './admin/contenido';
 import { adminResumen, adminMiembros, adminMiembro, adminComunidad, adminAvisos, adminAjustes } from './admin/gestion';
@@ -115,10 +119,31 @@ function montar(tipo: 'miembro' | 'admin' | 'solo') {
 }
 function remontar() { const t = shellActual; shellActual = null; if (t) montar(t); render(); }
 
+// ── Mantenimiento (GET /config): solo administración entra; el resto ve una pantalla honesta ──
+function pantallaMantenimiento() {
+  montar('solo');
+  const outlet = document.getElementById('outlet');
+  if (!outlet) return;
+  outlet.innerHTML = `<section class="mantenimiento" role="status">
+    <div class="mantenimiento__card">
+      <img src="/brand/dermalysse-horizontal.svg" alt="Dermalysse" class="mantenimiento__logo">
+      <span class="mantenimiento__ic"><i data-lucide="wrench" class="i"></i></span>
+      <h1>Club en mantenimiento</h1>
+      <p>Estamos haciendo mejoras en la plataforma. Tu cuenta, tu avance y tus certificados están a salvo; vuelve a intentar en unos minutos.</p>
+      <div class="mantenimiento__acciones"><button type="button" class="btn btn--brand" data-reintentar-club><i data-lucide="refresh-cw" class="i"></i>Volver a intentar</button><button type="button" class="btn btn--ghost" data-salir><i data-lucide="log-out" class="i"></i>Cerrar sesión</button></div>
+    </div>
+  </section>`;
+  createIcons({ icons });
+}
+
+// ── Reproductor de clase en modo API (avance real); se desmonta en cada cambio de ruta ──
+let reproductor: Reproductor | null = null;
+
 const invitacionExperiencia = (uid: string) => `dermalysse:experiencia:invitacion:v2:${uid}`;
 onBeforeRender(async (path) => {
   desmontarExperiencia?.(); desmontarExperiencia = null;
   desmontarAdminExperiencia?.(); desmontarAdminExperiencia = null;
+  reproductor?.desmontar(); reproductor = null;
   if (speechSynthesis.speaking) speechSynthesis.cancel();
   if (path.startsWith('/verificar/')) { montar('solo'); return true; }
   await Auth.iniciar();
@@ -129,6 +154,11 @@ onBeforeRender(async (path) => {
     montar('solo'); return true;
   }
   if (!u) { limpiarExperiencia(); sessionStorage.setItem('dermalysse:volver', location.hash.slice(1) || '/'); navigate('/login'); return false; }
+  if (Datos.modo === 'api') {
+    if (!u.esAdmin && (await cargarPlataforma()).mantenimiento) { pantallaMantenimiento(); return false; }
+    const errorEstado = Auth.tomarErrorEstado(); // una vez por inicio de sesión
+    if (errorEstado) toast(errorEstado, 'circle-alert');
+  }
   if (path.startsWith('/admin')) {
     if (!u.esAdmin) { toast('Tu cuenta no tiene acceso al panel de administración', 'shield-alert'); navigate('/'); return false; }
     try { await cargarAdmin(path); }
@@ -225,7 +255,12 @@ onRender(() => {
   const { path } = current();
   if (shellActual === 'admin') marcarAdminActivo(path); else marcarNavActivo(path);
   const crumb = document.querySelector('[data-crumb]'); if (crumb) crumb.textContent = document.querySelector('#outlet h1')?.textContent?.trim() || 'Administración';
-  cargarVideos();
+  if (Datos.modo === 'api') {
+    const video = document.querySelector<HTMLElement>('[data-video-api]');
+    if (video && !reproductor) reproductor = montarReproductorApi(video, { toast, alAcreditar: alAcreditarClase });
+    const pago = document.querySelector<HTMLElement>('[data-confirmar-pago]');
+    if (pago) void confirmarPagoStripe(pago, () => { remontar(); celebrar('grande'); toast('Pago confirmado. Tu membresía VIP está activa.', 'badge-check'); });
+  }
   if (path === '/') montarTicker();
   if (path.startsWith('/retos')) montarArcade();
   if (path.startsWith('/retos/historia')) montarHistoria();
@@ -259,17 +294,55 @@ onRender(() => {
   }
 });
 instalarAccionesAdmin(toast);
+// QR del club actual: club.dermalyssemx.com/verify.html?code=DRML-… → (redirección) → #/verificar/DRML-…
+const hashLegado = hashVerificacionLegada(location.search, location.hash);
+if (hashLegado) history.replaceState(null, '', `${location.pathname}${busquedaSinCodigo(location.search)}${hashLegado}`);
 startRouter();
 window.addEventListener('datos:cambio', (e) => { if ((e as CustomEvent).detail === 'avisos') actualizarNotifs(); });
 
-// ── Video: en modo api el backend firma el enlace de Bunny ──
-async function cargarVideos() {
-  if (Datos.modo === 'demo') return;
-  for (const f of document.querySelectorAll<HTMLIFrameElement>('iframe[data-video]:not([src])')) {
-    const [cursoId, n] = f.dataset.video!.split(':');
-    try { const r = await api<{ embedUrl: string }>('/video/token', { method: 'POST', json: { cursoId, n: Number(n) } }); f.src = r.embedUrl; }
-    catch (e: any) { f.replaceWith(Object.assign(document.createElement('div'), { className: 'player__error', textContent: e.status === 403 ? 'Esta clase es para miembros VIP.' : 'No se pudo cargar el video. Intenta de nuevo.' })); }
+// ── Avance real (modo API): el servidor acreditó una clase con eventos del reproductor ──
+function alAcreditarClase(cursoId: string, n: number, r: RespuestaEvento, evento: 'timeupdate' | 'pause' | 'ended') {
+  const c = getCurso(cursoId);
+  if (!c) return;
+  refrescarClaseEnSitio(cursoId, n);
+  createIcons({ icons });
+  celebrar('normal');
+  const completo = (Array.isArray(r.vistas) && c.clases.every((k) => r.vistas!.includes(k.n))) || Number(r.porcentaje) >= 100;
+  if (!completo) { toast('Clase acreditada. Ya puedes continuar con la siguiente.', 'circle-check'); return; }
+  // Curso completo: el servidor emite el certificado (409 si aún falta alguna clase).
+  // Si el video sigue en reproducción (85 %), no se interrumpe; al terminar se abre el certificado.
+  void abrirCertificado(cursoId, evento === 'ended');
+}
+
+// Stripe (modo API): la API delega al webhook actual (conserva metadata.source='dermalysse').
+async function irAStripe(boton: HTMLButtonElement, ruta: string, json?: unknown) {
+  if (boton.disabled) return;
+  boton.disabled = true;
+  boton.setAttribute('aria-busy', 'true');
+  try {
+    const r = await api<{ url?: string }>(ruta, { method: 'POST', ...(json !== undefined ? { json } : {}) });
+    let destino: URL | null = null;
+    try { destino = r.url ? new URL(r.url) : null; } catch { destino = null; }
+    if (!destino || destino.protocol !== 'https:') throw new Error('Stripe no devolvió un enlace válido. Intenta de nuevo en un momento.');
+    toast('Abriendo Stripe de forma segura…', 'credit-card');
+    location.href = destino.toString();
+  } catch (err) {
+    toast(mensajeError(err), 'alert-triangle');
+    boton.disabled = false;
+    boton.removeAttribute('aria-busy');
   }
+}
+
+async function abrirCertificado(cursoId: string, navegar: boolean, boton?: HTMLButtonElement) {
+  if (boton) boton.disabled = true;
+  try {
+    const cert = await emitirCertificado(cursoId);
+    celebrar('grande');
+    toast('¡Curso completado! Tu certificado verificable está listo.', 'award');
+    if (navegar) navigate(`/certificados/${encodeURIComponent(cert.folio)}`);
+  } catch (err: any) {
+    toast(err?.status === 409 ? 'Aún falta acreditar alguna clase del curso para emitir el certificado.' : `No se pudo emitir el certificado: ${mensajeError(err)}`, 'circle-alert');
+  } finally { if (boton) boton.disabled = false; }
 }
 
 // ── Notificaciones (avisos publicados desde el admin) ──
@@ -596,17 +669,16 @@ document.addEventListener('click', async (e) => {
     tab.closest('[data-tabs]')?.querySelectorAll<HTMLElement>('[data-tab]').forEach((p) => (p.hidden = p.dataset.tab !== tab.dataset.for));
   }
 
-  const marcar = el.closest<HTMLElement>('[data-marcar-vista]');
+  const emitir = el.closest<HTMLButtonElement>('[data-emitir-certificado]');
+  if (emitir && Datos.modo === 'api') { if (!emitir.disabled) await abrirCertificado(emitir.dataset.emitirCertificado!, true, emitir); return; }
+  if (el.closest('[data-reintentar-club]')) { await cargarPlataforma(true); render(); return; }
+
+  // «Marcar vista» existe solo en demo. En modo API la clase se acredita con eventos reales del reproductor.
+  const marcar = Datos.modo === 'demo' ? el.closest<HTMLElement>('[data-marcar-vista]') : null;
   if (marcar) {
     const [id, n] = marcar.dataset.marcarVista!.split(':');
     const c = getCurso(id);
     const yaEstabaVista = Progreso.de(id).vistas.includes(Number(n));
-    if (Datos.modo === 'api') {
-      try {
-        const respuesta = await api<{ certificado?: CertificadoRemoto }>(`/progreso/${id}/vista`, { method: 'POST', json: { n: Number(n) } });
-        if (respuesta.certificado) registrarCertificado(respuesta.certificado);
-      } catch (err) { toast(mensajeError(err), 'alert-triangle'); return; }
-    }
     Progreso.marcarVista(id, Number(n));
     const hayNext = c && c.clases.some((k) => k.n === Number(n) + 1);
     if (!yaEstabaVista) celebrar('normal');
@@ -686,13 +758,14 @@ document.addEventListener('click', async (e) => {
   const aviso = el.closest<HTMLElement>('[data-aviso]');
   if (aviso) { const p = Perfil.get(); const k = aviso.dataset.aviso as keyof typeof p.avisos; p.avisos[k] = !p.avisos[k]; Perfil.set({ avisos: p.avisos }); aviso.setAttribute('aria-checked', String(p.avisos[k])); }
 
-  const plan = el.closest<HTMLElement>('[data-cambiar-plan]');
+  const plan = el.closest<HTMLButtonElement>('[data-cambiar-plan]');
   if (plan) {
-    if (Datos.modo === 'api') { try { const r = await api<{ url: string }>('/stripe/checkout', { method: 'POST', json: { plan: plan.dataset.cambiarPlan } }); location.href = r.url; } catch (err) { toast(mensajeError(err), 'alert-triangle'); } }
+    if (Datos.modo === 'api') { await irAStripe(plan, '/stripe/checkout', { plan: plan.dataset.cambiarPlan }); }
     else toast('En el demo no se cobra. Con el backend conectado abre el pago seguro de Stripe.', 'credit-card');
   }
-  if (el.closest('[data-portal-stripe]')) {
-    if (Datos.modo === 'api') { try { const r = await api<{ url: string }>('/stripe/portal', { method: 'POST' }); location.href = r.url; } catch (err) { toast(mensajeError(err), 'alert-triangle'); } }
+  const portal = el.closest<HTMLButtonElement>('[data-portal-stripe]');
+  if (portal) {
+    if (Datos.modo === 'api') { await irAStripe(portal, '/stripe/portal'); }
     else toast('El portal de facturación de Stripe se abre con el backend conectado.', 'credit-card');
   }
 
@@ -749,7 +822,8 @@ document.addEventListener('click', async (e) => {
   }
   // Login
   if (el.closest('[data-login-demo]')) { await Auth.entrarDemo(); remontarDesdeLogin(); }
-  if (el.closest('[data-login-google]')) { try { await Auth.entrarGoogle(); remontarDesdeLogin(); } catch (err) { mostrarErrorLogin(err); } }
+  // Sin await antes de la ventana de Google (los navegadores bloquean popups diferidos): /config ya se leyó al pintar el login.
+  if (el.closest('[data-login-google]')) { try { await Auth.entrarGoogle(plataforma().registroAbierto); remontarDesdeLogin(); } catch (err) { mostrarErrorLogin(err); } }
   if (el.closest('[data-salir]')) { await Auth.salir(); limpiarCertificados(); limpiarExperiencia(); shellActual = null; navigate('/login'); }
 
   // ── Notas interactivas ──
@@ -758,6 +832,8 @@ document.addEventListener('click', async (e) => {
     const t = seekBtn.dataset.seekTime!;
     const [m, s] = t.split(':').map(Number);
     const seconds = (m || 0) * 60 + (s || 0);
+    // API: salta con player.js sin recargar el video firmado (conserva la sesión de avance).
+    if (reproductor?.buscar(seconds)) return;
     const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-video]');
     if (iframe?.src) {
       const url = new URL(iframe.src);
@@ -911,7 +987,7 @@ document.addEventListener('submit', async (e) => {
     try {
       const modo = f.dataset.loginForm;
       if (modo === 'entrar') await Auth.entrarCorreo(String(d.get('email')), String(d.get('pass')));
-      if (modo === 'registro') await Auth.registrar(String(d.get('nombre')).trim(), String(d.get('email')), String(d.get('pass')));
+      if (modo === 'registro') await Auth.registrar(String(d.get('nombre')).trim(), String(d.get('email')), String(d.get('pass')), (await cargarPlataforma()).registroAbierto);
       if (modo === 'recuperar') {
         await Auth.recuperar(String(d.get('email'))); toast('Te enviamos un correo para crear tu contraseña', 'mail');
         const panel = document.querySelector<HTMLElement>('[data-login-panel]');

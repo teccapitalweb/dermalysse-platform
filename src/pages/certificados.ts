@@ -6,6 +6,7 @@ import { Datos } from '../core/datos';
 import { api, mensajeError } from '../core/auth';
 import { cargarCertificados, type CertificadoRemoto } from '../core/certificados-remotos';
 import { esc, placeholder } from '../ui/partials';
+import { anioFolio, normalizarFolio } from '../core/legado';
 
 // El backend sustituirá este folio provisional por el folio oficial emitido.
 export function folio(c: Curso) {
@@ -52,7 +53,7 @@ async function plantillaCertificado(d: CertData) {
     color: { dark: '#0b2435', light: '#ffffff' },
   });
   const areaIcon = iconoArea(d.area);
-  const anio = /DRM-(\d{4})/i.exec(d.folio)?.[1] || String(new Date().getFullYear());
+  const anio = anioFolio(d.folio) || String(new Date().getFullYear());
   return `<article class="cert-final ${d.muestra ? 'is-sample' : ''}" id="cert">
     <button class="cert-final__close" data-cert-close aria-label="Cerrar vista ampliada"><i data-lucide="x" class="i"></i></button>
     <div class="cert-final__security cert-final__security--top">DERMALYSSE · FORMACIÓN CONTINUA · CONOCIMIENTO QUE SE TRANSFORMA EN CRITERIO ·</div>
@@ -187,7 +188,7 @@ export async function certificado(params: Record<string, string>) {
   if (Datos.modo === 'api') {
     let lista: CertificadoRemoto[];
     try { lista = await cargarCertificados(); }
-    catch (e) { return placeholder('No pudimos abrir el certificado', mensajeError(e), 'cloud-off'); }
+    catch (e) { return placeholder('No pudimos abrir el certificado', esc(mensajeError(e)), 'cloud-off'); }
     const remoto = lista.find((c) => c.folio.toUpperCase() === params.id.toUpperCase());
     if (!remoto) return placeholder('Certificado no disponible', 'No encontramos un certificado emitido con ese folio en tu cuenta.', 'lock');
     const c = getCurso(remoto.cursoId);
@@ -208,13 +209,22 @@ export async function certificado(params: Record<string, string>) {
   return paginaCertificado({ nombre: p.nombre, curso: c.titulo, area: c.area, nivel: c.nivel, duracion: duracionCurso(c), clases: c.clases.length, fecha: fechaLarga(Progreso.de(c.id).actualizado), folio: folio(c) });
 }
 
-interface VerificacionPublica { valido: boolean; folio: string; nombre: string; cursoTitulo: string; emitido: string }
+// La API acepta el folio del club actual (DRML-YYYY-XXXXXXXXXXXX); `curso` es el nombre del contrato nuevo.
+interface VerificacionPublica { valido: boolean; folio: string; nombre: string; cursoTitulo?: string; curso?: string; emitido: string }
 
 export async function verificarCertificado(params: Record<string, string>) {
   let resultado: VerificacionPublica | null = null;
   let error = '';
-  try { resultado = await api<VerificacionPublica>(`/verificar/${encodeURIComponent(params.folio)}`); }
-  catch (e) { error = mensajeError(e); }
+  const folioConsultado = normalizarFolio(params.folio);
+  if (!folioConsultado) error = 'El folio no tiene un formato válido.';
+  else if (Datos.modo !== 'api') error = 'La verificación pública se consulta en el club conectado.';
+  else {
+    try {
+      resultado = await api<VerificacionPublica>(`/verificar/${encodeURIComponent(folioConsultado)}`);
+      if (resultado) resultado.cursoTitulo = resultado.cursoTitulo || resultado.curso || '';
+    }
+    catch (e: any) { error = e?.status === 404 ? 'No existe un certificado con ese folio.' : mensajeError(e); }
+  }
   return `<section class="cert-verify-page">
     <div class="cert-verify-card">
       <img class="cert-verify-card__logo" src="/brand/dermalysse-horizontal.svg" alt="Dermalysse">
@@ -222,7 +232,7 @@ export async function verificarCertificado(params: Record<string, string>) {
         <span class="eyebrow">Verificación pública</span>
         <h1>${esc(resultado.nombre)}</h1>
         <p>Completó satisfactoriamente</p>
-        <h2>${esc(resultado.cursoTitulo)}</h2>
+        <h2>${esc(resultado.cursoTitulo || '')}</h2>
         <dl><div><dt>Folio</dt><dd>${esc(resultado.folio)}</dd></div><div><dt>Fecha de emisión</dt><dd>${fechaLarga(resultado.emitido)}</dd></div></dl>`
       : `<div class="cert-verify-card__status is-invalid"><i data-lucide="shield-x" class="i"></i><span>No se pudo validar<strong>${esc(error || 'El certificado no existe.')}</strong></span></div>
         <h1>Certificado no encontrado</h1><p>Revisa el folio o solicita al titular que comparta nuevamente su certificado.</p>`}

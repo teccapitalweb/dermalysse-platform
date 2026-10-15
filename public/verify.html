@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Verificar certificado · Dermalysse</title>
+  <!--
+    Compatibilidad con los QR impresos del club actual (club.dermalyssemx.com/verify.html?code=DRML-…).
+    Cuando ese dominio sirva esta plataforma, esta página lleva a club/#/verificar/<folio>.
+    Ruta relativa: funciona en la raíz del dominio y bajo la base de GitHub Pages.
+  -->
+  <script>
+    (function () {
+      var code = '';
+      try { code = String(new URLSearchParams(location.search).get('code') || ''); } catch (e) { code = ''; }
+      code = code.trim().toUpperCase().replace(/\s+/g, '');
+      var destino = /^[A-Z0-9][A-Z0-9-]{2,63}$/.test(code) ? 'club/#/verificar/' + encodeURIComponent(code) : 'club/';
+      location.replace(destino);
+    })();
+  </script>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: system-ui, sans-serif; background: #f7f2ec; color: #1b1f33; }
+    a { color: #681c31; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <p>Abriendo la verificación del certificado… Si no avanza, <a href="club/">entra al Club Dermalysse</a>.</p>
+</body>
+</html>

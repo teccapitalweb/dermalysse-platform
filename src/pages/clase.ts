@@ -1,4 +1,4 @@
-import { curso as getCurso, LIBRARY_ID, fmtMin } from '../core/catalogo';
+import { curso as getCurso, LIBRARY_ID, fmtMin, type Curso } from '../core/catalogo';
 import { Progreso } from '../core/progreso';
 import { esc, placeholder } from '../ui/partials';
 import { Datos, type Clase } from '../core/datos';
@@ -102,6 +102,73 @@ function quizHTML(cursoId: string, n: number, clase: Clase) {
   </section>`;
 }
 
+// ── Piezas de la clase que se repintan en sitio cuando el servidor acredita (modo API) ──
+// En modo API nunca hay botón manual: la clase se acredita con eventos reales del reproductor.
+
+function accionesHTML(c: Curso, n: number) {
+  const api = Datos.modo === 'api';
+  const vista = Progreso.de(c.id).vistas.includes(n);
+  const prev = c.clases.find((x) => x.n === n - 1);
+  const next = c.clases.find((x) => x.n === n + 1);
+  const anterior = prev ? `<a class="btn btn--secondary" href="#/curso/${c.id}/clase/${prev.n}"><i data-lucide="chevron-left" class="i"></i>Anterior</a>` : '';
+  if (vista) {
+    if (next) return `${anterior}<a class="btn btn--brand btn--pill-arrow" href="#/curso/${c.id}/clase/${next.n}">Siguiente clase <span class="arrow"><i data-lucide="arrow-right" class="i"></i></span></a>`;
+    if (api && Progreso.completado(c)) return `${anterior}<button type="button" class="btn btn--gradient btn--pill-arrow" data-emitir-certificado="${esc(c.id)}">Ver mi certificado <span class="arrow"><i data-lucide="award" class="i"></i></span></button>`;
+    return `${anterior}<a class="btn btn--gradient btn--pill-arrow" href="#/curso/${c.id}">Curso completado <span class="arrow"><i data-lucide="award" class="i"></i></span></a>`;
+  }
+  if (api) return `${anterior}<span class="chip chip--outline lesson-pendiente"><i data-lucide="circle-play" class="i"></i>Reproduce la clase para avanzar</span>`;
+  return `${anterior}<button class="btn btn--brand btn--pill-arrow" data-marcar-vista="${c.id}:${n}">Marcar vista y seguir <span class="arrow"><i data-lucide="arrow-right" class="i"></i></span></button>`;
+}
+
+function progresoHTML(c: Curso) {
+  return `<div class="progress progress--thin"><span style="width:${Progreso.porcentaje(c)}%"></span></div>${Progreso.de(c.id).vistas.length} de ${c.clases.length} vistas · ${Progreso.porcentaje(c)}%`;
+}
+
+function upnextHTML(c: Curso, n: number) {
+  const api = Datos.modo === 'api';
+  const vista = Progreso.de(c.id).vistas.includes(n);
+  const next = c.clases.find((x) => x.n === n + 1);
+  if (next) return `
+        <div class="upnext" data-clase-upnext>
+          <div class="upnext__thumb"><img src="${c.portada}" alt=""><i data-lucide="${Progreso.desbloqueada(c, next.n) || vista ? 'play' : 'lock'}" class="i"></i></div>
+          <div><span class="eyebrow">A continuación · clase ${next.n}</span><div class="upnext__title">${esc(next.titulo)}</div><p class="faint" style="font-size:var(--fs-xs);margin-top:4px">${vista ? 'Ya puedes verla.' : api ? 'Se desbloquea cuando esta clase queda acreditada (85 % reproducido).' : 'Se desbloquea al marcar esta clase como vista.'}</p></div>
+          ${vista ? `<a class="circle-btn" href="#/curso/${c.id}/clase/${next.n}" aria-label="Ir a la siguiente"><i data-lucide="arrow-right" class="i"></i></a>` : `<span class="circle-btn" style="background:var(--surface-3);color:var(--text-3)"><i data-lucide="lock" class="i"></i></span>`}
+        </div>`;
+  return `
+        <div class="upnext" data-clase-upnext style="background:var(--accent-soft);border-color:transparent">
+          <span class="circle-btn" style="background:var(--accent);width:56px;height:56px"><i data-lucide="graduation-cap" class="i" style="width:24px;height:24px"></i></span>
+          <div><span class="eyebrow">Última clase</span><div class="upnext__title">${api
+            ? (vista && Progreso.completado(c) ? 'Curso completado. Tu certificado verificable está listo.' : 'Al acreditar esta clase completas el curso y se emite tu certificado verificable.')
+            : 'Al marcarla como vista, accedes a la evaluación final para obtener tu certificado.'}</div></div>
+        </div>`;
+}
+
+function temarioHTML(c: Curso, n: number) {
+  return c.clases.map((x) => {
+    const v = Progreso.de(c.id).vistas.includes(x.n);
+    const abierta = Progreso.desbloqueada(c, x.n);
+    const actual = x.n === n;
+    const style = actual ? 'color:var(--primary);font-weight:600' : v ? '' : abierta ? '' : 'opacity:.5';
+    const inner = `<span class="mono faint" style="width:22px">${v ? '✓' : x.n}</span>${esc(x.titulo)}`;
+    return abierta ? `<a href="#/curso/${c.id}/clase/${x.n}" class="row" style="gap:10px;${style};color:inherit;flex-wrap:nowrap">${inner}</a>`
+                   : `<div class="row" style="gap:10px;${style};flex-wrap:nowrap"><i data-lucide="lock" class="i" style="width:14px;height:14px"></i>${esc(x.titulo)}</div>`;
+  }).join('');
+}
+
+/** Repinta acciones, avance, «a continuación» y temario sin recargar el reproductor. */
+export function refrescarClaseEnSitio(cursoId: string, n: number) {
+  const c = getCurso(cursoId);
+  if (!c) return;
+  const acciones = document.querySelector<HTMLElement>('[data-clase-acciones]');
+  if (acciones) acciones.innerHTML = accionesHTML(c, n);
+  const progreso = document.querySelector<HTMLElement>('[data-clase-progreso]');
+  if (progreso) progreso.innerHTML = progresoHTML(c);
+  const upnext = document.querySelector<HTMLElement>('[data-clase-upnext]');
+  if (upnext) upnext.outerHTML = upnextHTML(c, n);
+  const temario = document.querySelector<HTMLElement>('[data-clase-temario]');
+  if (temario) temario.innerHTML = temarioHTML(c, n);
+}
+
 export function clase(params: Record<string, string>) {
   const c = getCurso(params.id);
   const n = Number(params.n);
@@ -127,15 +194,16 @@ export function clase(params: Record<string, string>) {
     </section>`;
   }
   Progreso.abrirClase(c.id, n);
-  const vista = Progreso.de(c.id).vistas.includes(n);
-  const prev = c.clases.find((x) => x.n === n - 1);
-  const next = c.clases.find((x) => x.n === n + 1);
+  const api = Datos.modo === 'api';
 
-  // Provisional: embed directo. En Fase 2 el backend firma la URL (token + expires).
+  // Demo: embed directo (sin ids productivos). API: el servidor firma la URL de Bunny (los videoId
+  // solo viven en el servidor) y src/ui/reproductor.ts monta el iframe y reporta el avance.
   const embed = `https://iframe.mediadelivery.net/embed/${LIBRARY_ID}/${k.videoId}?autoplay=false&preload=true&responsive=true`;
   const videoDisponible = Boolean(LIBRARY_ID && k.videoId);
-  const reproductor = videoDisponible
-    ? `<iframe ${Datos.modo === 'demo' ? `src="${embed}"` : ''} data-video="${c.id}:${n}" loading="lazy" style="border:0;position:absolute;inset:0;width:100%;height:100%" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen></iframe>`
+  const reproductor = api
+    ? `<div class="player-api" data-video-api="${esc(c.id)}:${n}"><div class="player-estado" role="status"><span class="player-estado__ic"><i data-lucide="loader-circle" class="i"></i></span><strong>Preparando reproducción segura…</strong><p>Verificamos tu acceso a esta clase.</p></div></div>`
+    : videoDisponible
+    ? `<iframe src="${embed}" data-video="${c.id}:${n}" loading="lazy" style="border:0;position:absolute;inset:0;width:100%;height:100%" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen></iframe>`
     : `<div class="player__pending" style="position:absolute;inset:0;background:#0a0d18 center/cover no-repeat;background-image:url('${c.portada}')">
         <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,13,24,.35) 0%, rgba(10,13,24,.86) 70%)"></div>
         <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;text-align:center;padding:24px;color:#fff">
@@ -146,16 +214,6 @@ export function clase(params: Record<string, string>) {
         </div>
       </div>`;
 
-  const temario = c.clases.map((x) => {
-    const v = Progreso.de(c.id).vistas.includes(x.n);
-    const abierta = Progreso.desbloqueada(c, x.n);
-    const actual = x.n === n;
-    const style = actual ? 'color:var(--primary);font-weight:600' : v ? '' : abierta ? '' : 'opacity:.5';
-    const inner = `<span class="mono faint" style="width:22px">${v ? '✓' : x.n}</span>${esc(x.titulo)}`;
-    return abierta ? `<a href="#/curso/${c.id}/clase/${x.n}" class="row" style="gap:10px;${style};color:inherit;flex-wrap:nowrap">${inner}</a>`
-                   : `<div class="row" style="gap:10px;${style};flex-wrap:nowrap"><i data-lucide="lock" class="i" style="width:14px;height:14px"></i>${esc(x.titulo)}</div>`;
-  }).join('');
-
   return `
   <section class="stack" style="gap:20px">
     <a class="section-head__cta" href="#/curso/${c.id}" style="align-self:flex-start"><span class="circle-btn circle-btn--glass" style="width:34px;height:34px"><i data-lucide="arrow-left" class="i" style="width:15px;height:15px"></i></span>${esc(c.titulo)}</a>
@@ -164,31 +222,19 @@ export function clase(params: Record<string, string>) {
         <div class="player" style="aspect-ratio:16/9;background:#0a0d18">
           ${reproductor}
         </div>
+        ${api ? '<p class="video-avance" data-video-estado role="status" aria-live="polite" hidden></p>' : ''}
         <div class="row" style="justify-content:space-between;align-items:flex-start">
           <div><span class="eyebrow">Clase ${n} de ${c.clases.length}${k.duracion ? ' · ' + fmtMin(k.duracion) : ''}</span><h1 class="display" style="font-size:var(--fs-xl);margin-top:4px">${esc(k.titulo)}</h1>
-            <div class="lesson-progress" style="margin-top:8px"><div class="progress progress--thin"><span style="width:${Progreso.porcentaje(c)}%"></span></div>${Progreso.de(c.id).vistas.length} de ${c.clases.length} vistas · ${Progreso.porcentaje(c)}%</div></div>
-          <div class="row" style="flex-wrap:nowrap">
-            ${prev ? `<a class="btn btn--secondary" href="#/curso/${c.id}/clase/${prev.n}"><i data-lucide="chevron-left" class="i"></i>Anterior</a>` : ''}
-            ${vista
-              ? (next ? `<a class="btn btn--brand btn--pill-arrow" href="#/curso/${c.id}/clase/${next.n}">Siguiente clase <span class="arrow"><i data-lucide="arrow-right" class="i"></i></span></a>`
-                      : `<a class="btn btn--gradient btn--pill-arrow" href="#/curso/${c.id}">Curso completado <span class="arrow"><i data-lucide="award" class="i"></i></span></a>`)
-              : `<button class="btn btn--brand btn--pill-arrow" data-marcar-vista="${c.id}:${n}">Marcar vista y seguir <span class="arrow"><i data-lucide="arrow-right" class="i"></i></span></button>`}
+            <div class="lesson-progress" data-clase-progreso style="margin-top:8px">${progresoHTML(c)}</div></div>
+          <div class="row${api ? ' lesson-acciones' : ''}" data-clase-acciones style="flex-wrap:nowrap">
+            ${accionesHTML(c, n)}
           </div>
         </div>
-        ${next ? `
-        <div class="upnext">
-          <div class="upnext__thumb"><img src="${c.portada}" alt=""><i data-lucide="${Progreso.desbloqueada(c, next.n) || vista ? 'play' : 'lock'}" class="i"></i></div>
-          <div><span class="eyebrow">A continuación · clase ${next.n}</span><div class="upnext__title">${esc(next.titulo)}</div><p class="faint" style="font-size:var(--fs-xs);margin-top:4px">${vista ? 'Ya puedes verla.' : 'Se desbloquea al marcar esta clase como vista.'}</p></div>
-          ${vista ? `<a class="circle-btn" href="#/curso/${c.id}/clase/${next.n}" aria-label="Ir a la siguiente"><i data-lucide="arrow-right" class="i"></i></a>` : `<span class="circle-btn" style="background:var(--surface-3);color:var(--text-3)"><i data-lucide="lock" class="i"></i></span>`}
-        </div>` : `
-        <div class="upnext" style="background:var(--accent-soft);border-color:transparent">
-          <span class="circle-btn" style="background:var(--accent);width:56px;height:56px"><i data-lucide="graduation-cap" class="i" style="width:24px;height:24px"></i></span>
-          <div><span class="eyebrow">Última clase</span><div class="upnext__title">Al marcarla como vista, accedes a la evaluación final para obtener tu certificado.</div></div>
-        </div>`}
+        ${upnextHTML(c, n)}
       </div>
       <div class="card card--pad stack" data-tabs style="gap:16px">
         <div class="tabs"><button data-for="temario" class="is-active">Temario</button><button data-for="notas">Notas</button><button data-for="quiz">Quiz</button></div>
-        <div data-tab="temario" class="stack" style="gap:10px;font-size:var(--fs-sm)">${temario}</div>
+        <div data-tab="temario" data-clase-temario class="stack" style="gap:10px;font-size:var(--fs-sm)">${temarioHTML(c, n)}</div>
         <div data-tab="notas" hidden class="stack" style="gap:10px">${notasHTML(k, c.id, n)}</div>
         <div data-tab="quiz" hidden class="stack" style="gap:12px">${quizHTML(c.id, n, k)}</div>
       </div>

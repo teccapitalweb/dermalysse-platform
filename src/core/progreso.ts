@@ -33,6 +33,21 @@ export const Progreso = {
     all[cursoId] = p; escribir(all);
     if (nueva) window.dispatchEvent(new CustomEvent('progreso:cambio', { detail: { cursoId, clase: n } }));
   },
+  /**
+   * Modo API: el servidor acredita las clases con eventos reales del reproductor y devuelve
+   * la lista completa de clases vistas. Aquí solo se refleja; nunca se acredita en el cliente.
+   * Devuelve las clases que el servidor acaba de acreditar.
+   */
+  sincronizarCurso(cursoId: string, vistas: number[]): number[] {
+    const all = leer(); const p = all[cursoId] || { vistas: [], ultima: 1, actualizado: '' };
+    const limpias = [...new Set(vistas.filter((n) => Number.isInteger(n) && n > 0))].sort((a, b) => a - b);
+    const nuevas = limpias.filter((n) => !p.vistas.includes(n));
+    p.vistas = limpias;
+    if (nuevas.length) { (p.historial ||= []).push(...nuevas.map(() => new Date().toISOString())); p.actualizado = new Date().toISOString(); }
+    all[cursoId] = p; escribir(all);
+    nuevas.forEach((clase) => window.dispatchEvent(new CustomEvent('progreso:cambio', { detail: { cursoId, clase } })));
+    return nuevas;
+  },
   abrirClase(cursoId: string, n: number) {
     const all = leer(); const p = all[cursoId] || { vistas: [], ultima: n, actualizado: '' };
     p.ultima = n; p.actualizado = new Date().toISOString(); all[cursoId] = p; escribir(all);
