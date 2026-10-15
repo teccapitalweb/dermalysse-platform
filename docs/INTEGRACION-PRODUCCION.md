@@ -62,17 +62,25 @@ Decisión del propietario (15 de octubre de 2026): publicar el club nuevo con **
 | `/academia…` | contrato actual | | `v2_academia_progreso`, `v2_academia_intentos`, `v2_academia_revisiones`, `v2_academia_lanzamiento` |
 | GET `/historia` | — | `{completados: string[], puntajes: {[idNivel]: 0–100}, ultimoNivel, actualizado}` (vacío si no hay) | `v2_historia/{uid}` |
 | PATCH `/historia` | misma forma (campos opcionales) | avance fusionado: unión de completados, máximo de puntajes, `ultimoNivel` de la fuente más reciente; nunca retrocede. 400 si tipos o tamaño inválidos | `v2_historia/{uid}` (transacción) |
+| GET `/recompensas` | — | `{recompensas: [{id, nombre, descripcion, icono, progreso, meta, completado, canjeado, canjeadoEn, premio:{duracion, dias}}]}`; reglas y progreso calculados en el servidor | `users.progress` + `courses` publicados, `v2_historia`, `forum` (authorUid), `certificates` (valid), `v2_recompensas/{uid}` |
+| POST `/recompensas/:id/canjear` | — | `{ok, hasta, regaloDesde, dias, recompensa}`; 403 `recompensa/incompleta`, 404, 409 `recompensa/canjeada` | transacción: `v2_recompensas/{uid}` + `users.vigenciaHasta/regaloDesde` + `v2_vip_bitacora` |
+| POST `/cupones/canjear` | `{codigo}` | `{ok, codigo, dias, hasta, regaloDesde}`; 404 `cupon/no-existe`, 409 `cupon/inactivo`\|`cupon/ya-usado`\|`cupon/agotado`, 410 `cupon/vencido` | transacción: `v2_cupones/{CODIGO}` (+ `canjes/{uid}`) + `users` + `v2_vip_bitacora` |
+| GET `/admin/cupones` (admin) | — | `[{codigo, loteId, duracion, dias, maxUsos, usos, activo, creadoEn, venceEn}]` | `v2_cupones` |
+| POST `/admin/cupones` (admin) | `{duracion: '15d'\|'1m'\|'3m'\|'1y'\|'personalizada', dias?, modalidad: 'compartido'\|'individuales', cantidad (1–100), idempotencia?, venceEn?}` | 201 `{id, modalidad, cantidad, duracion, dias, codigos, creadoEn}` (misma `idempotencia` ⇒ mismo lote) | `v2_cupones`, `v2_cupones_lotes` |
+| PATCH `/admin/cupones/:codigo` (admin) | `{activo: boolean}` | cupón actualizado | `v2_cupones/{CODIGO}` |
+
+Días VIP de recompensas y cupones: solo `api/src/services/vip.ts` (extiende desde la cortesía vigente; nunca toca `subscription`). «1 mes» = 30 días, «1 año» = 365; máximo 366 días por otorgamiento.
 
 ### Funciones apagadas en producción
 
-Sin backend en producción y/o con decisión comercial pendiente (otorgan días VIP). En modo API se ocultan del menú, de «Más» y de Inicio, y sus rutas muestran «Próximamente en el club»; en demo siguen igual. Interruptores en `src/core/funciones.ts` (`EN_PRODUCCION`); habilitar una es cambiar su valor a `true` cuando exista su backend:
+Sin backend en producción y/o con decisión comercial pendiente. En modo API se ocultan del menú, de «Más» y de Inicio, y sus rutas muestran «Próximamente en el club»; en demo siguen igual. Interruptores en `src/core/funciones.ts` (`EN_PRODUCCION`); habilitar una es cambiar su valor a `true` cuando exista su backend:
 
 | Función | Qué se oculta | Backend que falta |
 | --- | --- | --- |
-| `recompensas` | `#/recompensas`, menú, «Más», acceso de Inicio, botón Canjear | `GET /recompensas`, `POST /recompensas/:id/canjear` |
-| `cupones` | formulario de canje en `#/suscripcion` | `POST /cupones/canjear` |
 | `experiencia` | `#/bienvenida`, `#/encuestas`, redirección de bienvenida, tarjeta de Inicio, resumen en Perfil | `/me/experiencia…`, `/me/entrevista…`, `/me/encuesta…` |
-| `adminGestion` | todo el admin nuevo salvo Academia; tarjeta al panel actual si hay `VITE_ADMIN_LEGADO_URL` | `/admin/*` (salvo `/admin/academia`) |
+| `adminGestion` | todo el admin nuevo salvo Academia; tarjeta al panel actual si hay `VITE_ADMIN_LEGADO_URL` | `/admin/*` (salvo `/admin/academia` y `/admin/cupones`, que ya existen) |
+
+Encendidas (15 de octubre de 2026, decisión del propietario): `recompensas` (`#/recompensas`, menú, «Más», Inicio, botón Canjear) y `cupones` (canje en `#/suscripcion`), con el backend de la tabla de contrato. Mientras `adminGestion` siga apagado, los cupones se crean con la API (`POST /admin/cupones`) o encendiendo esa función.
 
 ## 4. Lo que debe aportar el propietario (solo nombres; nunca valores en el repo)
 

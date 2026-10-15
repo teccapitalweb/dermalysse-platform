@@ -13,13 +13,13 @@ export const FUNCIONES = {
     nombre: 'Recompensas',
     // Página #/recompensas, enlace en la barra lateral, «Más» y accesos de Inicio; botón «Canjear».
     backend: 'GET /recompensas · POST /recompensas/:id/canjear',
-    motivo: 'Otorga días VIP: decisión comercial pendiente del propietario.',
+    motivo: 'Otorga días VIP con las reglas aprobadas por el propietario (api/src/services/recompensas.ts).',
   },
   cupones: {
     nombre: 'Canje de cupones',
     // Formulario «¿Tienes un cupón de acceso?» en #/suscripcion.
     backend: 'POST /cupones/canjear',
-    motivo: 'Otorga días VIP: decisión comercial pendiente del propietario.',
+    motivo: 'Otorga días VIP con cupones creados por el admin (api/src/services/cupones.ts).',
   },
   experiencia: {
     nombre: 'Bienvenida y encuestas',
@@ -41,8 +41,8 @@ export type Funcion = keyof typeof FUNCIONES;
 
 /** Interruptores de producción. `true` = visible y activa con VITE_API_URL. */
 export const EN_PRODUCCION: Record<Funcion, boolean> = {
-  recompensas: false,
-  cupones: false,
+  recompensas: true,
+  cupones: true,
   experiencia: false,
   adminGestion: false,
 };
