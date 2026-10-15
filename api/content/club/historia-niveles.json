@@ -1,0 +1,15 @@
+{
+  "_nota": "Ids de los niveles reales del Modo Historia (copiados de src/data/casos.json). El progreso de las recompensas solo cuenta estos; impide inflar nivelesHistoria con ids inventados por PATCH /historia.",
+  "niveles": [
+    "fototipo-ii-fotoproteccion",
+    "primera-consulta-cosmiatria",
+    "etiqueta-cosmetica-incompleta",
+    "limpieza-piel-sensibilizada",
+    "expectativas-corporal",
+    "bioseguridad-cabina-contratiempo",
+    "etiquetado-frontal-nutricion",
+    "formulacion-incompatibilidad",
+    "derivacion-medico",
+    "documentacion-foto-consentimiento"
+  ]
+}

@@ -5,11 +5,22 @@
 //  - niveles de historia: v2_historia/{uid}.completados;
 //  - hilos del foro: forum con authorUid == uid (sin los ocultos por moderación);
 //  - certificados: certificates con uid == uid y status 'valid' (uno por curso).
+import { readFileSync } from 'node:fs';
 import { clasesDesdeLessons } from './club.js';
 import type { Datos, FirestorePort } from './port.js';
 import { texto } from './port.js';
 import { COLECCIONES_V2, segmento } from './v2.js';
 import { normalizarGuardada } from '../../services/historia.js';
+
+/**
+ * Ids de los niveles REALES del Modo Historia (api/content/club/historia-niveles.json).
+ * El progreso de recompensas solo cuenta estos: `completados` de v2_historia lo escribe el cliente
+ * (PATCH /historia) y sin este filtro se podría inflar con ids inventados para canjear días VIP.
+ */
+export function cargarNivelesHistoria(url = new URL('../../../content/club/historia-niveles.json', import.meta.url)): ReadonlySet<string> {
+  return new Set((JSON.parse(readFileSync(url, 'utf8')) as { niveles: string[] }).niveles);
+}
+const NIVELES_HISTORIA_REALES = cargarNivelesHistoria();
 
 export interface MetricasVip {
   clasesVistas: number;
@@ -64,7 +75,7 @@ export async function leerMetricasVip(db: FirestorePort, uid: string): Promise<M
 
   return {
     ...avance,
-    nivelesHistoria: normalizarGuardada(historia.data()).completados.length,
+    nivelesHistoria: normalizarGuardada(historia.data()).completados.filter((id) => NIVELES_HISTORIA_REALES.has(id)).length,
     hilosForo: hilos.filter((h) => h.data()?.oculto !== true).length,
     certificados: cursosCertificados.size,
   };

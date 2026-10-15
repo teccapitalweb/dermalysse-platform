@@ -56,7 +56,8 @@ function sembrar(f: MemoryFirestore) {
     vigenciaHasta: CORTESIA, regaloDesde: '2026-10-01T00:00:00.000Z',
     progress: { 'course-a': [1, 2, 3, 3, 9], 'course-c': [1, 2], 'course-borrador': [1] },
   });
-  f.sembrar('v2_historia/u-avance', { uid: 'u-avance', completados: ['n1', 'n2', 'n3', 'n4', 'n5', 'n6', '???'], puntajes: {} });
+  // 6 niveles REALES + ids inventados: solo los reales cuentan (impide inflar el progreso con PATCH /historia).
+  f.sembrar('v2_historia/u-avance', { uid: 'u-avance', completados: ['fototipo-ii-fotoproteccion', 'primera-consulta-cosmiatria', 'etiqueta-cosmetica-incompleta', 'limpieza-piel-sensibilizada', 'expectativas-corporal', 'bioseguridad-cabina-contratiempo', 'nivel-inventado-1', 'nivel-inventado-2', 'nivel-inventado-3', 'nivel-inventado-4'], puntajes: {} });
   f.sembrar('forum/h1', { title: 'Uno', authorUid: 'u-avance', createdAt: 1 });
   f.sembrar('forum/h2', { title: 'Dos', authorUid: 'u-avance', createdAt: 2 });
   f.sembrar('forum/h3', { title: 'Tres', authorUid: 'u-avance', createdAt: 3 });
@@ -97,7 +98,7 @@ const porId = (lista: any[]) => Object.fromEntries(lista.map((r) => [r.id, r]));
 
 test('reglas: las 8 del club con sus metas y días (1 mes = 30)', () => {
   const resumen = REGLAS_RECOMPENSAS.map((r) => `${r.id}:${r.meta}:${diasDeRegla(r)}`);
-  assert.deepEqual(resumen, ['primer-paso:5:7', 'curso-completo:1:15', 'doble-logro:2:30', 'explorador:5:7', 'aventurero:15:15', 'participativo:3:7', 'certificado:1:15', 'maestro:5:30']);
+  assert.deepEqual(resumen, ['primer-paso:5:7', 'curso-completo:1:15', 'doble-logro:2:30', 'explorador:5:7', 'aventurero:10:15', 'participativo:3:7', 'certificado:1:15', 'maestro:5:30']);
 });
 
 test('avanceDesdeProgress: solo índices válidos de cursos publicados, sin repetidos', () => {
@@ -129,8 +130,8 @@ test('GET /recompensas: progreso calculado en el servidor desde los datos sembra
   assert.equal(resumen('primer-paso'), '5/5:true');
   assert.equal(resumen('curso-completo'), '1/1:true');
   assert.equal(resumen('doble-logro'), '1/2:false');
-  assert.equal(resumen('explorador'), '5/5:true'); // 6 niveles válidos, tope en la meta
-  assert.equal(resumen('aventurero'), '6/15:false');
+  assert.equal(resumen('explorador'), '5/5:true'); // 6 niveles REALES (los 4 inventados no cuentan), tope en la meta
+  assert.equal(resumen('aventurero'), '6/10:false'); // 6 de 10 niveles reales; los inventados por PATCH /historia no suben el progreso
   assert.equal(resumen('participativo'), '3/3:true'); // el hilo oculto y el ajeno no cuentan
   assert.equal(resumen('certificado'), '1/1:true'); // el revocado no cuenta
   assert.equal(resumen('maestro'), '1/5:false');

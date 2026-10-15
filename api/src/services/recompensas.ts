@@ -28,7 +28,7 @@ export const REGLAS_RECOMPENSAS: readonly ReglaRecompensa[] = [
   { id: 'curso-completo', nombre: 'Curso Completo', descripcion: 'Completa 1 curso', icono: 'book-check', metrica: 'cursosCompletados', meta: 1, premio: { duracion: '15d', dias: null } },
   { id: 'doble-logro', nombre: 'Doble Logro', descripcion: 'Completa 2 cursos', icono: 'trophy', metrica: 'cursosCompletados', meta: 2, premio: { duracion: '1m', dias: null } },
   { id: 'explorador', nombre: 'Explorador', descripcion: 'Completa 5 niveles de historia', icono: 'compass', metrica: 'nivelesHistoria', meta: 5, premio: { duracion: 'personalizada', dias: 7 } },
-  { id: 'aventurero', nombre: 'Aventurero', descripcion: 'Completa 15 niveles de historia', icono: 'map', metrica: 'nivelesHistoria', meta: 15, premio: { duracion: '15d', dias: null } },
+  { id: 'aventurero', nombre: 'Aventurero', descripcion: 'Completa los 10 niveles de historia', icono: 'map', metrica: 'nivelesHistoria', meta: 10, premio: { duracion: '15d', dias: null } },
   { id: 'participativo', nombre: 'Participativo', descripcion: 'Publica 3 hilos en el foro', icono: 'message-square', metrica: 'hilosForo', meta: 3, premio: { duracion: 'personalizada', dias: 7 } },
   { id: 'certificado', nombre: 'Certificado', descripcion: 'Obtén tu primer certificado', icono: 'award', metrica: 'certificados', meta: 1, premio: { duracion: '15d', dias: null } },
   { id: 'maestro', nombre: 'Criterio Dermalysse', descripcion: 'Completa 5 cursos', icono: 'crown', metrica: 'cursosCompletados', meta: 5, premio: { duracion: '1m', dias: null } },
