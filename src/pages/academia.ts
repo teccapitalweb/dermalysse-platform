@@ -36,13 +36,33 @@ const ritmo = (p: Programa) => {
   const d = p.lanzamiento?.cadaDias ?? 7;
   return d === 7 ? 'cada semana' : d === 1 ? 'cada día' : d % 7 === 0 ? `cada ${d / 7} semanas` : `cada ${d} días`;
 };
-/** Línea compacta «Módulo 1 · Disponible el jueves 22 de octubre · faltan 7 días». */
-const lineaLanzamiento = (m: ModuloCatalogo, clase = 'ac-lanz') =>
-  `<span class="${clase}">${ic('calendar-clock')}<span><b>Módulo ${m.n}</b> · ${esc(textoLanzamiento(m.disponibleDesde!))}</span></span>`;
 
-function portadaPrograma(p: Programa, grande = false) {
+// ── Cuenta regresiva en vivo: días, horas, minutos y segundos hasta que abre un módulo ──
+const SEG_MS = 1000, MIN_MS = 60 * SEG_MS, HORA_MS = 60 * MIN_MS, DIA_MS = 24 * HORA_MS;
+const ETIQUETAS_CUENTA = ['días', 'horas', 'min', 'seg'];
+const partesCuenta = (ms: number) => {
+  const t = Math.max(0, ms);
+  return [Math.floor(t / DIA_MS), Math.floor((t % DIA_MS) / HORA_MS), Math.floor((t % HORA_MS) / MIN_MS), Math.floor((t % MIN_MS) / SEG_MS)].map((v) => String(v).padStart(2, '0'));
+};
+/** Reloj con su fecha. `extra`: 'ac-cuenta--claro' sobre papel; sin clase, sobre la portada de color. */
+function cuentaHTML(iso: string, pie: string, extra = '') {
+  return `<div class="ac-cuenta ${extra}" data-cuenta="${esc(iso)}" role="timer" aria-label="Se abre el ${esc(fechaLanzamiento(iso))}">
+    <span class="ac-cuenta__cab">${ic('calendar-clock')}Se abre en</span>
+    <span class="ac-cuenta__num" aria-hidden="true">${partesCuenta(Date.parse(iso) - Date.now()).map((v, i) => `<span><b>${v}</b><small>${ETIQUETAS_CUENTA[i]}</small></span>`).join('')}</span>
+    <small class="ac-cuenta__pie">${pie}</small></div>`;
+}
+/** Actualiza los dígitos; true cuando la fecha ya llegó. */
+function pintarCuenta(el: HTMLElement) {
+  const ms = Date.parse(el.dataset.cuenta || '') - Date.now();
+  const partes = partesCuenta(ms);
+  el.querySelectorAll<HTMLElement>('.ac-cuenta__num b').forEach((b, i) => { if (b.textContent !== partes[i]) b.textContent = partes[i]; });
+  return ms <= 0;
+}
+const cuentaModulo = (m: ModuloCatalogo, extra = '') => cuentaHTML(m.disponibleDesde!, `Módulo ${m.n} · ${esc(fechaLanzamiento(m.disponibleDesde!))}`, extra);
+
+function portadaPrograma(p: Programa, grande = false, cuenta = '') {
   const a = area(p.area);
-  return `<div class="ac-portada ${grande ? 'ac-portada--grande' : ''}">${figura(p.portada?.id || '', '16:9', `Portada del programa ${p.titulo}`, '', undefined, 'ac-fig--portada')}<span class="ac-portada__sello"><b>${num2(p.numero)}</b><small>Programa</small></span><span class="ac-portada__ic">${ic(a.icono)}</span></div>`;
+  return `<div class="ac-portada ${grande ? 'ac-portada--grande' : ''} ${cuenta ? 'con-cuenta' : ''}">${figura(p.portada?.id || '', '16:9', `Portada del programa ${p.titulo}`, '', undefined, 'ac-fig--portada')}<span class="ac-portada__sello"><b>${num2(p.numero)}</b><small>Programa</small></span><span class="ac-portada__ic">${ic(a.icono)}</span>${cuenta}</div>`;
 }
 
 function migas(items: [string, string?][]) {
@@ -59,7 +79,7 @@ function errorHTML(e: unknown, p?: Programa, n?: number) {
     // Aviso amable, no un error: el módulo existe y tiene fecha. Nunca se muestra su contenido.
     const desde = (e as { disponibleDesde?: string })?.disponibleDesde;
     const fecha = desde
-      ? `<span class="ac-aviso__fecha">Disponible el <b>${esc(fechaLanzamiento(desde))}</b> · ${esc(cuentaLanzamiento(desde))}</span>`
+      ? `<span class="ac-aviso__fecha">Disponible el <b>${esc(fechaLanzamiento(desde))}</b> · ${esc(cuentaLanzamiento(desde))}</span>${cuentaHTML(desde, `${n ? `Módulo ${n} · ` : ''}${esc(fechaLanzamiento(desde))}`, 'ac-cuenta--claro')}`
       : '<span class="ac-aviso__fecha">Se abrirá muy pronto.</span>';
     return aviso('calendar-clock', n ? `El módulo ${n} se abre pronto` : 'Este módulo se abre pronto',
       `${fecha}Los módulos de este programa se abren uno por uno, a las 00:00 (hora del centro de México).`,
@@ -109,9 +129,9 @@ export async function academia() {
       : disp === 0 ? (prox ? '' : `<span class="ac-etiqueta">${ic('pen-line')}En preparación</span>`)
         : disp < p.modulos.length ? `<small class="ac-card__avance">${disp} de ${p.modulos.length} módulos disponibles</small>` : '';
     // Calendario: el siguiente módulo con fecha y el ritmo de apertura.
-    const lanz = prox ? `${lineaLanzamiento(prox)}<small class="ac-card__avance">Un módulo nuevo ${ritmo(p)}</small>` : '';
+    const lanz = prox ? `<span class="ac-lanz">${ic('calendar-days')}<span>${p.modulos.length > 1 ? `Se abre un módulo nuevo ${ritmo(p)}` : `Se abre el ${esc(fechaLanzamiento(prox.disponibleDesde!))}`}</span></span>` : '';
     return `<a class="ac-card" href="${ruta(p.id)}" data-tono="${a.tono}" data-area="${esc(p.area)}" data-buscar="${esc(`${p.titulo} ${p.area} ${p.descripcion} ${p.modulos.map((m) => m.titulo).join(' ')}`.toLowerCase())}">
-      ${portadaPrograma(p)}
+      ${portadaPrograma(p, false, prox ? cuentaModulo(prox) : '')}
       <div class="ac-card__body">
         <span class="ac-card__area">${ic(a.icono)}${esc(p.area)}</span>
         <h3>${esc(p.titulo)}</h3>
@@ -168,9 +188,10 @@ export async function academiaPrograma(params: Record<string, string>) {
     // El revisor salta la fecha (puede abrir el módulo), pero ve la misma cuenta regresiva que los miembros.
     const conFecha = !ok && !!m.programado && !!m.disponibleDesde;
     const preparacion = !conFecha && m.disponible === false;
-    const clase = ok ? 'is-ok' : programado ? 'is-cerrado is-programado' : conFecha ? 'is-programado' : preparacion ? 'is-cerrado' : actual ? 'is-actual' : abierto ? 'is-abierto' : 'is-cerrado';
+    const siguiente = conFecha && proximo(p)?.n === m.n;
+    const clase = (ok ? 'is-ok' : programado ? 'is-cerrado is-programado' : conFecha ? 'is-programado' : preparacion ? 'is-cerrado' : actual ? 'is-actual' : abierto ? 'is-abierto' : 'is-cerrado') + (siguiente ? ' is-siguiente' : '');
     const sello = ok ? ic('check') : conFecha ? ic('calendar-clock') : preparacion ? ic('pen-line') : !abierto ? ic('lock') : m.n > 1 && !vip ? ic('crown') : `<b>${m.n}</b>`;
-    const etiqueta = [`Módulo ${m.n}`, m.n === 1 ? 'gratis' : '', conFecha ? 'programado' : '', preparacion ? 'en preparación' : '', m.estado && m.estado !== 'aprobado' && !preparacion && !programado ? `vista previa (${m.estado})` : ''].filter(Boolean).join(' · ');
+    const etiqueta = [`Módulo ${m.n}`, m.n === 1 ? 'gratis' : '', siguiente ? 'el siguiente en abrir' : conFecha ? 'programado' : '', preparacion ? 'en preparación' : '', m.estado && m.estado !== 'aprobado' && !preparacion && !programado ? `vista previa (${m.estado})` : ''].filter(Boolean).join(' · ');
     const detalle = ok ? `<em class="is-ok">Aprobado · mejor ${av.mejor ?? ''} %</em>`
       : conFecha ? `<em class="ac-paso__fecha">Disponible el ${esc(fechaLanzamiento(m.disponibleDesde!))} · <b>${esc(cuentaLanzamiento(m.disponibleDesde!))}</b></em>`
         : av.temas && !preparacion ? `<em>${Object.keys(av.temas).length} temas leídos</em>` : m.temas ? `<em>${m.temas} temas${m.duracionMin ? ` · ${horas(m.duracionMin)}` : ''}</em>` : '';
@@ -195,7 +216,7 @@ export async function academiaPrograma(params: Record<string, string>) {
     ${migas([['Academia', '#/academia'], [p.titulo]])}
     ${aviso}
     <header class="ac-prog">
-      ${portadaPrograma(p, true)}
+      ${portadaPrograma(p, true, prox ? cuentaModulo(prox) : '')}
       <div class="ac-prog__txt">
         <span class="ac-card__area">${ic(a.icono)}${esc(p.area)} · ${esc(p.nivel)}</span>
         <h1>${esc(p.titulo)}</h1>
@@ -448,6 +469,19 @@ export function montarAcademia() {
   const aplicarLetra = (v: number) => root.style.setProperty('--ac-letra', String(v));
   let letra = 1; try { letra = Number(localStorage.getItem(LETRA)) || 1; } catch { /* sin almacenamiento */ }
   aplicarLetra(letra);
+
+  // Cuentas regresivas: avanzan cada segundo; si una fecha llega con la página abierta, se vuelve a pintar
+  // la ruta para mostrar el módulo abierto (solo si estaba en el futuro al montar: sin bucles por desfase de reloj).
+  const cuentas = [...root.querySelectorAll<HTMLElement>('[data-cuenta]')].filter((c) => Date.parse(c.dataset.cuenta || '') > Date.now());
+  if (cuentas.length) {
+    const reloj = window.setInterval(() => {
+      if (cuentas.map(pintarCuenta).some(Boolean)) {
+        window.clearInterval(reloj);
+        window.setTimeout(() => { if (root.isConnected) window.dispatchEvent(new HashChangeEvent('hashchange')); }, 1500);
+      }
+    }, 1000);
+    ab.signal.addEventListener('abort', () => window.clearInterval(reloj));
+  }
 
   // Catálogo: búsqueda y filtro por área.
   const grid = root.querySelector<HTMLElement>('[data-ac-grid]');

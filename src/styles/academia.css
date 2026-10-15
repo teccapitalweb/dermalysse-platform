@@ -97,6 +97,45 @@
 .ac-aviso--programado { border-color: color-mix(in srgb, var(--area-fuerte) 35%, var(--line)); }
 .ac-aviso__fecha { display: block; margin-bottom: 6px; color: var(--text); font-size: var(--fs-md); font-weight: 600; }
 .ac-aviso__fecha b { color: var(--area-ink); }
+
+/* Cuenta regresiva en vivo. Sobre la portada: fichas crema con cifras tinta y etiquetas vino (≥ 7:1);
+   cabecera y pie en blanco sobre velo tinta. Variante --claro: fichas del tono del área sobre papel. */
+.ac-cuenta { position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; justify-items: center; gap: 10px; padding: 52px 14px 14px; color: #fff; text-align: center; pointer-events: none; }
+.ac-cuenta__cab { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border: 1px solid rgba(255, 255, 255, .55); border-radius: var(--r-full); background: rgba(11, 36, 53, .62); font-size: 10.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+.ac-cuenta__cab .i { width: 13px; height: 13px; }
+.ac-cuenta__num { display: flex; gap: 8px; }
+.ac-cuenta__num > span { display: grid; justify-items: center; min-width: 54px; padding: 9px 6px 6px; border-radius: 12px; background: #f6f5f1; color: #0b2435; box-shadow: 0 8px 20px rgba(11, 36, 53, .3), inset 0 -3px 0 rgba(104, 28, 49, .16); }
+.ac-cuenta__num b { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.ac-cuenta__num small { margin-top: 4px; color: #681c31; font-size: 9.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.ac-cuenta__pie { padding: 3px 10px; border-radius: var(--r-full); background: rgba(11, 36, 53, .55); font-size: var(--fs-xs); font-weight: 700; }
+.ac-portada.con-cuenta::before { position: absolute; inset: 0; z-index: 1; background: radial-gradient(ellipse 70% 65% at 50% 58%, rgba(11, 36, 53, .42), transparent 75%); pointer-events: none; content: ''; }
+.ac-portada.con-cuenta .ac-portada__sello { top: 14px; bottom: auto; left: 14px; z-index: 3; padding: 5px 9px; }
+.ac-portada.con-cuenta .ac-portada__sello b { font-size: 1.15rem; }
+.ac-portada.con-cuenta .ac-portada__sello small { font-size: 8.5px; }
+.ac-portada.con-cuenta .ac-portada__ic { z-index: 3; }
+/* En la tarjeta del catálogo la portada es baja: solo cifras y fecha (la etiqueta queda en aria-label). */
+.ac-card .ac-cuenta { gap: 7px; padding: 54px 10px 10px; }
+.ac-card .ac-cuenta__cab { display: none; }
+.ac-card .ac-cuenta__num { gap: 6px; }
+.ac-card .ac-cuenta__num > span { min-width: 46px; padding: 7px 5px 5px; border-radius: 10px; }
+.ac-card .ac-cuenta__num b { font-size: 1.4rem; }
+.ac-card .ac-cuenta__num small { margin-top: 3px; font-size: 8.5px; }
+.ac-portada--grande .ac-cuenta { gap: 14px; }
+.ac-portada--grande .ac-cuenta__num { gap: 12px; }
+.ac-portada--grande .ac-cuenta__num > span { min-width: 76px; padding: 13px 8px 9px; border-radius: 16px; }
+.ac-portada--grande .ac-cuenta__num b { font-size: 2.6rem; }
+.ac-portada--grande .ac-cuenta__num small { font-size: 10.5px; }
+.ac-portada--grande .ac-cuenta__pie { font-size: var(--fs-sm); }
+.ac-cuenta--claro { position: static; justify-items: start; place-content: start; gap: 10px; margin: 12px 0 14px; padding: 0; color: var(--text); text-align: left; pointer-events: auto; }
+.ac-cuenta--claro .ac-cuenta__cab { border-color: color-mix(in srgb, var(--area-fuerte) 35%, var(--line)); background: var(--area-suave); color: var(--area-ink); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.ac-cuenta--claro .ac-cuenta__num > span { background: var(--area-fuerte); color: #fff; box-shadow: var(--shadow-sm); }
+.ac-cuenta--claro .ac-cuenta__num small { color: #f6d9d4; }
+.ac-cuenta--claro .ac-cuenta__pie { display: none; } /* la fecha ya va escrita encima, en el aviso */
+@media (max-width: 480px) {
+  .ac-portada--grande .ac-cuenta__num { gap: 8px; }
+  .ac-portada--grande .ac-cuenta__num > span { min-width: 58px; padding: 10px 6px 7px; }
+  .ac-portada--grande .ac-cuenta__num b { font-size: 1.9rem; }
+}
 .ac-cta-fecha, .ac-cta-fecha[disabled] { display: inline-flex; align-items: center; gap: 10px; border: 1px dashed var(--line-strong); background: var(--surface-2); color: var(--text); opacity: 1; cursor: not-allowed; text-align: left; }
 .ac-cta-fecha > span { display: grid; gap: 2px; }
 .ac-cta-fecha small { color: var(--text-2); font-size: var(--fs-xs); font-weight: 600; }
@@ -228,6 +267,12 @@
 .ac-paso__txt em.ac-paso__fecha { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; color: var(--area-ink); }
 .ac-paso__fecha .i { width: 13px; height: 13px; }
 .ac-paso__txt em.ac-paso__revisor { color: var(--text-2); }
+/* El siguiente módulo en abrir: sello lleno del tono del área y un halo que late despacio. */
+.ac-paso.is-siguiente .ac-paso__sello { border-style: solid; border-color: var(--area-fuerte); background: var(--area-fuerte); color: #fff; animation: ac-latido 2.4s ease-in-out infinite; }
+.ac-paso.is-siguiente .ac-paso__txt strong { color: var(--text); }
+.ac-paso.is-siguiente .ac-paso__txt small { color: var(--area-ink); }
+@keyframes ac-latido { 0%, 100% { box-shadow: 0 0 0 4px var(--area-suave); } 50% { box-shadow: 0 0 0 9px color-mix(in srgb, var(--area-fuerte) 14%, transparent); } }
+@media (prefers-reduced-motion: reduce) { .ac-paso.is-siguiente .ac-paso__sello { animation: none; box-shadow: 0 0 0 4px var(--area-suave); } }
 .ac-seguir__item .ac-seguir__fecha { display: inline-flex; align-items: center; gap: 5px; color: var(--area-ink); font-weight: 600; }
 .ac-seguir__fecha .i { width: 13px; height: 13px; }
 .ac-paso > a > .i { flex: 0 0 auto; width: 18px; height: 18px; color: var(--text-2); }
