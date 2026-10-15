@@ -6,6 +6,7 @@ import {
   crearReportadorProgreso, normalizarPosicion, leerMensajePlayerJs, mensajePlayerJs, clasificarBloqueo, INTERVALO_PROGRESO_MS,
 } from '../src/core/video-progreso.ts';
 import { hashVerificacionLegada, busquedaSinCodigo, normalizarFolio, esFolioDermalysse, anioFolio } from '../src/core/legado.ts';
+import { FUNCIONES, EN_PRODUCCION, disponibleEn, funcionDeRuta, urlAdminLegado } from '../src/core/funciones.ts';
 
 function reloj(inicio = 1_000_000) {
   let t = inicio;
@@ -144,4 +145,37 @@ test('formato de folio DRML-YYYY-XXXXXXXXXXXX', () => {
   assert.equal(anioFolio('DRML-2027-ABCDEF012345'), '2027');
   assert.equal(anioFolio('DRM-2026-00001'), '2026');
   assert.equal(normalizarFolio('a/b'), null);
+});
+
+// ── Funciones apagadas en producción (src/core/funciones.ts) ──
+
+test('demo: todas las funciones siguen disponibles; API: recompensas, cupones, experiencia y admin completo apagados', () => {
+  for (const f of Object.keys(FUNCIONES)) {
+    assert.equal(disponibleEn(f, 'demo'), true, `demo ${f}`);
+    assert.equal(disponibleEn(f, 'api'), false, `api ${f}`);
+  }
+  assert.deepEqual(Object.keys(EN_PRODUCCION).sort(), Object.keys(FUNCIONES).sort(), 'cada función tiene su interruptor');
+});
+
+test('habilitar una función en producción es cambiar su interruptor', () => {
+  assert.equal(disponibleEn('recompensas', 'api', { ...EN_PRODUCCION, recompensas: true }), true);
+  assert.equal(disponibleEn('cupones', 'api', { ...EN_PRODUCCION, recompensas: true }), false);
+});
+
+test('rutas reguladas: recompensas, bienvenida/encuestas y el admin salvo Academia', () => {
+  assert.equal(funcionDeRuta('/recompensas'), 'recompensas');
+  assert.equal(funcionDeRuta('/bienvenida'), 'experiencia');
+  assert.equal(funcionDeRuta('/encuestas'), 'experiencia');
+  assert.equal(funcionDeRuta('/admin'), 'adminGestion');
+  assert.equal(funcionDeRuta('/admin/miembros/abc'), 'adminGestion');
+  assert.equal(funcionDeRuta('/admin/cupones'), 'adminGestion');
+  assert.equal(funcionDeRuta('/admin/academia'), null);
+  for (const libre of ['/', '/cursos', '/recompensas-x', '/academia', '/suscripcion', '/perfil']) assert.equal(funcionDeRuta(libre), null, libre);
+});
+
+test('VITE_ADMIN_LEGADO_URL: solo https sin credenciales', () => {
+  assert.equal(urlAdminLegado('https://admin.example.test/panel/'), 'https://admin.example.test/panel/');
+  for (const malo of [undefined, '', '  ', 'http://admin.example.test', 'javascript:alert(1)', 'https://u:p@admin.example.test', 'no es url']) {
+    assert.equal(urlAdminLegado(malo), null, String(malo));
+  }
 });

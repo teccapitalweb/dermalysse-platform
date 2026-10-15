@@ -60,6 +60,19 @@ Decisión del propietario (15 de octubre de 2026): publicar el club nuevo con **
 | GET/POST `/foro…` | contrato actual del cliente | | `forum`, `forum/{id}/replies` |
 | GET `/noticias` | — | publicadas | `news` |
 | `/academia…` | contrato actual | | `v2_academia_progreso`, `v2_academia_intentos`, `v2_academia_revisiones`, `v2_academia_lanzamiento` |
+| GET `/historia` | — | `{completados: string[], puntajes: {[idNivel]: 0–100}, ultimoNivel, actualizado}` (vacío si no hay) | `v2_historia/{uid}` |
+| PATCH `/historia` | misma forma (campos opcionales) | avance fusionado: unión de completados, máximo de puntajes, `ultimoNivel` de la fuente más reciente; nunca retrocede. 400 si tipos o tamaño inválidos | `v2_historia/{uid}` (transacción) |
+
+### Funciones apagadas en producción
+
+Sin backend en producción y/o con decisión comercial pendiente (otorgan días VIP). En modo API se ocultan del menú, de «Más» y de Inicio, y sus rutas muestran «Próximamente en el club»; en demo siguen igual. Interruptores en `src/core/funciones.ts` (`EN_PRODUCCION`); habilitar una es cambiar su valor a `true` cuando exista su backend:
+
+| Función | Qué se oculta | Backend que falta |
+| --- | --- | --- |
+| `recompensas` | `#/recompensas`, menú, «Más», acceso de Inicio, botón Canjear | `GET /recompensas`, `POST /recompensas/:id/canjear` |
+| `cupones` | formulario de canje en `#/suscripcion` | `POST /cupones/canjear` |
+| `experiencia` | `#/bienvenida`, `#/encuestas`, redirección de bienvenida, tarjeta de Inicio, resumen en Perfil | `/me/experiencia…`, `/me/entrevista…`, `/me/encuesta…` |
+| `adminGestion` | todo el admin nuevo salvo Academia; tarjeta al panel actual si hay `VITE_ADMIN_LEGADO_URL` | `/admin/*` (salvo `/admin/academia`) |
 
 ## 4. Lo que debe aportar el propietario (solo nombres; nunca valores en el repo)
 

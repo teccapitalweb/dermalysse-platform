@@ -1,4 +1,5 @@
 import { api } from '../core/auth';
+import { disponible } from '../core/plataforma';
 import { Datos, type Aviso, type Config, type Curso, type Evento, type Material, type MiembroDemo, type Quiz } from '../core/datos';
 
 export interface ResumenAdmin {
@@ -75,6 +76,8 @@ async function una(clave: Clave, tarea: () => Promise<void>, forzar = false) {
 
 export async function cargarAdmin(path: string, forzar = false) {
   if (Datos.modo !== 'api') return;
+  // Sin 'adminGestion' (producción) no existen /admin/* salvo /admin/academia, que se carga en su página.
+  if (!disponible('adminGestion')) return;
   const cargas: Promise<void>[] = [];
   const cargar = (clave: Clave, tarea: () => Promise<void>) => cargas.push(una(clave, tarea, forzar));
 

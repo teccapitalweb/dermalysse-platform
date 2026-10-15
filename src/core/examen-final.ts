@@ -61,7 +61,8 @@ export function generarExamen(cursoId: string, max = 10): PreguntaExamen[] {
   const todas: PreguntaExamen[] = [];
   for (const quiz of quizzes) {
     const clase = curso.clases.find((k) => k.n === quiz.n);
-    for (const p of quiz.preguntas) todas.push({ ...p, claseN: quiz.n, claseTitulo: clase?.titulo || `Clase ${quiz.n}` });
+    // Los quizzes del servidor (modo API) no traen la respuesta (correcta = -1): no se pueden calificar aquí.
+    for (const p of quiz.preguntas) if (p.correcta >= 0) todas.push({ ...p, claseN: quiz.n, claseTitulo: clase?.titulo || `Clase ${quiz.n}` });
   }
   for (let i = todas.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

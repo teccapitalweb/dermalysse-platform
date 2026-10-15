@@ -59,6 +59,7 @@ El arranque **falla rápido** si falta o es inválida cualquiera de las variable
 | GET/POST | `/experiencias` | GET no · POST sí | memoria | `v2_experiencias` |
 | GET | `/liga` | sí | fixture | `v2_liga/clasificacion` (sin documento ⇒ solo la fila propia) |
 | GET/POST | `/quiz/:cursoId/:n` | sí | fixture | `v2_quiz/{cursoId}__{n}` (sin banco ⇒ 404 honesto) |
+| GET/PATCH | `/historia` | sí | memoria | `v2_historia/{uid}`. Forma `{completados: string[], puntajes: {[id]: 0–100}, ultimoNivel, actualizado (ISO)}` (la de `src/core/historia.ts`). PATCH valida tipos y tamaño (≤ 300 niveles, ids `^[A-Za-z0-9][A-Za-z0-9_.:-]{0,63}$`; 400 si no) y fusiona de forma aditiva en transacción: unión de completados, máximo por puntaje, `ultimoNivel` de la fuente más reciente; el avance nunca retrocede |
 | — | `/academia…`, `/admin/academia…` | sí / admin | memoria | `v2_academia_progreso`, `v2_academia_intentos`, `v2_academia_revisiones`, `v2_academia_lanzamiento` (contenido: `content/academia`) |
 
 ### Solo producción (delegan en el webhook reenviando el `Authorization` del miembro)
@@ -92,14 +93,14 @@ src/
   server.ts              arranque (sale con código 1 si la configuración no es válida)
   middleware/auth.ts     requireUser / requireAdmin (usa el AuthAdapter)
   routes/                config, catalogo, noticias, foro, me, experiencias, liga, quiz, progreso, certificados,
-                         verificar, academia; club.ts = rutas de producción (video, progreso, certificados, verificar, stripe)
+                         verificar, academia, historia; club.ts = rutas de producción (video, progreso, certificados, verificar, stripe)
   services/              learning, academia, community, experiences, clubProduccion (webhook + Firestore)
   adapters/
     interfaces.ts        puertos
     dev/                 fixtures y memoria
     firebase/            accessPolicy (port literal), firebaseAuth (verifyIdToken + admins + regla)
     firestore/           port.ts (puerto mínimo), admin.ts (firebase-admin perezoso), memoria.ts (falso para pruebas),
-                         club.ts (colecciones actuales), v2.ts (experiencias, liga, quiz), academia.ts (v2_academia_*)
+                         club.ts (colecciones actuales), v2.ts (experiencias, liga, quiz, historia), academia.ts (v2_academia_*)
     legacy/webhook.ts    cliente del webhook (fetch inyectable, timeout, errores honestos)
 content/club/cursos.json catálogo editorial del club nuevo (ids de src/data/catalogo.json, sin videoId)
 fixtures/                JSON de ejemplo NO productivos (solo modo dev)

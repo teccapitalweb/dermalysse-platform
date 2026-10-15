@@ -1,7 +1,7 @@
 // Ensambla la app Express. Sin estado global: las dependencias se inyectan, lo que permite probar
 // con adaptadores dev/memoria y con el Firestore falso + fetch falso del modo producción.
 import express, { type Express, type NextFunction, type Request, type Response } from 'express';
-import type { AuthAdapter, ContentStore, ExperienceStore, ForumStore, LeagueStore, ProfileStore } from './adapters/interfaces.js';
+import type { AuthAdapter, ContentStore, ExperienceStore, ForumStore, HistoriaStore, LeagueStore, ProfileStore } from './adapters/interfaces.js';
 import { NotImplementedError } from './adapters/interfaces.js';
 import { DevAuthAdapter } from './adapters/dev/devAuth.js';
 import { FixtureContentStore } from './adapters/dev/fixtureContent.js';
@@ -12,6 +12,7 @@ import { MemoryCertificateStore } from './adapters/dev/memoryCertificates.js';
 import { FixtureLeagueStore } from './adapters/dev/fixtureLeague.js';
 import { MemoryForumStore } from './adapters/dev/memoryForum.js';
 import { MemoryProfileStore } from './adapters/dev/memoryProfile.js';
+import { MemoryHistoriaStore } from './adapters/dev/memoryHistoria.js';
 import { FirebaseAuthAdapter, type VerificadorIdToken } from './adapters/firebase/firebaseAuth.js';
 import type { FirestorePort } from './adapters/firestore/port.js';
 import { AdminFirestore, FirebaseAdminPerezoso } from './adapters/firestore/admin.js';
@@ -19,7 +20,7 @@ import {
   cargarCatalogoEditorial, FirestoreCertificateStore, FirestoreContentStore, FirestoreForumStore, FirestoreProfileStore,
   FirestoreProgressStore, type CursoEditorial,
 } from './adapters/firestore/club.js';
-import { FirestoreExperienceStore, FirestoreLeagueStore, FirestoreLearningStore } from './adapters/firestore/v2.js';
+import { FirestoreExperienceStore, FirestoreHistoriaStore, FirestoreLeagueStore, FirestoreLearningStore } from './adapters/firestore/v2.js';
 import { FirestoreAcademiaAttemptStore, FirestoreAcademiaProgressStore, FirestoreAcademiaReviewStore } from './adapters/firestore/academia.js';
 import { LegacyWebhookClient, type FetchLike } from './adapters/legacy/webhook.js';
 import { crearAuth } from './middleware/auth.js';
@@ -42,6 +43,7 @@ import { rutaProgreso } from './routes/progreso.js';
 import { rutaCertificados } from './routes/certificados.js';
 import { rutaVerificar } from './routes/verificar.js';
 import { rutaLiga } from './routes/liga.js';
+import { rutaHistoria } from './routes/historia.js';
 import { rutaCertificadosProduccion, rutaProgresoProduccion, rutaStripe, rutaVerificarProduccion, rutaVideo } from './routes/club.js';
 
 export interface Dependencias {
@@ -52,6 +54,8 @@ export interface Dependencias {
   league: LeagueStore;
   forum: ForumStore;
   profiles: ProfileStore;
+  /** Avance del Modo Historia (GET/PATCH /historia). Opcional para que los ensamblajes de prueba previos sigan válidos. */
+  historia?: HistoriaStore;
   /** Academia (programas de lectura). Opcional para que los ensamblajes de prueba previos sigan válidos. */
   academia?: AcademiaService;
   /**
@@ -103,6 +107,7 @@ export function createApp(deps: Dependencias): Express {
   app.use('/liga', rutaLiga(deps.league, requireUser));
   app.use('/experiencias', rutaExperiencias(deps.experiences, requireUser));
   app.use('/quiz', rutaQuiz(deps.learning, requireUser));
+  if (deps.historia) app.use('/historia', rutaHistoria(deps.historia, requireUser));
   if (deps.produccion) {
     app.use('/progreso', rutaProgresoProduccion(deps.produccion, requireUser));
     app.use('/certificados', rutaCertificadosProduccion(deps.produccion, requireUser));
@@ -148,6 +153,10 @@ export function createApp(deps: Dependencias): Express {
     }
     if (err instanceof NotImplementedError) {
       res.status(501).json({ error: 'no-implementado', mensaje: err.message });
+      return;
+    }
+    if ((err as { type?: unknown })?.type === 'entity.too.large') { // cuerpo mayor que el límite de express.json
+      res.status(413).json({ error: 'cuerpo-demasiado-grande', mensaje: 'El cuerpo de la petición excede el tamaño permitido.' });
       return;
     }
     if (err instanceof SyntaxError && 'body' in err) { // JSON inválido en el cuerpo
@@ -200,6 +209,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
       league: new FixtureLeagueStore(),
       forum: new MemoryForumStore(),
       profiles: new MemoryProfileStore(),
+      historia: new MemoryHistoriaStore(),
       academia: new AcademiaService(
         new DiskAcademiaContentStore(),
         new MemoryAcademiaProgressStore(),
@@ -231,6 +241,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
     league: new FirestoreLeagueStore(db),
     forum,
     profiles: new FirestoreProfileStore(db),
+    historia: new FirestoreHistoriaStore(db),
     academia: new AcademiaService(
       new DiskAcademiaContentStore(),
       new FirestoreAcademiaProgressStore(db),

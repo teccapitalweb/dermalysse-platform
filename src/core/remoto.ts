@@ -54,10 +54,14 @@ async function cargarQuizDeRuta(path: string) {
   if (quizzesCargados.has(id)) return;
   quizzesCargados.add(id);
   try {
-    const respuesta = await api<{ preguntas: { q: string; opciones: string[] }[] }>(`/quiz/${encodeURIComponent(cursoId)}/${n}`);
+    const respuesta = await api<{ preguntas?: unknown }>(`/quiz/${encodeURIComponent(cursoId)}/${n}`);
+    // Solo preguntas bien formadas; si no queda ninguna, la clase muestra «estará disponible pronto».
+    const preguntas = (Array.isArray(respuesta?.preguntas) ? respuesta.preguntas : [])
+      .filter((p): p is { q: string; opciones: string[] } => !!p && typeof p.q === 'string' && Array.isArray(p.opciones) && p.opciones.length > 1 && p.opciones.every((o: unknown) => typeof o === 'string'));
+    if (!preguntas.length) return;
     const quiz: Quiz = {
       id, cursoId, n, estado: 'aprobado', actualizado: '',
-      preguntas: respuesta.preguntas.map((p) => ({ ...p, correcta: -1, explicacion: '' })),
+      preguntas: preguntas.map((p) => ({ q: p.q, opciones: p.opciones, correcta: -1, explicacion: '' })),
     };
     Datos.hidratarAdmin('quizzes', [...Datos.quizzes().filter((q) => q.id !== id), quiz]);
   } catch (error: any) {

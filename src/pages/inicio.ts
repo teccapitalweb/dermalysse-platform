@@ -8,6 +8,7 @@ import { racha, puntos } from '../core/logros';
 import { checklistHTML } from '../ui/checklist';
 import { widgetNoticias } from '../ui/noticias';
 import { tarjetaExperienciaHTML } from '../ui/experiencia';
+import { disponible } from '../core/plataforma';
 
 function saludo() {
   const h = new Date().getHours();
@@ -83,7 +84,7 @@ export async function inicio() {
       </div>
     </div>
 
-    ${tarjetaExperienciaHTML()}
+    ${disponible('experiencia') ? tarjetaExperienciaHTML() : ''}
 
     ${ctaCard}
 
@@ -129,10 +130,10 @@ export async function inicio() {
         <span class="dash-qlink__icon dash-qlink__icon--gold"><i data-lucide="trophy" class="i"></i></span>
         <span>Logros</span>
       </a>
-      <a class="dash-qlink" href="#/recompensas">
+      ${disponible('recompensas') ? `<a class="dash-qlink" href="#/recompensas">
         <span class="dash-qlink__icon dash-qlink__icon--gift"><i data-lucide="gift" class="i"></i></span>
         <span>Recompensas</span>
-      </a>
+      </a>` : ''}
     </div>
   </section>
 

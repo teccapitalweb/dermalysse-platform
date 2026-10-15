@@ -3,7 +3,7 @@
 import type {
   AjusteLanzamientoAcademia, AvanceModuloAcademia, CatalogoAcademia, CatalogoRemoto, CertificadoRemoto, ConfigPublica, DetalleRemoto,
   ExperienciaCompartida, FilaLiga, HiloRemoto, IntentoAcademia, ModuloAcademia, Noticia, PerfilRemoto,
-  ProgresoAcademia, ProgresoCurso, ProgresoMapa, QuizFixture, RespuestaForo, ResumenLiga, RevisionAcademia, Usuario,
+  ProgresoAcademia, ProgresoCurso, ProgresoHistoria, ProgresoMapa, QuizFixture, RespuestaForo, ResumenLiga, RevisionAcademia, Usuario,
 } from '../domain/types.js';
 
 /** Error honesto para seams no implementados. El servidor responde 501, nunca datos demo. */
@@ -89,6 +89,14 @@ export interface ProfileStore {
   get(usuario: Usuario): Promise<PerfilRemoto>;
   /** Aplica SOLO los campos permitidos del cuerpo (el almacén sanea; nunca campos protegidos). */
   patch(usuario: Usuario, cuerpo: Record<string, unknown>): Promise<PerfilRemoto>;
+}
+
+/** Avance del Modo Historia por uid (memoria en dev; Firestore `v2_historia/{uid}` en producción). */
+export interface HistoriaStore {
+  /** Avance guardado; vacío si el usuario aún no tiene. */
+  get(uid: string): Promise<ProgresoHistoria>;
+  /** Fusiona de forma aditiva (services/historia.ts → fusionarHistoria), de forma atómica, y devuelve el resultado. */
+  fusionar(uid: string, entrada: ProgresoHistoria): Promise<ProgresoHistoria>;
 }
 
 // ── Academia ──

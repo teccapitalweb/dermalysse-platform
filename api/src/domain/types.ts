@@ -257,6 +257,17 @@ export interface PerfilData {
   ciudad: string;
 }
 
+/**
+ * Avance del Modo Historia por usuario. Refleja src/core/historia.ts (interface ProgresoHistoria):
+ * ids de niveles completados, mejor puntaje (0–100) por nivel, último nivel abierto y fecha ISO.
+ */
+export interface ProgresoHistoria {
+  completados: string[];
+  puntajes: Record<string, number>;
+  ultimoNivel: string;
+  actualizado: string;
+}
+
 // ── Academia: programas de lectura por módulos (api/content/academia) ──
 // Formato del contenido: docs/ACADEMIA-FORMATO.md. Los tipos solo fijan lo que la API usa;
 // el resto de cada módulo (bloques, glosario, minijuego…) viaja tal como está en el JSON.

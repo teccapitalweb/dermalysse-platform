@@ -6,6 +6,7 @@ import { esc } from '../ui/partials';
 import { api, Auth, mensajeError } from '../core/auth';
 import { Datos } from '../core/datos';
 import { resumenExperienciaHTML } from '../ui/experiencia';
+import { disponible } from '../core/plataforma';
 
 export function perfil() {
   const p = Perfil.get();
@@ -14,7 +15,7 @@ export function perfil() {
   return `
   <section class="stack" style="gap:20px;max-width:900px">
     <div class="section-head"><div><span class="chip chip--primary">Mi perfil</span><h1 class="display" style="font-size:var(--fs-2xl)">Hola, <em>${esc(Perfil.primerNombre())}</em></h1></div></div>
-    ${resumenExperienciaHTML()}
+    ${disponible('experiencia') ? resumenExperienciaHTML() : ''}
     <div class="grid" style="grid-template-columns:1fr 320px;gap:20px;align-items:start">
       <form class="card card--pad stack" data-form-perfil style="gap:14px">
         <div class="row" style="gap:14px"><div class="avatar avatar--lg">${Perfil.iniciales()}</div><div><strong>Foto de perfil</strong><br><span class="faint" style="font-size:var(--fs-xs)">Se sube desde el admin en la Fase 2 · por ahora, iniciales</span></div></div>
@@ -123,7 +124,7 @@ export async function suscripcion(_params: Record<string, string>, query: URLSea
       <div class="sus-hero__deco"><i data-lucide="shield-check" class="i"></i></div>
     </div>
 
-    ${!esVip ? `<form class="sus-cupon" data-form-canje-cupon>
+    ${!esVip && disponible('cupones') ? `<form class="sus-cupon" data-form-canje-cupon>
       <div class="sus-cupon__icon"><i data-lucide="ticket" class="i"></i></div>
       <div class="sus-cupon__body">
         <strong>¿Tienes un cupón de acceso?</strong>
@@ -196,7 +197,14 @@ export function configuracion() {
 }
 
 export function mas() {
-  const items = [...(Auth.usuario?.esAdmin ? [['#/admin', 'shield-check', 'Panel admin']] : []), ['#/materiales', 'library', 'Materiales'], ['#/comunidad', 'messages-square', 'Comunidad'], ['#/herramientas', 'wrench', 'Herramientas'], ['#/praxia', 'stethoscope', 'Praxia Medical'], ['#/logros', 'flame', 'Logros'], ['#/certificados', 'award', 'Certificados'], ['#/recompensas', 'gift', 'Recompensas'], ['#/bienvenida', 'sparkles', 'Mi entrevista'], ['#/encuestas', 'message-square-heart', 'Encuestas'], ['#/perfil', 'user', 'Mi perfil'], ['#/suscripcion', 'credit-card', 'Suscripción'], ['#/configuracion', 'settings', 'Configuración']];
+  const items = [
+    ...(Auth.usuario?.esAdmin ? [['#/admin', 'shield-check', 'Panel admin']] : []),
+    ['#/materiales', 'library', 'Materiales'], ['#/comunidad', 'messages-square', 'Comunidad'], ['#/herramientas', 'wrench', 'Herramientas'],
+    ['#/praxia', 'stethoscope', 'Praxia Medical'], ['#/logros', 'flame', 'Logros'], ['#/certificados', 'award', 'Certificados'],
+    ...(disponible('recompensas') ? [['#/recompensas', 'gift', 'Recompensas']] : []),
+    ...(disponible('experiencia') ? [['#/bienvenida', 'sparkles', 'Mi entrevista'], ['#/encuestas', 'message-square-heart', 'Encuestas']] : []),
+    ['#/perfil', 'user', 'Mi perfil'], ['#/suscripcion', 'credit-card', 'Suscripción'], ['#/configuracion', 'settings', 'Configuración'],
+  ];
   return `
   <section class="stack" style="gap:16px">
     <div class="row" style="gap:12px"><div class="avatar avatar--lg">${Perfil.iniciales()}</div><div><div class="display" style="font-size:var(--fs-lg)">${esc(Perfil.get().nombre)}</div><span class="user-card__plan"><i data-lucide="crown" class="i"></i>VIP ${Perfil.get().plan}</span></div></div>

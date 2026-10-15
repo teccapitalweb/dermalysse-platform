@@ -87,7 +87,8 @@ export const Datos = {
   guardarEvento(e: Evento) { const l = [...this.eventos()]; const i = l.findIndex((x) => x.id === e.id); i >= 0 ? (l[i] = e) : l.push(e); guardarDato('eventos', l); },
   borrarEvento(id: string) { guardarDato('eventos', this.eventos().filter((e) => e.id !== id)); },
 
-  quizzes: () => dato<Quiz[]>('quizzes', quizzesSeed as Quiz[]),
+  // En API los quizzes llegan uno por clase desde /quiz; nunca se muestran los de la demo como respaldo.
+  quizzes: () => dato<Quiz[]>('quizzes', MODO === 'api' ? [] : quizzesSeed as Quiz[]),
   quiz: (cursoId: string, n: number) => Datos.quizzes().find((q) => q.cursoId === cursoId && q.n === n),
   guardarQuiz(q: Quiz) { const l = [...this.quizzes()]; q.actualizado = hoy(); const i = l.findIndex((x) => x.id === q.id); i >= 0 ? (l[i] = q) : l.push(q); guardarDato('quizzes', l); },
 

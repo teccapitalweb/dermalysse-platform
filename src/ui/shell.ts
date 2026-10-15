@@ -2,6 +2,7 @@
 import { Perfil } from '../core/perfil';
 import { Auth } from '../core/auth';
 import { Acceso } from '../core/acceso';
+import { disponible, type Funcion } from '../core/plataforma';
 import { esc } from './partials';
 export const NAV = [
   { href: '#/', icon: 'home', label: 'Inicio', match: /^\/$/ },
@@ -14,18 +15,21 @@ export const NAV = [
   { group: 'Tu progreso' },
   { href: '#/logros', icon: 'flame', label: 'Logros', match: /^\/logros/ },
   { href: '#/certificados', icon: 'award', label: 'Certificados', match: /^\/certificados/ },
-  { href: '#/recompensas', icon: 'gift', label: 'Recompensas', match: /^\/recompensas/ },
+  { href: '#/recompensas', icon: 'gift', label: 'Recompensas', match: /^\/recompensas/, funcion: 'recompensas' },
 ] as const;
+
+/** Entradas del menú visibles en este modo (las que dependen de una función apagada se ocultan). */
+const navVisible = () => NAV.filter((n) => !('funcion' in n) || disponible(n.funcion as Funcion));
 
 export function shellHTML() {
   const avatar = Auth.usuario?.foto ? `<img src="${esc(Auth.usuario.foto)}" alt="" referrerpolicy="no-referrer">` : Perfil.iniciales();
-  const items = NAV.map((n) =>
+  const items = navVisible().map((n) =>
     'group' in n
       ? `<div class="nav__label eyebrow">${n.group}</div>`
       : `<a class="nav__item" href="${n.href}" data-nav><i data-lucide="${n.icon}" class="i"></i>${n.label}</a>`
   ).join('');
   // Barra inferior móvil: 4 accesos + «Más». Academia ocupa el lugar de Materiales, que sigue en «Más».
-  const bottom = NAV.filter((n) => 'href' in n && ['#/', '#/cursos', '#/academia', '#/retos'].includes(n.href)).map((n: any) =>
+  const bottom = navVisible().filter((n) => 'href' in n && ['#/', '#/cursos', '#/academia', '#/retos'].includes(n.href)).map((n: any) =>
     `<a href="${n.href}" data-nav><i data-lucide="${n.icon}" class="i"></i>${n.label}</a>`).join('') +
     `<a href="#/mas" data-nav><i data-lucide="menu" class="i"></i>Más</a>`;
   return `

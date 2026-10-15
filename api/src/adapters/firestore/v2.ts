@@ -2,15 +2,18 @@
 //  - v2_experiencias/{id}            Directorio de experiencias.
 //  - v2_liga/clasificacion           { actualizado, filas[] } — sin documento ⇒ clasificación vacía (nunca la del fixture).
 //  - v2_quiz/{cursoId}__{n}          { preguntas[] } — banco con respuestas; nunca sale completo al cliente.
-import type { ExperienceStore, FiltroExperiencias, LeagueStore, LearningStore } from '../interfaces.js';
-import type { ExperienciaCompartida, FilaLiga, QuizFixture, ResumenLiga } from '../../domain/types.js';
+//  - v2_historia/{uid}               { uid, completados[], puntajes{}, ultimoNivel, actualizado, guardadoEn } — Modo Historia.
+import type { ExperienceStore, FiltroExperiencias, HistoriaStore, LeagueStore, LearningStore } from '../interfaces.js';
+import type { ExperienciaCompartida, FilaLiga, ProgresoHistoria, QuizFixture, ResumenLiga } from '../../domain/types.js';
 import { CATEGORIAS_EXPERIENCIA } from '../../domain/types.js';
+import { fusionarHistoria, normalizarGuardada } from '../../services/historia.js';
 import { texto, type Datos, type FirestorePort } from './port.js';
 
 export const COLECCIONES_V2 = {
   experiencias: 'v2_experiencias',
   liga: 'v2_liga',
   quiz: 'v2_quiz',
+  historia: 'v2_historia',
   academiaProgreso: 'v2_academia_progreso',
   academiaIntentos: 'v2_academia_intentos',
   academiaRevisiones: 'v2_academia_revisiones',
@@ -78,5 +81,25 @@ export class FirestoreLearningStore implements LearningStore {
     const d = (await this.db.get(ruta)).data();
     if (!d || !Array.isArray(d.preguntas) || !d.preguntas.length) return null;
     return { cursoId, n, preguntas: d.preguntas as QuizFixture['preguntas'] };
+  }
+}
+
+export class FirestoreHistoriaStore implements HistoriaStore {
+  constructor(private readonly db: FirestorePort) {}
+
+  private ruta(uid: string) { return `${COLECCIONES_V2.historia}/${segmento(uid)}`; }
+
+  async get(uid: string): Promise<ProgresoHistoria> {
+    return normalizarGuardada((await this.db.get(this.ruta(uid))).data());
+  }
+
+  /** Lectura + escritura en transacción: dos PATCH simultáneos nunca se pisan. */
+  fusionar(uid: string, entrada: ProgresoHistoria): Promise<ProgresoHistoria> {
+    const ruta = this.ruta(uid);
+    return this.db.runTransaction(async (tx) => {
+      const siguiente = fusionarHistoria(normalizarGuardada((await tx.get(ruta)).data()), entrada);
+      tx.set(ruta, { uid, ...siguiente, guardadoEn: new Date().toISOString() });
+      return siguiente;
+    });
   }
 }

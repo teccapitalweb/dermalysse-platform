@@ -50,6 +50,16 @@ function notasHTML(k: Clase, cursoId: string, n: number) {
 
 function quizHTML(cursoId: string, n: number, clase: Clase) {
   const q = Datos.quiz(cursoId, n);
+  // Modo API: sin banco en el servidor (/quiz 404/403) o con una lista vacía ⇒ aviso honesto, nunca un reto vacío.
+  if (Datos.modo === 'api' && (!q || q.estado !== 'aprobado' || !q.preguntas.length)) {
+    return `<section class="quiz-pending" role="status">
+      <div class="quiz-pending__art"><span><i data-lucide="brain-circuit" class="i"></i></span><i data-lucide="sparkles" class="i quiz-pending__spark"></i></div>
+      <span class="quiz-kicker"><i data-lucide="clock-3" class="i"></i>Próximamente</span>
+      <h2>El cuestionario de esta clase estará disponible pronto</h2>
+      <p>El equipo de Dermalysse está preparando y validando las preguntas. Mientras tanto, tu avance de la clase se acredita al reproducir el video.</p>
+      <a class="btn btn--secondary quiz-pending__cta" href="#/curso/${esc(cursoId)}"><i data-lucide="list-video" class="i"></i>Ver las clases del curso</a>
+    </section>`;
+  }
   if (!q || q.estado !== 'aprobado') {
     const conceptos = clase.notas?.conceptos?.slice(0, 3) || [];
     return `<section class="quiz-pending">

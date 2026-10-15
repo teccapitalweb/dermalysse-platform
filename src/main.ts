@@ -27,7 +27,7 @@ import './styles/academia.css';
 import './styles/produccion.css';
 import './styles/responsive.css';
 import { createIcons, icons } from 'lucide';
-import { route, startRouter, onRender, onBeforeRender, current, navigate, render } from './core/router';
+import { route, startRouter, onRender, onBeforeRender, current, navigate, render, type Page } from './core/router';
 import { shellHTML, marcarNavActivo } from './ui/shell';
 import { adminShellHTML, marcarAdminActivo } from './admin/shell';
 import { instalarAccionesAdmin } from './admin/acciones';
@@ -43,7 +43,10 @@ import { catalogo } from './pages/cursos';
 import { curso } from './pages/curso';
 import { clase, refrescarClaseEnSitio } from './pages/clase';
 import { montarReproductorApi, type Reproductor, type RespuestaEvento } from './ui/reproductor';
-import { cargarPlataforma, plataforma } from './core/plataforma';
+import { cargarPlataforma, disponible, plataforma, type Funcion } from './core/plataforma';
+import { funcionDeRuta } from './core/funciones';
+import { paginaProximamente } from './pages/proximamente';
+import { adminInicioProduccion } from './admin/produccion';
 import { busquedaSinCodigo, hashVerificacionLegada } from './core/legado';
 import { alternarMaterialGuardado, biblioteca, material } from './pages/materiales';
 import { visor, montarVisor } from './pages/visor';
@@ -159,8 +162,13 @@ onBeforeRender(async (path) => {
     const errorEstado = Auth.tomarErrorEstado(); // una vez por inicio de sesión
     if (errorEstado) toast(errorEstado, 'circle-alert');
   }
+  // Funciones apagadas en producción (src/core/funciones.ts): nunca un error, siempre una salida amable.
+  const funcionRuta = funcionDeRuta(path);
+  const funcionApagada = funcionRuta !== null && !disponible(funcionRuta);
   if (path.startsWith('/admin')) {
     if (!u.esAdmin) { toast('Tu cuenta no tiene acceso al panel de administración', 'shield-alert'); navigate('/'); return false; }
+    // Sin 'adminGestion' solo existen el Inicio del admin y la Academia; el resto lleva al Inicio (con el enlace al panel actual).
+    if (funcionApagada && !/^\/admin\/?$/.test(path)) { navigate('/admin'); return false; }
     try { await cargarAdmin(path); }
     catch (e) { toast(`No se pudieron cargar los datos reales: ${mensajeError(e)}`, 'circle-alert'); }
     montar('admin'); return true;
@@ -169,7 +177,7 @@ onBeforeRender(async (path) => {
   catch (e) { toast(`No se pudo cargar el catálogo: ${mensajeError(e)}`, 'circle-alert'); }
   // El nuevo flujo no bloquea clases, exámenes ni facturación. Un fallo API se
   // muestra en su propia tarjeta/página y nunca se sustituye por una demo.
-  if (['/', '/perfil', '/bienvenida', '/encuestas'].includes(path)) {
+  if (disponible('experiencia') && ['/', '/perfil', '/bienvenida', '/encuestas'].includes(path)) {
     try {
       await cargarExperiencia();
       if (Auth.usuario?.uid === u.uid) await registrarSesion();
@@ -179,7 +187,7 @@ onBeforeRender(async (path) => {
   // Primera vez que la cuenta abre el club en este dispositivo: bienvenida a pantalla completa.
   // Se muestra una sola vez; después queda la invitación en Inicio. No intercepta enlaces a
   // clases, exámenes o pagos ni envía telemetría.
-  const experiencia = getExperiencia();
+  const experiencia = disponible('experiencia') ? getExperiencia() : null;
   if (path === '/' && experiencia && ['nueva', 'demo'].includes(experiencia.cohorte)
     && experiencia.entrevista.estado === 'pendiente') {
     try {
@@ -187,12 +195,17 @@ onBeforeRender(async (path) => {
     } catch { /* Si el navegador no guarda preferencias, usar solo la tarjeta. */ }
   }
   // Bienvenida y encuesta ocupan toda la pantalla, sin menú ni barras del club.
-  const pantallaCompleta = path === '/bienvenida' || path === '/encuestas';
-  if (path === '/bienvenida') { try { localStorage.setItem(invitacionExperiencia(u.uid), '1'); } catch { /* sin almacenamiento */ } }
+  // Si la función está apagada, la ruta muestra «Próximamente» dentro del club (con menú).
+  const pantallaCompleta = !funcionApagada && (path === '/bienvenida' || path === '/encuestas');
+  if (pantallaCompleta && path === '/bienvenida') { try { localStorage.setItem(invitacionExperiencia(u.uid), '1'); } catch { /* sin almacenamiento */ } }
   montar(pantallaCompleta ? 'solo' : 'miembro');
   if (!pantallaCompleta) instalarAvisosLogros(u.uid);
   return true;
 });
+
+// Rutas que dependen de una función de src/core/funciones.ts: si está apagada, se pinta `alterna`.
+const segun = (funcion: Funcion, pagina: Page, alterna: Page): Page => (params, query) => (disponible(funcion) ? pagina(params, query) : alterna(params, query));
+const proximamente = (funcion: Funcion): Page => () => paginaProximamente(funcion);
 
 // ── Rutas del miembro ──
 route('/login', login);
@@ -225,15 +238,15 @@ route('/certificados/muestra', certificadoMuestra);
 route('/certificados/:id', certificado);
 route('/herramientas', herramientas);
 route('/praxia', paginaPraxia);
-route('/recompensas', paginaRecompensas);
-route('/bienvenida', paginaBienvenida);
-route('/encuestas', paginaEncuestas);
+route('/recompensas', segun('recompensas', paginaRecompensas, proximamente('recompensas')));
+route('/bienvenida', segun('experiencia', paginaBienvenida, proximamente('experiencia')));
+route('/encuestas', segun('experiencia', paginaEncuestas, proximamente('experiencia')));
 route('/perfil', perfil);
 route('/suscripcion', suscripcion);
 route('/configuracion', configuracion);
 route('/mas', mas);
 // ── Rutas del admin ──
-route('/admin', adminResumen);
+route('/admin', segun('adminGestion', adminResumen, adminInicioProduccion));
 route('/admin/cursos', adminCursos);
 route('/admin/cursos/:id', adminCurso);
 route('/admin/quizzes', adminQuizzes);
@@ -694,7 +707,7 @@ document.addEventListener('click', async (e) => {
     }
   }
 
-  const canjear = el.closest<HTMLButtonElement>('[data-canjear]');
+  const canjear = disponible('recompensas') ? el.closest<HTMLButtonElement>('[data-canjear]') : null;
   if (canjear) {
     if (canjear.disabled) return;
     canjear.disabled = true;
@@ -953,6 +966,7 @@ document.addEventListener('submit', async (e) => {
   const f = e.target as HTMLFormElement;
   if (f.matches('[data-form-canje-cupon]')) {
     e.preventDefault();
+    if (!disponible('cupones')) return;
     if (Datos.modo !== 'api') { toast('El canje está disponible en el club conectado.', 'circle-alert'); return; }
     const btn = f.querySelector<HTMLButtonElement>('button');
     btn?.setAttribute('disabled', '');

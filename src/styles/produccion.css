@@ -63,3 +63,61 @@
 @media (prefers-reduced-motion: reduce) {
   .player-estado [data-lucide="loader-circle"], .player-estado svg.lucide-loader-circle { animation: none; }
 }
+
+/* ── «Próximamente en el club» (funciones apagadas en producción: src/core/funciones.ts) ── */
+.proximo { display: grid; place-items: center; padding: clamp(8px, 4vw, 40px) 0; }
+.proximo__card {
+  position: relative; overflow: hidden; width: min(100%, 560px); display: grid; justify-items: center; gap: 14px;
+  padding: clamp(28px, 6vw, 44px) clamp(18px, 5vw, 40px); text-align: center;
+  border: 1px solid var(--line); border-radius: var(--r-2xl); background: var(--surface); box-shadow: var(--shadow-lg);
+}
+.proximo__card::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: 6px; background: var(--brand-gradient);
+}
+.proximo__ic {
+  display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%;
+  color: var(--primary); background: var(--primary-soft); border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+}
+.proximo__ic .i { width: 28px; height: 28px; }
+.proximo__chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px;
+  font-size: var(--fs-xs); font-weight: 600; letter-spacing: .02em; color: var(--text); background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.proximo__chip .i { width: 14px; height: 14px; color: var(--primary); }
+.proximo__titulo { font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1.15; color: var(--text); overflow-wrap: anywhere; }
+.proximo__texto { max-width: 46ch; color: var(--text-2); font-size: var(--fs-base); line-height: 1.6; overflow-wrap: anywhere; }
+.proximo__acciones { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 6px; }
+@media (max-width: 420px) {
+  .proximo__acciones { display: grid; width: 100%; }
+  .proximo__acciones .btn { justify-content: center; width: 100%; }
+}
+
+/* ── Admin en producción: Academia + enlace al panel admin actual ── */
+.admin-prod { display: grid; gap: 16px; max-width: 760px; }
+.admin-prod__academia { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; color: inherit; text-decoration: none; }
+.admin-prod__academia h2, .admin-legado h2 { font-family: var(--font-display); font-size: var(--fs-lg); color: var(--text); margin-bottom: 4px; }
+.admin-prod__academia p, .admin-legado p { font-size: var(--fs-sm); line-height: 1.5; overflow-wrap: anywhere; }
+.admin-prod__nota { font-size: var(--fs-sm); }
+.admin-legado { display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 16px; }
+.admin-legado__ic {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  color: var(--primary); background: var(--primary-soft);
+}
+.admin-legado__ic .i { width: 22px; height: 22px; }
+.admin-legado__cuerpo { display: grid; gap: 10px; justify-items: start; min-width: 0; }
+.admin-legado__cuerpo .btn { max-width: 100%; }
+/* Variante de la barra lateral (fondo tinta): blanco al 85 % ⇒ contraste AA. */
+.admin-legado--lateral {
+  display: flex; gap: 10px; padding: 12px; border-radius: var(--r-md); background: rgba(255, 255, 255, .08);
+  font-size: var(--fs-xs); line-height: 1.4; color: rgba(255, 255, 255, .85);
+}
+.admin-legado--lateral > .i { width: 18px; height: 18px; color: var(--brand-gold); flex-shrink: 0; }
+.admin-legado--lateral strong { color: #fff; }
+.admin-legado--lateral p { margin: 2px 0 8px; font-size: var(--fs-xs); }
+@media (max-width: 520px) {
+  .admin-prod__academia { grid-template-columns: auto 1fr; }
+  .admin-prod__academia .circle-btn { display: none; }
+  .admin-legado { grid-template-columns: 1fr; }
+  .admin-legado__cuerpo .btn { width: 100%; justify-content: center; }
+}
