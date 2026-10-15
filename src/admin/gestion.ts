@@ -144,9 +144,9 @@ export function adminMiembro(params: Record<string, string>) {
       <form class="card card--pad stack" style="gap:12px" data-form="cortesia" data-uid="${d.uid}">
         <h3 class="admin-card-title">Acceso de cortesía</h3>
         ${cortesiaVigente ? `<p style="font-size:var(--fs-sm)">Vigente hasta <strong>${fecha(d.cortesiaHasta)}</strong>${d.cortesia?.motivo ? ` · ${esc(d.cortesia.motivo)}` : ''}</p>` : '<p class="muted" style="font-size:var(--fs-sm)">Da acceso VIP sin cobro por un periodo.</p>'}
-        <div class="form-grid"><div class="field"><label>Días</label><div class="row" style="gap:6px">${[7, 15, 30, 90].map((n) => `<button type="button" class="chip chip--outline" data-dias="${n}">${n}</button>`).join('')}</div><input class="input" type="number" min="1" max="3650" name="dias" value="30" required></div>
+        <div class="form-grid"><div class="field"><label>Días</label><div class="row" style="gap:6px">${[7, 15, 30, 90].map((n) => `<button type="button" class="chip chip--outline" data-dias="${n}">${n}</button>`).join('')}</div><input class="input" type="number" min="1" max="366" name="dias" value="30" required></div>
         <div class="field"><label>Motivo</label><input class="input" name="motivo" required placeholder="Ponente, alianza, compensación…"></div></div>
-        <div class="row"><button class="btn btn--brand"><i data-lucide="gift" class="i"></i>${cortesiaVigente ? 'Extender cortesía' : 'Dar cortesía'}</button>${cortesiaVigente ? `<button type="button" class="btn btn--danger" data-revocar-cortesia="${d.uid}">Revocar</button>` : ''}</div>
+        <div class="row"><button class="btn btn--brand"><i data-lucide="gift" class="i"></i>${cortesiaVigente ? 'Extender cortesía' : 'Dar cortesía'}</button></div>
       </form>
       <div class="card card--pad stack" style="gap:10px">
         <h3 class="admin-card-title">Suscripción</h3>

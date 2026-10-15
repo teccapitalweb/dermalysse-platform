@@ -21,22 +21,30 @@ async function subirFirmado(ruta: string, archivo: File, tipo?: 'archivo' | 'por
   return firma;
 }
 
+/** Curso nuevo armado en el navegador (modo API) que aún no existe en el servidor: se guarda con POST. */
+type CursoLocal = Curso & { borradorLocal?: boolean };
+
 function cursoDesdeForm(f: HTMLFormElement): Curso {
   const d = new FormData(f);
   const id = f.dataset.id || '';
   const previo = Datos.cursos().find((c) => c.id === id);
+  // Modo API con curso existente: video, duración y clase gratuita no se editan aquí (se conservan del servidor).
+  const fija = f.dataset.estructuraFija === '1';
   const clases = [];
   for (let i = 0; d.has(`clase-${i}-titulo`); i++) {
+    const base = previo?.clases[i];
     const dur = String(d.get(`clase-${i}-duracion`) || '');
-    clases.push({ ...(previo?.clases[i] || {}), n: i + 1, titulo: String(d.get(`clase-${i}-titulo`)).trim(), videoId: String(d.get(`clase-${i}-videoId`)).trim(),
-                  duracion: dur ? Number(dur) : null, gratis: d.get(`clase-${i}-gratis`) === 'on' });
+    clases.push({ ...(base || {}), n: i + 1, titulo: String(d.get(`clase-${i}-titulo`)).trim(),
+                  videoId: d.has(`clase-${i}-videoId`) ? String(d.get(`clase-${i}-videoId`)).trim() : (base?.videoId ?? ''),
+                  duracion: fija ? (base?.duracion ?? null) : dur ? Number(dur) : null,
+                  gratis: fija ? !!base?.gratis : d.get(`clase-${i}-gratis`) === 'on' });
   }
   const titulo = String(d.get('titulo')).trim();
   return {
     ...(previo || {}),
     id: id || slug(titulo), titulo, area: String(d.get('area')).trim(), nivel: String(d.get('nivel')), instructor: String(d.get('instructor')).trim(),
     descripcion: String(d.get('descripcion')).trim(), aprenderas: String(d.get('aprenderas')).split('\n').map((x) => x.trim()).filter(Boolean),
-    bunnyCollectionId: String(d.get('bunnyCollectionId')).trim(), publicado: d.get('publicado') === '1', portada: String(d.get('portada')),
+    bunnyCollectionId: d.has('bunnyCollectionId') ? String(d.get('bunnyCollectionId')).trim() : (previo?.bunnyCollectionId ?? ''), publicado: d.get('publicado') === '1', portada: String(d.get('portada')),
     orden: previo?.orden ?? Datos.cursos().length + 1, clases,
   };
 }
@@ -84,7 +92,7 @@ export function instalarAccionesAdmin(toast: Toast) {
         if (!f.dataset.id && Datos.cursos().some((x) => x.id === c.id)) { toast('Ya existe un curso con ese título', 'alert-triangle'); return; }
         if (!c.clases.length) { toast('Agrega al menos una clase', 'alert-triangle'); return; }
         if (Datos.modo === 'api') {
-          const idPrevio = f.dataset.id;
+          const idPrevio = (c as CursoLocal).borradorLocal ? undefined : f.dataset.id;
           const ruta = idPrevio ? `/admin/cursos/${encodeURIComponent(idPrevio)}` : '/admin/cursos';
           await api(ruta, { method: idPrevio ? 'PATCH' : 'POST', json: cursoParaApi(c) });
           const portada = f.querySelector<HTMLInputElement>('[data-subir-imagen="portada"]')?.files?.[0];
@@ -235,6 +243,7 @@ export function instalarAccionesAdmin(toast: Toast) {
       if (acc === 'bajar' && i < c.clases.length - 1) [c.clases[i + 1], c.clases[i]] = [c.clases[i], c.clases[i + 1]];
       c.clases.forEach((k, n) => (k.n = n + 1));
       if (!c.titulo) { toast('Escribe el título del curso primero', 'alert-triangle'); return; }
+      if (Datos.modo === 'api' && !f.dataset.id) (c as CursoLocal).borradorLocal = true;
       Datos.guardarCurso(c); if (!f.dataset.id) navigate(`/admin/cursos/${c.id}`); else render();
     }
 

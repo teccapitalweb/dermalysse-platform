@@ -51,6 +51,7 @@ import { moduloVip } from './modulos/vip.js';
 import { crearServicioContenido, moduloContenido } from './modulos/contenido.js';
 import { cargarQuizzesEmpaquetados } from './adapters/firestore/contenido.js';
 import { moduloExperiencia } from './modulos/experiencia.js';
+import { moduloAdmin } from './modulos/admin.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
@@ -278,10 +279,10 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
  * el real en producción). Agrega aquí una línea por módulo.
  */
 function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: boolean }): ModuloApi[] {
-  void ctx;
   return [
     moduloVip(ctx),
     moduloContenido(ctx),
     moduloExperiencia(ctx),
+    moduloAdmin(ctx),
   ];
 }

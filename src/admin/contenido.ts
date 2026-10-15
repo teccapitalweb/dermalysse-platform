@@ -41,10 +41,14 @@ export function adminCurso(params: Record<string, string>) {
     ? { id: '', titulo: '', area: '', nivel: 'Básico', instructor: '', portada: '/media/hero-background.png', descripcion: '', aprenderas: [], orden: Datos.cursos().length + 1, publicado: false, bunnyCollectionId: '', clases: [] }
     : Datos.cursos().find((x) => x.id === params.id)!;
   if (!c) return vacio('Curso no encontrado', 'Puede que se haya borrado.', '<a class="btn btn--brand" href="#/admin/cursos">Volver</a>');
+  // Modo API con un curso que ya existe en Firebase: los videos (Bunny), la duración, la clase gratuita y el
+  // número/orden de clases se conservan en el servidor y se gestionan en el panel actual; aquí solo textos.
+  const fija = Datos.modo === 'api' && !nuevo && !(c as Curso & { borradorLocal?: boolean }).borradorLocal;
+  const api = Datos.modo === 'api';
   const areas = [...new Set(Datos.cursos().map((x) => x.area))].sort();
   return `
   <a class="section-head__cta" href="#/admin/cursos" style="align-self:flex-start"><span class="circle-btn circle-btn--glass" style="width:34px;height:34px"><i data-lucide="arrow-left" class="i" style="width:15px;height:15px"></i></span>Cursos</a>
-  <form class="stack" style="gap:20px" data-form="curso" data-id="${c.id}">
+  <form class="stack" style="gap:20px" data-form="curso" data-id="${c.id}"${fija ? ' data-estructura-fija="1"' : ''}>
     ${adminHead(nuevo ? 'Nuevo curso' : esc(c.titulo), nuevo ? 'Llena los datos y agrega las clases con su ID de video de Bunny.' : `${c.clases.length} clases · biblioteca Bunny ${Datos.libraryId}`,
       `${!nuevo ? `<a class="btn btn--secondary" href="#/curso/${c.id}" target="_blank"><i data-lucide="eye" class="i"></i>Ver como miembro</a>` : ''}<button class="btn btn--brand btn--pill-arrow">Guardar <span class="arrow"><i data-lucide="check" class="i"></i></span></button>`)}
     <div class="admin-grid">
@@ -59,31 +63,32 @@ export function adminCurso(params: Record<string, string>) {
         <div class="field"><label>Descripción</label><textarea class="input" name="descripcion" rows="3">${esc(c.descripcion)}</textarea></div>
         <div class="field"><label>Lo que aprenderás (uno por línea)</label><textarea class="input" name="aprenderas" rows="4">${esc((c.aprenderas || []).join('\n'))}</textarea></div>
         <div class="form-grid">
-          <div class="field"><label>ID de colección en Bunny</label><input class="input mono" name="bunnyCollectionId" value="${esc(c.bunnyCollectionId)}"></div>
+          ${api ? '' : `<div class="field"><label>ID de colección en Bunny</label><input class="input mono" name="bunnyCollectionId" value="${esc(c.bunnyCollectionId)}"></div>`}
           <div class="field"><label>Publicado</label><select class="input" name="publicado"><option value="1" ${c.publicado !== false ? 'selected' : ''}>Sí, visible para miembros</option><option value="0" ${c.publicado === false ? 'selected' : ''}>No, oculto</option></select></div>
         </div>
       </div>
       <div class="card card--pad stack" style="gap:12px">
         <h3 class="admin-card-title">Portada 3:4</h3>
-        <div class="cover-drop"><img src="${c.portada}" alt="" data-preview="portada"><label class="btn btn--secondary btn--sm"><i data-lucide="upload" class="i"></i>Subir imagen<input type="file" accept="image/*" hidden data-subir-imagen="portada"></label></div>
+        <div class="cover-drop"><img src="${c.portada}" alt="" data-preview="portada">${api ? '' : `<label class="btn btn--secondary btn--sm"><i data-lucide="upload" class="i"></i>Subir imagen<input type="file" accept="image/*" hidden data-subir-imagen="portada"></label>`}</div>
         <input type="hidden" name="portada" value="${esc(c.portada)}">
-        <p class="faint" style="font-size:var(--fs-xs)">Usa las imágenes generadas con la guía de Flow. Se optimizan al subir.</p>
+        <p class="faint" style="font-size:var(--fs-xs)">${api ? 'La portada del club sale del catálogo editorial; por ahora no se cambia desde aquí.' : 'Usa las imágenes generadas con la guía de Flow. Se optimizan al subir.'}</p>
       </div>
     </div>
     <div class="card card--pad stack" style="gap:12px">
-      <div class="row" style="justify-content:space-between"><h3 class="admin-card-title">Clases</h3><button type="button" class="btn btn--secondary btn--sm" data-clase-accion="agregar"><i data-lucide="plus" class="i"></i>Agregar clase</button></div>
-      ${c.clases.length ? `<div class="dtable-wrap"><table class="dtable dtable--form"><thead><tr><th style="width:40px">#</th><th>Título</th><th style="width:30%">ID de video en Bunny</th><th style="width:90px">Min</th><th style="width:70px">Gratis</th><th style="width:110px"></th></tr></thead><tbody>
+      <div class="row" style="justify-content:space-between"><h3 class="admin-card-title">Clases</h3>${fija ? '' : '<button type="button" class="btn btn--secondary btn--sm" data-clase-accion="agregar"><i data-lucide="plus" class="i"></i>Agregar clase</button>'}</div>
+      ${fija ? '<p class="faint" style="font-size:var(--fs-xs)">Aquí se editan los títulos. Videos, duración, clase gratuita y el orden de las clases se gestionan en el panel actual.</p>' : api ? '<p class="faint" style="font-size:var(--fs-xs)">El curso se guarda como borrador; los videos se vinculan con Bunny en el panel actual antes de publicarlo.</p>' : ''}
+      ${c.clases.length ? `<div class="dtable-wrap"><table class="dtable dtable--form"><thead><tr><th style="width:40px">#</th><th>Título</th>${api ? '<th style="width:16%">Video</th>' : '<th style="width:30%">ID de video en Bunny</th>'}<th style="width:90px">Min</th><th style="width:70px">Gratis</th>${fija ? '' : '<th style="width:110px"></th>'}</tr></thead><tbody>
         ${c.clases.map((k, i) => `<tr>
           <td class="mono faint">${i + 1}</td>
           <td><input class="input input--sm" name="clase-${i}-titulo" value="${esc(k.titulo)}" required>${/^Clase \d+$/.test(k.titulo) ? '<span class="faint" style="font-size:10px">Título genérico · se reemplaza con la transcripción</span>' : ''}</td>
-          <td><input class="input input--sm mono" name="clase-${i}-videoId" value="${esc(k.videoId)}" required></td>
-          <td><input class="input input--sm mono" name="clase-${i}-duracion" type="number" min="0" value="${k.duracion ?? ''}"></td>
-          <td style="text-align:center"><input type="checkbox" name="clase-${i}-gratis" ${k.gratis ? 'checked' : ''}></td>
-          <td><div class="row" style="gap:2px;flex-wrap:nowrap">
+          <td>${api ? ((k as typeof k & { conVideo?: boolean }).conVideo ? '<span class="chip chip--accent">Vinculado</span>' : '<span class="chip chip--warn">Sin video</span>') : `<input class="input input--sm mono" name="clase-${i}-videoId" value="${esc(k.videoId)}" required>`}</td>
+          <td>${fija ? `<span class="mono">${k.duracion ?? '—'}</span>` : `<input class="input input--sm mono" name="clase-${i}-duracion" type="number" min="0" value="${k.duracion ?? ''}">`}</td>
+          <td style="text-align:center">${fija ? (k.gratis ? 'Sí' : '—') : `<input type="checkbox" name="clase-${i}-gratis" ${k.gratis ? 'checked' : ''}>`}</td>
+          ${fija ? '' : `<td><div class="row" style="gap:2px;flex-wrap:nowrap">
             <button type="button" class="btn btn--ghost btn--icon btn--xs" data-clase-accion="subir:${i}" ${i === 0 ? 'disabled' : ''}><i data-lucide="arrow-up" class="i"></i></button>
             <button type="button" class="btn btn--ghost btn--icon btn--xs" data-clase-accion="bajar:${i}" ${i === c.clases.length - 1 ? 'disabled' : ''}><i data-lucide="arrow-down" class="i"></i></button>
             <button type="button" class="btn btn--ghost btn--icon btn--xs" data-clase-accion="quitar:${i}"><i data-lucide="trash-2" class="i"></i></button>
-          </div></td></tr>`).join('')}
+          </div></td>`}</tr>`).join('')}
       </tbody></table></div>` : vacio('Sin clases', 'Agrega la primera clase con su ID de video de Bunny.')}
     </div>
     ${!nuevo ? `<div class="card card--pad row" style="justify-content:space-between"><div><strong>Borrar curso</strong><p class="faint" style="font-size:var(--fs-xs)">Solo si nadie lo ha empezado. En producción el backend lo impide si hay progreso.</p></div><button type="button" class="btn btn--danger" data-borrar-curso="${c.id}"><i data-lucide="trash-2" class="i"></i>Borrar</button></div>` : ''}
