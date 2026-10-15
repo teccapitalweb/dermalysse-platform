@@ -14,8 +14,12 @@ import { MemoryForumStore } from './adapters/dev/memoryForum.js';
 import { MemoryProfileStore } from './adapters/dev/memoryProfile.js';
 import { FirebaseAuthAdapter } from './adapters/stubs/firebaseAuth.js';
 import { crearAuth } from './middleware/auth.js';
-import { ConflictError, ForbiddenError, NotFoundError, ValidationError } from './services/errors.js';
+import { CodedError, ConflictError, ForbiddenError, NotFoundError, ValidationError } from './services/errors.js';
 import { LearningService } from './services/learning.js';
+import { AcademiaService } from './services/academia.js';
+import { DiskAcademiaContentStore } from './adapters/dev/diskAcademia.js';
+import { MemoryAcademiaAttemptStore, MemoryAcademiaProgressStore, MemoryAcademiaReviewStore } from './adapters/dev/memoryAcademia.js';
+import { rutaAcademia, rutaAdminAcademia } from './routes/academia.js';
 import { rutaConfig } from './routes/config.js';
 import { rutaCatalogo } from './routes/catalogo.js';
 import { rutaNoticias } from './routes/noticias.js';
@@ -36,6 +40,8 @@ export interface Dependencias {
   league: LeagueStore;
   forum: ForumStore;
   profiles: ProfileStore;
+  /** Academia (programas de lectura). Opcional para que los ensamblajes de prueba previos sigan válidos. */
+  academia?: AcademiaService;
   corsOrigins: string[];
 }
 
@@ -61,7 +67,7 @@ export function createApp(deps: Dependencias): Express {
   app.use(corsDev(deps.corsOrigins));
   app.use(express.json({ limit: '32kb' }));
 
-  const { requireUser } = crearAuth(deps.auth);
+  const { requireUser, requireAdmin } = crearAuth(deps.auth);
 
   // Salud / meta (no expone secretos ni datos sensibles).
   app.get('/', (_req, res) => {
@@ -79,6 +85,10 @@ export function createApp(deps: Dependencias): Express {
   app.use('/progreso', rutaProgreso(deps.learning, requireUser));
   app.use('/certificados', rutaCertificados(deps.learning, requireUser));
   app.use('/verificar', rutaVerificar(deps.learning));
+  if (deps.academia) {
+    app.use('/academia', rutaAcademia(deps.academia, requireUser));
+    app.use('/admin/academia', rutaAdminAcademia(deps.academia, requireAdmin));
+  }
 
   // 404 honesto para rutas no definidas.
   app.use((_req, res) => {
@@ -87,6 +97,10 @@ export function createApp(deps: Dependencias): Express {
 
   // Manejo de errores: estado honesto, nunca datos demo para enmascarar un fallo.
   app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+    if (err instanceof CodedError) {
+      res.status(err.status).json({ error: err.codigo, mensaje: err.message });
+      return;
+    }
     if (err instanceof ValidationError) {
       res.status(400).json({ error: 'validacion', mensaje: err.message });
       return;
@@ -141,6 +155,13 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env): Express {
     league: new FixtureLeagueStore(),
     forum: new MemoryForumStore(),
     profiles: new MemoryProfileStore(),
+    academia: new AcademiaService(
+      new DiskAcademiaContentStore(),
+      new MemoryAcademiaProgressStore(),
+      new MemoryAcademiaAttemptStore(),
+      new MemoryAcademiaReviewStore(),
+      { mostrarBorradores: env.ACADEMIA_MOSTRAR_BORRADORES === 'true' },
+    ),
     corsOrigins,
   });
 }

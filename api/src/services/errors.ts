@@ -18,3 +18,14 @@ export class ForbiddenError extends Error {
   readonly code = 'FORBIDDEN'; // ⇒ 403
   constructor(message: string) { super(message); this.name = 'ForbiddenError'; }
 }
+
+/**
+ * Error con estado y código propios (p. ej. 402 requiere_vip, 429 espera_examen).
+ * Se responde como { error: codigo, mensaje }; el cliente decide la pantalla por `codigo`.
+ */
+export class CodedError extends Error {
+  constructor(readonly status: number, readonly codigo: string, message: string) {
+    super(message);
+    this.name = 'CodedError';
+  }
+}

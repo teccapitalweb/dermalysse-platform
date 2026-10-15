@@ -39,6 +39,22 @@ npm run dev            # igual que start, con recarga (tsx watch)
 | GET | `/experiencias` | no | Lista filtrable por `?categoria=&q=` (orden fecha desc). |
 | POST | `/experiencias` | **sí** | Crea; el servidor asigna `id/fecha/autor` y valida (título 4–100, texto 20–900, categoría válida). 400 honesto si falla. |
 
+### Academia (programas de lectura por módulos)
+Contenido en `api/content/academia` (catálogo + `<programa>/modulo-NN.json`), leído del disco por `DiskAcademiaContentStore`; avance, exámenes emitidos y revisiones en memoria (dev). Reglas en `src/services/academia.ts`, pruebas en `test/academia.test.ts`.
+
+| Método | Ruta | Auth | Propósito |
+|---|---|---|---|
+| GET | `/academia` | **sí** | Catálogo con `disponible`, `estado`, `temas`, `duracionMin` por módulo + `progreso` de la cuenta. Sin datos del examen. |
+| GET | `/academia/progreso` | **sí** | Avance `{ [programa]: { modulos: { [n]: { temas, mejor, intentos, aprobado } } } }`. |
+| GET | `/academia/:programa/:n` | **sí** | Módulo sin banco: `examen = { aprobar, mostrar, total }`. |
+| POST | `/academia/:programa/:n/tema` | **sí** | `{ tema }`: marca un tema como leído. |
+| GET | `/academia/:programa/:n/examen` | **sí** | `mostrar` preguntas al azar, sin respuestas; guarda las emitidas. |
+| POST | `/academia/:programa/:n/examen` | **sí** | `{ respuestas: { id: indice } }`: califica solo lo emitido, una vez (409 si no). |
+| GET | `/admin/academia` | admin | Estado del archivo, estado efectivo, nota y métricas por módulo. |
+| PATCH | `/admin/academia/:programa/:n` | admin | `{ estado: borrador\|revision\|aprobado, nota? }`: capa de revisión sobre el JSON. |
+
+Códigos: `402 requiere_vip` (módulo > 1 sin VIP), `403 modulo_bloqueado` (sin aprobar el anterior con 70 %), `404 modulo_en_preparacion` (sin archivo o no aprobado; el admin ve borradores), `403 temas_pendientes`, `429 espera_examen` (3 min tras reprobar), `409 examen_no_emitido` / `examen_desactualizado`. Al calificar, `revelado:false` y `detalle = [{ id, acertada }]` mientras el módulo no esté aprobado; nunca viajan respuestas ni explicaciones antes. `ACADEMIA_MOSTRAR_BORRADORES=true` muestra borradores a todos (solo para revisar en local). El certificado de programa aún no existe.
+
 Las formas replican lo que el cliente ya espera (ver `src/core/auth.ts`, `remoto.ts`, `comunidad.ts`, `directorio-experiencias.ts`).
 
 ## Arquitectura

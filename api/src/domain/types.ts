@@ -229,3 +229,84 @@ export interface PerfilData {
   especialidad: string;
   ciudad: string;
 }
+
+// ── Academia: programas de lectura por módulos (api/content/academia) ──
+// Formato del contenido: docs/ACADEMIA-FORMATO.md. Los tipos solo fijan lo que la API usa;
+// el resto de cada módulo (bloques, glosario, minijuego…) viaja tal como está en el JSON.
+
+export const ESTADOS_ACADEMIA = ['borrador', 'revision', 'aprobado'] as const;
+export type EstadoAcademia = (typeof ESTADOS_ACADEMIA)[number];
+
+export interface ModuloCatalogoAcademia { n: number; titulo: string }
+
+export interface ProgramaAcademia {
+  id: string;
+  numero?: number;
+  titulo: string;
+  area?: string;
+  descripcion?: string;
+  nivel?: string;
+  publico?: string[];
+  portada?: { id: string; proporcion: string };
+  modulos: ModuloCatalogoAcademia[];
+}
+
+export interface CatalogoAcademia {
+  version?: number;
+  actualizado?: string;
+  programas: ProgramaAcademia[];
+}
+
+/** Pregunta del banco del examen. `correcta` y `explicacion` NUNCA salen antes de calificar. */
+export interface PreguntaAcademia {
+  id: string;
+  q: string;
+  opciones: string[];
+  correcta: number;
+  explicacion?: string;
+}
+
+export interface TemaAcademia {
+  n: string;
+  titulo: string;
+  [campo: string]: unknown;
+}
+
+export interface ModuloAcademia {
+  programa: string;
+  modulo: number;
+  titulo: string;
+  estado?: string;
+  duracionMin?: number;
+  temas?: TemaAcademia[];
+  examen?: { aprobar?: number; mostrar?: number; preguntas?: PreguntaAcademia[] };
+  [campo: string]: unknown;
+}
+
+/** Avance de un módulo (forma que hidrata el cliente). */
+export interface AvanceModuloAcademia {
+  temas?: Record<string, string>;
+  mejor?: number;
+  intentos?: number;
+  aprobado?: boolean;
+  aprobadoEn?: string;
+}
+
+export type ProgresoAcademia = Record<string, { modulos: Record<string, AvanceModuloAcademia> }>;
+
+/** Último examen emitido a un usuario para un módulo (vive solo en el servidor). */
+export interface IntentoAcademia {
+  ids: string[];
+  emitido: string;
+  calificado: boolean;
+  /** Resultado del último examen calificado (para la espera tras reprobar). */
+  ultimo?: { aprobado: boolean; fecha: string };
+}
+
+/** Revisión editorial guardada por un administrador. Tiene prioridad sobre el `estado` del JSON. */
+export interface RevisionAcademia {
+  estado: EstadoAcademia;
+  nota: string;
+  revisor: string;
+  fecha: string;
+}

@@ -6,6 +6,7 @@ import { esc } from './partials';
 export const NAV = [
   { href: '#/', icon: 'home', label: 'Inicio', match: /^\/$/ },
   { href: '#/cursos', icon: 'graduation-cap', label: 'Cursos', match: /^\/curso/ },
+  { href: '#/academia', icon: 'book-open-text', label: 'Academia', match: /^\/academia/ },
   { href: '#/materiales', icon: 'library', label: 'Materiales', match: /^\/materiales/ },
   { href: '#/comunidad', icon: 'messages-square', label: 'Comunidad', match: /^\/(comunidad|en-vivo)/ },
   { href: '#/retos', icon: 'gamepad-2', label: 'Retos', match: /^\/retos/ },
@@ -23,7 +24,8 @@ export function shellHTML() {
       ? `<div class="nav__label eyebrow">${n.group}</div>`
       : `<a class="nav__item" href="${n.href}" data-nav><i data-lucide="${n.icon}" class="i"></i>${n.label}</a>`
   ).join('');
-  const bottom = NAV.filter((n) => 'href' in n && ['#/', '#/cursos', '#/materiales', '#/retos'].includes(n.href)).map((n: any) =>
+  // Barra inferior móvil: 4 accesos + «Más». Academia ocupa el lugar de Materiales, que sigue en «Más».
+  const bottom = NAV.filter((n) => 'href' in n && ['#/', '#/cursos', '#/academia', '#/retos'].includes(n.href)).map((n: any) =>
     `<a href="${n.href}" data-nav><i data-lucide="${n.icon}" class="i"></i>${n.label}</a>`).join('') +
     `<a href="#/mas" data-nav><i data-lucide="menu" class="i"></i>Más</a>`;
   return `
@@ -65,7 +67,7 @@ export function shellHTML() {
 export function marcarNavActivo(path: string) {
   document.querySelectorAll<HTMLAnchorElement>('[data-nav]').forEach((a) => {
     const esMas = a.getAttribute('href') === '#/mas';
-    const rutasMas = /^\/(mas|comunidad|en-vivo|herramientas|praxia|logros|certificados|recompensas|bienvenida|encuestas|perfil|suscripcion|configuracion)/;
+    const rutasMas = /^\/(mas|materiales|comunidad|en-vivo|herramientas|praxia|logros|certificados|recompensas|bienvenida|encuestas|perfil|suscripcion|configuracion)/;
     const item = NAV.find((n) => 'href' in n && n.href === a.getAttribute('href')) as any;
     a.classList.toggle('is-active', esMas ? rutasMas.test(path) : item ? item.match.test(path) : false);
   });

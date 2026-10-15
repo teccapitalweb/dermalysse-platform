@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "node --test scripts/test-content.mjs"
+    "test": "node --test scripts/test-content.mjs",
+    "academia:validar": "node scripts/academia/validar.mjs"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.2.8",

@@ -23,6 +23,7 @@ import './styles/experiencia.css';
 import './styles/admin-experiencia.css';
 import './styles/login.css';
 import './styles/logros.css';
+import './styles/academia.css';
 import './styles/responsive.css';
 import { createIcons, icons } from 'lucide';
 import { route, startRouter, onRender, onBeforeRender, current, navigate, render } from './core/router';
@@ -71,6 +72,8 @@ import { cargarClub } from './core/remoto';
 import { registrarIntentoQuiz } from './core/quiz-clase';
 import { registrarIntentoExamen, preguntaExamenActual } from './core/examen-final';
 import { examenFinal } from './pages/examen-final';
+import { academia, academiaPrograma, academiaModulo, academiaTema, academiaJuego, academiaExamen, montarAcademia } from './pages/academia';
+import { adminAcademia, montarAdminAcademia } from './admin/academia';
 import { ganarXP } from './core/juegos';
 import { celebrar } from './ui/celebracion';
 import { montarTicker } from './ui/noticias';
@@ -169,6 +172,13 @@ route('/cursos', catalogo);
 route('/curso/:id', curso);
 route('/curso/:id/clase/:n', clase);
 route('/curso/:id/examen', examenFinal);
+// Academia: juego y examen antes de :t para que no los capture el lector de temas.
+route('/academia', academia);
+route('/academia/:programa', academiaPrograma);
+route('/academia/:programa/:n', academiaModulo);
+route('/academia/:programa/:n/juego', academiaJuego);
+route('/academia/:programa/:n/examen', academiaExamen);
+route('/academia/:programa/:n/:t', academiaTema);
 route('/materiales', biblioteca);
 route('/materiales/:id', material);
 route('/materiales/:id/visor', visor);
@@ -198,6 +208,7 @@ route('/admin/cursos', adminCursos);
 route('/admin/cursos/:id', adminCurso);
 route('/admin/quizzes', adminQuizzes);
 route('/admin/quizzes/:cursoId/:n', adminQuiz);
+route('/admin/academia', adminAcademia);
 route('/admin/materiales', adminMateriales);
 route('/admin/materiales/:id', adminMaterial);
 route('/admin/en-vivo', adminEnVivo);
@@ -219,6 +230,8 @@ onRender(() => {
   if (path.startsWith('/retos')) montarArcade();
   if (path.startsWith('/retos/historia')) montarHistoria();
   if (path === '/herramientas') montarHerramientas();
+  montarAcademia(); // siempre: desmonta la página anterior y solo conecta si la actual es de la Academia
+  if (shellActual === 'admin' && path === '/admin/academia') montarAdminAcademia(toast, render);
   if (path === '/comunidad' && Comunidad.cargando()) Comunidad.cargarListado().then(() => render()).catch((e) => toast(mensajeError(e), 'circle-alert'));
   if (path.startsWith('/comunidad/') && path !== '/comunidad/experiencias') {
     const id = path.split('/')[2];

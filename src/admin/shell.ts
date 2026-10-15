@@ -8,6 +8,7 @@ export const ADMIN_NAV = [
   { href: '#/admin/materiales', icon: 'library', label: 'Materiales', match: /^\/admin\/materiales/ },
   { href: '#/admin/en-vivo', icon: 'radio', label: 'En vivo', match: /^\/admin\/en-vivo/ },
   { href: '#/admin/quizzes', icon: 'brain', label: 'Quizzes', match: /^\/admin\/quizzes/ },
+  { href: '#/admin/academia', icon: 'book-open-text', label: 'Academia', match: /^\/admin\/academia/ },
   { group: 'Personas' },
   { href: '#/admin/miembros', icon: 'users', label: 'Miembros', match: /^\/admin\/miembros/ },
   { href: '#/admin/cupones', icon: 'ticket-percent', label: 'Cupones', match: /^\/admin\/cupones/ },
