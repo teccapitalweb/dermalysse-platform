@@ -47,6 +47,7 @@ import { rutaHistoria } from './routes/historia.js';
 import { rutaCertificadosProduccion, rutaProgresoProduccion, rutaStripe, rutaVerificarProduccion, rutaVideo } from './routes/club.js';
 import { MemoryFirestore } from './adapters/firestore/memoria.js';
 import type { ModuloApi } from './modulos/tipos.js';
+import { moduloAdmin } from './modulos/admin.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
@@ -274,7 +275,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
  * el real en producción). Agrega aquí una línea por módulo.
  */
 function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: boolean }): ModuloApi[] {
-  void ctx;
   return [
+    moduloAdmin(ctx),
   ];
 }
