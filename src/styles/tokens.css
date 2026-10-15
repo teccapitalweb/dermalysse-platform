@@ -63,7 +63,7 @@
   --line-strong: #d3cfc4;
   --text: #1b1f33;
   --text-2: #545a72;
-  --text-3: #8b90a5;
+  --text-3: #666b83; /* AA (≥4.5:1) sobre blanco, crema y gris claro; antes #8b90a5 (3.2:1) */
   --text-inverse: #ffffff;
 
   /* ── Tipografía ── */

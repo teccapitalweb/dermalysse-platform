@@ -271,7 +271,7 @@ a.lesson:hover { text-decoration: none; }
 /* Tarjeta de usuario en la barra lateral */
 .user-card { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: var(--r-lg); border: 1px solid var(--line); background: var(--bg-elev); }
 .user-card__name { font-weight: 700; font-size: var(--fs-sm); line-height: 1.2; }
-.user-card__plan { display: inline-flex; align-items: center; gap: 4px; margin-top: 2px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.user-card__plan { display: inline-flex; align-items: center; gap: 4px; margin-top: 2px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--primary); }
 .user-card__plan .i { width: 11px; height: 11px; }
 .user-card .btn--icon { margin-left: auto; width: 34px; min-height: 34px; }
 
