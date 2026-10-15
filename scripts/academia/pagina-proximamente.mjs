@@ -1,0 +1,244 @@
+// Genera la página pública «Academia Dermalysse · próximamente» a partir del catálogo.
+// Uso: node scripts/academia/pagina-proximamente.mjs
+// Salida: deploy/academia-proximamente/index.html — un solo archivo autocontenido (sin backend),
+// pensado para publicarse en www.dermalyssemx.com/academia/ mientras la plataforma nueva no está en producción.
+// Las fechas se calculan en el navegador con la zona de la Ciudad de México, así la cuenta regresiva
+// siempre está al día sin volver a generar el archivo. Solo se publica información del catálogo
+// (títulos, áreas y fechas previstas); nunca el contenido de los módulos.
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+
+const raiz = new URL('../../', import.meta.url);
+const catalogo = JSON.parse(readFileSync(new URL('api/content/academia/catalogo.json', raiz), 'utf8'));
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+const datos = catalogo.programas.map((p) => ({
+  id: p.id, numero: p.numero, titulo: p.titulo, area: p.area, descripcion: p.descripcion, nivel: p.nivel,
+  lanzamiento: p.lanzamiento ?? null,
+  modulos: p.modulos.map((m) => ({ n: m.n, titulo: m.titulo })),
+}));
+const piloto = datos.find((p) => p.lanzamiento) ?? datos[0];
+const resto = datos.filter((p) => p !== piloto);
+
+const html = `<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Academia Dermalysse · Próximamente</title>
+<meta name="description" content="Programas de lectura guiada sobre la ciencia de la piel y la práctica profesional en estética. Calendario de apertura de la Academia Dermalysse.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Academia Dermalysse · Próximamente">
+<meta property="og:description" content="Programas de lectura guiada sobre la ciencia de la piel. Conoce el calendario de apertura.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crema: #f7f2ec; --papel: #fcf8f3; --blanco: #ffffff; --linea: #e5ddd2;
+    --vino: #681c31; --vino-2: #8f4056; --tinta: #0b2435; --azul: #315a76; --rosa: #d9a09b;
+    --texto: #1b1f33; --texto-2: #545a72; --texto-3: #666b83;
+    --sombra: 0 18px 50px rgba(11, 36, 53, .10);
+    --serif: 'Fraunces', Georgia, 'Times New Roman', serif; --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--crema); color: var(--texto); font: 400 16px/1.6 var(--sans); }
+  a { color: inherit; }
+  .envoltura { width: min(1120px, 100% - 32px); margin-inline: auto; }
+  header.barra { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 0; }
+  .marca { font: 600 1.35rem/1 var(--serif); letter-spacing: -.01em; text-decoration: none; color: var(--tinta); }
+  .marca span { color: var(--vino); }
+  .barra nav { display: flex; gap: 8px; flex-wrap: wrap; }
+  .boton { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--tinta); font-weight: 600; font-size: .92rem; text-decoration: none; transition: background .2s, color .2s; }
+  .boton--solido { background: var(--tinta); color: #fff; }
+  .boton--solido:hover { background: var(--vino); border-color: var(--vino); }
+  .boton--linea { color: var(--tinta); background: transparent; }
+  .boton--linea:hover { background: var(--tinta); color: #fff; }
+  .boton:focus-visible { outline: 3px solid var(--vino-2); outline-offset: 3px; }
+
+  .portada { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 32px; align-items: center; margin-top: 8px; padding: clamp(28px, 5vw, 56px); border-radius: 32px; background: var(--papel); border: 1px solid var(--linea); box-shadow: var(--sombra); isolation: isolate; }
+  .portada::after { content: ''; position: absolute; z-index: -1; right: -120px; top: -140px; width: 420px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(217, 160, 155, .38), transparent 65%); }
+  .sello { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: #f3e4e2; color: var(--vino); font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .portada h1 { margin: 18px 0 14px; font: 600 clamp(2.3rem, 6vw, 4rem)/1.02 var(--serif); letter-spacing: -.03em; color: var(--tinta); }
+  .portada h1 em { font-style: italic; color: var(--vino); }
+  .portada p { margin: 0; max-width: 54ch; color: var(--texto-2); font-size: 1.05rem; }
+  .cuenta { padding: 26px; border-radius: 24px; background: linear-gradient(150deg, var(--tinta), #1d3a52 60%, #4a2233); color: #fff; box-shadow: var(--sombra); }
+  .cuenta small { display: block; color: #f0d6d3; font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .cuenta strong { display: block; margin: 8px 0 6px; font: 600 1.35rem/1.25 var(--serif); }
+  .cuenta .fecha { color: #fff; font-weight: 600; }
+  .reloj { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0 14px; }
+  .reloj div { padding: 12px 6px; border-radius: 14px; background: rgba(255, 255, 255, .09); border: 1px solid rgba(255, 255, 255, .14); text-align: center; }
+  .reloj b { display: block; font: 600 2rem/1 var(--serif); font-variant-numeric: tabular-nums; }
+  .reloj span { font-size: .72rem; color: #e9dcdc; letter-spacing: .06em; text-transform: uppercase; }
+  .cuenta p { margin: 0; color: #e4e7ef; font-size: .88rem; }
+
+  section { margin-top: 64px; }
+  .titulo-seccion { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+  .titulo-seccion h2 { margin: 0; font: 600 clamp(1.7rem, 3.5vw, 2.4rem)/1.1 var(--serif); letter-spacing: -.02em; color: var(--tinta); }
+  .titulo-seccion p { margin: 0; color: var(--texto-2); max-width: 52ch; }
+  .etiqueta { color: var(--vino); font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+
+  .programa { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 32px; padding: clamp(22px, 4vw, 36px); border-radius: 28px; background: var(--blanco); border: 1px solid var(--linea); box-shadow: var(--sombra); }
+  .programa h3 { margin: 10px 0 12px; font: 600 1.7rem/1.15 var(--serif); color: var(--tinta); }
+  .programa > div > p { margin: 0 0 16px; color: var(--texto-2); }
+  .datos { display: flex; flex-wrap: wrap; gap: 8px; }
+  .datos span { padding: 6px 12px; border-radius: 999px; background: #f4efe8; color: var(--texto); font-size: .82rem; font-weight: 600; }
+  .ruta { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; counter-reset: modulo; }
+  .ruta li { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: center; padding: 10px 12px 10px 4px; border-radius: 16px; }
+  .ruta li:not(:last-child)::before { content: ''; position: absolute; left: 25px; top: 52px; bottom: -8px; width: 2px; background: repeating-linear-gradient(var(--linea) 0 6px, transparent 6px 11px); }
+  .ruta .num { position: relative; z-index: 1; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--crema); border: 1px solid var(--linea); color: var(--tinta); font: 600 1rem/1 var(--serif); }
+  .ruta li.es-proximo { background: #f9efed; }
+  .ruta li.es-proximo .num { background: var(--vino); border-color: var(--vino); color: #fff; }
+  .ruta li.es-abierto .num { background: var(--tinta); border-color: var(--tinta); color: #fff; }
+  .ruta strong { display: block; font-size: .96rem; line-height: 1.3; color: var(--texto); }
+  .ruta small { display: block; margin-top: 3px; color: var(--texto-3); font-size: .82rem; }
+  .ruta li.es-proximo small { color: var(--vino); font-weight: 600; }
+
+  .otros { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr)); gap: 18px; }
+  .otro { padding: 22px; border-radius: 22px; background: var(--papel); border: 1px solid var(--linea); }
+  .otro .etiqueta { color: var(--azul); }
+  .otro h3 { margin: 8px 0 8px; font: 600 1.2rem/1.25 var(--serif); color: var(--tinta); }
+  .otro p { margin: 0 0 14px; color: var(--texto-2); font-size: .92rem; }
+  .otro .pronto { display: inline-block; padding: 5px 11px; border-radius: 999px; background: #e9eef3; color: var(--azul); font-size: .78rem; font-weight: 700; }
+
+  .pasos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px; counter-reset: paso; }
+  .paso { padding: 22px; border-radius: 22px; background: var(--blanco); border: 1px solid var(--linea); }
+  .paso b { display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 12px; border-radius: 12px; background: #f3e4e2; color: var(--vino); font: 600 1.05rem/1 var(--serif); }
+  .paso h3 { margin: 0 0 6px; font-size: 1.02rem; color: var(--tinta); }
+  .paso p { margin: 0; color: var(--texto-2); font-size: .92rem; }
+
+  .aviso { margin-top: 56px; padding: 18px 22px; border-radius: 18px; background: #eef1f5; color: var(--texto-2); font-size: .9rem; }
+  footer { margin: 48px 0 40px; padding-top: 22px; border-top: 1px solid var(--linea); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--texto-3); font-size: .86rem; }
+
+  @media (max-width: 860px) {
+    .portada, .programa { grid-template-columns: minmax(0, 1fr); }
+    .portada { border-radius: 26px; }
+  }
+  @media (max-width: 520px) {
+    .barra nav .boton--linea { display: none; }
+    .reloj b { font-size: 1.6rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+  <div class="envoltura">
+    <header class="barra">
+      <a class="marca" href="/">Dermalysse<span>.</span></a>
+      <nav aria-label="Principal">
+        <a class="boton boton--linea" href="/">Inicio</a>
+        <a class="boton boton--solido" href="https://club.dermalyssemx.com/">Ir al club</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="portada">
+        <div>
+          <span class="sello">Academia Dermalysse · Próximamente</span>
+          <h1>Estudia la piel, <em>módulo a módulo</em>.</h1>
+          <p>Programas de lectura guiada con figuras, casos en cabina, actividades y un examen por módulo. Avanzas a tu ritmo: al aprobar un módulo se abre el siguiente. Los módulos se abren uno por semana.</p>
+        </div>
+        <aside class="cuenta" aria-live="polite">
+          <small>Primer módulo</small>
+          <strong id="cuenta-titulo">${esc(piloto.modulos[0]?.titulo ?? '')}</strong>
+          <div>Apertura prevista: <span class="fecha" id="cuenta-fecha">—</span></div>
+          <div class="reloj" role="timer" aria-label="Tiempo para la apertura">
+            <div><b id="r-d">–</b><span>días</span></div>
+            <div><b id="r-h">–</b><span>horas</span></div>
+            <div><b id="r-m">–</b><span>min</span></div>
+          </div>
+          <p id="cuenta-nota">Los módulos se publican cuando un profesional de la piel termina de revisarlos.</p>
+        </aside>
+      </div>
+
+      <section aria-labelledby="t-piloto">
+        <div class="titulo-seccion">
+          <h2 id="t-piloto">Calendario de apertura</h2>
+          <p>Fechas previstas en hora de la Ciudad de México. Cada módulo se abre una semana después del anterior.</p>
+        </div>
+        <article class="programa">
+          <div>
+            <span class="etiqueta">${esc(piloto.area)} · ${esc(piloto.nivel ?? '')}</span>
+            <h3>${esc(piloto.titulo)}</h3>
+            <p>${esc(piloto.descripcion)}</p>
+            <div class="datos"><span>${piloto.modulos.length} módulos</span><span>Lectura guiada</span><span>Examen por módulo</span></div>
+          </div>
+          <ol class="ruta" id="ruta"></ol>
+        </article>
+      </section>
+
+      <section aria-labelledby="t-otros">
+        <div class="titulo-seccion">
+          <h2 id="t-otros">Lo que viene después</h2>
+          <p>Programas en preparación. Te avisaremos en el club cuando tengan fecha.</p>
+        </div>
+        <div class="otros">
+          ${resto.map((p) => `<article class="otro"><span class="etiqueta">${esc(p.area)}</span><h3>${esc(p.titulo)}</h3><p>${esc(p.descripcion)}</p><span class="pronto">En preparación · ${p.modulos.length} módulos</span></article>`).join('\n          ')}
+        </div>
+      </section>
+
+      <section aria-labelledby="t-como">
+        <div class="titulo-seccion"><h2 id="t-como">Cómo funciona</h2></div>
+        <div class="pasos">
+          <div class="paso"><b>1</b><h3>Lee</h3><p>Temas breves con figuras, glosario y un resumen en pocas palabras.</p></div>
+          <div class="paso"><b>2</b><h3>Practica</h3><p>Casos en cabina, actividades y un minijuego por módulo.</p></div>
+          <div class="paso"><b>3</b><h3>Aprueba</h3><p>Un examen por módulo; con 70 % se abre el siguiente.</p></div>
+        </div>
+      </section>
+
+      <p class="aviso">Contenido educativo para profesionales y estudiantes de la estética. No diagnostica ni sustituye la valoración de un dermatólogo. Las fechas son previstas y pueden ajustarse.</p>
+    </main>
+
+    <footer><span>© Dermalysse</span><a href="/">Volver al inicio</a></footer>
+  </div>
+
+<script>
+(() => {
+  const programa = ${JSON.stringify({ lanzamiento: piloto.lanzamiento, modulos: piloto.modulos }).replace(/</g, '\\u003c')};
+  const ZONA = 'America/Mexico_City';
+  // 00:00 de la Ciudad de México (UTC−6, sin horario de verano) del día indicado.
+  const inicio = programa.lanzamiento ? new Date(programa.lanzamiento.inicio + 'T06:00:00Z') : null;
+  const cada = programa.lanzamiento?.cadaDias ?? 7;
+  const fechaDe = (n) => inicio ? new Date(inicio.getTime() + (n - 1) * cada * 86400000) : null;
+  const fmt = new Intl.DateTimeFormat('es-MX', { timeZone: ZONA, weekday: 'long', day: 'numeric', month: 'long' });
+  const texto = (s) => document.createTextNode(s);
+  const dias = (d) => Math.ceil((d - Date.now()) / 86400000);
+  const falta = (d) => { const n = dias(d); return n <= 0 ? 'Fecha prevista alcanzada' : n === 1 ? 'Falta 1 día' : 'Faltan ' + n + ' días'; };
+
+  const ruta = document.getElementById('ruta');
+  const proximo = programa.modulos.find((m) => fechaDe(m.n) && fechaDe(m.n) > Date.now());
+  for (const m of programa.modulos) {
+    const d = fechaDe(m.n);
+    const li = document.createElement('li');
+    if (proximo && m.n === proximo.n) li.className = 'es-proximo';
+    else if (d && d <= Date.now()) li.className = 'es-abierto';
+    const num = document.createElement('span'); num.className = 'num'; num.appendChild(texto(String(m.n)));
+    const cuerpo = document.createElement('div');
+    const t = document.createElement('strong'); t.appendChild(texto(m.titulo));
+    const s = document.createElement('small');
+    s.appendChild(texto(d ? (d <= Date.now() ? 'Apertura prevista desde el ' + fmt.format(d) : fmt.format(d) + ' · ' + falta(d)) : 'Fecha por definir'));
+    cuerpo.append(t, s); li.append(num, cuerpo); ruta.appendChild(li);
+  }
+
+  const objetivo = proximo ?? programa.modulos[0];
+  const fecha = fechaDe(objetivo.n);
+  document.getElementById('cuenta-titulo').textContent = 'Módulo ' + objetivo.n + ' · ' + objetivo.titulo;
+  if (proximo && objetivo.n > 1) document.querySelector('.cuenta small').textContent = 'Siguiente módulo';
+  document.getElementById('cuenta-fecha').textContent = fecha ? fmt.format(fecha) : 'por definir';
+  const pinta = () => {
+    if (!fecha) return;
+    const ms = Math.max(0, fecha - Date.now());
+    document.getElementById('r-d').textContent = Math.floor(ms / 86400000);
+    document.getElementById('r-h').textContent = Math.floor(ms / 3600000) % 24;
+    document.getElementById('r-m').textContent = Math.floor(ms / 60000) % 60;
+  };
+  pinta(); setInterval(pinta, 30000);
+})();
+</script>
+</body>
+</html>
+`;
+
+mkdirSync(new URL('deploy/academia-proximamente/', raiz), { recursive: true });
+writeFileSync(new URL('deploy/academia-proximamente/index.html', raiz), html);
+console.log(`deploy/academia-proximamente/index.html · piloto: ${piloto.id} · ${piloto.modulos.length} módulos · lanzamiento: ${JSON.stringify(piloto.lanzamiento)}`);
