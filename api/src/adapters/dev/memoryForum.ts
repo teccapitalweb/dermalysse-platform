@@ -34,12 +34,12 @@ export class MemoryForumStore implements ForumStore {
     return { hilo: { ...e.hilo, respuestas: e.respuestas.length }, respuestas: [...e.respuestas] };
   }
 
-  async crearHilo(hilo: HiloRemoto): Promise<HiloRemoto> {
+  async crearHilo(hilo: HiloRemoto, _autorUid: string): Promise<HiloRemoto> {
     this.entradas.unshift({ hilo: { ...hilo, respuestas: 0 }, respuestas: [], utilPor: new Set() });
     return { ...hilo, respuestas: 0 };
   }
 
-  async agregarRespuesta(id: string, respuesta: RespuestaForo): Promise<RespuestaForo | null> {
+  async agregarRespuesta(id: string, respuesta: RespuestaForo, _autorUid: string): Promise<RespuestaForo | null> {
     const e = this.entradas.find((x) => x.hilo.id === id);
     if (!e || !this.visible(e)) return null;
     e.respuestas.push(respuesta);

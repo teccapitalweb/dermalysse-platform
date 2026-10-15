@@ -1,8 +1,8 @@
-// Puertos (interfaces) que la API consume. Los adaptadores dev usan fixtures/memoria;
-// los adaptadores reales (Firebase/Stripe/Bunny) son seams marcados que aún no se implementan.
+// Puertos (interfaces) que la API consume. Los adaptadores dev usan fixtures/memoria (DATA_MODE=memoria);
+// los de producción usan Firestore (adapters/firestore) y el webhook actual (adapters/legacy).
 import type {
   AjusteLanzamientoAcademia, AvanceModuloAcademia, CatalogoAcademia, CatalogoRemoto, CertificadoRemoto, ConfigPublica, DetalleRemoto,
-  ExperienciaCompartida, FilaLiga, HiloRemoto, IntentoAcademia, ModuloAcademia, Noticia, PerfilData, PerfilRemoto,
+  ExperienciaCompartida, FilaLiga, HiloRemoto, IntentoAcademia, ModuloAcademia, Noticia, PerfilRemoto,
   ProgresoAcademia, ProgresoCurso, ProgresoMapa, QuizFixture, RespuestaForo, ResumenLiga, RevisionAcademia, Usuario,
 } from '../domain/types.js';
 
@@ -70,21 +70,25 @@ export interface LeagueStore {
   filas(): Promise<FilaLiga[]>;
 }
 
-/** Foro de comunidad (memoria en dev; sembrado desde fixture). El servidor asigna id/autor/fecha. */
+/** Foro de comunidad (memoria en dev; Firestore `forum` en producción). El servidor asigna id/autor/fecha. */
 export interface ForumStore {
-  listar(): Promise<HiloRemoto[]>;
-  detalle(id: string): Promise<DetalleRemoto | null>;
-  crearHilo(hilo: HiloRemoto): Promise<HiloRemoto>;
+  /** `uid` (opcional) permite marcar `marcadoUtil` por usuario. */
+  listar(uid?: string): Promise<HiloRemoto[]>;
+  detalle(id: string, uid?: string): Promise<DetalleRemoto | null>;
+  /** `autorUid` = uid del token (Firestore lo guarda como authorUid). */
+  crearHilo(hilo: HiloRemoto, autorUid: string): Promise<HiloRemoto>;
   /** Devuelve la respuesta creada, o null si el hilo no existe. */
-  agregarRespuesta(id: string, respuesta: RespuestaForo): Promise<RespuestaForo | null>;
+  agregarRespuesta(id: string, respuesta: RespuestaForo, autorUid: string): Promise<RespuestaForo | null>;
   /** Alterna "útil" para ese uid; devuelve el conteo y estado, o null si el hilo no existe. */
   alternarUtil(id: string, uid: string): Promise<{ util: number; marcadoUtil: boolean } | null>;
 }
 
-/** Perfil por usuario (memoria en dev). Solo el propio uid. */
+/** Perfil del propio usuario (memoria en dev; Firestore `users` en producción). */
 export interface ProfileStore {
-  get(uid: string, nombrePorDefecto: string): Promise<PerfilData>;
-  patch(uid: string, cambios: Partial<PerfilData>, nombrePorDefecto: string): Promise<PerfilRemoto>;
+  /** Perfil del usuario. En Firestore hace el alta de users/{uid} y members/{uid} si faltan (forma actual). */
+  get(usuario: Usuario): Promise<PerfilRemoto>;
+  /** Aplica SOLO los campos permitidos del cuerpo (el almacén sanea; nunca campos protegidos). */
+  patch(usuario: Usuario, cuerpo: Record<string, unknown>): Promise<PerfilRemoto>;
 }
 
 // ── Academia ──

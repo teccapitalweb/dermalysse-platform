@@ -8,7 +8,10 @@ const TITULO = { min: 4, max: 120 };
 const TEXTO_HILO = { min: 10, max: 4000 };
 const TEXTO_RESP = { min: 2, max: 2000 };
 
-export interface EntradaHilo { titulo?: unknown; texto?: unknown; cursoId?: unknown; }
+export interface EntradaHilo { titulo?: unknown; texto?: unknown; cursoId?: unknown; etiqueta?: unknown; }
+
+/** Etiquetas del foro actual (forum.tag). */
+export const ETIQUETAS_FORO = ['Consulta', 'Experiencia', 'Curso', 'General'] as const;
 
 export function construirHilo(entrada: EntradaHilo, usuario: Usuario): HiloRemoto {
   const titulo = typeof entrada.titulo === 'string' ? entrada.titulo.trim() : '';
@@ -19,7 +22,8 @@ export function construirHilo(entrada: EntradaHilo, usuario: Usuario): HiloRemot
   if (texto.length < TEXTO_HILO.min || texto.length > TEXTO_HILO.max) {
     throw new ValidationError(`El contenido debe tener entre ${TEXTO_HILO.min} y ${TEXTO_HILO.max} caracteres.`);
   }
-  const cursoId = typeof entrada.cursoId === 'string' && entrada.cursoId.trim() ? entrada.cursoId.trim() : null;
+  const cursoId = typeof entrada.cursoId === 'string' && entrada.cursoId.trim() ? entrada.cursoId.trim().slice(0, 160) : null;
+  const etiqueta = (ETIQUETAS_FORO as readonly unknown[]).includes(entrada.etiqueta) ? entrada.etiqueta as string : cursoId ? 'Curso' : 'Consulta';
   return {
     id: randomUUID(),
     titulo,
@@ -30,6 +34,7 @@ export function construirHilo(entrada: EntradaHilo, usuario: Usuario): HiloRemot
     util: 0,
     respuestas: 0,
     tipo: 'pregunta',
+    etiqueta,
   };
 }
 

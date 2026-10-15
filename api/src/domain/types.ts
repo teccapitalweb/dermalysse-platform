@@ -7,11 +7,18 @@
 
 export interface PerfilRemoto {
   nombre?: string;
+  /** Solo modo Firestore (users.lastname). */
+  apellido?: string;
+  /** Solo modo Firestore (users.phone). */
+  telefono?: string;
+  /** Solo lectura (users.email). */
+  email?: string;
   foto?: string;
   whatsapp?: string;
   especialidad?: string;
   ciudad?: string;
-  avisos?: { enVivo?: boolean; nuevos?: boolean; comunidad?: boolean };
+  /** En Firestore: users.settings.notif_* (vivo, cursos, comunidad, pdfs, promos). Sin valor = activado. */
+  avisos?: { enVivo?: boolean; nuevos?: boolean; comunidad?: boolean; materiales?: boolean; promociones?: boolean };
 }
 
 /** Usuario resuelto por el adaptador de auth (fuente de verdad del servidor). */
@@ -21,16 +28,23 @@ export interface Usuario {
   esVip: boolean;
   esAdmin: boolean;
   nombre: string;
+  /** Modo firebase: detalle de la membresía según la regla de acceso del webhook. */
+  acceso?: { plan: 'mensual' | 'anual' | 'cortesia' | null; vence: string | null; motivo: string };
+  /** Modo firebase: datos de la cuenta (ID token) para el alta de users/members. */
+  cuenta?: { nombre: string; foto: string };
 }
 
 /** Respuesta de GET /me. */
 export interface RespuestaMe {
   uid: string;
   email: string;
+  nombre: string;
   esVip: boolean;
   esAdmin: boolean;
   plan: string | null;
   vence: string | null;
+  /** Motivo de la regla de acceso: courtesy, active, trialing, canceling, expired, past_due o none. */
+  motivoAcceso: string;
   perfil: PerfilRemoto;
 }
 
@@ -39,12 +53,17 @@ export interface ConfigPublica {
   precios: { mensual: number; anual: number };
   descuentoVIP: number;
   contacto: { whatsappSoporte?: string; canalWhatsApp?: string };
+  /** Modo Firestore: config/platform.maintenance. */
+  mantenimiento?: boolean;
+  /** Modo Firestore: config/platform.openRegistration (sin valor = abierto). */
+  registroAbierto?: boolean;
 }
 
 export interface ClaseRemota {
   n: number;
   titulo: string;
-  videoId: string;
+  /** Solo en fixtures (vacío). En modo Firestore NUNCA se incluye: los ids de Bunny viven en el servidor. */
+  videoId?: string;
   duracionMin: number | null;
   gratis: boolean;
 }
@@ -83,6 +102,8 @@ export interface Noticia {
   texto: string;
   fecha: string;
   enlace?: string | null;
+  categoria?: string;
+  autor?: string;
 }
 
 export interface RespuestaForo {
@@ -107,6 +128,8 @@ export interface HiloRemoto {
   imagen?: string;
   verificado?: boolean;
   tipo?: 'post' | 'pregunta';
+  /** Modo Firestore: forum.tag (Consulta, Experiencia, Curso, General). */
+  etiqueta?: string;
 }
 
 export interface DetalleRemoto {
@@ -170,6 +193,8 @@ export interface ProgresoCurso {
   ultima: number;
   actualizado: string;
   historial?: string[];
+  /** Modo Firestore: porcentaje del curso (courseProgress del webhook, o vistas / clases). */
+  porcentaje?: number;
 }
 
 export type ProgresoMapa = Record<string, ProgresoCurso>;
@@ -192,6 +217,8 @@ export interface VerificacionPublica {
   folio: string;
   nombre: string;
   cursoTitulo: string;
+  /** Modo Firestore: igual a cursoTitulo (nombre del contrato de producción). */
+  curso?: string;
   emitido: string;
 }
 

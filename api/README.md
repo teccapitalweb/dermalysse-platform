@@ -1,87 +1,114 @@
 # dermalysse-api
 
-API del Club Dermalysse — **slice de etapa 4** de `docs/DECISION-ARQUITECTURA.md`: contrato + adaptadores + **datos de fixture NO productivos** + pruebas. Aditivo al repo; **no modifica el cliente** (`src/`).
+API del Club Dermalysse. Dos modos, elegidos por entorno:
 
-> Sin Stripe, Bunny, Firebase ni Firestore reales. Esas integraciones son **seams** (interfaces + stubs que lanzan `NotImplemented`). Los secretos solo viajan por entorno del servidor; nunca en Git.
+| Modo | Variables | Para qué |
+|---|---|---|
+| **Desarrollo** (predeterminado) | `AUTH_MODE=dev` + `DATA_MODE=memoria` | Usuario de desarrollo, datos en memoria y fixtures NO productivos. Lo usan las pruebas y la demo. |
+| **Producción** | `AUTH_MODE=firebase` + `DATA_MODE=firestore` | Login y membresías reales del proyecto Firebase **`club-dermalysse`** (los mismos usuarios y datos del club actual, sin migración) y el **webhook actual** para Bunny, Stripe, avance y certificados. |
+
+Las combinaciones mixtas se rechazan al arrancar. Diseño y contrato: `docs/INTEGRACION-PRODUCCION.md`.
 
 ## Requisitos
-- Node 20+ (probado en Node 24). Ejecuta TypeScript con `tsx` (sin paso de build).
+- Node 22+ (lo exige `firebase-admin` 14; probado en Node 24). Ejecuta TypeScript con `tsx` (sin paso de build; `tsx` está en devDependencies, así que el servidor debe instalar también las dependencias de desarrollo).
 
 ## Comandos
 ```bash
 cd api
 npm install            # instala SOLO dentro de api/ (deps fijadas, con lockfile)
 npm run typecheck      # tsc --noEmit
-npm test               # node --test (runner nativo)
+npm test               # node --test (runner nativo; sin red: Firestore y webhook falsos)
 npm start              # levanta el server en http://localhost:8787
 npm run dev            # igual que start, con recarga (tsx watch)
 ```
 
 ## Configuración (por entorno; ver `.env.example`, solo placeholders)
-- `PORT` — puerto local (default `8787`).
-- `AUTH_MODE` — `dev` (default) o `firebase`.
-- `CORS_ORIGINS` — orígenes permitidos en desarrollo, separados por coma. Los dominios de producción se deciden después.
+| Variable | Modo | Uso |
+|---|---|---|
+| `PORT` | ambos | Puerto (default `8787`). |
+| `AUTH_MODE` | ambos | `dev` (default) o `firebase`. |
+| `DATA_MODE` | ambos | `memoria` (default) o `firestore`. |
+| `CORS_ORIGINS` | ambos | Orígenes permitidos, separados por coma. **Obligatorio en producción.** |
+| `ACADEMIA_MOSTRAR_BORRADORES` | solo dev | `true` muestra borradores a todos; en producción se rechaza. |
+| `FIREBASE_SERVICE_ACCOUNT` | producción | JSON completo de la cuenta de servicio de `club-dermalysse`, en una línea (puede ser la del webhook). Secreto. Debe traer `project_id = club-dermalysse`. |
+| `LEGACY_WEBHOOK_URL` | producción | URL base https del webhook actual (`dermalysse-webhook` en Railway), sin ruta. |
+| `APP_URL` | producción | URL pública https del club nuevo; Stripe vuelve a `<APP_URL>/#/suscripcion?pago=exito&session_id={CHECKOUT_SESSION_ID}` (cancelar: `?pago=cancelado`; portal: `/#/suscripcion`). |
+| `LEGACY_WEBHOOK_TIMEOUT_MS` | producción, opcional | Tiempo máximo por llamada al webhook (1000–60000, default 15000). |
+
+El arranque **falla rápido** si falta o es inválida cualquiera de las variables de producción; el mensaje solo nombra variables (nunca imprime valores ni cita el JSON de la cuenta de servicio). `firebase-admin` se inicializa de forma perezosa: en la primera petición, nunca al importar.
 
 ## Autenticación
-- **dev** (default): `requireUser` acepta cualquier `Authorization: Bearer <token>` no vacío y resuelve un usuario de desarrollo `{ uid: 'dev-uid', email: 'dev@local', esVip: true, esAdmin: false }`. Sin token o sin `Bearer` ⇒ **401**. El cuerpo de la petición **nunca** decide identidad/VIP/admin.
-- **firebase** (`AUTH_MODE=firebase`): `FirebaseAuthAdapter` es un **seam no implementado**; lanza `NotImplemented` (⇒ 501). Para implementarlo se necesita un service account de Firebase provisto por entorno (`FIREBASE_SERVICE_ACCOUNT`) y verificar el ID token con `firebase-admin`. **Fuera del alcance de este slice.**
+- **dev**: cualquier `Authorization: Bearer <token>` no vacío resuelve `{ uid: 'dev-uid', email: 'dev@local', esVip: true, esAdmin: false }`. Sin token ⇒ **401**.
+- **firebase**: `verifyIdToken(token, true)` (con revocación). Token inválido, vencido o revocado ⇒ **401**; falla del servicio ⇒ **500** (nunca un usuario inventado).
+  - `esAdmin` = existe `admins/{uid}` (sin custom claims).
+  - `esVip`, `plan`, `vence`, `motivoAcceso` = port **literal** de `dermalysse-webhook/access-policy.js` (`src/adapters/firebase/accessPolicy.ts`): cortesía `vigenciaHasta` ⇒ `courtesy`; `active`/`trialing` sin `currentPeriodEnd` o con él en el futuro; `canceled` o `cancelAtPeriodEnd` hasta `currentPeriodEnd` ⇒ `canceling`; si no, `expired`, `past_due` o `none`.
+- El cuerpo de la petición **nunca** decide identidad, VIP, admin ni membresía.
 
-## Endpoints del slice
-| Método | Ruta | Auth | Propósito |
-|---|---|---|---|
-| GET | `/` | no | Salud/meta del servicio. |
-| GET | `/config` | no | `{ precios:{mensual,anual}, descuentoVIP, contacto:{whatsappSoporte?,canalWhatsApp?} }`. |
-| GET | `/catalogo` | no | `CatalogoRemoto` (cursos+clases, sin URLs premium). |
-| GET | `/noticias` | no | `{ noticias: [] }`. |
-| GET | `/foro` | no | Listado de hilos (`respuestas` = conteo). |
-| GET | `/foro/:id` | no | `{ hilo, respuestas[] }`; 404 honesto si no existe. |
-| GET | `/me` | **sí** | `{ uid,email,esVip,esAdmin,plan,vence,perfil }` del usuario resuelto por el servidor. |
-| GET | `/experiencias` | no | Lista filtrable por `?categoria=&q=` (orden fecha desc). |
-| POST | `/experiencias` | **sí** | Crea; el servidor asigna `id/fecha/autor` y valida (título 4–100, texto 20–900, categoría válida). 400 honesto si falla. |
+## Endpoints
+### Comunes
+| Método | Ruta | Auth | Desarrollo | Producción (fuente) |
+|---|---|---|---|---|
+| GET | `/` | no | salud | salud (`authMode`, `dataMode`) |
+| GET | `/config` | no | fixture | `{precios:{mensual,anual}, descuentoVIP, contacto, mantenimiento, registroAbierto}` de `config/club` (`precioMes`, `precioAno`; si faltan, 200/1799 como el webhook) y `config/platform` (`maintenance`, `openRegistration`) |
+| GET | `/catalogo` | no | fixture | Firestore `courses` publicados (`status='published'`) **y** presentes en `content/club/cursos.json`; clase `n` = `lessons[n-1]` (por posición), `gratis = isPreview`, `duracionMin` de `durationSeconds` (o `dur`). **Nunca** `videoId` ni ids de Bunny |
+| GET | `/noticias` | no | fixture | `news` con `status='published'` |
+| GET | `/me` | sí | usuario dev | `{uid, email, nombre, esVip, esAdmin, plan, vence, motivoAcceso, perfil}`; si faltan `users/{uid}` o `members/{uid}` los crea con la forma exacta del club actual (403 `registro-cerrado` si `openRegistration=false`) |
+| PATCH | `/me/perfil` | sí | memoria | `{nombre, apellido, telefono, ciudad, foto (https), avisos}` ⇒ `users.name, lastname, phone, city, photo, settings.notif_*`; campos protegidos nunca se escriben |
+| GET | `/foro`, `/foro/:id` | dev: no · prod: **sí** | memoria | `forum` (orden `createdAt` desc) y `forum/{id}/replies`; `likes` ⇒ `util`/`marcadoUtil`; abrir un tema suma `views`. En producción exige sesión, como las reglas actuales |
+| POST | `/foro`, `/foro/:id/respuestas`, `/foro/:id/util` | VIP | memoria | Misma forma actual: `{title, tag, body, authorUid (del token), authorName, createdAt (ms), replyCount, likes}`; responder suma `replyCount` y `lastReplyBy`; útil alterna el arreglo `likes` |
+| GET/POST | `/experiencias` | GET no · POST sí | memoria | `v2_experiencias` |
+| GET | `/liga` | sí | fixture | `v2_liga/clasificacion` (sin documento ⇒ solo la fila propia) |
+| GET/POST | `/quiz/:cursoId/:n` | sí | fixture | `v2_quiz/{cursoId}__{n}` (sin banco ⇒ 404 honesto) |
+| — | `/academia…`, `/admin/academia…` | sí / admin | memoria | `v2_academia_progreso`, `v2_academia_intentos`, `v2_academia_revisiones`, `v2_academia_lanzamiento` (contenido: `content/academia`) |
 
-### Academia (programas de lectura por módulos)
-Contenido en `api/content/academia` (catálogo + `<programa>/modulo-NN.json`), leído del disco por `DiskAcademiaContentStore`; avance, exámenes emitidos, revisiones y ajustes del calendario en memoria (dev). Reglas en `src/services/academia.ts`, pruebas en `test/academia.test.ts`.
+### Solo producción (delegan en el webhook reenviando el `Authorization` del miembro)
+| Método | Ruta | Cuerpo | Respuesta | Webhook |
+|---|---|---|---|---|
+| POST | `/video/token` | `{cursoId, n}` | `{embedUrl, expires, preview, playbackSessionId\|null}`; 403 `{motivo, desbloqueo?}` (de `reason`/`unlockAt`) | `POST /bunny/playback {courseId, lessonId = lessons[n-1].id}` |
+| GET | `/progreso` | — | `{[cursoId]: {vistas, porcentaje, ultima, actualizado}}` | lee `users.progress` y `users/{uid}/courseProgress` |
+| POST | `/progreso/:cursoId/evento` | `{n, playbackSessionId, positionSeconds, durationSeconds, event}` | `{completada, ratio, vistas, porcentaje}` | `POST /courses/progress` |
+| GET | `/certificados` | — | certificados válidos del uid | lee `certificates` where `uid` |
+| POST | `/certificados` | `{cursoId}` | certificado (`folio` = `DRML-YYYY-<12 hex>`); 409 si faltan clases | `POST /courses/certificate` |
+| GET | `/verificar/:folio` | — (público) | `{valido, folio, nombre, curso, cursoTitulo, emitido}` sin uid ni email | lee `certificates/{code}` (`status='valid'`) |
+| POST | `/stripe/checkout` | `{plan: mensual\|anual}` | `{url}` | `POST /create-checkout-session` (conserva `metadata.source='dermalysse'`) |
+| POST | `/stripe/portal` | — | `{url}` | `POST /create-portal-session` |
+| POST | `/stripe/confirmar` | `{sessionId?}` | `{activa, plan, vence}` | relee `users/{uid}.subscription` (la escribe el webhook de Stripe) |
 
-| Método | Ruta | Auth | Propósito |
-|---|---|---|---|
-| GET | `/academia` | **sí** | Catálogo con `disponible`, `estado`, `temas`, `duracionMin`, `disponibleDesde` (ISO o null) y `programado` por módulo, `lanzamiento` efectivo por programa + `progreso` de la cuenta. Sin datos del examen. |
-| GET | `/academia/progreso` | **sí** | Avance `{ [programa]: { modulos: { [n]: { temas, mejor, intentos, aprobado } } } }`. |
-| GET | `/academia/:programa/:n` | **sí** | Módulo sin banco: `examen = { aprobar, mostrar, total }`. |
-| POST | `/academia/:programa/:n/tema` | **sí** | `{ tema }`: marca un tema como leído. |
-| GET | `/academia/:programa/:n/examen` | **sí** | `mostrar` preguntas al azar, sin respuestas; guarda las emitidas. |
-| POST | `/academia/:programa/:n/examen` | **sí** | `{ respuestas: { id: indice } }`: califica solo lo emitido, una vez (409 si no). |
-| GET | `/admin/academia` | admin | Estado del archivo, estado efectivo, nota, métricas y `disponibleDesde` por módulo; `lanzamiento` efectivo por programa (`origen`, `catalogo`, `ajuste`). |
-| PATCH | `/admin/academia/:programa/lanzamiento` | admin | `{ inicio: "YYYY-MM-DD" \| null, cadaDias?: 1–60 }`: mueve la fecha de inicio (todo el calendario se desplaza); `null` vuelve al catálogo. 400 si la entrada no es válida. |
-| DELETE | `/admin/academia/:programa/lanzamiento` | admin | Borra el ajuste: vuelve la fecha del catálogo. |
-| PATCH | `/admin/academia/:programa/:n` | admin | `{ estado: borrador\|revision\|aprobado, nota? }`: capa de revisión sobre el JSON. |
+En producción **no existe** `POST /progreso/:cursoId/vista`: el avance solo lo acredita el webhook con eventos reales del reproductor. Errores del webhook: 4xx se propagan con su estado y mensaje; 5xx, red, tiempo agotado o respuesta ilegible ⇒ **502** `webhook/no-disponible` (sin reenviar detalles internos ni inventar datos).
 
-Códigos: `403 modulo_programado` (antes de su fecha de lanzamiento; trae `disponibleDesde`; se revisa antes que todo lo demás y el admin lo salta), `402 requiere_vip` (módulo > 1 sin VIP), `403 modulo_bloqueado` (sin aprobar el anterior con 70 %), `404 modulo_en_preparacion` (sin archivo o no aprobado; el admin ve borradores), `403 temas_pendientes`, `429 espera_examen` (3 min tras reprobar), `409 examen_no_emitido` / `examen_desactualizado`. Al calificar, `revelado:false` y `detalle = [{ id, acertada }]` mientras el módulo no esté aprobado; nunca viajan respuestas ni explicaciones antes. `ACADEMIA_MOSTRAR_BORRADORES=true` muestra borradores a todos (solo para revisar en local). El certificado de programa aún no existe.
+### Academia
+Contenido en `api/content/academia` (catálogo + `<programa>/modulo-NN.json`), leído del disco por `DiskAcademiaContentStore`. Reglas en `src/services/academia.ts`, pruebas en `test/academia.test.ts`. Rutas: `GET /academia`, `GET /academia/progreso`, `GET /academia/:programa/:n`, `POST /academia/:programa/:n/tema`, `GET|POST /academia/:programa/:n/examen`, `GET /admin/academia`, `PATCH|DELETE /admin/academia/:programa/lanzamiento`, `PATCH /admin/academia/:programa/:n`. Códigos: `403 modulo_programado`, `402 requiere_vip`, `403 modulo_bloqueado`, `404 modulo_en_preparacion`, `403 temas_pendientes`, `429 espera_examen`, `409 examen_no_emitido` / `examen_desactualizado`.
 
-Las formas replican lo que el cliente ya espera (ver `src/core/auth.ts`, `remoto.ts`, `comunidad.ts`, `directorio-experiencias.ts`).
+## Qué se reutiliza del sistema actual
+- **Firebase `club-dermalysse`**: mismas cuentas (Auth) y colecciones `users`, `members`, `admins`, `courses`, `certificates`, `forum`, `news`, `config`. Lo nuevo va en colecciones `v2_*`.
+- **Webhook actual** (sin cambios): Bunny (firma), avance con `playbackSessionId` (85 %, tiempo topado, clase previa), certificados `DRML`, Checkout y portal de Stripe. La API lo llama de servidor a servidor, así que su CORS no necesita los dominios nuevos para estas rutas.
+- **Regla de acceso** `access-policy.js` (port literal) y la forma de alta de `users`/`members` del `index.html` del club actual.
 
 ## Arquitectura
 ```
 src/
-  app.ts            Ensambla Express (CORS dev, rutas, manejo de errores honesto) + buildApp()
-  server.ts         Arranque local (puerto por env)
-  middleware/auth.ts requireUser / requireAdmin (usa el AuthAdapter)
-  routes/           config, catalogo, noticias, foro, me, experiencias
-  services/         experiences (validación en servidor)
+  app.ts                 createApp(deps) + buildApp(env, inyecciones) — elige adaptadores por AUTH_MODE/DATA_MODE
+  config.ts              leerConfig(env): valida y falla rápido (ErrorConfiguracion)
+  server.ts              arranque (sale con código 1 si la configuración no es válida)
+  middleware/auth.ts     requireUser / requireAdmin (usa el AuthAdapter)
+  routes/                config, catalogo, noticias, foro, me, experiencias, liga, quiz, progreso, certificados,
+                         verificar, academia; club.ts = rutas de producción (video, progreso, certificados, verificar, stripe)
+  services/              learning, academia, community, experiences, clubProduccion (webhook + Firestore)
   adapters/
-    interfaces.ts   Puertos: AuthAdapter, ContentStore, ExperienceStore + NotImplementedError
-    dev/            Adaptadores dev: fixtureContent, memoryExperiences, devAuth
-    stubs/          Seams reales no implementados: firebaseAuth, stripe, bunny
-  domain/types.ts   Tipos del contrato
-fixtures/           JSON de ejemplo NO productivos (catalogo, noticias, foro)
-test/               Pruebas con node --test
+    interfaces.ts        puertos
+    dev/                 fixtures y memoria
+    firebase/            accessPolicy (port literal), firebaseAuth (verifyIdToken + admins + regla)
+    firestore/           port.ts (puerto mínimo), admin.ts (firebase-admin perezoso), memoria.ts (falso para pruebas),
+                         club.ts (colecciones actuales), v2.ts (experiencias, liga, quiz), academia.ts (v2_academia_*)
+    legacy/webhook.ts    cliente del webhook (fetch inyectable, timeout, errores honestos)
+content/club/cursos.json catálogo editorial del club nuevo (ids de src/data/catalogo.json, sin videoId)
+fixtures/                JSON de ejemplo NO productivos (solo modo dev)
+test/                    node --test (dev, producción con Firestore/fetch falsos, regla de acceso, almacenes)
 ```
 
-## Garantías de seguridad del slice
-- **El cliente no es autoridad:** VIP/admin/identidad provienen del `AuthAdapter`, nunca del cuerpo de la petición (hay prueba que lo verifica).
-- **Errores honestos:** validación ⇒ 400, seam no implementado ⇒ 501, fallo interno ⇒ 500. Nunca se inventan datos demo para enmascarar un fallo.
-- **Entrada validada en servidor** en `POST /experiencias`.
+## Garantías
+- **El cliente no es autoridad:** identidad, VIP, admin y membresía salen del token y de Firestore; el avance y los certificados, del webhook.
+- **Campos protegidos** de `users` (`subscription, vigenciaHasta, regaloDesde, stripeCustomerId, stripeSubscriptionId, plan, status, role, admin, courtesy, isCourtesy, progress, playbackProgress`) nunca se escriben (hay prueba).
+- **Sin ids de video** en respuestas: los `videoId` de Bunny viven solo en Firestore `courses` y en el webhook (hay prueba).
+- **Errores honestos:** validación ⇒ 400, sin sesión ⇒ 401, sin acceso ⇒ 403, inexistente ⇒ 404, webhook caído ⇒ 502. Nunca datos demo en producción (liga, quiz y experiencias arrancan vacíos).
 - **Secretos solo por entorno;** `.env.example` solo trae placeholders.
-- **CORS** restringido a orígenes de la allowlist (dev).
-
-## Pendiente (decisiones del líder)
-Hosting del API, almacén de datos (p. ej. Firestore), Stripe (test/real), dominios de prod/CORS, Bunny para `/video/token`, y el resto del contrato que el cliente ya invoca (quiz corregido en servidor, progreso/certificados, admin de escritura, pagos). Ver propuesta DERM-005.

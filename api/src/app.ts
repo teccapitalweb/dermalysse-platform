@@ -1,5 +1,5 @@
-// Ensambla la app Express del slice. Sin estado global: las dependencias se inyectan,
-// lo que permite probar con adaptadores dev/memoria.
+// Ensambla la app Express. Sin estado global: las dependencias se inyectan, lo que permite probar
+// con adaptadores dev/memoria y con el Firestore falso + fetch falso del modo producción.
 import express, { type Express, type NextFunction, type Request, type Response } from 'express';
 import type { AuthAdapter, ContentStore, ExperienceStore, ForumStore, LeagueStore, ProfileStore } from './adapters/interfaces.js';
 import { NotImplementedError } from './adapters/interfaces.js';
@@ -12,13 +12,24 @@ import { MemoryCertificateStore } from './adapters/dev/memoryCertificates.js';
 import { FixtureLeagueStore } from './adapters/dev/fixtureLeague.js';
 import { MemoryForumStore } from './adapters/dev/memoryForum.js';
 import { MemoryProfileStore } from './adapters/dev/memoryProfile.js';
-import { FirebaseAuthAdapter } from './adapters/stubs/firebaseAuth.js';
+import { FirebaseAuthAdapter, type VerificadorIdToken } from './adapters/firebase/firebaseAuth.js';
+import type { FirestorePort } from './adapters/firestore/port.js';
+import { AdminFirestore, FirebaseAdminPerezoso } from './adapters/firestore/admin.js';
+import {
+  cargarCatalogoEditorial, FirestoreCertificateStore, FirestoreContentStore, FirestoreForumStore, FirestoreProfileStore,
+  FirestoreProgressStore, type CursoEditorial,
+} from './adapters/firestore/club.js';
+import { FirestoreExperienceStore, FirestoreLeagueStore, FirestoreLearningStore } from './adapters/firestore/v2.js';
+import { FirestoreAcademiaAttemptStore, FirestoreAcademiaProgressStore, FirestoreAcademiaReviewStore } from './adapters/firestore/academia.js';
+import { LegacyWebhookClient, type FetchLike } from './adapters/legacy/webhook.js';
 import { crearAuth } from './middleware/auth.js';
 import { CodedError, ConflictError, ForbiddenError, NotFoundError, ValidationError } from './services/errors.js';
 import { LearningService } from './services/learning.js';
 import { AcademiaService } from './services/academia.js';
+import { ClubProduccionService } from './services/clubProduccion.js';
 import { DiskAcademiaContentStore } from './adapters/dev/diskAcademia.js';
 import { MemoryAcademiaAttemptStore, MemoryAcademiaProgressStore, MemoryAcademiaReviewStore } from './adapters/dev/memoryAcademia.js';
+import { ErrorConfiguracion, leerConfig } from './config.js';
 import { rutaAcademia, rutaAdminAcademia } from './routes/academia.js';
 import { rutaConfig } from './routes/config.js';
 import { rutaCatalogo } from './routes/catalogo.js';
@@ -31,6 +42,7 @@ import { rutaProgreso } from './routes/progreso.js';
 import { rutaCertificados } from './routes/certificados.js';
 import { rutaVerificar } from './routes/verificar.js';
 import { rutaLiga } from './routes/liga.js';
+import { rutaCertificadosProduccion, rutaProgresoProduccion, rutaStripe, rutaVerificarProduccion, rutaVideo } from './routes/club.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
@@ -42,11 +54,20 @@ export interface Dependencias {
   profiles: ProfileStore;
   /** Academia (programas de lectura). Opcional para que los ensamblajes de prueba previos sigan válidos. */
   academia?: AcademiaService;
+  /**
+   * Producción (firebase + firestore): video, avance, certificados y Stripe por el webhook actual.
+   * Si está, reemplaza /progreso, /certificados y /verificar del modo dev y agrega /video y /stripe.
+   */
+  produccion?: ClubProduccionService;
+  /** Leer el foro exige sesión (producción: igual que las reglas actuales de Firestore). */
+  foroRequiereSesion?: boolean;
+  /** Nombre del modo de datos (solo informativo en GET /). */
+  dataMode?: string;
   corsOrigins: string[];
 }
 
-/** CORS para desarrollo: solo refleja orígenes de la allowlist. Los dominios de prod se deciden después. */
-function corsDev(origenesPermitidos: string[]) {
+/** CORS: solo refleja orígenes de la allowlist (CORS_ORIGINS). */
+function cors(origenesPermitidos: string[]) {
   const permitido = new Set(origenesPermitidos.map((o) => o.trim()).filter(Boolean));
   return (req: Request, res: Response, next: NextFunction) => {
     const origin = req.header('origin');
@@ -64,27 +85,35 @@ function corsDev(origenesPermitidos: string[]) {
 export function createApp(deps: Dependencias): Express {
   const app = express();
   app.disable('x-powered-by');
-  app.use(corsDev(deps.corsOrigins));
+  app.use(cors(deps.corsOrigins));
   app.use(express.json({ limit: '32kb' }));
 
   const { requireUser, requireAdmin } = crearAuth(deps.auth);
 
   // Salud / meta (no expone secretos ni datos sensibles).
   app.get('/', (_req, res) => {
-    res.json({ servicio: 'dermalysse-api', slice: 'etapa-4', authMode: deps.auth.modo, estado: 'ok' });
+    res.json({ servicio: 'dermalysse-api', authMode: deps.auth.modo, dataMode: deps.dataMode ?? 'memoria', estado: 'ok' });
   });
 
   app.use('/config', rutaConfig(deps.content));
   app.use('/catalogo', rutaCatalogo(deps.content));
   app.use('/noticias', rutaNoticias(deps.content));
-  app.use('/foro', rutaForo(deps.forum, requireUser));
+  app.use('/foro', rutaForo(deps.forum, requireUser, { lecturaRequiereSesion: deps.foroRequiereSesion }));
   app.use('/me', rutaMe(requireUser, deps.profiles));
   app.use('/liga', rutaLiga(deps.league, requireUser));
   app.use('/experiencias', rutaExperiencias(deps.experiences, requireUser));
   app.use('/quiz', rutaQuiz(deps.learning, requireUser));
-  app.use('/progreso', rutaProgreso(deps.learning, requireUser));
-  app.use('/certificados', rutaCertificados(deps.learning, requireUser));
-  app.use('/verificar', rutaVerificar(deps.learning));
+  if (deps.produccion) {
+    app.use('/progreso', rutaProgresoProduccion(deps.produccion, requireUser));
+    app.use('/certificados', rutaCertificadosProduccion(deps.produccion, requireUser));
+    app.use('/verificar', rutaVerificarProduccion(deps.produccion));
+    app.use('/video', rutaVideo(deps.produccion, requireUser));
+    app.use('/stripe', rutaStripe(deps.produccion, requireUser));
+  } else {
+    app.use('/progreso', rutaProgreso(deps.learning, requireUser));
+    app.use('/certificados', rutaCertificados(deps.learning, requireUser));
+    app.use('/verificar', rutaVerificar(deps.learning));
+  }
   if (deps.academia) {
     app.use('/academia', rutaAcademia(deps.academia, requireUser));
     app.use('/admin/academia', rutaAdminAcademia(deps.academia, requireAdmin));
@@ -125,43 +154,93 @@ export function createApp(deps: Dependencias): Express {
       res.status(400).json({ error: 'json-invalido', mensaje: 'El cuerpo de la petición no es JSON válido.' });
       return;
     }
-    console.error('[api] error no controlado:', err);
+    // Sin volcar el error completo (podría traer rutas o datos internos de Firestore).
+    console.error('[api] error no controlado:', (err as { name?: string })?.name ?? 'Error', (err as { message?: string })?.message ?? '');
     res.status(500).json({ error: 'interno', mensaje: 'Error interno del servidor.' });
   });
 
   return app;
 }
 
-/** Elige el adaptador de auth según AUTH_MODE (dev por defecto; firebase es un seam no implementado). */
-export function seleccionarAuth(modo: string | undefined): AuthAdapter {
-  return modo === 'firebase' ? new FirebaseAuthAdapter() : new DevAuthAdapter();
+/** Piezas reales de producción inyectables (pruebas: Firestore falso, verificador y fetch falsos). */
+export interface Inyecciones {
+  firestore?: FirestorePort;
+  verificador?: VerificadorIdToken;
+  fetch?: FetchLike;
+  catalogoEditorial?: CursoEditorial[];
 }
 
-/** Arma la app con adaptadores dev/memoria y configuración desde el entorno. */
-export function buildApp(env: NodeJS.ProcessEnv = process.env): Express {
-  const corsOrigins = (env.CORS_ORIGINS || 'http://localhost:5173,http://127.0.0.1:5173').split(',');
-  const content = new FixtureContentStore();
-  const learning = new LearningService(
-    content,
-    new FixtureLearningStore(),
-    new MemoryProgressStore(),
-    new MemoryCertificateStore(),
-  );
+/**
+ * Adaptador de auth por modo. 'firebase' exige el verificador de ID tokens y Firestore
+ * (admins/{uid}, users/{uid}); sin ellos falla con un error de configuración claro.
+ */
+export function seleccionarAuth(modo: string | undefined, firebase?: { verificador: VerificadorIdToken; db: FirestorePort }): AuthAdapter {
+  if (modo === 'firebase') {
+    if (!firebase) throw new ErrorConfiguracion(['AUTH_MODE=firebase requiere FIREBASE_SERVICE_ACCOUNT (usa buildApp con la configuración completa).']);
+    return new FirebaseAuthAdapter(firebase.verificador, firebase.db);
+  }
+  return new DevAuthAdapter();
+}
+
+/**
+ * Arma la app según AUTH_MODE / DATA_MODE. Valida el entorno y lanza ErrorConfiguracion si falta algo.
+ * No conecta con Firebase al construirse: firebase-admin se inicializa en la primera petición.
+ */
+export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inyecciones = {}): Express {
+  const config = leerConfig(env);
+
+  if (!config.produccion) {
+    const content = new FixtureContentStore();
+    const learning = new LearningService(content, new FixtureLearningStore(), new MemoryProgressStore(), new MemoryCertificateStore());
+    return createApp({
+      auth: seleccionarAuth('dev'),
+      content,
+      experiences: new MemoryExperienceStore(),
+      learning,
+      league: new FixtureLeagueStore(),
+      forum: new MemoryForumStore(),
+      profiles: new MemoryProfileStore(),
+      academia: new AcademiaService(
+        new DiskAcademiaContentStore(),
+        new MemoryAcademiaProgressStore(),
+        new MemoryAcademiaAttemptStore(),
+        new MemoryAcademiaReviewStore(),
+        { mostrarBorradores: config.academiaMostrarBorradores },
+      ),
+      dataMode: config.dataMode,
+      corsOrigins: config.corsOrigins,
+    });
+  }
+
+  const p = config.produccion;
+  const firebase = new FirebaseAdminPerezoso(p.cuenta);
+  const db = inyecciones.firestore ?? new AdminFirestore(firebase);
+  const verificador = inyecciones.verificador ?? firebase.verificador();
+  const editorial = inyecciones.catalogoEditorial ?? cargarCatalogoEditorial();
+  const forum = new FirestoreForumStore(db);
+  const content = new FirestoreContentStore(db, editorial, forum);
+  const progreso = new FirestoreProgressStore(db, editorial);
+  const certificados = new FirestoreCertificateStore(db);
+  const webhook = new LegacyWebhookClient({ baseUrl: p.webhookUrl, fetch: inyecciones.fetch, timeoutMs: p.webhookTimeoutMs });
+
   return createApp({
-    auth: seleccionarAuth(env.AUTH_MODE),
+    auth: seleccionarAuth('firebase', { verificador, db }),
     content,
-    experiences: new MemoryExperienceStore(),
-    learning,
-    league: new FixtureLeagueStore(),
-    forum: new MemoryForumStore(),
-    profiles: new MemoryProfileStore(),
+    experiences: new FirestoreExperienceStore(db),
+    learning: new LearningService(content, new FirestoreLearningStore(db), progreso, certificados),
+    league: new FirestoreLeagueStore(db),
+    forum,
+    profiles: new FirestoreProfileStore(db),
     academia: new AcademiaService(
       new DiskAcademiaContentStore(),
-      new MemoryAcademiaProgressStore(),
-      new MemoryAcademiaAttemptStore(),
-      new MemoryAcademiaReviewStore(),
-      { mostrarBorradores: env.ACADEMIA_MOSTRAR_BORRADORES === 'true' },
+      new FirestoreAcademiaProgressStore(db),
+      new FirestoreAcademiaAttemptStore(db),
+      new FirestoreAcademiaReviewStore(db),
+      { mostrarBorradores: config.academiaMostrarBorradores },
     ),
-    corsOrigins,
+    produccion: new ClubProduccionService(db, webhook, progreso, certificados, { appUrl: p.appUrl }),
+    foroRequiereSesion: true,
+    dataMode: config.dataMode,
+    corsOrigins: config.corsOrigins,
   });
 }
