@@ -28,6 +28,8 @@ export interface Usuario {
   esVip: boolean;
   esAdmin: boolean;
   nombre: string;
+  /** Modo firebase: claim email_verified del ID token. Sin valor en modo dev. */
+  emailVerificado?: boolean;
   /** Modo firebase: detalle de la membresía según la regla de acceso del webhook. */
   acceso?: { plan: 'mensual' | 'anual' | 'cortesia' | null; vence: string | null; motivo: string };
   /** Modo firebase: datos de la cuenta (ID token) para el alta de users/members. */

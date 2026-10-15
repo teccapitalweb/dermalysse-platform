@@ -26,7 +26,9 @@ export const FUNCIONES = {
     // Rutas #/bienvenida y #/encuestas, redirección automática a la bienvenida, tarjeta de invitación
     // en Inicio, resumen en Mi perfil y accesos en «Más».
     backend: 'GET /me/experiencia · PATCH /me/entrevista|encuesta · POST /me/experiencia/iniciar|sesion · POST /me/{flujo}/posponer|completar',
-    motivo: 'Sin backend en producción y su beneficio de bienvenida otorga días VIP.',
+    // Encendida: backend en api/src/modulos/experiencia.ts. Los días VIP solo se otorgan con una campaña
+    // aprobada y habilitada en /admin/experiencia (v2_config/experiencia); sin ella no se promete premio.
+    motivo: 'Su beneficio de bienvenida otorga días VIP: requiere campaña aprobada por el propietario.',
   },
   adminGestion: {
     nombre: 'Administración completa en el club nuevo',
@@ -43,7 +45,7 @@ export type Funcion = keyof typeof FUNCIONES;
 export const EN_PRODUCCION: Record<Funcion, boolean> = {
   recompensas: false,
   cupones: false,
-  experiencia: false,
+  experiencia: true,
   adminGestion: false,
 };
 
