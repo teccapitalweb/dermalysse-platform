@@ -29,7 +29,7 @@ export function adminCupones() {
         <div class="field"><label>Duración del acceso</label><select class="input" name="duracion" data-duracion-cupon>
           <option value="15d">15 días</option><option value="1m">1 mes</option><option value="3m">3 meses</option><option value="1y">1 año</option><option value="personalizada">Otra duración en días</option>
         </select></div>
-        <div class="field" data-dias-cupon hidden><label>Días de acceso</label><input class="input" type="number" name="dias" min="1" max="3650" value="30" disabled></div>
+        <div class="field" data-dias-cupon hidden><label>Días de acceso</label><input class="input" type="number" name="dias" min="1" max="366" value="30" disabled></div>
         <div class="field"><label>¿Cómo se repartirán?</label><select class="input" name="modalidad">
           <option value="compartido">Un código para varias personas</option><option value="individuales">Un código diferente por persona</option>
         </select></div>

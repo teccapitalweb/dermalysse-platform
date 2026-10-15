@@ -149,17 +149,18 @@ test('formato de folio DRML-YYYY-XXXXXXXXXXXX', () => {
 
 // ── Funciones apagadas en producción (src/core/funciones.ts) ──
 
-test('demo: todas las funciones siguen disponibles; API: recompensas, cupones, experiencia y admin completo apagados', () => {
+test('demo: todas las funciones siguen disponibles; API: recompensas y cupones encendidos, experiencia y admin completo apagados', () => {
+  const encendidas = new Set(['recompensas', 'cupones']);
   for (const f of Object.keys(FUNCIONES)) {
     assert.equal(disponibleEn(f, 'demo'), true, `demo ${f}`);
-    assert.equal(disponibleEn(f, 'api'), false, `api ${f}`);
+    assert.equal(disponibleEn(f, 'api'), encendidas.has(f), `api ${f}`);
   }
   assert.deepEqual(Object.keys(EN_PRODUCCION).sort(), Object.keys(FUNCIONES).sort(), 'cada función tiene su interruptor');
 });
 
 test('habilitar una función en producción es cambiar su interruptor', () => {
   assert.equal(disponibleEn('recompensas', 'api', { ...EN_PRODUCCION, recompensas: true }), true);
-  assert.equal(disponibleEn('cupones', 'api', { ...EN_PRODUCCION, recompensas: true }), false);
+  assert.equal(disponibleEn('cupones', 'api', { ...EN_PRODUCCION, cupones: false }), false);
 });
 
 test('rutas reguladas: recompensas, bienvenida/encuestas y el admin salvo Academia', () => {
