@@ -26,8 +26,8 @@ const pasosIniciales: Paso[] = [
   { nombre: 'Registro de conclusiones', minutos: 5 },
 ];
 
-function opcionesActivos() {
-  return Object.entries(activos).map(([valor, activo]) => `<option value="${valor}">${activo.nombre}</option>`).join('');
+function opcionesActivos(elegido = '') {
+  return Object.entries(activos).map(([valor, activo]) => `<option value="${valor}"${valor === elegido ? ' selected' : ''}>${activo.nombre}</option>`).join('');
 }
 
 export function herramientas() {
@@ -81,7 +81,7 @@ export function herramientas() {
           <div class="tool-split">
             <form class="tool-form" data-activos-form>
               <label>Primer activo<select name="activoA">${opcionesActivos()}</select></label><div class="tool-form__connector"><span></span><b>+</b><span></span></div>
-              <label>Segundo activo<select name="activoB"><option value="ceramidas">Ceramidas</option>${opcionesActivos()}</select></label>
+              <label>Segundo activo<select name="activoB">${opcionesActivos('ceramidas')}</select></label>
               <button class="tools-action" type="submit">Analizar dupla <span><i data-lucide="git-compare-arrows" class="i"></i></span></button>
             </form>
             <div class="tool-output tool-output--analysis" data-activos-output aria-live="polite"><div class="tool-output__empty"><span><i data-lucide="test-tubes" class="i"></i></span><strong>Selecciona una dupla</strong><p>Verás afinidad conceptual, puntos de revisión y una sugerencia de estudio.</p></div></div>
@@ -161,7 +161,11 @@ function mapaRutina(objetivo: string, momento: string, nivel: string) {
     textura: { titulo: 'Textura y renovación', paso: 'Paso de renovación', nota: 'Revisa tolerancia, frecuencia y formulación antes de combinar.' },
     luminosidad: { titulo: 'Luminosidad y antioxidantes', paso: 'Soporte antioxidante', nota: 'Estudia estabilidad, envase y momento de aplicación.' },
   };
-  const elegido = enfoque[objetivo] || enfoque.barrera;
+  let elegido = enfoque[objetivo] || enfoque.barrera;
+  // La renovación (ácidos, retinoides) se estudia en la rutina de noche; de día manda la fotoprotección.
+  if (objetivo === 'textura' && momento === 'manana') {
+    elegido = { ...elegido, paso: 'Soporte antioxidante', nota: 'Los pasos de renovación suelen estudiarse en la rutina de noche; por la mañana prioriza la fotoprotección y observa la tolerancia.' };
+  }
   const pasos = nivel === 'completa'
     ? ['Limpieza respetuosa', elegido.paso, 'Capa complementaria opcional', 'Hidratación de cierre', momento === 'manana' ? 'Fotoprotección' : 'Registro de tolerancia']
     : ['Limpieza respetuosa', elegido.paso, momento === 'manana' ? 'Hidratación + fotoprotección' : 'Hidratación de cierre'];
@@ -354,11 +358,13 @@ export function montarHerramientas() {
     createIcons({ icons });
   });
 
+  // Límites de palabra que entienden acentos (\b de JS no reconoce «ú» como letra y fallaba con «único»).
+  const palabra = (alternativas: string) => new RegExp(`(?<![\\p{L}\\d])(?:${alternativas})(?![\\p{L}\\d])`, 'iu');
   const alertasClaims = [
-    { patron: /\b(cura|curar|tratamiento médico|diagnostica|prescribe)\b/i, titulo: 'Lenguaje terapéutico', texto: 'Puede presentar el producto o servicio como intervención médica.' },
-    { patron: /\b(elimina|borra|desaparece|definitiv[oa]s?|permanente)\b/i, titulo: 'Promesa absoluta', texto: 'Conviene describir apariencia, apoyo o experiencia sin garantizar eliminación.' },
-    { patron: /(100\s*%|garantizad[oa]s?|sin riesgo|resultados inmediatos)/i, titulo: 'Garantía difícil de sustentar', texto: 'Añade contexto, condiciones y evidencia verificable antes de publicarlo.' },
-    { patron: /\b(rejuvenece \d+ años|milagro|revolucionario|único en el mundo)\b/i, titulo: 'Superlativo sin respaldo', texto: 'Reformula con beneficios observables y una fuente concreta.' },
+    { patron: palabra('cura[rn]?|curación|tratamiento médico|diagnostica[rn]?|prescribe[n]?'), titulo: 'Lenguaje terapéutico', texto: 'Puede presentar el producto o servicio como intervención médica.' },
+    { patron: palabra('elimina[rn]?|borra[rn]?|desaparece[rn]?|definitiv[oa]s?|definitivamente|permanentes?|permanentemente'), titulo: 'Promesa absoluta', texto: 'Conviene describir apariencia, apoyo o experiencia sin garantizar eliminación.' },
+    { patron: /(100\s*%|garantizad[oa]s?|garantiza[rn]?|sin riesgos?|resultados inmediatos)/iu, titulo: 'Garantía difícil de sustentar', texto: 'Añade contexto, condiciones y evidencia verificable antes de publicarlo.' },
+    { patron: palabra('rejuvenece[rn]? \\d+ años|milagros?|milagros[oa]s?|revolucionari[oa]s?|únic[oa]s?(?: \\p{L}+)? en el mundo'), titulo: 'Superlativo sin respaldo', texto: 'Reformula con beneficios observables y una fuente concreta.' },
   ];
   praxis.querySelector<HTMLFormElement>('[data-claims-form]')?.addEventListener('submit', (evento) => {
     evento.preventDefault();
