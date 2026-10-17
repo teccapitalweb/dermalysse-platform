@@ -2,7 +2,7 @@
 // los de producción usan Firestore (adapters/firestore) y el webhook actual (adapters/legacy).
 import type {
   AjusteLanzamientoAcademia, AvanceModuloAcademia, CatalogoAcademia, CatalogoRemoto, CertificadoRemoto, ConfigPublica, DetalleRemoto,
-  ExperienciaCompartida, FilaLiga, HiloRemoto, IntentoAcademia, ModuloAcademia, Noticia, PerfilRemoto,
+  EstadoExperiencia, ExperienciaCompartida, ExperienciaModerada, ExperienciaPropia, FilaLiga, HiloRemoto, IntentoAcademia, ModuloAcademia, Noticia, PerfilRemoto,
   ProgresoAcademia, ProgresoCurso, ProgresoHistoria, ProgresoMapa, QuizFixture, RespuestaForo, ResumenLiga, RevisionAcademia, Usuario,
 } from '../domain/types.js';
 
@@ -39,7 +39,10 @@ export interface FiltroExperiencias {
 /** Almacén del Directorio de experiencias. */
 export interface ExperienceStore {
   listar(filtro: FiltroExperiencias): Promise<ExperienciaCompartida[]>;
-  crear(exp: ExperienciaCompartida): Promise<ExperienciaCompartida>;
+  propias(uid: string): Promise<ExperienciaPropia[]>;
+  pendientes(): Promise<ExperienciaModerada[]>;
+  crear(exp: ExperienciaModerada): Promise<ExperienciaModerada>;
+  revisar(id: string, estado: Exclude<EstadoExperiencia, 'pendiente'>, revisorUid: string): Promise<ExperienciaModerada | null>;
 }
 
 /** Banco de quizzes (con respuestas). El contenido completo NUNCA sale del servidor. */

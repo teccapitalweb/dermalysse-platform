@@ -2,7 +2,7 @@
 // El servidor asigna id/fecha/autor; el cliente nunca los decide.
 import { randomUUID } from 'node:crypto';
 import {
-  CATEGORIAS_EXPERIENCIA, type CategoriaExperiencia, type ExperienciaCompartida, type Usuario,
+  CATEGORIAS_EXPERIENCIA, type CategoriaExperiencia, type ExperienciaModerada, type Usuario,
 } from '../domain/types.js';
 import { ValidationError } from './errors.js';
 
@@ -11,6 +11,7 @@ export interface EntradaExperiencia {
   texto?: unknown;
   categoria?: unknown;
   anonima?: unknown;
+  confirmoPrivacidad?: unknown;
 }
 
 function esCategoria(valor: unknown): valor is CategoriaExperiencia {
@@ -18,7 +19,7 @@ function esCategoria(valor: unknown): valor is CategoriaExperiencia {
 }
 
 /** Valida la entrada y devuelve la experiencia lista para persistir. Lanza ValidationError (⇒ 400) si algo falla. */
-export function construirExperiencia(entrada: EntradaExperiencia, usuario: Usuario): ExperienciaCompartida {
+export function construirExperiencia(entrada: EntradaExperiencia, usuario: Usuario): ExperienciaModerada {
   const titulo = typeof entrada.titulo === 'string' ? entrada.titulo.trim() : '';
   const texto = typeof entrada.texto === 'string' ? entrada.texto.trim() : '';
 
@@ -33,6 +34,9 @@ export function construirExperiencia(entrada: EntradaExperiencia, usuario: Usuar
   }
 
   const anonima = entrada.anonima === true;
+  if (entrada.confirmoPrivacidad !== true) {
+    throw new ValidationError('Confirma que el aporte no incluye datos personales ni información identificable de pacientes.');
+  }
   const autor = anonima ? 'Miembro del club' : usuario.nombre.trim() || 'Miembro del club';
 
   return {
@@ -43,5 +47,7 @@ export function construirExperiencia(entrada: EntradaExperiencia, usuario: Usuar
     autor,
     anonima,
     fecha: new Date().toISOString(),
+    autorUid: usuario.uid,
+    estado: 'pendiente',
   };
 }

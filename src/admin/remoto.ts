@@ -29,14 +29,19 @@ export interface HiloAdmin {
   util?: number; respuestas?: number | unknown[]; oculto?: boolean;
 }
 
+export interface ExperienciaAdmin {
+  id: string; titulo: string; texto: string; categoria: string; autor: string; anonima: boolean; fecha: string; estado: 'pendiente';
+}
+
 export interface CuponAdmin { codigo: string; loteId: string; duracion: string; dias: number | null; maxUsos: number; usos: number; activo: boolean; creadoEn: string }
 export interface LoteCupones { id: string; modalidad: 'compartido' | 'individuales'; cantidad: number; duracion: string; dias: number | null; codigos: string[]; creadoEn: string }
 
-type Clave = 'resumen' | 'cursos' | 'materiales' | 'eventos' | 'quizzes' | 'miembros' | 'foro' | 'avisos' | 'config' | 'cupones';
+type Clave = 'resumen' | 'cursos' | 'materiales' | 'eventos' | 'quizzes' | 'miembros' | 'foro' | 'experiencias' | 'avisos' | 'config' | 'cupones';
 const cargadas = new Set<Clave>();
 const pendientes = new Map<Clave, Promise<void>>();
 let resumen: ResumenAdmin | null = null;
 let foro: HiloAdmin[] = [];
+let experiencias: ExperienciaAdmin[] = [];
 let cupones: CuponAdmin[] = [];
 const detalles = new Map<string, MiembroDetalle>();
 
@@ -105,7 +110,10 @@ export async function cargarAdmin(path: string, forzar = false) {
   else if (path.startsWith('/admin/miembros/')) {
     const uid = decodeURIComponent(path.split('/')[3] || '');
     if (uid) cargas.push(api<MiembroDetalle>(`/admin/miembros/${encodeURIComponent(uid)}`).then((d) => { detalles.set(uid, d); }));
-  } else if (path === '/admin/comunidad') cargar('foro', async () => { foro = await api<HiloAdmin[]>('/admin/foro'); });
+  } else if (path === '/admin/comunidad') {
+    cargar('foro', async () => { foro = await api<HiloAdmin[]>('/admin/foro'); });
+    cargar('experiencias', async () => { experiencias = await api<ExperienciaAdmin[]>('/admin/experiencias'); });
+  }
   else if (path === '/admin/avisos') avisos();
   else if (path === '/admin/ajustes') config();
 
@@ -114,15 +122,17 @@ export async function cargarAdmin(path: string, forzar = false) {
 
 export function invalidarAdmin(...claves: Clave[]) {
   claves.forEach((clave) => cargadas.delete(clave));
-  Datos.invalidarAdmin(...claves.filter((c): c is Exclude<Clave, 'resumen' | 'foro' | 'cupones'> => c !== 'resumen' && c !== 'foro' && c !== 'cupones'));
+  Datos.invalidarAdmin(...claves.filter((c): c is Exclude<Clave, 'resumen' | 'foro' | 'experiencias' | 'cupones'> => c !== 'resumen' && c !== 'foro' && c !== 'experiencias' && c !== 'cupones'));
   if (claves.includes('resumen')) resumen = null;
   if (claves.includes('foro')) foro = [];
+  if (claves.includes('experiencias')) experiencias = [];
   if (claves.includes('cupones')) cupones = [];
 }
 
 export const AdminRemoto = {
   resumen: () => resumen,
   foro: () => foro,
+  experiencias: () => experiencias,
   cupones: () => cupones,
   detalleMiembro: (uid: string) => detalles.get(uid),
   olvidarDetalle: (uid: string) => detalles.delete(uid),

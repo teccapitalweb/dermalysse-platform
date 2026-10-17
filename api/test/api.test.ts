@@ -87,8 +87,9 @@ test('GET /me — 401 sin token, usuario dev con token', async () => {
   assert.ok('perfil' in me);
 });
 
-test('GET /experiencias — vacío honesto al inicio', async () => {
-  const r = await get('/experiencias');
+test('GET /experiencias — requiere sesión y lista vacía honesta al inicio', async () => {
+  assert.equal((await get('/experiencias')).status, 401);
+  const r = await get('/experiencias', DEV);
   assert.equal(r.status, 200);
   const lista = await body(r);
   assert.deepEqual(lista, []);
@@ -112,6 +113,7 @@ test('POST /experiencias — crea y el servidor asigna id/fecha/autor; el cuerpo
     texto: 'Separo cada tema en bloques cortos y los repaso al final del dia. ' + 'x'.repeat(5),
     categoria: 'organizacion',
     anonima: false,
+    confirmoPrivacidad: true,
     autor: 'Impostor', id: 'forzado', esAdmin: true, uid: 'otro',
   }, DEV);
   assert.equal(r.status, 201);
@@ -119,6 +121,8 @@ test('POST /experiencias — crea y el servidor asigna id/fecha/autor; el cuerpo
   assert.notEqual(exp.id, 'forzado');
   assert.equal(exp.autor, 'Usuario Demo (dev)');
   assert.equal(exp.categoria, 'organizacion');
+  assert.equal(exp.estado, 'pendiente');
+  assert.equal(exp.autorUid, undefined, 'la identidad interna no vuelve al cliente');
   assert.ok(exp.fecha && !Number.isNaN(Date.parse(exp.fecha)));
 });
 
@@ -128,23 +132,33 @@ test('POST /experiencias — anonima=true ⇒ autor "Miembro del club"', async (
     texto: 'Escribo una pregunta que quiero responder al terminar la sesion. ' + 'x'.repeat(5),
     categoria: 'aprendizaje',
     anonima: true,
+    confirmoPrivacidad: true,
   }, DEV);
   assert.equal(r.status, 201);
   const exp = await body(r);
   assert.equal(exp.autor, 'Miembro del club');
 });
 
-test('GET /experiencias — filtra por categoria y por q', async () => {
-  const porCategoria = await body(await get('/experiencias?categoria=organizacion'));
-  assert.ok(porCategoria.every((e: { categoria: string }) => e.categoria === 'organizacion'));
-  assert.ok(porCategoria.length >= 1);
+test('GET /experiencias — los envíos pendientes no son públicos; cada miembro ve su estado', async () => {
+  const porCategoria = await body(await get('/experiencias?categoria=organizacion', DEV));
+  assert.deepEqual(porCategoria, []);
 
-  const porTexto = await body(await get('/experiencias?q=pregunta'));
-  assert.ok(porTexto.length >= 1);
-  assert.ok(porTexto.every((e: { titulo: string; texto: string }) => /pregunta/i.test(e.titulo + ' ' + e.texto)));
+  const porTexto = await body(await get('/experiencias?q=pregunta', DEV));
+  assert.deepEqual(porTexto, []);
 
-  const todas = await body(await get('/experiencias'));
-  for (let i = 1; i < todas.length; i++) {
-    assert.ok(todas[i - 1].fecha >= todas[i].fecha);
-  }
+  const propias = await body(await get('/experiencias/mias', DEV));
+  assert.equal(propias.length, 2);
+  assert.ok(propias.every((e: { estado: string }) => e.estado === 'pendiente'));
+  assert.ok(propias.some((e: { titulo: string; texto: string }) => /pregunta/i.test(e.titulo + ' ' + e.texto)));
+
+  const todas = await body(await get('/experiencias', DEV));
+  assert.deepEqual(todas, []);
+});
+
+test('POST /experiencias — exige confirmar que el aporte protege datos personales', async () => {
+  const r = await postJson('/experiencias', {
+    titulo: 'Una práctica de estudio reflexiva', texto: 'Comparto una reflexión educativa sin datos personales de pacientes.', categoria: 'aprendizaje',
+  }, DEV);
+  assert.equal(r.status, 400);
+  assert.match((await body(r)).mensaje, /confirma/i);
 });

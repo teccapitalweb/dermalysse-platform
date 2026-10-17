@@ -5,7 +5,7 @@
 //                                    (admin); nunca sale completo al cliente. Sin documento ⇒ banco empaquetado.
 //  - v2_historia/{uid}               { uid, completados[], puntajes{}, ultimoNivel, actualizado, guardadoEn } — Modo Historia.
 import type { ExperienceStore, FiltroExperiencias, HistoriaStore, LeagueStore, LearningStore } from '../interfaces.js';
-import type { ExperienciaCompartida, FilaLiga, ProgresoHistoria, QuizFixture, ResumenLiga } from '../../domain/types.js';
+import type { EstadoExperiencia, ExperienciaCompartida, ExperienciaModerada, ExperienciaPropia, FilaLiga, ProgresoHistoria, QuizFixture, ResumenLiga } from '../../domain/types.js';
 import { CATEGORIAS_EXPERIENCIA } from '../../domain/types.js';
 import { fusionarHistoria, normalizarGuardada } from '../../services/historia.js';
 import { texto, type Datos, type FirestorePort } from './port.js';
@@ -34,18 +34,48 @@ export class FirestoreExperienceStore implements ExperienceStore {
   async listar(filtro: FiltroExperiencias): Promise<ExperienciaCompartida[]> {
     const q = (filtro.q || '').trim().toLocaleLowerCase('es-MX');
     const categoria = filtro.categoria;
-    const docs = await this.db.query(COLECCIONES_V2.experiencias, { orderBy: { campo: 'fecha', dir: 'desc' }, limit: this.limite });
-    return docs
-      .map((d) => d.data() as unknown as ExperienciaCompartida)
+    const [aprobadas, recientes] = await Promise.all([
+      this.db.query(COLECCIONES_V2.experiencias, { where: [{ campo: 'estado', op: '==', valor: 'aprobada' }], limit: this.limite }),
+      // Mantiene visibles los registros heredados, que todavía no tienen campo `estado`.
+      this.db.query(COLECCIONES_V2.experiencias, { orderBy: { campo: 'fecha', dir: 'desc' }, limit: this.limite }),
+    ]);
+    const unicos = new Map([...aprobadas, ...recientes].map((d) => [d.id, d]));
+    return [...unicos.values()]
+      .map((d) => d.data() as unknown as ExperienciaModerada)
+      .filter((e) => e.estado === undefined || e.estado === 'aprobada')
       .filter((e) => (CATEGORIAS_EXPERIENCIA as readonly string[]).includes(e.categoria))
       .filter((e) => (!categoria || categoria === 'todas' ? true : e.categoria === categoria))
       .filter((e) => (!q ? true : `${e.titulo} ${e.texto} ${e.autor}`.toLocaleLowerCase('es-MX').includes(q)))
+      .sort((a, b) => b.fecha.localeCompare(a.fecha))
+      .slice(0, this.limite)
       .map((e) => ({ id: e.id, titulo: e.titulo, texto: e.texto, categoria: e.categoria, autor: e.autor, anonima: e.anonima === true, fecha: e.fecha }));
   }
 
-  async crear(exp: ExperienciaCompartida): Promise<ExperienciaCompartida> {
+  async propias(uid: string): Promise<ExperienciaPropia[]> {
+    const docs = await this.db.query(COLECCIONES_V2.experiencias, { where: [{ campo: 'autorUid', op: '==', valor: uid }], limit: this.limite });
+    return docs.map((d) => d.data() as unknown as ExperienciaModerada)
+      .filter((e) => (['pendiente', 'aprobada', 'rechazada'] as string[]).includes(e.estado))
+      .sort((a, b) => b.fecha.localeCompare(a.fecha))
+      .map(({ autorUid: _uid, revisorUid: _revisor, ...e }) => ({ ...e }));
+  }
+
+  async pendientes(): Promise<ExperienciaModerada[]> {
+    const docs = await this.db.query(COLECCIONES_V2.experiencias, { where: [{ campo: 'estado', op: '==', valor: 'pendiente' }], limit: this.limite });
+    return docs.map((d) => d.data() as unknown as ExperienciaModerada).sort((a, b) => b.fecha.localeCompare(a.fecha));
+  }
+
+  async crear(exp: ExperienciaModerada): Promise<ExperienciaModerada> {
     await this.db.set(`${COLECCIONES_V2.experiencias}/${segmento(exp.id)}`, { ...exp });
-    return exp;
+    return { ...exp };
+  }
+
+  async revisar(id: string, estado: Exclude<EstadoExperiencia, 'pendiente'>, revisorUid: string): Promise<ExperienciaModerada | null> {
+    const ruta = `${COLECCIONES_V2.experiencias}/${segmento(id)}`;
+    const documento = await this.db.get(ruta);
+    if (!documento.exists) return null;
+    const actualizado = { ...(documento.data() as unknown as ExperienciaModerada), estado, revisadaEn: new Date().toISOString(), revisorUid };
+    await this.db.set(ruta, { estado, revisadaEn: actualizado.revisadaEn, revisorUid }, { merge: true });
+    return actualizado;
   }
 }
 
