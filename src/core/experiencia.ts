@@ -35,9 +35,11 @@ export interface ExperienciaDTO {
   beneficios: { bienvenida: BeneficioExperiencia; experiencia: BeneficioExperiencia };
 }
 export type FlujoExperiencia = 'entrevista' | 'encuesta';
-export const ROLES_EXPERIENCIA = ['estudiante', 'veterinario', 'tecnico', 'productor', 'docente', 'otro', 'prefiero-no-decir'] as const;
+// Mantener los códigos antiguos permite leer y editar entrevistas ya guardadas antes de
+// adaptar la bienvenida a Dermalysse. Las nuevas opciones son las que presenta la interfaz.
+export const ROLES_EXPERIENCIA = ['estudiante', 'profesional-estetica', 'profesional-salud', 'nutricion', 'emprendedor', 'veterinario', 'tecnico', 'productor', 'docente', 'otro', 'prefiero-no-decir'] as const;
 export const OPCIONES_EXPERIENCIA = {
-  objetivo: ['aprender', 'produccion', 'actualizar', 'estudios', 'certificacion', 'otro'],
+  objetivo: ['comprender-piel', 'elegir-activos', 'crear-protocolos', 'mejorar-consulta', 'nutricion-bienestar', 'aprender', 'produccion', 'actualizar', 'estudios', 'certificacion', 'otro'],
   experiencia: ['inicio', 'basico', 'practica', 'avanzado'],
   formato: ['grabados', 'envivo', 'ambos', 'no-se'],
   tiempo: ['cortos', 'semana', 'fines'],

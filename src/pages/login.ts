@@ -17,7 +17,7 @@ export async function login(_: Record<string, string>, query: URLSearchParams) {
 
   const formEntrar = `
     <div class="login__modo" data-modo="entrar">
-      <div class="login__intro"><span>Bienvenida de nuevo</span><h1>Continúa donde <em>lo dejaste.</em></h1><p>Tu avance, materiales y comunidad te esperan.</p></div>
+      <div class="login__intro"><span>Tu espacio profesional</span><h1>Qué gusto tenerte <em>de vuelta.</em></h1><p>Retoma tus cursos, herramientas y conversaciones justo donde las dejaste.</p></div>
       ${google}
       <div class="login__or">o continúa con tu correo</div>
       <form class="login__fields" data-login-form="entrar">
@@ -73,7 +73,7 @@ export async function login(_: Record<string, string>, query: URLSearchParams) {
   <div class="login-page">
     <div class="login">
       <section class="login__access">
-        <div class="login__brandbar"><img data-logo src="/brand/dermalysse-horizontal.svg" alt="Dermalysse"><a href="${vistaPrevia ? '#/' : '/'}"><i data-lucide="arrow-left" class="i"></i>${vistaPrevia ? 'Volver al club' : 'Volver al inicio'}</a></div>
+        <div class="login__brandbar"><div class="login__brand-lockup" role="img" aria-label="Dermalysse · The Beauty Knowledge Club"><svg class="login__brand-mark" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="#fff5f2" stroke="#ead2d1"/><path d="M32 12S19 27 19 38a13 13 0 0 0 26 0C45 27 32 12 32 12Z" fill="none" stroke="#681c31" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 39a7 7 0 0 0 7 7" fill="none" stroke="#a85f63" stroke-width="1.8" stroke-linecap="round"/><path d="m47 13 1.3 3.7L52 18l-3.7 1.3L47 23l-1.3-3.7L42 18l3.7-1.3Z" fill="#c88883"/></svg><span><strong>Dermalysse</strong><small>THE BEAUTY KNOWLEDGE CLUB</small></span></div><a href="${vistaPrevia ? '#/' : '/'}"><i data-lucide="arrow-left" class="i"></i>${vistaPrevia ? 'Volver al club' : 'Volver al inicio'}</a></div>
         <div class="login__form" data-login-panel data-modo-activo="${esc(modo)}" data-login-preview="${vistaPrevia}">
           <nav class="login__switch" aria-label="Opciones de acceso">
             <a class="${modo === 'entrar' ? 'is-active' : ''}" href="#/login${vistaPrevia ? '?vista=1' : ''}" data-login-modo="entrar">Iniciar sesión</a>
@@ -86,9 +86,9 @@ export async function login(_: Record<string, string>, query: URLSearchParams) {
       <section class="login__visual">
         <img class="login__visual-bg" src="/media/dermalysse-guia-lia-v1.png" alt="">
         <div class="login__visual-content">
-          <span class="login__visual-kicker"><i data-lucide="sparkles" class="i"></i>Membresía Dermalysse</span>
-          <h2 class="login__visual-title">Más que cursos:<br><em>un sistema para avanzar.</em></h2>
-          <p class="login__visual-lead">Formación, práctica y seguimiento reunidos en una experiencia pensada para profesionales.</p>
+          <span class="login__visual-kicker"><i data-lucide="sparkles" class="i"></i>Dermalysse · The Beauty Knowledge Club</span>
+          <h2 class="login__visual-title">Aprender a mirar<br><em>cambia todo.</em></h2>
+          <p class="login__visual-lead">Un lugar para ampliar tu criterio, ponerlo en práctica y seguir creciendo con cada aprendizaje.</p>
           <ul class="login__benefits">
             <li>
               <span class="login__benefit-ic"><i data-lucide="circle-play" class="i"></i></span>

@@ -2,6 +2,8 @@ import { instalarBaseShim } from './core/base-shim';
 instalarBaseShim();
 import '@fontsource-variable/outfit/wght.css';
 import '@fontsource-variable/inter/opsz.css';
+import '@fontsource-variable/fraunces/wght.css';
+import '@fontsource-variable/fraunces/wght-italic.css';
 import '@fontsource-variable/jetbrains-mono/index.css';
 import './styles/tokens.css';
 import './styles/base.css';
@@ -270,7 +272,10 @@ onRender(() => {
   const { path } = current();
   if (shellActual === 'admin') marcarAdminActivo(path); else marcarNavActivo(path);
   // Anuncio de primera vez «Escoge tu curso gratis» (solo miembro gratuito que aún no eligió).
-  if (shellActual === 'miembro') abrirAnuncioCursoGratis();
+  // La bienvenida guiada conduce al regalo de curso al final; no interrumpirla con el modal global.
+  const estadoBienvenida = getExperiencia()?.entrevista.estado;
+  const bienvenidaTerminada = !disponible('experiencia') || !estadoBienvenida || estadoBienvenida === 'completada';
+  if (shellActual === 'miembro' && path !== '/bienvenida' && bienvenidaTerminada) abrirAnuncioCursoGratis();
   const crumb = document.querySelector('[data-crumb]'); if (crumb) crumb.textContent = document.querySelector('#outlet h1')?.textContent?.trim() || 'Administración';
   if (Datos.modo === 'api') {
     const video = document.querySelector<HTMLElement>('[data-video-api]');
@@ -792,8 +797,9 @@ document.addEventListener('click', async (e) => {
   if (el.closest('[data-exp-open]')) {
     if (!Acceso.puedeComunidad()) { mostrarPaywall('Compartir experiencias en Comunidad es para miembros VIP.'); return; }
     const f = document.querySelector<HTMLElement>('[data-form-exp]');
-    if (f && DirectorioExperiencias.local()) { f.hidden = false; f.querySelector<HTMLInputElement>('input[name="titulo"]')?.focus(); }
+    if (f) { f.hidden = false; f.querySelector<HTMLInputElement>('input[name="titulo"]')?.focus(); }
   }
+  if (el.closest('[data-exp-reintentar]')) render();
   if (el.closest('[data-exp-close]')) { const f = document.querySelector<HTMLElement>('[data-form-exp]'); if (f) f.hidden = true; }
   const util = el.closest<HTMLElement>('[data-util]');
   if (util) {
@@ -1067,14 +1073,24 @@ document.addEventListener('submit', async (e) => {
   if (f.matches('[data-form-exp]')) {
     e.preventDefault();
     if (!Acceso.puedeComunidad()) { mostrarPaywall('Compartir experiencias en Comunidad es para miembros VIP.'); return; }
-    if (!DirectorioExperiencias.local()) { toast('La publicación compartida estará disponible cuando se conecte el directorio al servidor.', 'info'); return; }
     const d = new FormData(f);
+    const boton = f.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (boton) boton.disabled = true;
     try {
       const categoria = String(d.get('categoria')) as CategoriaExperiencia;
-      DirectorioExperiencias.crear(String(d.get('titulo') || ''), String(d.get('texto') || ''), categoria, d.get('anonima') === 'on');
-      toast('Experiencia guardada en este dispositivo', 'notebook-pen');
+      if (DirectorioExperiencias.local()) {
+        DirectorioExperiencias.crear(String(d.get('titulo') || ''), String(d.get('texto') || ''), categoria, d.get('anonima') === 'on');
+        toast('Experiencia guardada en este dispositivo', 'notebook-pen');
+      } else {
+        await api('/experiencias', { method: 'POST', json: {
+          titulo: String(d.get('titulo') || ''), texto: String(d.get('texto') || ''), categoria,
+          anonima: d.get('anonima') === 'on', confirmoPrivacidad: d.get('confirmoPrivacidad') === 'on',
+        } });
+        toast('Envío recibido. Tu aporte queda privado hasta que Comunidad lo revise.', 'shield-check');
+      }
       navigate(`/comunidad/experiencias?categoria=${encodeURIComponent(categoria)}`);
-    } catch (err) { toast(err instanceof Error ? err.message : 'No se pudo guardar la experiencia.', 'circle-alert'); }
+    } catch (err) { toast(mensajeError(err), 'circle-alert'); }
+    finally { if (boton?.isConnected) boton.disabled = false; }
   }
   if (f.matches('[data-form-respuesta]')) {
     e.preventDefault();

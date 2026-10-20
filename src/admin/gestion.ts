@@ -6,6 +6,9 @@ import { esc, iniciales } from '../ui/partials';
 import { adminHead } from './shell';
 import { vacio, callout } from './contenido';
 import { AdminRemoto } from './remoto';
+import { api } from '../core/auth';
+import { render } from '../core/router';
+import { cargarAdmin, invalidarAdmin } from './remoto';
 
 const DIA = 864e5;
 export function estadoMiembro(m: MiembroDemo, ahora = Date.now()) {
@@ -193,8 +196,16 @@ export function adminMiembro(params: Record<string, string>) {
 // ═══ COMUNIDAD ═══
 export function adminComunidad() {
   const l = Datos.modo === 'api' ? AdminRemoto.foro().map((h) => ({ ...h, respuestasTotal: Array.isArray(h.respuestas) ? h.respuestas.length : Number(h.respuestas) || 0, util: Number(h.util) || 0 })) : Comunidad.todos();
+  const experiencias = Datos.modo === 'api' ? AdminRemoto.experiencias() : [];
   return `
-  ${adminHead('Comunidad', `${l.length} temas · ${l.filter((h) => h.oculto).length} ocultos`)}
+  ${adminHead('Comunidad', `${experiencias.length} aportes pendientes · ${l.length} temas · ${l.filter((h) => h.oculto).length} ocultos`)}
+  ${Datos.modo === 'api' ? `<section class="stack" style="gap:10px;margin-bottom:22px" aria-label="Revisión de experiencias"><div><span class="eyebrow">Moderación</span><h2 class="admin-card-title" style="margin:4px 0">Aportes por revisar</h2><p class="muted" style="font-size:var(--fs-sm)">Solo los aportes aprobados aparecen en el directorio. Revisa que no incluyan datos identificables ni recomendaciones clínicas.</p></div><p class="faint" role="status" data-admin-exp-feedback></p>${experiencias.length ? experiencias.map((exp) => `
+    <article class="card card--pad stack" style="gap:10px">
+      <div class="row" style="justify-content:space-between;gap:12px"><span class="chip chip--primary">${esc(exp.categoria)}</span><span class="faint" style="font-size:var(--fs-xs)">${hace(exp.fecha)}</span></div>
+      <h3 class="admin-card-title">${esc(exp.titulo)}</h3><p class="muted" style="white-space:pre-wrap">${esc(exp.texto)}</p>
+      <span class="faint" style="font-size:var(--fs-xs)">Por ${esc(exp.autor)}${exp.anonima ? ' · nombre público anónimo' : ''}</span>
+      <div class="row" style="justify-content:flex-end"><button class="btn btn--secondary btn--sm" type="button" data-revisar-experiencia="${esc(exp.id)}" data-estado="rechazada">No aprobar</button><button class="btn btn--brand btn--sm" type="button" data-revisar-experiencia="${esc(exp.id)}" data-estado="aprobada"><i data-lucide="shield-check" class="i"></i>Aprobar y publicar</button></div>
+    </article>`).join('') : '<div class="card card--pad"><p class="muted">No hay aportes pendientes. Los nuevos envíos aparecerán aquí antes de publicarse.</p></div>'}</section>` : ''}
   ${l.length ? `<div class="stack" style="gap:10px">${l.map((h) => `
     <div class="card card--pad" style="display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;${h.oculto ? 'opacity:.6' : ''}">
       <div class="avatar">${iniciales(h.autor)}</div>
@@ -204,6 +215,25 @@ export function adminComunidad() {
       <button class="btn btn--sm ${h.oculto ? 'btn--secondary' : 'btn--danger'}" data-ocultar-hilo="${h.id}">${h.oculto ? 'Mostrar' : 'Ocultar'}</button>
     </div>`).join('')}</div>` : vacio('Sin temas', 'Cuando los miembros abran temas aparecerán aquí para moderarlos.')}`;
 }
+
+if (typeof document !== 'undefined') document.addEventListener('click', async (evento) => {
+  const boton = (evento.target as HTMLElement | null)?.closest<HTMLButtonElement>('[data-revisar-experiencia]');
+  if (!boton) return;
+  const id = boton.dataset.revisarExperiencia;
+  const estado = boton.dataset.estado;
+  if (!id || (estado !== 'aprobada' && estado !== 'rechazada')) return;
+  const feedback = document.querySelector<HTMLElement>('[data-admin-exp-feedback]');
+  document.querySelectorAll<HTMLButtonElement>(`[data-revisar-experiencia="${CSS.escape(id)}"]`).forEach((b) => { b.disabled = true; });
+  try {
+    await api(`/admin/experiencias/${encodeURIComponent(id)}`, { method: 'PATCH', json: { estado } });
+    invalidarAdmin('experiencias');
+    await cargarAdmin('/admin/comunidad', true);
+    render();
+  } catch (error) {
+    if (feedback) feedback.textContent = error instanceof Error ? error.message : 'No se pudo guardar la revisión. Intenta de nuevo.';
+    document.querySelectorAll<HTMLButtonElement>(`[data-revisar-experiencia="${CSS.escape(id)}"]`).forEach((b) => { b.disabled = false; });
+  }
+});
 
 // ═══ AVISOS ═══
 export function adminAvisos() {

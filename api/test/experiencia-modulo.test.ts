@@ -116,6 +116,8 @@ test('config: días de la configuración del admin y, si no hay, los del cliente
 });
 
 test('validarRespuestas: opciones, máximos y textos acotados', () => {
+  assert.deepEqual(validarRespuestas({ roles: ['profesional-estetica'], objetivo: 'elegir-activos' }, 'entrevista', [AREA]), { roles: ['profesional-estetica'], objetivo: 'elegir-activos' });
+  assert.deepEqual(validarRespuestas({ roles: ['nutricion'], objetivo: 'nutricion-bienestar' }, 'entrevista', [AREA]), { roles: ['nutricion'], objetivo: 'nutricion-bienestar' });
   assert.throws(() => validarRespuestas({ roles: ['estudiante', 'docente', 'otro', 'tecnico'] }, 'entrevista', [AREA]), /hasta 3/);
   assert.throws(() => validarRespuestas({ roles: ['prefiero-no-decir', 'otro'] }, 'entrevista', [AREA]), /sola/);
   assert.throws(() => validarRespuestas({ areas: ['Inventada'] }, 'entrevista', [AREA]), /areas/);

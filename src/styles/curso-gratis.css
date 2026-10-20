@@ -39,6 +39,11 @@
   content: ''; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px; border-radius: 50%;
   background: radial-gradient(circle, rgba(217, 160, 155, .4), transparent 70%); pointer-events: none;
 }
+.acg__guide { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; margin: 0 0 18px; }
+.acg__guide img { width: 50px; height: 50px; object-fit: cover; object-position: top center; border: 2px solid rgba(255,255,255,.72); border-radius: 50%; background: #f6e7e1; box-shadow: 0 4px 16px rgba(11,36,53,.24); }
+.acg__guide span { display: grid; gap: 2px; }
+.acg__guide strong { font-size: var(--fs-sm); }
+.acg__guide small { color: rgba(255,255,255,.74); font-size: var(--fs-xs); }
 .acg__badge {
   display: inline-flex; align-items: center; gap: 7px; padding: 6px 14px; border-radius: var(--r-full);
   background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .3);

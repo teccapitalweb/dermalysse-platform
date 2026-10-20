@@ -9,6 +9,8 @@ import { createApp } from '../src/app.js';
 import type { AcademiaContentStore, AuthAdapter } from '../src/adapters/interfaces.js';
 import { FixtureContentStore } from '../src/adapters/dev/fixtureContent.js';
 import { MemoryExperienceStore } from '../src/adapters/dev/memoryExperiences.js';
+import { MemoryFirestore } from '../src/adapters/firestore/memoria.js';
+import { FirestoreExperienceStore } from '../src/adapters/firestore/v2.js';
 import { FixtureLearningStore } from '../src/adapters/dev/fixtureQuizzes.js';
 import { MemoryProgressStore } from '../src/adapters/dev/memoryProgress.js';
 import { MemoryCertificateStore } from '../src/adapters/dev/memoryCertificates.js';
@@ -788,5 +790,85 @@ describe('academia · contenido', () => {
         assert.equal(m.modulo, mm.n, `${p.id}/modulo-${nn(mm.n)}: número`);
       }
     }
+  });
+});
+
+describe('directorio de experiencias · privacidad y moderación', () => {
+  const entrada = {
+    titulo: 'Una manera de ordenar mis apuntes',
+    texto: 'Separar las ideas por tema me ayuda a revisar lo aprendido con calma.',
+    categoria: 'organizacion', confirmoPrivacidad: true,
+  };
+
+  test('VIP puede enviar, pero el aporte queda privado; identidad y estado los fija el servidor', async (t) => {
+    const e = await entorno(t);
+    assert.equal((await e.pedir('POST', '/experiencias', 'free', entrada)).status, 402);
+    const sinConsentimiento = await e.pedir('POST', '/experiencias', 'vip', { ...entrada, confirmoPrivacidad: false });
+    assert.equal(sinConsentimiento.status, 400);
+
+    const creado = await e.pedir('POST', '/experiencias', 'vip', { ...entrada, uid: 'falso', autorUid: 'otro', autor: 'Suplantación', estado: 'aprobada' });
+    assert.equal(creado.status, 201, JSON.stringify(creado.body));
+    assert.equal(creado.body.autor, 'VIP');
+    assert.equal(creado.body.estado, 'pendiente');
+    assert.equal(creado.body.autorUid, undefined);
+    assert.equal(creado.body.revisorUid, undefined);
+    assert.deepEqual(await e.pedir('GET', '/experiencias').then((r) => r.body), []);
+
+    const propia = await e.pedir('GET', '/experiencias/mias', 'vip');
+    assert.equal(propia.status, 200);
+    assert.equal(propia.body.length, 1);
+    assert.equal(propia.body[0].estado, 'pendiente');
+    assert.deepEqual((await e.pedir('GET', '/experiencias/mias', 'free')).body, []);
+  });
+
+  test('solo admin ve la cola y puede aprobar/rechazar; aprobar habilita publicación', async (t) => {
+    const e = await entorno(t);
+    const creado = await e.pedir('POST', '/experiencias', 'vip', entrada);
+    const id = creado.body.id as string;
+    assert.equal((await e.pedir('GET', '/admin/experiencias', 'vip')).status, 403);
+    assert.equal((await e.pedir('PATCH', `/admin/experiencias/${id}`, 'vip', { estado: 'aprobada' })).status, 403);
+    const pendientes = await e.pedir('GET', '/admin/experiencias', 'admin');
+    assert.equal(pendientes.status, 200);
+    assert.equal(pendientes.body.length, 1);
+    assert.equal(pendientes.body[0].autorUid, undefined);
+
+    assert.equal((await e.pedir('PATCH', `/admin/experiencias/${id}`, 'admin', { estado: 'visible' })).status, 400);
+    const aprobada = await e.pedir('PATCH', `/admin/experiencias/${id}`, 'admin', { estado: 'aprobada' });
+    assert.equal(aprobada.status, 200);
+    assert.equal(aprobada.body.estado, 'aprobada');
+    assert.equal(aprobada.body.revisorUid, undefined);
+    const publica = await e.pedir('GET', '/experiencias');
+    assert.equal(publica.body.length, 1);
+    assert.equal(publica.body[0].id, id);
+    assert.equal(publica.body[0].autorUid, undefined);
+    assert.equal((await e.pedir('GET', '/admin/experiencias', 'admin')).body.length, 0);
+
+    const otra = await e.pedir('POST', '/experiencias', 'vip', { ...entrada, titulo: 'Otra experiencia reflexiva' });
+    assert.equal((await e.pedir('PATCH', `/admin/experiencias/${otra.body.id}`, 'admin', { estado: 'rechazada' })).status, 200);
+    assert.equal((await e.pedir('GET', '/experiencias')).body.length, 1, 'rechazar nunca publica el aporte');
+    const propia = await e.pedir('GET', '/experiencias/mias', 'vip');
+    assert.ok(propia.body.some((x: any) => x.id === otra.body.id && x.estado === 'rechazada'));
+  });
+
+  test('la colección Firestore v2 mantiene visibles las experiencias antiguas sin estado', async () => {
+    const db = new MemoryFirestore();
+    db.sembrar('v2_experiencias/antigua', {
+      id: 'antigua', titulo: 'Aporte heredado', texto: 'Contenido previamente publicado y conservado.', categoria: 'aprendizaje',
+      autor: 'Miembro', anonima: false, fecha: '2026-10-10T12:00:00.000Z', autorUid: 'uid-privado',
+    });
+    db.sembrar('v2_experiencias/nueva', {
+      id: 'nueva', titulo: 'Aporte en espera', texto: 'Este contenido todavía no debe ser público.', categoria: 'aprendizaje',
+      autor: 'Miembro', anonima: false, fecha: '2026-10-11T12:00:00.000Z', autorUid: 'uid-privado', estado: 'pendiente',
+    });
+    const store = new FirestoreExperienceStore(db);
+    const lista = await store.listar({});
+    assert.deepEqual(lista.map((e) => e.id), ['antigua']);
+    assert.equal(JSON.stringify(lista).includes('uid-privado'), false);
+    const revisada = await store.revisar('nueva', 'aprobada', 'uid-admin');
+    assert.equal(revisada?.estado, 'aprobada');
+    assert.equal(db.crudo('v2_experiencias/nueva')?.revisorUid, 'uid-admin');
+    const despues = await store.listar({});
+    assert.deepEqual(despues.map((e) => e.id), ['nueva', 'antigua']);
+    assert.equal(JSON.stringify(despues).includes('uid-admin'), false);
   });
 });

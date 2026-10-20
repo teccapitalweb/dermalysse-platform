@@ -23,7 +23,7 @@ function tarjeta(c: (typeof cursos)[number]) {
 }
 
 /** Abre el anuncio si corresponde (gratuito sin elegir y sin haberlo pospuesto). `forzar` lo abre siempre. */
-export function abrirAnuncioCursoGratis(forzar = false): void {
+export function abrirAnuncioCursoGratis(forzar = false, alElegirCurso?: (cursoId: string) => void): void {
   if (abierto) return;
   if (!forzar && !mostrarAnuncio()) return;
   if (!debeElegir()) return;
@@ -33,14 +33,15 @@ export function abrirAnuncioCursoGratis(forzar = false): void {
   el.className = 'acg';
   el.setAttribute('role', 'dialog');
   el.setAttribute('aria-modal', 'true');
-  el.setAttribute('aria-label', 'Escoge tu curso gratis');
+  el.setAttribute('aria-label', 'Elige tu curso de bienvenida');
   el.innerHTML = `
     <div class="acg__box">
       <button class="acg__x" aria-label="Explorar primero">${ic('x')}</button>
       <header class="acg__head">
+        <div class="acg__guide"><img src="/media/dermalysse-guia-lia-v1.png" alt=""><span><strong>Lía</strong><small>Tu guía Dermalysse</small></span></div>
         <span class="acg__badge">${ic('gift')} Un regalo de bienvenida</span>
-        <h2 class="acg__title">Escoge tu <em>curso gratis</em></h2>
-        <p class="acg__sub">Elige el curso que quieras y estúdialo <strong>completo, gratis</strong>. Solo la última clase es para miembros VIP. Tu elección queda fija, así que escoge el que más te interese.</p>
+        <h2 class="acg__title">Elige tu <em>curso de bienvenida</em></h2>
+        <p class="acg__sub">Escoge un curso del catálogo para empezar tu ruta. Podrás estudiar sus clases disponibles para miembros gratuitos; la última clase requiere VIP. Tu elección es permanente y la confirmarás antes de guardarla.</p>
         <ol class="acg__pasos">
           <li>${ic('hand-pointer')}<span>Elige un curso</span></li>
           <li>${ic('book-open')}<span>Estúdialo casi completo</span></li>
@@ -72,7 +73,12 @@ export function abrirAnuncioCursoGratis(forzar = false): void {
     const id = boton.dataset.curso!;
     const c = cursos.find((x) => x.id === id);
     if (!c) return;
-    confirmarEleccion(el, c, () => cerrar(false));
+    confirmarEleccion(el, c, (cursoId) => {
+      cerrar(false);
+      if (alElegirCurso) { alElegirCurso(cursoId); return; }
+      location.hash = `#/curso/${c.id}`;
+      location.reload();
+    });
   }));
 }
 
@@ -88,10 +94,10 @@ export function pedirElegirCursoGratis(cursoId: string): void {
   document.body.style.overflow = 'hidden';
   const cerrar = () => { capa.remove(); document.body.style.overflow = ''; };
   capa.addEventListener('click', (e) => { if (e.target === capa) cerrar(); });
-  confirmarEleccion(capa, c, cerrar);
+    confirmarEleccion(capa, c, () => cerrar());
 }
 
-function confirmarEleccion(raiz: HTMLElement, c: (typeof cursos)[number], alElegir: () => void): void {
+function confirmarEleccion(raiz: HTMLElement, c: (typeof cursos)[number], alElegir: (cursoId: string) => void): void {
   const conf = document.createElement('div');
   conf.className = 'acg-confirm';
   conf.innerHTML = `
@@ -116,9 +122,7 @@ function confirmarEleccion(raiz: HTMLElement, c: (typeof cursos)[number], alEleg
     btn.disabled = true; btn.textContent = 'Guardando…';
     const r = await elegirCurso(c.id);
     if (r.ok) {
-      alElegir();
-      location.hash = `#/curso/${c.id}`;
-      location.reload();
+      alElegir(c.id);
     } else {
       estado.hidden = false;
       estado.textContent = r.mensaje || 'No se pudo guardar. Intenta de nuevo.';

@@ -8,6 +8,9 @@ import {
 import { aplicarPose, dibujoGuia, poseGuia, type GestoGuia, type PosturaGuia } from '../landing/guia-capas';
 import { celebrar } from './celebracion';
 import { iconoDuotono, logoMarca } from './iconos-experiencia';
+import { debeElegir } from '../core/curso-gratis';
+import { abrirAnuncioCursoGratis } from './anuncio-curso-gratis';
+import { cursos as catalogoCursos } from '../core/catalogo';
 import '../styles/experiencia.css';
 
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
@@ -21,8 +24,9 @@ let numeroGuia = 0;
 /** Texto visible de una opción; un área del catálogo se muestra con su propio nombre. */
 export const etiquetaExperiencia = (valor: string) => etiquetas[valor] || valor;
 const etiquetas: Record<string, string> = {
-  estudiante: 'Estudiante', veterinario: 'Profesional de la salud', tecnico: 'Cosmetólogo/a', productor: 'Profesional de estética', docente: 'Docente', otro: 'Otro', 'prefiero-no-decir': 'Prefiero no decirlo',
-  aprender: 'Aprender desde cero', produccion: 'Mejorar mi producción', actualizar: 'Actualizar mis conocimientos', estudios: 'Apoyar mis estudios', certificacion: 'Formarme y obtener certificados',
+  estudiante: 'Estudiante', 'profesional-estetica': 'Cosmetología o estética', 'profesional-salud': 'Dermatología o salud', nutricion: 'Nutrición y bienestar', emprendedor: 'Emprendimiento de belleza', veterinario: 'Profesional de la salud', tecnico: 'Cosmetólogo/a', productor: 'Profesional de estética', docente: 'Docente', otro: 'Otro', 'prefiero-no-decir': 'Prefiero no decirlo',
+  'comprender-piel': 'Comprender mejor la piel', 'elegir-activos': 'Conocer activos cosméticos', 'crear-protocolos': 'Diseñar protocolos de cuidado', 'mejorar-consulta': 'Fortalecer mi práctica profesional', 'nutricion-bienestar': 'Explorar nutrición y bienestar',
+  aprender: 'Aprender desde cero', produccion: 'Mejorar mi producción', actualizar: 'Actualizar mis conocimientos', estudios: 'Apoyar mis estudios', certificacion: 'Desarrollar mi formación',
   inicio: 'Estoy empezando', basico: 'Tengo conocimientos básicos', practica: 'Ya tengo experiencia práctica', avanzado: 'Tengo experiencia avanzada',
   grabados: 'Grabados, a mi ritmo', envivo: 'En vivo, con horarios', ambos: 'Me interesan ambos', 'no-se': 'Todavía no lo sé',
   cortos: 'Ratitos cortos', semana: 'Entre semana', fines: 'Fines de semana',
@@ -32,7 +36,8 @@ const etiquetas: Record<string, string> = {
 };
 // Nombres de Phosphor (duotono). Las redes de «origen» usan su logotipo oficial, no este mapa.
 const iconosOpcion: Record<string, string> = {
-  estudiante: 'student', veterinario: 'stethoscope', tecnico: 'sparkles', productor: 'heart-handshake', docente: 'chalkboard-teacher', otro: 'circle-user', 'prefiero-no-decir': 'eye-slash',
+  estudiante: 'student', 'profesional-estetica': 'sparkles', 'profesional-salud': 'stethoscope', nutricion: 'apple', emprendedor: 'briefcase-business', veterinario: 'stethoscope', tecnico: 'sparkles', productor: 'heart-handshake', docente: 'chalkboard-teacher', otro: 'circle-user', 'prefiero-no-decir': 'eye-slash',
+  'comprender-piel': 'scan-face', 'elegir-activos': 'flask-conical', 'crear-protocolos': 'list-checks', 'mejorar-consulta': 'messages-square', 'nutricion-bienestar': 'apple',
   aprender: 'plant', produccion: 'chart-line-up', actualizar: 'arrows-clockwise', estudios: 'book-open-text', certificacion: 'certificate',
   inicio: 'plant', basico: 'leaf', practica: 'tree', avanzado: 'mountains',
   grabados: 'play-circle', envivo: 'broadcast', ambos: 'stack', 'no-se': 'question',
@@ -65,10 +70,10 @@ const textoMotivo = (motivo: string) => Object.hasOwn(MOTIVOS, motivo) ? MOTIVOS
 
 interface PreguntaExperiencia { clave: string; titulo: string; ayuda: string; voz: string; opciones?: string[]; multiple?: boolean; texto?: number; escala?: boolean; opcional?: boolean }
 const ENTREVISTA: PreguntaExperiencia[] = [
-  { clave: 'roles', voz: 'Empecemos por ti. ¿A qué te dedicas?', titulo: '¿Cómo te relacionas con la dermatología, cosmetología o estética?', ayuda: 'Puedes elegir hasta tres opciones. Esto solo nos ayuda a orientarte.', multiple: true, opciones: ['estudiante', 'veterinario', 'tecnico', 'productor', 'docente', 'otro', 'prefiero-no-decir'] },
-  { clave: 'objetivo', voz: '¡Qué bien! Ahora dime qué te trajo hasta aquí.', titulo: '¿Qué te gustaría conseguir aquí?', ayuda: 'Elige el objetivo más importante para ti en este momento.', opciones: ['aprender', 'produccion', 'actualizar', 'estudios', 'certificacion', 'otro'] },
-  { clave: 'areas', voz: 'Así sabré qué cursos enseñarte primero.', titulo: '¿Qué áreas o especies te interesan?', ayuda: 'Elige hasta tres áreas del catálogo disponible. Puedes conocer otras después.', multiple: true },
-  { clave: 'experiencia', voz: 'Sin presión, no es un examen. Solo busco tu punto de partida.', titulo: '¿Desde dónde empezamos?', ayuda: 'Buscamos un punto de partida cómodo para ti.', opciones: ['inicio', 'basico', 'practica', 'avanzado'] },
+  { clave: 'roles', voz: 'Empecemos por ti. ¿En qué área te mueves?', titulo: '¿Cómo te relacionas con la piel y el bienestar?', ayuda: 'Elige hasta tres opciones; así Lía puede orientarte mejor.', multiple: true, opciones: ['estudiante', 'profesional-estetica', 'profesional-salud', 'nutricion', 'emprendedor', 'docente', 'otro', 'prefiero-no-decir'] },
+  { clave: 'objetivo', voz: '¡Qué bien! ¿Qué te gustaría llevarte de Dermalysse?', titulo: '¿Qué te gustaría aprender primero?', ayuda: 'Elige el objetivo que más se acerca a lo que buscas hoy.', opciones: ['comprender-piel', 'elegir-activos', 'crear-protocolos', 'mejorar-consulta', 'nutricion-bienestar', 'certificacion', 'otro'] },
+  { clave: 'areas', voz: 'Ahora veamos qué temas del catálogo te llaman más.', titulo: '¿Qué temas te interesan?', ayuda: 'Elige hasta tres áreas disponibles en los cursos. Podrás explorar el resto después.', multiple: true },
+  { clave: 'experiencia', voz: 'Sin presión, no es un examen. Solo busco tu punto de partida.', titulo: '¿Qué experiencia tienes en estos temas?', ayuda: 'No es una evaluación; sirve para orientarte a un nivel adecuado.', opciones: ['inicio', 'basico', 'practica', 'avanzado'] },
   { clave: 'formato', voz: 'Cada quien aprende distinto. ¿Cómo te acomoda más?', titulo: '¿Cómo prefieres aprender?', ayuda: 'Los grabados van a tu ritmo; los cursos en vivo tienen fechas e inscripción propias.', opciones: ['grabados', 'envivo', 'ambos', 'no-se'] },
   { clave: 'tiempo', voz: 'Ya casi terminamos. ¿Cuándo tienes un rato para aprender?', titulo: '¿Cuándo te viene mejor aprender?', ayuda: 'Te ayudaremos a construir una rutina que sí puedas sostener.', opciones: ['cortos', 'semana', 'fines'] },
   { clave: 'origen', voz: 'Última pregunta, ¡lo prometo!', titulo: '¿Cómo conociste Dermalysse?', ayuda: 'Nos ayuda a saber cómo llegan los colegas al club.', opciones: ['facebook', 'instagram', 'tiktok', 'youtube', 'whatsapp', 'google', 'recomendacion', 'escuela-evento', 'otro'] },
@@ -88,8 +93,8 @@ function beneficioVisible(b: BeneficioExperiencia) {
 const POLVO = [[5, 5, 14, 0], [13, 3, 18, 5], [22, 4, 15, 9], [30, 6, 20, 2], [38, 3, 16, 11], [47, 5, 22, 6], [56, 4, 17, 1], [65, 3, 19, 10], [73, 6, 23, 4], [82, 4, 15, 13], [90, 5, 21, 3], [96, 3, 17, 8]];
 function guiaHTML() {
   // El texto fantasma reserva el alto final del globo: escribirlo letra por letra no mueve a la guía.
-  return `<aside class="experience-guide" aria-label="Tu guía virtual">
-    <div class="experience-guide__say" data-experience-say><span class="experience-guide__name">Tu guía Dermalysse</span><p><span class="experience-guide__ghost" data-experience-say-ghost aria-hidden="true"></span><span class="experience-guide__typed" data-experience-say-typed aria-hidden="true"></span><span class="experience-sr" data-experience-say-full></span></p></div>
+  return `<aside class="experience-guide" aria-label="Lía, tu guía virtual de Dermalysse">
+    <div class="experience-guide__say" data-experience-say><span class="experience-guide__name">Lía · tu guía Dermalysse</span><p><span class="experience-guide__ghost" data-experience-say-ghost aria-hidden="true"></span><span class="experience-guide__typed" data-experience-say-typed aria-hidden="true"></span><span class="experience-sr" data-experience-say-full></span></p></div>
     <div class="experience-guide__floor" aria-hidden="true"><i class="experience-guide__sweep"></i><i class="experience-guide__ripple"></i><i class="experience-guide__ripple"></i></div>
     <div class="experience-guide__figure" data-experience-guide aria-hidden="true"><img src="${IMAGENES_GUIA.saludo}" alt=""></div>
     <div class="experience-guide__sparks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -152,6 +157,7 @@ function montarGuia(root: HTMLElement) {
   const leido = globo.querySelector<HTMLElement>('[data-experience-say-full]')!;
   let escritura: ReturnType<typeof setInterval> | undefined, dicho = '';
   const reducido = matchMedia('(prefers-reduced-motion: reduce)');
+  const movil = matchMedia('(max-width: 820px)');
   const abortar = new AbortController();
   const id = `experience-guia-${++numeroGuia}`;
   const cargadas = new Set<PosturaGuia>();
@@ -160,8 +166,10 @@ function montarGuia(root: HTMLElement) {
   let gesto: GestoGuia = 'saludo';
   let deseada: PosturaGuia = 'saludo', dibujada: PosturaGuia | null = null;
   try { pausada = sessionStorage.getItem('dermalysse:experiencia:guia-pausada:v1') === '1'; } catch {}
+  const movimientoDesactivado = () => reducido.matches || movil.matches;
   function detener() { clearTimeout(timer); timer = undefined; }
   function controles() {
+    boton.hidden = movil.matches;
     boton.disabled = reducido.matches || !svg;
     boton.setAttribute('aria-pressed', String(pausada));
     boton.setAttribute('aria-label', reducido.matches ? 'Movimiento desactivado por tu preferencia de accesibilidad' : pausada ? 'Reanudar animación de la guía' : 'Pausar animación de la guía');
@@ -171,13 +179,14 @@ function montarGuia(root: HTMLElement) {
   function tick() {
     detener();
     if (destruido || !svg) return;
-    if (pausada || reducido.matches || document.hidden) { aplicarPose(svg, poseGuia(0, 'reposo', dibujada || 'saludo')); return; }
+    if (pausada || movimientoDesactivado() || document.hidden) { aplicarPose(svg, poseGuia(0, 'reposo', dibujada || 'saludo')); return; }
     aplicarPose(svg, poseGuia(frame / 24, gesto, dibujada || 'saludo')); frame++;
     if (frame >= 72) { frame = 0; gesto = 'reposo'; timer = setTimeout(() => { gesto = 'respuesta'; tick(); }, 14000); }
     else timer = setTimeout(tick, 1000 / 24);
   }
   /** Dibuja la postura deseada si su imagen ya cargó; si no, conserva la actual. */
   function dibujar() {
+    if (movil.matches) return;
     if (destruido || dibujada === deseada || !cargadas.has(deseada)) return;
     figura.innerHTML = dibujoGuia(IMAGENES_GUIA[deseada], id, deseada);
     svg = figura.querySelector('svg'); dibujada = deseada; frame = 0; gesto = 'saludo';
@@ -191,13 +200,14 @@ function montarGuia(root: HTMLElement) {
     imagen.onload = () => { if (destruido) return; cargadas.add(postura); dibujar(); };
     imagen.src = IMAGENES_GUIA[postura];
   }
-  function postura(p: PosturaGuia) { deseada = p; cargar(p); }
+  function postura(p: PosturaGuia) { deseada = p; if (!movimientoDesactivado()) cargar(p); }
   function decir(texto: string) {
     if (destruido || dicho === texto) return;
     dicho = texto; clearInterval(escritura); globo.classList.remove('is-typing');
     fantasma.textContent = texto; leido.textContent = texto;
-    globo.classList.remove('is-fresh'); void globo.offsetWidth; globo.classList.add('is-fresh');
-    if (reducido.matches) { escrito.textContent = texto; return; }
+    globo.classList.remove('is-fresh');
+    if (movimientoDesactivado()) { escrito.textContent = texto; return; }
+    void globo.offsetWidth; globo.classList.add('is-fresh');
     let letras = 0; escrito.textContent = ''; globo.classList.add('is-typing');
     escritura = setInterval(() => {
       letras += 2; escrito.textContent = texto.slice(0, letras);
@@ -205,18 +215,33 @@ function montarGuia(root: HTMLElement) {
     }, 24);
   }
   function responder() {
-    if (destruido || pausada || reducido.matches || document.hidden) return;
+    if (destruido || pausada || movimientoDesactivado() || document.hidden) return;
     // Un gesto a medias se deja terminar; reiniciarlo desde la pose neutra se ve como un salto.
     if (gesto !== 'reposo' && frame > 0 && frame < 72) return;
     frame = 0; gesto = 'respuesta'; tick();
   }
-  boton.addEventListener('click', () => { if (reducido.matches) return; pausada = !pausada; try { sessionStorage.setItem('dermalysse:experiencia:guia-pausada:v1', String(pausada ? '1' : '0')); } catch {} frame = 0; gesto = 'reposo'; controles(); tick(); }, { signal: abortar.signal });
+  boton.addEventListener('click', () => { if (movimientoDesactivado()) return; pausada = !pausada; try { sessionStorage.setItem('dermalysse:experiencia:guia-pausada:v1', String(pausada ? '1' : '0')); } catch {} frame = 0; gesto = 'reposo'; controles(); tick(); }, { signal: abortar.signal });
   const visibilidad = () => { frame = 0; gesto = 'reposo'; controles(); tick(); };
+  function cambiarVista() {
+    detener(); frame = 0; gesto = 'reposo';
+    if (movil.matches) {
+      clearInterval(escritura); globo.classList.remove('is-fresh', 'is-typing');
+      escrito.textContent = dicho;
+      svg = null; dibujada = null; figura.dataset.static = 'true';
+      const imagen = document.createElement('img'); imagen.src = IMAGENES_GUIA.saludo; imagen.alt = ''; imagen.draggable = false;
+      figura.replaceChildren(imagen);
+    } else {
+      delete figura.dataset.static;
+      svg = null; dibujada = null; cargar(deseada);
+    }
+    controles(); tick();
+  }
   document.addEventListener('visibilitychange', visibilidad, { signal: abortar.signal });
   reducido.addEventListener('change', visibilidad);
-  cargar('saludo');
+  movil.addEventListener('change', cambiarVista);
+  if (movil.matches) cambiarVista(); else cargar('saludo');
   controles();
-  return { responder, decir, postura, destruir() { destruido = true; detener(); clearInterval(escritura); abortar.abort(); reducido.removeEventListener('change', visibilidad); } };
+  return { responder, decir, postura, destruir() { destruido = true; detener(); clearInterval(escritura); abortar.abort(); reducido.removeEventListener('change', visibilidad); movil.removeEventListener('change', cambiarVista); } };
 }
 
 export function montarExperiencia(): () => void {
@@ -278,7 +303,7 @@ export function montarExperiencia(): () => void {
     const roles = Array.isArray(borrador.roles) ? borrador.roles : [];
     let html = '';
     if (roles.includes('estudiante')) html += `<label class="experience-field">¿Qué estudias? <span>Opcional</span><input name="carrera" data-experience-field maxlength="80" value="${esc(borrador.carrera)}" placeholder="Por ejemplo, Cosmetología o Estética"></label><label class="experience-field">¿En qué etapa estás? <span>Opcional</span><select name="etapa" data-experience-field><option value="">Prefiero indicarlo después</option>${['iniciando','intermedia','final','egresado'].map(v => `<option value="${v}"${borrador.etapa === v ? ' selected' : ''}>${etiquetas[v]}</option>`).join('')}</select></label>`;
-    if (roles.includes('productor')) html += `<label class="experience-field">¿Cuál es tu actividad principal? <span>Opcional; en la siguiente parte puedes elegir áreas y especies.</span><input name="actividad" data-experience-field maxlength="80" value="${esc(borrador.actividad)}" placeholder="Por ejemplo, producción de leche"></label>`;
+    if (roles.includes('emprendedor') || roles.includes('profesional-estetica')) html += `<label class="experience-field">¿En qué tipo de práctica o proyecto participas? <span>Opcional</span><input name="actividad" data-experience-field maxlength="80" value="${esc(borrador.actividad)}" placeholder="Por ejemplo, cabina, consulta o marca propia"></label>`;
     return html ? `<div class="experience-branch"><p class="experience-branch__title">Si quieres, cuéntame un poco más</p>${html}</div>` : '';
   }
   function pasosHTML() {
@@ -303,8 +328,8 @@ export function montarExperiencia(): () => void {
     const premio = beneficioVisible(beneficio);
     guia.postura('saludo');
     guia.decir(`¡Hola${Auth.usuario?.nombre && dto.fuente === 'api' ? `, ${Auth.usuario.nombre.split(' ')[0]}` : ''}! Soy tu guía Dermalysse. Quiero conocerte un poquito para recomendarte por dónde empezar.`);
-    contenido.innerHTML = `<div class="experience-intro"><p class="experience-kicker">${ic('clock-3')} Bienvenida · 2 minutos</p><h2 class="experience-intro__title">Una ruta <em>pensada para ti</em></h2><p class="experience-lead">Siete preguntas breves, una a la vez. No tienes que volver a escribir tu nombre, correo ni WhatsApp, y puedes continuar después.</p>
-      <ul class="experience-perks${premio ? '' : ' experience-perks--two'}"><li style="--i:0"><span class="experience-perks__big">7</span><strong>preguntas</strong><small>de opción rápida</small></li><li style="--i:1"><span class="experience-perks__big">${iconoDuotono('compass')}</span><strong>Cursos para ti</strong><small>según lo que te interesa</small></li>${premio ? `<li class="is-prize" style="--i:2"><span class="experience-perks__big">${beneficio.dias}</span><strong>días VIP${beneficio.estado === 'demo' ? ' · ejemplo' : ''}</strong><small>${beneficio.estado === 'demo' ? 'demostración, no activa acceso' : 'de regalo al terminar'}</small></li>` : ''}</ul>
+    contenido.innerHTML = `<div class="experience-intro"><p class="experience-kicker">${ic('clock-3')} Bienvenida · 3 minutos</p><h2 class="experience-intro__title">Una ruta <em>pensada para ti</em></h2><p class="experience-lead">Siete preguntas breves y un curso para comenzar. No tienes que volver a escribir tu nombre, correo ni WhatsApp, y puedes continuar después.</p>
+      <ul class="experience-perks${premio ? '' : ' experience-perks--two'}"><li style="--i:0"><span class="experience-perks__big">7</span><strong>preguntas</strong><small>de opción rápida</small></li><li style="--i:1"><span class="experience-perks__big">${iconoDuotono('compass')}</span><strong>Tu ruta</strong><small>según tus intereses</small></li>${premio ? `<li class="is-prize" style="--i:2"><span class="experience-perks__big">${beneficio.dias}</span><strong>días VIP${beneficio.estado === 'demo' ? ' · ejemplo' : ''}</strong><small>${beneficio.estado === 'demo' ? 'demostración, no activa acceso' : 'de regalo al terminar'}</small></li>` : ''}</ul>
       ${faltaVerificar() ? verificacionHTML() : !premio && textoMotivo(beneficio.motivo) ? `<p class="experience-privacy">${esc(textoMotivo(beneficio.motivo))}</p>` : ''}
       <label class="experience-consent"><input type="checkbox" data-experience-consent><span class="experience-consent__box" aria-hidden="true">${ic('check')}</span><span>Acepto guardar mis respuestas y registrar mis días de actividad para personalizar mi experiencia. Esto no me suscribe a mensajes de marketing.</span></label>
       <details class="experience-privacy-details"><summary>Cómo usamos tus respuestas</summary><p>Las guardamos en tu cuenta para orientar cursos, conocer cómo llegaste y mejorar el servicio. Después de tu aceptación registramos días de actividad para saber cuándo invitarte a la encuesta; no medimos el tiempo exacto que pasas mirando videos.</p><p>El administrador puede consultar un resumen de tu ruta y resultados agrupados de las encuestas, no opiniones individuales. Estas respuestas no se venden ni te suscriben a marketing.</p></details><div class="experience-error" role="alert" data-experience-error hidden></div><footer class="experience-footer"><a class="experience-button experience-button--quiet" href="#/">Ahora no</a><button class="experience-button experience-button--main" type="button" data-experience-start>Empezar ${ic('arrow-right')}</button></footer></div>`;
@@ -314,9 +339,11 @@ export function montarExperiencia(): () => void {
     if (!dto) return;
     const cursos = dto.recomendaciones;
     const beneficio = dto.beneficios[tipoBeneficio];
+    const cursoElegido = catalogoCursos.find(c => c.id === Auth.usuario?.cursoGratis);
     guia.postura('celebrar');
-    guia.decir(revelado && beneficioVisible(beneficio) ? '¡Disfrútalo! Te lo ganaste por participar.' : flujo === 'entrevista' ? '¡Listo! Ya sé por dónde puedes empezar.' : '¡Gracias! Tu opinión nos ayuda a mejorar.');
-    contenido.innerHTML = `<div class="experience-result"><p class="experience-kicker experience-kicker--done">${ic('circle-check-big')} ${flujo === 'entrevista' ? 'Bienvenida completada' : 'Encuesta completada'}</p><h2 tabindex="-1">${flujo === 'entrevista' ? 'Tu punto de partida <em>está listo</em>' : 'Gracias por <em>contarnos</em>'}</h2><p class="experience-lead">${flujo === 'entrevista' ? 'Guardamos tus preferencias. Estas sugerencias vienen del catálogo disponible; verlas no cambia el acceso de tu plan.' : 'Tu opinión quedó registrada. Valoramos igual las respuestas positivas, las negativas y «todavía no puedo evaluarlo».'}</p>${premioHTML(beneficio, revelado)}${flujo === 'entrevista' ? cursos.length ? `<h3 class="experience-result__subtitle">Te recomiendo empezar por aquí</h3><div class="experience-recommendations">${cursos.slice(0,4).map(c => `<a class="experience-course" href="#/curso/${encodeURIComponent(c.id)}"><img src="${esc(c.portada)}" alt="" loading="lazy"><div class="experience-course__body"><span class="experience-course__area">${esc(c.area)} · ${esc(c.nivel)}</span><h3>${esc(c.titulo)}</h3><span class="experience-course__action">Conocer curso ${ic('arrow-right')}</span></div></a>`).join('')}</div>` : '<p class="experience-privacy">No encontramos una recomendación verificada para tus áreas por ahora. Puedes explorar el catálogo completo.</p>' : ''}<div class="experience-footer"><a class="experience-button experience-button--secondary" href="${flujo === 'entrevista' ? '#/encuestas' : '#/bienvenida'}">${flujo === 'entrevista' ? 'Mis encuestas' : 'Ver mi ruta'}</a><a class="experience-button experience-button--main" href="#/cursos">Explorar cursos ${ic('arrow-right')}</a></div></div>`;
+    guia.decir(revelado && beneficioVisible(beneficio) ? '¡Disfrútalo! Te lo ganaste por participar.' : flujo === 'entrevista' ? cursoElegido ? `¡Listo! ${cursoElegido.titulo} ya es tu curso de bienvenida.` : '¡Listo! Ya sé por dónde puedes empezar.' : '¡Gracias! Tu opinión nos ayuda a mejorar.');
+    const regaloCurso = flujo === 'entrevista' && cursoElegido ? `<section class="experience-course-gift"><span class="experience-course-gift__icon">${ic('gift')}</span><div><span class="experience-course-gift__eyebrow">Tu regalo de bienvenida</span><h3>${esc(cursoElegido.titulo)}</h3><p>Quedó guardado en tu cuenta como tu curso de bienvenida. La última clase requiere VIP.</p><a class="experience-button experience-button--main" href="#/curso/${encodeURIComponent(cursoElegido.id)}">Ir a mi curso ${ic('arrow-right')}</a></div></section>` : flujo === 'entrevista' && debeElegir() ? `<section class="experience-course-gift"><span class="experience-course-gift__icon">${ic('gift')}</span><div><span class="experience-course-gift__eyebrow">Un detalle de bienvenida de Lía</span><h3>Elige el curso con el que quieres empezar</h3><p>Escoge uno del catálogo como tu curso de bienvenida. La elección es permanente; antes de guardarla podrás confirmarla.</p><button class="experience-button experience-button--main" type="button" data-experience-free-course>${ic('gift')} Elegir mi curso de bienvenida ${ic('arrow-right')}</button></div></section>` : '';
+    contenido.innerHTML = `<div class="experience-result"><p class="experience-kicker experience-kicker--done">${ic('circle-check-big')} ${flujo === 'entrevista' ? 'Bienvenida completada' : 'Encuesta completada'}</p><h2 tabindex="-1">${flujo === 'entrevista' ? 'Tu punto de partida <em>está listo</em>' : 'Gracias por <em>contarnos</em>'}</h2><p class="experience-lead">${flujo === 'entrevista' ? 'Lía preparó una primera ruta con base en tus intereses. Las sugerencias vienen del catálogo disponible.' : 'Tu opinión quedó registrada. Valoramos igual las respuestas positivas, las negativas y «todavía no puedo evaluarlo».'}</p>${regaloCurso}${premioHTML(beneficio, revelado)}${flujo === 'entrevista' ? cursos.length ? `<h3 class="experience-result__subtitle">Una ruta para seguir explorando</h3><div class="experience-recommendations">${cursos.slice(0,4).map(c => `<a class="experience-course" href="#/curso/${encodeURIComponent(c.id)}"><img src="${esc(c.portada)}" alt="" loading="lazy"><div class="experience-course__body"><span class="experience-course__area">${esc(c.area)} · ${esc(c.nivel)}</span><h3>${esc(c.titulo)}</h3><span class="experience-course__action">Conocer curso ${ic('arrow-right')}</span></div></a>`).join('')}</div>` : '<p class="experience-privacy">No encontramos una recomendación verificada para tus áreas por ahora. Puedes explorar el catálogo completo.</p>' : ''}<div class="experience-footer"><a class="experience-button experience-button--secondary" href="${flujo === 'entrevista' ? '#/encuestas' : '#/bienvenida'}">${flujo === 'entrevista' ? 'Mis encuestas' : 'Ver mi ruta'}</a><a class="experience-button experience-button--main" href="#/cursos">Explorar cursos ${ic('arrow-right')}</a></div></div>`;
     createIcons({ icons });
   }
   function bloqueada() {
@@ -344,7 +371,7 @@ export function montarExperiencia(): () => void {
     const rama = contenido.querySelector<HTMLElement>('[data-experience-branch]');
     if (rama && flujo === 'entrevista' && paso === 0) {
       const roles = Array.isArray(borrador.roles) ? borrador.roles : [];
-      const firma = `${roles.includes('estudiante')}:${roles.includes('productor')}`;
+      const firma = `${roles.includes('estudiante')}:${roles.includes('emprendedor') || roles.includes('profesional-estetica')}`;
       if (rama.dataset.firma !== firma) { rama.dataset.firma = firma; rama.innerHTML = ramas(); }
     }
     limpiarError(); createIcons({ icons });
@@ -368,6 +395,13 @@ export function montarExperiencia(): () => void {
   }
   async function terminar() {
     await guardar(); if (destruido) return;
+    // Guardar primero el curso: una campaña VIP que se entregue al cerrar la entrevista
+    // no debe hacer desaparecer el regalo permanente del miembro gratuito.
+    if (flujo === 'entrevista' && debeElegir()) {
+      guia.postura('orientar'); guia.decir('¡Ya casi! Elige primero el curso de Dermalysse con el que quieres empezar.');
+      abrirAnuncioCursoGratis(true, () => { if (!destruido) void accion(terminar); });
+      return;
+    }
     dto = await completarExperiencia(flujo); if (destruido) return;
     resultado(); contenido.querySelector<HTMLElement>('h2')?.focus({ preventScroll:true });
     celebrar('normal'); guia.responder();
@@ -435,6 +469,7 @@ export function montarExperiencia(): () => void {
     if (target.closest('[data-experience-later]')) { void accion(async () => { await guardar(); if (destruido) return; dto = await posponerExperiencia(flujo); if (!destruido) location.hash = '#/'; }); return; }
     if (target.closest('[data-experience-preview]')) { void accion(async () => { dto = await previsualizarEncuestaDemo(); if (destruido) return; pintar(); enfocarPregunta(); }); return; }
     if (target.closest('[data-experience-reveal]')) { revelado = true; resultado(); contenido.querySelector<HTMLElement>('.experience-prize')?.setAttribute('tabindex','-1'); contenido.querySelector<HTMLElement>('.experience-prize')?.focus({ preventScroll:true }); celebrar('grande'); guia.responder(); }
+    if (target.closest('[data-experience-free-course]')) abrirAnuncioCursoGratis(true);
   }, { signal: abortar.signal });
   const escenario = root.querySelector<HTMLElement>('.experience-stage');
   if (escenario && matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {

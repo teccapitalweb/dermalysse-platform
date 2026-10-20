@@ -37,7 +37,7 @@ import { rutaCatalogo } from './routes/catalogo.js';
 import { rutaNoticias } from './routes/noticias.js';
 import { rutaForo } from './routes/foro.js';
 import { rutaMe } from './routes/me.js';
-import { rutaExperiencias } from './routes/experiencias.js';
+import { rutaAdminExperiencias, rutaExperiencias } from './routes/experiencias.js';
 import { rutaQuiz } from './routes/quiz.js';
 import { rutaProgreso } from './routes/progreso.js';
 import { rutaCertificados } from './routes/certificados.js';
@@ -116,6 +116,7 @@ export function createApp(deps: Dependencias): Express {
   app.use('/me', rutaMe(requireUser, deps.profiles));
   app.use('/liga', rutaLiga(deps.league, requireUser));
   app.use('/experiencias', rutaExperiencias(deps.experiences, requireUser));
+  app.use('/admin/experiencias', rutaAdminExperiencias(deps.experiences, requireAdmin));
   app.use('/quiz', rutaQuiz(deps.learning, requireUser));
   if (deps.historia) app.use('/historia', rutaHistoria(deps.historia, requireUser));
   if (deps.produccion) {

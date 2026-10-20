@@ -156,6 +156,21 @@ export interface ExperienciaCompartida {
   fecha: string;
 }
 
+export type EstadoExperiencia = 'pendiente' | 'aprobada' | 'rechazada';
+
+/** Registro interno del directorio; los campos de identidad y revisión nunca se exponen públicamente. */
+export interface ExperienciaModerada extends ExperienciaCompartida {
+  autorUid: string;
+  estado: EstadoExperiencia;
+  revisadaEn?: string;
+  revisorUid?: string;
+}
+
+export interface ExperienciaPropia extends ExperienciaCompartida {
+  estado: EstadoExperiencia;
+  revisadaEn?: string;
+}
+
 // ── Aprendizaje: quiz, progreso, certificados ─────────────────────────────
 
 /** Pregunta COMPLETA (con la respuesta correcta). Vive SOLO en el servidor; nunca sale al cliente. */

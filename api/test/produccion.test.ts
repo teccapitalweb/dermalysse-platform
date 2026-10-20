@@ -516,11 +516,12 @@ test('POST /stripe/portal y /stripe/confirmar', async () => {
 // ── Stores v2 por HTTP ──
 
 test('experiencias y quiz usan colecciones v2_*', async () => {
-  const r = await send('/experiencias', 'POST', { titulo: 'Mi forma de estudiar', texto: 'Repaso cada clase con notas breves al final del día.', categoria: 'aprendizaje' }, auth('tok-vip'));
+  const r = await send('/experiencias', 'POST', { titulo: 'Mi forma de estudiar', texto: 'Repaso cada clase con notas breves al final del día.', categoria: 'aprendizaje', confirmoPrivacidad: true }, auth('tok-vip'));
   assert.equal(r.status, 201);
   const exp = await json(r);
   assert.equal(db.crudo(`v2_experiencias/${exp.id}`)?.titulo, 'Mi forma de estudiar');
-  assert.equal((await json(await get('/experiencias'))).length, 1);
+  assert.equal(db.crudo(`v2_experiencias/${exp.id}`)?.estado, 'pendiente');
+  assert.equal((await json(await get('/experiencias', auth('tok-vip')))).length, 0, 'el aporte espera revisión antes de hacerse público');
 
   assert.equal((await get('/quiz/course-a/1', auth('tok-vip'))).status, 404); // sin banco ⇒ 404 honesto
   db.sembrar('v2_quiz/course-a__1', { preguntas: [{ q: '¿Pregunta?', opciones: ['a', 'b'], correcta: 1, explicacion: 'porque' }] });

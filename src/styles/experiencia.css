@@ -219,6 +219,13 @@ html.experience-full, html.experience-full body { background: #f5efe7; }
 .experience-intro > :nth-child(3), .experience-result > :nth-child(3) { animation-delay: .12s; }
 .experience-intro > :nth-child(n+4), .experience-result > :nth-child(n+4) { animation-delay: .2s; }
 .experience-result__subtitle { margin: 26px 0 0; font-family: var(--font-display); font-size: 1.2rem; letter-spacing: -.01em; }
+.experience-course-gift { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: start; margin: 22px 0; padding: 20px; border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--line)); border-radius: var(--r-xl); background: linear-gradient(120deg, color-mix(in srgb, var(--primary) 8%, var(--surface)), color-mix(in srgb, var(--brand-gold) 13%, var(--surface))); }
+.experience-course-gift__icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 16px; background: var(--hero-gradient); color: white; box-shadow: var(--shadow-sm); }
+.experience-course-gift__icon .i { width: 22px; height: 22px; }
+.experience-course-gift__eyebrow { color: var(--primary); font-size: var(--fs-xs); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.experience-course-gift h3 { margin: 5px 0 6px; font-family: var(--font-display); font-size: var(--fs-lg); line-height: 1.2; }
+.experience-course-gift p { max-width: 62ch; margin: 0 0 14px; color: var(--text-2); font-size: var(--fs-sm); line-height: 1.55; }
+@media (max-width: 560px) { .experience-course-gift { grid-template-columns: 1fr; gap: 12px; padding: 16px; } }
 .experience-prize { position: relative; display: grid; grid-template-columns: 150px minmax(0, 1fr); overflow: hidden; border: 1.5px solid var(--p-moss); border-radius: 16px; background: var(--p-foil); color: var(--p-ink); box-shadow: var(--p-shadow); animation: experience-in .6s cubic-bezier(.22,1,.36,1) both; }
 .experience-prize__stub { position: relative; display: grid; place-content: center; justify-items: center; gap: 2px; padding: 18px 10px; border-right: 2px dashed rgba(104,28,49,.42); background: rgba(104,28,49,.1); text-align: center; }
 .experience-prize__stub::before, .experience-prize__stub::after { position: absolute; right: -12px; width: 22px; height: 22px; border: 1.5px solid var(--p-moss); border-radius: 50%; background: var(--p-paper); content: ''; }
@@ -343,6 +350,15 @@ html.experience-full, html.experience-full body { background: #f5efe7; }
   .experience-guide__figure::before { bottom: 6px; width: 96px; height: 18px; }
   .experience-guide__figure::after { bottom: 0; width: 150px; height: 34px; }
   .experience-guide__figure img, .experience-guide__figure .guia-rig { inset: 0 0 14px; height: calc(100% - 14px); }
+  /* En móvil se muestra el PNG original completo: evita los bordes visibles del rig por capas. */
+  .experience-guide__figure, .experience-guide__figure::before,
+  .experience-guide__figure img, .experience-guide__figure .guia-rig,
+  .experience-guide__say.is-fresh, .experience-guide__say.is-typing .experience-guide__typed::after {
+    animation: none !important;
+  }
+  .experience-guide__figure img { object-fit: contain; object-position: center bottom; }
+  .experience-guide__floor, .experience-guide__sparks { display: none; }
+  .experience-guide__typed::after { display: none; }
   .experience-guide__floor { left: 76px; bottom: 16px; width: 156px; }
   .experience-guide__say { order: 1; flex: 1; align-self: center; min-width: 0; margin: 0 0 22px; padding: 11px 14px 13px; border-radius: 4px 14px 14px 14px; box-shadow: 3px 3px 0 var(--p-ink); }
   .experience-guide__say::after { left: -10px; top: 16px; bottom: auto; width: 16px; height: 16px; border-right: 0; border-bottom: 1.5px solid var(--p-ink); border-left: 1.5px solid var(--p-ink); }

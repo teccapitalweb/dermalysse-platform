@@ -30,8 +30,9 @@ export type TipoBeneficio = 'bienvenida' | 'experiencia';
 export const BENEFICIO_DE: Record<Flujo, TipoBeneficio> = { entrevista: 'bienvenida', encuesta: 'experiencia' };
 
 export const OPCIONES = Object.freeze({
-  roles: ['estudiante', 'veterinario', 'tecnico', 'productor', 'docente', 'otro', 'prefiero-no-decir'],
-  objetivo: ['aprender', 'produccion', 'actualizar', 'estudios', 'certificacion', 'otro'],
+  // Se conservan valores anteriores para no invalidar respuestas persistidas.
+  roles: ['estudiante', 'profesional-estetica', 'profesional-salud', 'nutricion', 'emprendedor', 'veterinario', 'tecnico', 'productor', 'docente', 'otro', 'prefiero-no-decir'],
+  objetivo: ['comprender-piel', 'elegir-activos', 'crear-protocolos', 'mejorar-consulta', 'nutricion-bienestar', 'aprender', 'produccion', 'actualizar', 'estudios', 'certificacion', 'otro'],
   experiencia: ['inicio', 'basico', 'practica', 'avanzado'],
   formato: ['grabados', 'envivo', 'ambos', 'no-se'],
   tiempo: ['cortos', 'semana', 'fines'],
