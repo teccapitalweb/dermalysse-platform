@@ -3,7 +3,7 @@
 // Nunca toca el backend, Firebase, Stripe ni Bunny.
 // Vive bajo la base del sitio ('/' en desarrollo, '/dermalysse-platform/' en GitHub Pages): todas las rutas
 // se calculan desde el ámbito con que se registró.
-const VERSION = 'dermalysse-v5';
+const VERSION = 'dermalysse-v6';
 const BASE = new URL(self.registration.scope).pathname;
 const APP_SHELL = BASE + 'club/';
 const OFFLINE = BASE + 'offline.html';
