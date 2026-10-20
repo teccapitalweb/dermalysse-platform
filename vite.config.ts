@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite';
 
-// En dev y preview local vive en la raíz. En GitHub Pages vive bajo /dermalysse-platform/.
-export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/dermalysse-platform/' : '/',
+// Se sirve en la RAÍZ del dominio custom (www.dermalyssemx.com) vía GitHub Pages.
+// base '/' tanto en dev como en build; el CNAME vive en public/ y Vite lo copia a dist/.
+export default defineConfig(() => ({
+  base: '/',
   build: {
     target: 'es2022',
     sourcemap: false,
