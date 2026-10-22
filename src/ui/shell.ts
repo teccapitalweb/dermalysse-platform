@@ -10,6 +10,7 @@ export const NAV = [
   { href: '#/academia', icon: 'book-open-text', label: 'Academia', match: /^\/academia/ },
   { href: '#/materiales', icon: 'library', label: 'Materiales', match: /^\/materiales/ },
   { href: '#/comunidad', icon: 'messages-square', label: 'Comunidad', match: /^\/(comunidad|en-vivo)/ },
+  { href: '#/directorio', icon: 'contact-round', label: 'Directorio', match: /^\/directorio/ },
   { href: '#/retos', icon: 'gamepad-2', label: 'Retos', match: /^\/retos/ },
   { href: '#/herramientas', icon: 'wrench', label: 'Herramientas', match: /^\/herramientas/ },
   { group: 'Tu progreso' },

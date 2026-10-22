@@ -1,3 +1,4 @@
+import { invalidarClub } from './remoto';
 // Autenticación.
 // Modo api: Firebase Auth sobre el proyecto `club-dermalysse` (las mismas cuentas del club actual).
 //   El rol de administrador y la membresía vienen SOLO de GET /me (esAdmin = existe admins/{uid});
@@ -62,6 +63,7 @@ function limpiarSesionLocal() {
 
 /** Carga perfil, membresía y progreso reales de la cuenta de Firebase. */
 async function cargarSesion(u: User | null) {
+  invalidarClub();
   if (!u) { limpiarSesionLocal(); return; }
   const nombreCuenta = u.displayName || u.email?.split('@')[0] || '';
   let me: RespuestaMe | null = null;
@@ -70,6 +72,7 @@ async function cargarSesion(u: User | null) {
   errorEstado = null;
   // /me es obligatorio para conocer la membresía; progreso e historia pueden faltar sin bloquear el acceso.
   const [rMe, rProgreso, rHistoria] = await Promise.allSettled([api<RespuestaMe>('/me'), api<typeof progreso>('/progreso'), api<ProgresoHistoria>('/historia')]);
+  if (authInst?.currentUser !== u) return;
   if (rMe.status === 'fulfilled') me = rMe.value;
   else errorEstado = `No pudimos confirmar tu membresía con el servidor (${mensajeError(rMe.reason)}). Mientras tanto verás el contenido gratuito; vuelve a intentar en un momento.`;
   if (rProgreso.status === 'fulfilled') progreso = rProgreso.value;
@@ -77,6 +80,7 @@ async function cargarSesion(u: User | null) {
   if (me && u.photoURL && me.perfil?.foto !== u.photoURL) {
     try { me.perfil = await api<PerfilRemoto>('/me/perfil', { method: 'PATCH', json: { foto: u.photoURL } }); } catch { /* conserva la foto local si no se pudo sincronizar */ }
   }
+  if (authInst?.currentUser !== u) return;
   Perfil.usarUsuario(u.uid);
   Progreso.usarUsuario(u.uid);
   if (progreso) Progreso.hidratar(progreso);
@@ -219,9 +223,11 @@ export const Auth = {
       esVip: me.esVip === true,
       cursoGratis: (me.esVip ? null : me.cursoGratis) ?? null,
     };
+    invalidarClub();
     return me;
   },
   async salir() {
+    invalidarClub();
     if (Datos.modo === 'demo') { localStorage.removeItem(DEMO_KEY); listo = null; }
     else if (authInst) { await fb!.signOut(authInst); await sincronizar(null, true); }
     limpiarSesionLocal();
@@ -234,11 +240,14 @@ export const MENSAJE_REGISTRO_CERRADO = 'El registro de cuentas nuevas está cer
 // Cliente del backend (docs/INTEGRACION-PRODUCCION.md, sección 3)
 export async function api<T>(ruta: string, init: RequestInit & { json?: unknown } = {}): Promise<T> {
   if (!API) throw new Error('Sin VITE_API_URL: la app está en modo demo');
+  const cuenta = authInst?.currentUser ?? null;
+  const vigente = () => { if (cuenta !== (authInst?.currentUser ?? null)) throw new Error('La sesión cambió. Vuelve a intentarlo.'); };
   const headers: Record<string, string> = { ...(init.headers as Record<string, string>) };
-  const t = await Auth.token(); if (t) headers.Authorization = `Bearer ${t}`;
+  const t = await cuenta?.getIdToken(); vigente(); if (t) headers.Authorization = `Bearer ${t}`;
   if (init.json !== undefined) { headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(init.json); }
   const r = await fetch(API.replace(/\/$/, '') + ruta, { ...init, headers });
   const data = await r.json().catch(() => ({}));
+  vigente();
   // `datos`: el cuerpo del error (campos públicos extra, p. ej. motivo/desbloqueo en 403 de video).
   if (!r.ok) throw Object.assign(new Error(data.mensaje || (typeof data.error === 'string' && data.error.includes(' ') ? data.error : '') || `Error ${r.status}`), { status: r.status, codigo: data.error, datos: data });
   return data as T;

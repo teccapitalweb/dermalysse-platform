@@ -115,7 +115,10 @@ export const Datos = {
     // el arreglo vacío del primer render.
     window.dispatchEvent(new CustomEvent('datos:cambio', { detail: clave }));
   },
-  invalidarAdmin(...claves: DatoAdmin[]) { claves.forEach((clave) => delete remoto[clave]); },
+  invalidarAdmin(...claves: DatoAdmin[]) {
+    claves.forEach((clave) => delete remoto[clave]);
+    window.dispatchEvent(new CustomEvent('datos:cambio', { detail: '*' }));
+  },
 
   restablecerDemo() { Object.keys(localStorage).filter((k) => k.startsWith(PREFIX)).forEach((k) => localStorage.removeItem(k)); window.dispatchEvent(new CustomEvent('datos:cambio', { detail: '*' })); },
 };

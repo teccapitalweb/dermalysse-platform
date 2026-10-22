@@ -29,6 +29,7 @@ import './styles/logros.css';
 import './styles/academia.css';
 import './styles/produccion.css';
 import './styles/responsive.css';
+import './styles/directorio.css';
 import { createIcons, icons } from 'lucide';
 import { route, startRouter, onRender, onBeforeRender, current, navigate, render, type Page } from './core/router';
 import { shellHTML, marcarNavActivo } from './ui/shell';
@@ -73,10 +74,14 @@ import { herramientas, montarHerramientas } from './pages/herramientas';
 import { paginaPraxia } from './pages/praxia';
 import { paginaRecompensas } from './pages/recompensas';
 import { perfil, suscripcion, configuracion, mas, confirmarPagoStripe } from './pages/cuenta';
+import { directorio } from './pages/directorio';
+import { instalarInteraccionesDirectorio } from './pages/directorio-interacciones';
+import { Directorio } from './core/directorio';
 import { login } from './pages/login';
 import { adminCursos, adminCurso, adminQuizzes, adminQuiz, adminMateriales, adminMaterial, adminEnVivo, adminEvento } from './admin/contenido';
 import { adminResumen, adminMiembros, adminMiembro, adminComunidad, adminAvisos, adminAjustes } from './admin/gestion';
 import { adminCupones } from './admin/cupones';
+import { adminDirectorio } from './admin/directorio';
 import { cargarAdmin } from './admin/remoto';
 import { cargarClub } from './core/remoto';
 import { registrarIntentoQuiz } from './core/quiz-clase';
@@ -179,6 +184,13 @@ onBeforeRender(async (path) => {
   }
   try { await cargarClub(path); }
   catch (e) { toast(`No se pudo cargar el catálogo: ${mensajeError(e)}`, 'circle-alert'); }
+  if (path.startsWith('/directorio')) {
+    try {
+      if (!Directorio.cargado() || !Directorio.vigente(300_000)) await Directorio.cargar();
+    } catch (errDir) {
+      toast(`No se pudieron cargar perfiles: ${mensajeError(errDir)}`, 'circle-alert');
+    }
+  }
   // El nuevo flujo no bloquea clases, exámenes ni facturación. Un fallo API se
   // muestra en su propia tarjeta/página y nunca se sustituye por una demo.
   if (disponible('experiencia') && ['/', '/perfil', '/bienvenida', '/encuestas'].includes(path)) {
@@ -233,6 +245,7 @@ route('/en-vivo', envivo);
 route('/comunidad', comunidad);
 route('/comunidad/experiencias', directorioExperiencias);
 route('/comunidad/:id', hilo);
+route('/directorio', directorio);
 route('/logros', paginaLogros);
 route('/retos', retos);
 route('/retos/historia', historia);
@@ -262,6 +275,7 @@ route('/admin/en-vivo', adminEnVivo);
 route('/admin/en-vivo/:id', adminEvento);
 route('/admin/miembros', adminMiembros);
 route('/admin/miembros/:uid', adminMiembro);
+route('/admin/directorio', adminDirectorio);
 route('/admin/cupones', adminCupones);
 route('/admin/experiencia', paginaAdminExperiencia);
 route('/admin/comunidad', adminComunidad);
@@ -316,6 +330,7 @@ onRender(() => {
   }
 });
 instalarAccionesAdmin(toast);
+instalarInteraccionesDirectorio(toast, render, navigate);
 // QR del club actual: club.dermalyssemx.com/verify.html?code=DRML-… → (redirección) → #/verificar/DRML-…
 const hashLegado = hashVerificacionLegada(location.search, location.hash);
 if (hashLegado) history.replaceState(null, '', `${location.pathname}${busquedaSinCodigo(location.search)}${hashLegado}`);

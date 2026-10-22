@@ -36,13 +36,44 @@ export interface ExperienciaAdmin {
 export interface CuponAdmin { codigo: string; loteId: string; duracion: string; dias: number | null; maxUsos: number; usos: number; activo: boolean; creadoEn: string }
 export interface LoteCupones { id: string; modalidad: 'compartido' | 'individuales'; cantidad: number; duracion: string; dias: number | null; codigos: string[]; creadoEn: string }
 
-type Clave = 'resumen' | 'cursos' | 'materiales' | 'eventos' | 'quizzes' | 'miembros' | 'foro' | 'experiencias' | 'avisos' | 'config' | 'cupones';
+export interface ReporteAdmin {
+  id: string;
+  reportanteUid: string;
+  tipo: 'perfil' | 'oportunidad';
+  objetivoId: string;
+  motivo: string;
+  detalle: string;
+  resumenObjetivo: string;
+  autorUid: string;
+  estado: 'pendiente' | 'descartado' | 'resuelto';
+  resolucion?: string;
+  resueltoPor?: string;
+  creado: string;
+  actualizado: string;
+}
+
+export interface PerfilAdminDirectorio {
+  uid: string;
+  nombre: string;
+  titular: string;
+  etapa: string;
+  especialidades: string[];
+  aparatologia: string[];
+  ciudad: string;
+  estado: string;
+  visible: boolean;
+  actualizado: string;
+}
+
+type Clave = 'resumen' | 'cursos' | 'materiales' | 'eventos' | 'quizzes' | 'miembros' | 'foro' | 'experiencias' | 'avisos' | 'config' | 'cupones' | 'directorioReportes' | 'directorioPerfiles';
 const cargadas = new Set<Clave>();
 const pendientes = new Map<Clave, Promise<void>>();
 let resumen: ResumenAdmin | null = null;
 let foro: HiloAdmin[] = [];
 let experiencias: ExperienciaAdmin[] = [];
 let cupones: CuponAdmin[] = [];
+let reportesDirectorio: ReporteAdmin[] = [];
+let perfilesDirectorio: PerfilAdminDirectorio[] = [];
 const detalles = new Map<string, MiembroDetalle>();
 
 const planMiembro = (m: any): MiembroDemo['plan'] => {
@@ -114,6 +145,10 @@ export async function cargarAdmin(path: string, forzar = false) {
     cargar('foro', async () => { foro = await api<HiloAdmin[]>('/admin/foro'); });
     cargar('experiencias', async () => { experiencias = await api<ExperienciaAdmin[]>('/admin/experiencias'); });
   }
+  else if (path === '/admin/directorio') {
+    cargar('directorioReportes', async () => { reportesDirectorio = await api<ReporteAdmin[]>('/admin/directorio/reportes'); });
+    cargar('directorioPerfiles', async () => { perfilesDirectorio = await api<PerfilAdminDirectorio[]>('/admin/directorio/perfiles'); });
+  }
   else if (path === '/admin/avisos') avisos();
   else if (path === '/admin/ajustes') config();
 
@@ -122,11 +157,13 @@ export async function cargarAdmin(path: string, forzar = false) {
 
 export function invalidarAdmin(...claves: Clave[]) {
   claves.forEach((clave) => cargadas.delete(clave));
-  Datos.invalidarAdmin(...claves.filter((c): c is Exclude<Clave, 'resumen' | 'foro' | 'experiencias' | 'cupones'> => c !== 'resumen' && c !== 'foro' && c !== 'experiencias' && c !== 'cupones'));
+  Datos.invalidarAdmin(...claves.filter((c): c is any => !['resumen', 'foro', 'experiencias', 'cupones', 'directorioReportes', 'directorioPerfiles'].includes(c)));
   if (claves.includes('resumen')) resumen = null;
   if (claves.includes('foro')) foro = [];
   if (claves.includes('experiencias')) experiencias = [];
   if (claves.includes('cupones')) cupones = [];
+  if (claves.includes('directorioReportes')) reportesDirectorio = [];
+  if (claves.includes('directorioPerfiles')) perfilesDirectorio = [];
 }
 
 export const AdminRemoto = {
@@ -134,6 +171,12 @@ export const AdminRemoto = {
   foro: () => foro,
   experiencias: () => experiencias,
   cupones: () => cupones,
+  reportesDirectorio: () => reportesDirectorio,
+  perfilesDirectorio: () => perfilesDirectorio,
+  moderarReporte: async (id: string, accion: 'descartar' | 'ocultar_perfil' | 'cerrar_oportunidad') =>
+    api<ReporteAdmin>(`/admin/directorio/reportes/${encodeURIComponent(id)}`, { method: 'PATCH', json: { accion } }),
+  toggleVisibilidadPerfil: async (uid: string, visible: boolean) =>
+    api<{ uid: string; visible: boolean }>(`/admin/directorio/perfiles/${encodeURIComponent(uid)}/visibilidad`, { method: 'PATCH', json: { visible } }),
   detalleMiembro: (uid: string) => detalles.get(uid),
   olvidarDetalle: (uid: string) => detalles.delete(uid),
 };

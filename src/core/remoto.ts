@@ -1,4 +1,5 @@
-import { api } from './auth';
+import { api, Auth } from './auth';
+import { crearCacheSesion } from './cache-sesion';
 import { Datos, type Config, type Curso, type Evento, type Material, type Quiz } from './datos';
 
 interface CatalogoRemoto {
@@ -13,9 +14,9 @@ interface CatalogoRemoto {
   };
 }
 
-let cargado = false;
-let pendiente: Promise<void> | null = null;
-const quizzesCargados = new Set<string>();
+const cache = crearCacheSesion(() => Auth.usuario?.uid ?? null, () => {
+  Datos.invalidarAdmin('cursos', 'materiales', 'eventos', 'avisos', 'config', 'quizzes', 'miembros');
+});
 
 const VISORES_PUBLICOS = new Set<string>();
 
@@ -51,10 +52,13 @@ async function cargarQuizDeRuta(path: string) {
   const cursoId = decodeURIComponent(coincidencia[1]);
   const n = Number(coincidencia[2]);
   const id = `${cursoId}_${n}`;
-  if (quizzesCargados.has(id)) return;
-  quizzesCargados.add(id);
-  try {
-    const respuesta = await api<{ preguntas?: unknown }>(`/quiz/${encodeURIComponent(cursoId)}/${n}`);
+  await cache.cargar(`quiz:${id}`, async () => {
+    try { return await api<{ preguntas?: unknown }>(`/quiz/${encodeURIComponent(cursoId)}/${n}`); } catch (error: any) {
+      if (error?.status === 403 || error?.status === 404) return null;
+      throw error;
+    }
+  }, (respuesta) => {
+    if (!respuesta) return;
     // Solo preguntas bien formadas; si no queda ninguna, la clase muestra «estará disponible pronto».
     const preguntas = (Array.isArray(respuesta?.preguntas) ? respuesta.preguntas : [])
       .filter((p): p is { q: string; opciones: string[] } => !!p && typeof p.q === 'string' && Array.isArray(p.opciones) && p.opciones.length > 1 && p.opciones.every((o: unknown) => typeof o === 'string'));
@@ -64,21 +68,13 @@ async function cargarQuizDeRuta(path: string) {
       preguntas: preguntas.map((p) => ({ q: p.q, opciones: p.opciones, correcta: -1, explicacion: '' })),
     };
     Datos.hidratarAdmin('quizzes', [...Datos.quizzes().filter((q) => q.id !== id), quiz]);
-  } catch (error: any) {
-    if (error?.status !== 404 && error?.status !== 403) {
-      quizzesCargados.delete(id);
-      throw error;
-    }
-  }
+  });
 }
 
 export async function cargarClub(path = '/', forzar = false) {
   if (Datos.modo !== 'api') return;
-  if (cargado && !forzar) return cargarQuizDeRuta(path);
-  if (pendiente) { await pendiente; return cargarQuizDeRuta(path); }
-
-  pendiente = (async () => {
-    const respuesta = await api<CatalogoRemoto>('/catalogo');
+  if (forzar) cache.invalidar();
+  await cache.cargar('catalogo', () => api<CatalogoRemoto>('/catalogo'), (respuesta) => {
     Datos.hidratarAdmin('cursos', (respuesta.cursos || []).map(adaptarCurso));
     Datos.hidratarAdmin('materiales', (respuesta.materiales || []).map(adaptarMaterial));
     Datos.hidratarAdmin('eventos', (respuesta.eventos || []).map(adaptarEvento));
@@ -93,15 +89,10 @@ export async function cargarClub(path = '/', forzar = false) {
       canalWhatsApp: remota.canalWhatsApp || actual.canalWhatsApp,
     };
     Datos.hidratarAdmin('config', config);
-    cargado = true;
-  })().finally(() => { pendiente = null; });
-
-  await pendiente;
+  });
   await cargarQuizDeRuta(path);
 }
 
 export function invalidarClub() {
-  cargado = false;
-  quizzesCargados.clear();
-  Datos.invalidarAdmin('cursos', 'materiales', 'eventos', 'config');
+  cache.invalidar();
 }

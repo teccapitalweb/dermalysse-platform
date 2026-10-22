@@ -1,10 +1,12 @@
 import { createIcons, icons } from 'lucide';
+import { Auth } from '../core/auth';
 import { esc } from '../ui/partials';
 
 type Paso = { nombre: string; minutos: number };
 type EntradaBitacora = { id: string; fecha: string; clave: string; foco: string; nota: string };
 
 const BITACORA_KEY = 'dermalysse:herramientas:bitacora:v1';
+const bitacoraKey = () => `dermalysse:herramientas:bitacora:v1:${Auth.usuario?.uid || 'anonimo'}`;
 
 const activos: Record<string, { nombre: string; familia: string }> = {
   niacinamida: { nombre: 'Niacinamida', familia: 'soporte de barrera' },
@@ -174,14 +176,15 @@ function mapaRutina(objetivo: string, momento: string, nivel: string) {
 
 function leerBitacora(): EntradaBitacora[] {
   try {
-    const valor: unknown = JSON.parse(localStorage.getItem(BITACORA_KEY) || '[]');
+    const raw = localStorage.getItem(bitacoraKey()) ?? (Auth.usuario?.uid === 'demo' ? localStorage.getItem(BITACORA_KEY) : null);
+    const valor: unknown = raw ? JSON.parse(raw) : [];
     if (!Array.isArray(valor)) return [];
     return valor.filter((item): item is EntradaBitacora => !!item && typeof item === 'object' && typeof (item as EntradaBitacora).id === 'string').slice(0, 8);
   } catch { return []; }
 }
 
 function guardarBitacora(entradas: EntradaBitacora[]) {
-  try { localStorage.setItem(BITACORA_KEY, JSON.stringify(entradas.slice(0, 8))); } catch { /* La página sigue operativa sin almacenamiento. */ }
+  try { localStorage.setItem(bitacoraKey(), JSON.stringify(entradas.slice(0, 8))); } catch { /* La página sigue operativa sin almacenamiento. */ }
 }
 
 async function copiar(texto: string) {

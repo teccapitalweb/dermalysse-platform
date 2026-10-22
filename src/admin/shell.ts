@@ -15,6 +15,7 @@ export const ADMIN_NAV = [
   { href: '#/admin/academia', icon: 'book-open-text', label: 'Academia', match: /^\/admin\/academia/ },
   { group: 'Personas' },
   { href: '#/admin/miembros', icon: 'users', label: 'Miembros', match: /^\/admin\/miembros/ },
+  { href: '#/admin/directorio', icon: 'contact-round', label: 'Directorio', match: /^\/admin\/directorio/ },
   { href: '#/admin/cupones', icon: 'ticket-percent', label: 'Cupones', match: /^\/admin\/cupones/ },
   { href: '#/admin/experiencia', icon: 'message-square-heart', label: 'Entrevistas y encuestas', match: /^\/admin\/experiencia/ },
   { href: '#/admin/comunidad', icon: 'messages-square', label: 'Comunidad', match: /^\/admin\/comunidad/ },
@@ -24,17 +25,20 @@ export const ADMIN_NAV = [
 ] as const;
 
 /** Rutas del admin con servidor en producción (aunque 'adminGestion' esté apagado). */
-const SIEMPRE_DISPONIBLES = new Set<string>(['#/admin', '#/admin/academia']);
+export const SIEMPRE_DISPONIBLES = new Set<string>(['#/admin', '#/admin/academia', '#/admin/directorio']);
 
 /** Menú visible: completo en demo (o con 'adminGestion' activo); en producción, Inicio y Academia. */
 type EntradaNav = { group: string } | { href: string; icon: string; label: string };
 
 function navVisible(): EntradaNav[] {
   if (disponible('adminGestion')) return [...ADMIN_NAV];
-  const enlaces = ADMIN_NAV.flatMap((n) => ('href' in n && SIEMPRE_DISPONIBLES.has(n.href)
-    ? [n.href === '#/admin' ? { ...n, icon: 'house', label: 'Inicio' } : n]
-    : []));
-  return [enlaces[0], { group: 'Contenido' }, ...enlaces.slice(1)];
+  return [
+    { href: '#/admin', icon: 'house', label: 'Inicio' },
+    { group: 'Contenido' },
+    { href: '#/admin/academia', icon: 'book-open-text', label: 'Academia' },
+    { group: 'Personas' },
+    { href: '#/admin/directorio', icon: 'contact-round', label: 'Directorio' },
+  ];
 }
 
 /**
