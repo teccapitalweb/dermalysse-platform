@@ -397,7 +397,12 @@ export class DirectorioService {
     if (ocultoLegacy && !ocultoDoc) {
       try {
         await this.db.create(`${C.moderacion}/${uid}`, { oculto: true, origen: 'migracion', actualizado: this.ahora().toISOString() });
-      } catch { /* carrera: ya se creó, usamos ese */ }
+      } catch (err) {
+        // Solo tragar la carrera: si otro proceso ya creó el doc, se usa el suyo.
+        // Cualquier otro error del almacén debe burbujear para no enmascarar fallos reales.
+        const existente = await this.db.get(`${C.moderacion}/${uid}`);
+        if (!existente.exists) throw err;
+      }
     }
 
     const titular = texto(body.titular, 'titular', 4, 100, false, true);
@@ -483,6 +488,23 @@ export class DirectorioService {
     const ref = `${C.perfiles}/${uid}`;
     const snap = await this.db.get(ref);
     if (!snap.exists) throw new NotFoundError('No tienes un perfil en el directorio.');
+
+    // Migración obligatoria antes de borrar: si el flag legacy estaba solo en
+    // el perfil, hay que persistirlo en v2_directorio_moderacion para que una
+    // re-creación posterior siga oculta. Sin esto el bypass vuelve.
+    const perfilActual = snap.data() as unknown as PerfilDirectorio;
+    if (perfilActual.ocultoPorModeracion === true) {
+      const modSnap = await this.db.get(`${C.moderacion}/${uid}`);
+      if (!modSnap.exists) {
+        try {
+          await this.db.create(`${C.moderacion}/${uid}`, { oculto: true, origen: 'migracion-eliminar', actualizado: this.ahora().toISOString() });
+        } catch (err) {
+          // Solo tragar un conflicto por carrera (ya se creó entre el get y el create).
+          const existente = await this.db.get(`${C.moderacion}/${uid}`);
+          if (!existente.exists) throw err;
+        }
+      }
+    }
 
     const [oportunidades, conexionesSalientes, conexionesEntrantes] = await Promise.all([
       this.db.query(C.oportunidades, { where: [{ campo: 'autorUid', op: '==', valor: uid }] }),

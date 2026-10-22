@@ -434,6 +434,30 @@ test('panel de administración modera reportes y visibilidad de cosmetólogas', 
   assert.equal((reactSnap.data() as any).visible, true);
 });
 
+test('directorio profesional · migración obligatoria en eliminarPerfil: delete+recreate con flag legacy sigue oculto', async () => {
+  TOKENS['tok-legacy2'] = { uid: 'u-legacy2', email: 'legacy2@example.test', name: 'Legacy Two' };
+  db.sembrar('users/u-legacy2', { name: 'Legacy Two', email: 'legacy2@example.test', subscription: { status: 'active', plan: 'anual', currentPeriodEnd: '2027-01-01T00:00:00.000Z' } });
+  // Perfil pre-fix con flag legacy y SIN doc en v2_directorio_moderacion.
+  db.sembrar('v2_directorio_perfiles/u-legacy2', {
+    ...perfilDatos({ contacto: { canal: 'correo' } }),
+    uid: 'u-legacy2', nombre: 'Legacy Two',
+    visible: false, ocultoPorModeracion: true,
+    actualizado: '2026-10-20T10:00:00.000Z',
+  });
+  assert.equal(db.crudo('v2_directorio_moderacion/u-legacy2'), undefined);
+
+  // El dueño borra el perfil directamente (sin pasar por PUT, que sería el otro
+  // camino de migración). La migración obligatoria en DELETE debe correr.
+  const del = await send('/directorio/perfil', 'DELETE', undefined, 'tok-legacy2');
+  assert.equal(del.status, 200);
+  assert.equal(db.crudo('v2_directorio_moderacion/u-legacy2')?.oculto, true);
+
+  // Y al recrear con visible=true, queda oculto por la decisión persistida.
+  const recreado = await send('/directorio/perfil', 'PUT', perfilDatos({ visible: true }), 'tok-legacy2');
+  assert.equal(recreado.status, 200);
+  assert.equal(db.crudo('v2_directorio_perfiles/u-legacy2')?.visible, false);
+});
+
 test('directorio profesional · migración perezosa: flag legacy del perfil también bloquea re-publicar', async () => {
   // Simula un perfil pre-fix: ya existe con ocultoPorModeracion=true, pero
   // NO hay documento en v2_directorio_moderacion (vino de antes del split).
