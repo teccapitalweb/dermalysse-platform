@@ -231,17 +231,26 @@ function urlValida(valor: unknown, campo: string): string | null {
     throw new ValidationError(`El campo "${campo}" debe ser una URL https sin credenciales.`);
   }
   const host = url.hostname.toLowerCase();
-  const path = url.pathname;
+  // Comparación literal por segmento del pathname en vez de regex: el bucket
+  // tiene puntos y en regex `.` matchea cualquier carácter (otro bypass).
   // Patrones aceptados contra el bucket oficial:
   //   - https://<bucket>/<path>                                → host == bucket
   //   - https://firebasestorage.googleapis.com/v0/b/<bucket>/o/<path>
   //   - https://storage.googleapis.com/<bucket>/<path>
-  const bucket = encodeURIComponent(BUCKET_OFICIAL).toLowerCase();
+  const segmentos = url.pathname.split('/'); // ['', 'v0', 'b', '<bucket>', 'o', ...]
   const esBucketDirecto = host === BUCKET_OFICIAL;
-  const esFirebaseStorage = host === 'firebasestorage.googleapis.com'
-    && new RegExp(`^/v0/b/(?:${BUCKET_OFICIAL}|${bucket})/o/`, 'i').test(path);
+  let esFirebaseStorage = false;
+  if (host === 'firebasestorage.googleapis.com'
+    && segmentos[1] === 'v0'
+    && segmentos[2] === 'b'
+    && typeof segmentos[3] === 'string'
+    && segmentos[4] === 'o') {
+    try { esFirebaseStorage = decodeURIComponent(segmentos[3]).toLowerCase() === BUCKET_OFICIAL; }
+    catch { esFirebaseStorage = false; }
+  }
   const esGcs = host === 'storage.googleapis.com'
-    && new RegExp(`^/${BUCKET_OFICIAL}/`, 'i').test(path);
+    && typeof segmentos[1] === 'string'
+    && segmentos[1].toLowerCase() === BUCKET_OFICIAL;
   if (!esBucketDirecto && !esFirebaseStorage && !esGcs) {
     throw new ValidationError(`El campo "${campo}" solo acepta recursos del almacenamiento oficial de Dermalysse.`);
   }
@@ -375,12 +384,21 @@ export class DirectorioService {
 
   async guardarPerfil(usuario: Usuario, body: Record<string, unknown>): Promise<Record<string, unknown>> {
     const uid = usuario.uid;
-    const [previoDoc, oculto] = await Promise.all([
+    const [previoDoc, ocultoDoc] = await Promise.all([
       this.db.get(`${C.perfiles}/${uid}`),
       this.leerModeracion(uid),
     ]);
     const previo = previoDoc.exists ? (previoDoc.data() as unknown as PerfilDirectorio) : null;
     const nombre = this.resolverNombre(usuario);
+    // Migración perezosa: perfiles ocultados ANTES de este fix solo tenían el
+    // flag en el propio documento del perfil. Si el flag está pero el doc de
+    // moderación no, lo creamos ahora para que persista a futuros borrados.
+    const ocultoLegacy = previo?.ocultoPorModeracion === true;
+    if (ocultoLegacy && !ocultoDoc) {
+      try {
+        await this.db.create(`${C.moderacion}/${uid}`, { oculto: true, origen: 'migracion', actualizado: this.ahora().toISOString() });
+      } catch { /* carrera: ya se creó, usamos ese */ }
+    }
 
     const titular = texto(body.titular, 'titular', 4, 100, false, true);
     const etapa = unoDe(body.etapa, ETAPAS_DERMALYSSE, 'etapa', true);
@@ -413,9 +431,8 @@ export class DirectorioService {
     const credenciales = this.validarCredenciales(body.credenciales ?? previo?.credenciales ?? []);
 
     // Un perfil ocultado por moderación no puede re-publicarse desde el cliente.
-    // La fuente de verdad es la colección v2_directorio_moderacion, que sobrevive
-    // al borrado y re-creación del perfil (el bypass antes de este fix).
-    const ocultoPorModeracion = oculto;
+    // OR entre ambas fuentes para no perder el estado durante la migración.
+    const ocultoPorModeracion = ocultoDoc || ocultoLegacy;
     const visible = ocultoPorModeracion
       ? false
       : (typeof body.visible === 'boolean' ? body.visible : (previo?.visible ?? true));

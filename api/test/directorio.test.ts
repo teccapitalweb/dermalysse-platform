@@ -342,6 +342,15 @@ test('directorio profesional · foto/banner solo acepta URLs del bucket oficial'
   );
   assert.equal(otroBucketGcs.status, 400);
 
+  // Lookalike que explota `.` del regex (el bucket oficial tiene puntos):
+  // antes del fix, el `.` matcheaba cualquier char y pasaba.
+  const lookalike = await send(
+    '/directorio/perfil', 'PUT',
+    perfilDatos({ foto: 'https://firebasestorage.googleapis.com/v0/b/club-dermalyssexfirebasestoragexapp/o/x.jpg' }),
+    'tok-libre',
+  );
+  assert.equal(lookalike.status, 400);
+
   const bueno = await send(
     '/directorio/perfil',
     'PUT',
@@ -423,4 +432,29 @@ test('panel de administración modera reportes y visibilidad de cosmetólogas', 
   assert.equal(react.status, 200);
   const reactSnap = await db.get('v2_directorio_perfiles/u-vip');
   assert.equal((reactSnap.data() as any).visible, true);
+});
+
+test('directorio profesional · migración perezosa: flag legacy del perfil también bloquea re-publicar', async () => {
+  // Simula un perfil pre-fix: ya existe con ocultoPorModeracion=true, pero
+  // NO hay documento en v2_directorio_moderacion (vino de antes del split).
+  // Usa un uid dedicado para no ensuciar los tests que compartirían u-vip.
+  TOKENS['tok-legacy'] = { uid: 'u-legacy', email: 'legacy@example.test', name: 'Legacy Pro' };
+  db.sembrar('users/u-legacy', { name: 'Legacy Pro', email: 'legacy@example.test', subscription: { status: 'active', plan: 'anual', currentPeriodEnd: '2027-01-01T00:00:00.000Z' } });
+  db.sembrar('v2_directorio_perfiles/u-legacy', {
+    ...perfilDatos({ contacto: { canal: 'correo' } }),
+    uid: 'u-legacy',
+    nombre: 'Legacy Pro',
+    visible: false,
+    ocultoPorModeracion: true,
+    actualizado: '2026-10-20T10:00:00.000Z',
+  });
+  assert.equal(db.crudo('v2_directorio_moderacion/u-legacy'), undefined);
+
+  // El dueño intenta re-publicar con visible=true: debe quedar oculto.
+  const intento = await send('/directorio/perfil', 'PUT', perfilDatos({ visible: true }), 'tok-legacy');
+  assert.equal(intento.status, 200);
+  const tras = db.crudo('v2_directorio_perfiles/u-legacy');
+  assert.equal(tras?.visible, false);
+  // Y la migración perezosa debió crear el doc en la colección aparte.
+  assert.equal(db.crudo('v2_directorio_moderacion/u-legacy')?.oculto, true);
 });
