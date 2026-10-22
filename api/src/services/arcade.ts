@@ -100,7 +100,11 @@ export function crearArcade(store: Store, now: () => Date = () => new Date()) {
         if (!rewarded) xpGanados=({otra:0,dificil:1,bien:3,facil:5} as Record<string,number>)[input.calidad];
       }
       estado.xp+=xpGanados;
-      const result={source:'server',fecha,acertada,correcta:p?.correcta ?? -1,explicacion:typeof p?.explicacion==='string'?p.explicacion:'',xpGanados,puntaje:partida?.puntaje ?? 0,repetida:false};
+      // Oráculo cerrado: solo se revela la correcta/explicación cuando se acertó.
+      // Fallar NO devuelve la respuesta correcta, para que una partida/día siguiente
+      // no se gane XP con la respuesta ya aprendida.
+      const revelar = acertada;
+      const result={source:'server',fecha,acertada,correcta: revelar ? (p?.correcta ?? -1) : -1,explicacion: revelar && typeof p?.explicacion==='string' ? p.explicacion : '',xpGanados,puntaje:partida?.puntaje ?? 0,repetida:false};
       tx.set(statePath(uid),estado); tx.set(operation,{key,result,fecha}); tx.set(reward,{fecha});
       if (partida) tx.set(run,partida);
       if (solved) tx.set(casePath,solved);

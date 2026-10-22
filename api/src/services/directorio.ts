@@ -43,9 +43,20 @@ export const COLECCIONES_DIRECTORIO = {
   oportunidades: 'v2_directorio_oportunidades',
   conexiones: 'v2_directorio_conexiones',
   reportes: 'v2_directorio_reportes',
+  /** Contador por usuario: cupos activos y ventanas de rate limit. */
+  contadores: 'v2_directorio_contadores',
 } as const;
 
 const C = COLECCIONES_DIRECTORIO;
+const VENTANA_MS = 86400000;
+
+interface ContadorUsuario {
+  oportunidadesActivas?: number;
+  conexionesVentana?: string;
+  conexionesCuenta?: number;
+  reportesVentana?: string;
+  reportesCuenta?: number;
+}
 const PARECE_HTML = /<\s*[a-zA-Z!/?]/;
 const CONTROL_Y_SALTOS = /[\x00-\x1F\x7F]/g;
 const CONTROL_MULTILINEA = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g;
@@ -100,6 +111,12 @@ export interface PerfilDirectorio {
   formacion: FormacionItem[];
   credenciales: CredencialItem[];
   visible: boolean;
+  /**
+   * Marcado por admins vía moderación. Mientras sea `true`, el servidor
+   * fuerza `visible = false` aunque el dueño lo edite: el perfil solo vuelve a
+   * ser visible cuando un admin reactive la visibilidad explícitamente.
+   */
+  ocultoPorModeracion?: boolean;
   contacto: ContactoDirectorio;
   actualizado: string;
 }
@@ -189,12 +206,32 @@ function unoDe<T extends string>(valor: unknown, permitidos: readonly T[], campo
   return valor as T;
 }
 
+// Allowlist estricta de hosts para fotos y banners del directorio: evita que un
+// perfil cargue un recurso de un dominio ajeno que podría usarse como pixel de
+// rastreo (quien abra el perfil le entrega IP y user-agent al tercero). Solo
+// orígenes operados por el proyecto o por Firebase Storage son aceptables.
+// Configurable con `DERMALYSSE_IMAGE_HOSTS` (lista separada por comas).
+const HOSTS_IMAGENES_PERMITIDOS: readonly string[] = (
+  (process.env.DERMALYSSE_IMAGE_HOSTS ?? 'firebasestorage.googleapis.com,storage.googleapis.com,club-dermalysse.firebasestorage.app')
+    .split(',')
+    .map((h) => h.trim().toLowerCase())
+    .filter(Boolean)
+);
+
 function urlValida(valor: unknown, campo: string): string | null {
   if (valor === undefined || valor === null || valor === '') return null;
-  if (typeof valor !== 'string' || !/^https:\/\/[^\s"'<>]+$/i.test(valor)) {
+  if (typeof valor !== 'string' || valor.length > 2000) {
     throw new ValidationError(`El campo "${campo}" debe ser una URL https válida.`);
   }
-  return valor;
+  let url: URL;
+  try { url = new URL(valor); } catch { throw new ValidationError(`El campo "${campo}" debe ser una URL https válida.`); }
+  if (url.protocol !== 'https:' || url.username || url.password) {
+    throw new ValidationError(`El campo "${campo}" debe ser una URL https sin credenciales.`);
+  }
+  if (!HOSTS_IMAGENES_PERMITIDOS.includes(url.hostname.toLowerCase())) {
+    throw new ValidationError(`El campo "${campo}" solo acepta recursos del almacenamiento oficial de Dermalysse.`);
+  }
+  return url.toString();
 }
 
 export class DirectorioService {
@@ -203,7 +240,9 @@ export class DirectorioService {
   private resolverNombre(usuario: Usuario): string {
     const candidato = [usuario.nombre, usuario.cuenta?.nombre].find((v) => typeof v === 'string' && v.trim());
     if (candidato) return candidato.trim().slice(0, 80);
-    if (usuario.email) return usuario.email.split('@')[0];
+    // Nunca usar `email.split('@')[0]`: expone la parte local del correo en
+    // vistas públicas del directorio. Si no hay nombre explícito, se muestra
+    // un alias genérico y el perfil puede editarse para añadir uno real.
     return 'Miembro Dermalysse';
   }
 
@@ -348,7 +387,12 @@ export class DirectorioService {
     const formacion = this.validarFormacion(body.formacion ?? previo?.formacion ?? []);
     const credenciales = this.validarCredenciales(body.credenciales ?? previo?.credenciales ?? []);
 
-    const visible = typeof body.visible === 'boolean' ? body.visible : (previo?.visible ?? true);
+    // Un perfil ocultado por moderación no puede re-publicarse desde el cliente.
+    // El flag persiste hasta que un admin reactive la visibilidad vía panel.
+    const ocultoPorModeracion = previo?.ocultoPorModeracion === true;
+    const visible = ocultoPorModeracion
+      ? false
+      : (typeof body.visible === 'boolean' ? body.visible : (previo?.visible ?? true));
 
     const contactoBody = (body.contacto as Record<string, unknown> | undefined) ?? {};
     const contactoCanal = unoDe(contactoBody.canal ?? previo?.contacto?.canal ?? 'correo', ['correo', 'whatsapp'] as const, 'contacto.canal', true);
@@ -382,6 +426,7 @@ export class DirectorioService {
       formacion,
       credenciales,
       visible,
+      ocultoPorModeracion,
       contacto: { canal: contactoCanal, valor: contactoValor },
       actualizado: ahoraIso,
     };
@@ -403,6 +448,7 @@ export class DirectorioService {
     ]);
 
     const ahoraIso = this.ahora().toISOString();
+    const teniaPublicadas = oportunidades.some((d) => (d.data() as unknown as OportunidadDirectorio).estado === 'publicada');
     await Promise.all([
       ...oportunidades
         .filter((d) => (d.data() as unknown as OportunidadDirectorio).estado === 'publicada')
@@ -412,6 +458,12 @@ export class DirectorioService {
         .map((d) => this.db.set(`${C.conexiones}/${d.id}`, { estado: 'rechazada', actualizado: ahoraIso }, { merge: true })),
       this.db.delete(ref),
     ]);
+    // Al eliminar el perfil cerramos sus oportunidades publicadas; el contador
+    // vuelve a cero para no bloquear futuras publicaciones si el usuario crea
+    // perfil otra vez.
+    if (teniaPublicadas) {
+      await this.db.set(`${C.contadores}/${uid}`, { oportunidadesActivas: 0 }, { merge: true });
+    }
 
     return { ok: true };
   }
@@ -457,13 +509,20 @@ export class DirectorioService {
       expira,
     };
 
+    // Contador atómico leído y escrito dentro de la transacción: dos peticiones
+    // concurrentes del mismo usuario entran en conflicto y reintentan, en vez
+    // de hacer un `query` fuera de la tx (TOCTOU) que permitiría superar el
+    // tope `MAX_OPORTUNIDADES_ACTIVAS`.
+    const contadorRef = `${C.contadores}/${usuario.uid}`;
     await this.db.runTransaction(async (tx) => {
-      const ops = await this.db.query(C.oportunidades, { where: [{ campo: 'autorUid', op: '==', valor: usuario.uid }] });
-      const activas = ops.filter((d) => (d.data() as unknown as OportunidadDirectorio).estado === 'publicada');
-      if (activas.length >= MAX_OPORTUNIDADES_ACTIVAS) {
+      const contadorSnap = await tx.get(contadorRef);
+      const contador = (contadorSnap.exists ? (contadorSnap.data() as ContadorUsuario) : {}) ?? {};
+      const activas = Number(contador.oportunidadesActivas) || 0;
+      if (activas >= MAX_OPORTUNIDADES_ACTIVAS) {
         throw new ConflictError(`Puedes mantener hasta ${MAX_OPORTUNIDADES_ACTIVAS} oportunidades activas. Cierra una antes de publicar otra.`);
       }
       tx.set(`${C.oportunidades}/${id}`, oportunidad as unknown as Record<string, unknown>);
+      tx.set(contadorRef, { ...contador, oportunidadesActivas: activas + 1 } as unknown as Record<string, unknown>, { merge: true });
     });
 
     return this.filtrarOportunidadPublica(oportunidad, usuario.uid);
@@ -477,7 +536,25 @@ export class DirectorioService {
     if (actual.autorUid !== usuario.uid && !usuario.esAdmin) throw new ForbiddenError('No tienes permiso para modificar esta oportunidad.');
 
     const actualizado = this.ahora().toISOString();
-    await this.db.set(ruta, { estado: 'cerrada', actualizado }, { merge: true });
+    // Transacción: baja el contador del autor solo si la oportunidad estaba
+    // publicada; evita que un doble-cierre descuente dos veces.
+    await this.db.runTransaction(async (tx) => {
+      const act = await tx.get(ruta);
+      if (!act.exists) return;
+      const data = act.data() as unknown as OportunidadDirectorio;
+      let contadorRef: string | null = null;
+      let contador: ContadorUsuario = {};
+      if (data.estado === 'publicada') {
+        contadorRef = `${C.contadores}/${data.autorUid}`;
+        const contadorSnap = await tx.get(contadorRef);
+        contador = (contadorSnap.exists ? (contadorSnap.data() as ContadorUsuario) : {}) ?? {};
+      }
+      tx.set(ruta, { estado: 'cerrada', actualizado }, { merge: true });
+      if (contadorRef) {
+        const activas = Math.max(0, (Number(contador.oportunidadesActivas) || 0) - 1);
+        tx.set(contadorRef, { ...contador, oportunidadesActivas: activas } as unknown as Record<string, unknown>, { merge: true });
+      }
+    });
     return this.filtrarOportunidadPublica({ ...actual, estado: 'cerrada' }, usuario.uid);
   }
 
@@ -518,15 +595,19 @@ export class DirectorioService {
       actualizado: ahoraIso,
     };
 
+    // Rate limit por contador atómico: lectura y escritura dentro de la tx. Dos
+    // peticiones concurrentes del mismo uid chocan y reintentan, en vez de que
+    // ambas pasen el `query` externo (TOCTOU) y superen MAX_CONEXIONES_DIA.
+    const contadorRef = `${C.contadores}/${usuario.uid}`;
     await this.db.runTransaction(async (tx) => {
       const existente = await tx.get(`${C.conexiones}/${connId}`);
-      const desde = new Date(this.ahora().getTime() - 86400000).toISOString();
-      const conexionesDe = await this.db.query(C.conexiones, { where: [{ campo: 'deUid', op: '==', valor: usuario.uid }] });
-      const recientes = conexionesDe.filter((doc) => {
-        const c = doc.data() as unknown as ConexionDirectorio;
-        return c.creado >= desde;
-      });
-      if (recientes.length >= MAX_CONEXIONES_DIA) {
+      const contadorSnap = await tx.get(contadorRef);
+      const contador = (contadorSnap.exists ? (contadorSnap.data() as ContadorUsuario) : {}) ?? {};
+      const ahoraMs = this.ahora().getTime();
+      const ventanaMs = contador.conexionesVentana ? Date.parse(contador.conexionesVentana) : 0;
+      const dentroVentana = Number.isFinite(ventanaMs) && ventanaMs > 0 && (ahoraMs - ventanaMs) < VENTANA_MS;
+      const cuenta = dentroVentana ? (Number(contador.conexionesCuenta) || 0) : 0;
+      if (cuenta >= MAX_CONEXIONES_DIA) {
         throw new CodedError(429, 'limite_alcanzado', `Puedes enviar hasta ${MAX_CONEXIONES_DIA} solicitudes de conexión cada 24 horas.`);
       }
       if (existente.exists) {
@@ -535,11 +616,16 @@ export class DirectorioService {
           throw new ConflictError('Ya existe una solicitud activa con esta colega.');
         }
         const reintentoEn = new Date(actual.actualizado ?? actual.creado ?? 0).getTime() + REINTENTO_RECHAZADO_MS;
-        if (reintentoEn > this.ahora().getTime()) {
+        if (reintentoEn > ahoraMs) {
           throw new CodedError(409, 'reintento_bloqueado', 'Esta solicitud fue declinada recientemente. Respeta la decisión antes de volver a intentarlo.');
         }
       }
       tx.set(`${C.conexiones}/${connId}`, conexion as unknown as Record<string, unknown>);
+      tx.set(contadorRef, {
+        ...contador,
+        conexionesVentana: dentroVentana ? contador.conexionesVentana : new Date(ahoraMs).toISOString(),
+        conexionesCuenta: cuenta + 1,
+      } as unknown as Record<string, unknown>, { merge: true });
     });
 
     return {
@@ -609,17 +695,26 @@ export class DirectorioService {
       actualizado: ahoraIso,
     };
 
+    const contadorRef = `${C.contadores}/${usuario.uid}`;
     await this.db.runTransaction(async (tx) => {
       const existente = await tx.get(`${C.reportes}/${repId}`);
+      const contadorSnap = await tx.get(contadorRef);
       if (existente.exists) throw new ConflictError('Ya enviaste una denuncia sobre este contenido.');
 
-      const desde = new Date(this.ahora().getTime() - 86400000).toISOString();
-      const reportesDe = await this.db.query(C.reportes, { where: [{ campo: 'reportanteUid', op: '==', valor: usuario.uid }] });
-      const recientes = reportesDe.filter((d) => (d.data() as unknown as ReporteDirectorio).creado >= desde);
-      if (recientes.length >= MAX_REPORTES_DIA) {
+      const contador = (contadorSnap.exists ? (contadorSnap.data() as ContadorUsuario) : {}) ?? {};
+      const ahoraMs = this.ahora().getTime();
+      const ventanaMs = contador.reportesVentana ? Date.parse(contador.reportesVentana) : 0;
+      const dentroVentana = Number.isFinite(ventanaMs) && ventanaMs > 0 && (ahoraMs - ventanaMs) < VENTANA_MS;
+      const cuenta = dentroVentana ? (Number(contador.reportesCuenta) || 0) : 0;
+      if (cuenta >= MAX_REPORTES_DIA) {
         throw new CodedError(429, 'limite_alcanzado', `Puedes enviar hasta ${MAX_REPORTES_DIA} denuncias cada 24 horas.`);
       }
       tx.set(`${C.reportes}/${repId}`, reporte as unknown as Record<string, unknown>);
+      tx.set(contadorRef, {
+        ...contador,
+        reportesVentana: dentroVentana ? contador.reportesVentana : new Date(ahoraMs).toISOString(),
+        reportesCuenta: cuenta + 1,
+      } as unknown as Record<string, unknown>, { merge: true });
     });
 
     return { id: repId, estado: 'pendiente' };
@@ -645,7 +740,10 @@ export class DirectorioService {
     if (accion === 'ocultar_perfil') {
       const pSnap = await this.db.get(`${C.perfiles}/${reporte.objetivoId}`);
       if (pSnap.exists) {
-        await this.db.set(`${C.perfiles}/${reporte.objetivoId}`, { visible: false, actualizado: ahoraIso }, { merge: true });
+        // Marca el flag de moderación: aunque el dueño vuelva a editar el
+        // perfil con visible=true, guardarPerfil lo fuerza a false mientras
+        // este flag siga activo.
+        await this.db.set(`${C.perfiles}/${reporte.objetivoId}`, { visible: false, ocultoPorModeracion: true, actualizado: ahoraIso }, { merge: true });
       }
       nuevoEstado = 'resuelto';
       resolucion = 'perfil_ocultado';
@@ -692,7 +790,10 @@ export class DirectorioService {
     const pSnap = await this.db.get(`${C.perfiles}/${uid}`);
     if (!pSnap.exists) throw new NotFoundError('Ese perfil no existe.');
     const ahoraIso = this.ahora().toISOString();
-    await this.db.set(`${C.perfiles}/${uid}`, { visible, actualizado: ahoraIso }, { merge: true });
+    // Al reactivar visibilidad desde el panel admin, también se levanta el
+    // flag de moderación. Ocultar desde admin lo deja marcado para que el
+    // dueño no pueda re-publicarlo con una edición propia.
+    await this.db.set(`${C.perfiles}/${uid}`, { visible, ocultoPorModeracion: !visible, actualizado: ahoraIso }, { merge: true });
     return { uid, visible, actualizado: ahoraIso };
   }
 

@@ -293,6 +293,49 @@ test('directorio profesional · reporta perfiles u oportunidades inapropiadas si
   assert.equal(auto.status, 409);
 });
 
+test('directorio profesional · bypass de moderación: dueño NO puede re-publicar perfil ocultado por admin', async () => {
+  await send('/directorio/perfil', 'PUT', perfilDatos(), 'tok-libre');
+  // Admin oculta directamente (equivalente a moderación)
+  const ocultar = await send('/admin/directorio/perfiles/u-libre/visibilidad', 'PATCH', { visible: false }, 'tok-admin');
+  assert.equal(ocultar.status, 200);
+  const guardadoOculto = db.crudo('v2_directorio_perfiles/u-libre');
+  assert.equal(guardadoOculto?.visible, false);
+  assert.equal(guardadoOculto?.ocultoPorModeracion, true);
+
+  // El dueño intenta re-publicarlo con visible=true: el server lo fuerza a false.
+  const intentoVuelta = await send('/directorio/perfil', 'PUT', perfilDatos({ visible: true }), 'tok-libre');
+  assert.equal(intentoVuelta.status, 200);
+  const trasEdicion = db.crudo('v2_directorio_perfiles/u-libre');
+  assert.equal(trasEdicion?.visible, false);
+  assert.equal(trasEdicion?.ocultoPorModeracion, true);
+
+  // Admin reactiva: la flag se levanta y el perfil puede ser visible otra vez.
+  const reactivar = await send('/admin/directorio/perfiles/u-libre/visibilidad', 'PATCH', { visible: true }, 'tok-admin');
+  assert.equal(reactivar.status, 200);
+  const reactivado = db.crudo('v2_directorio_perfiles/u-libre');
+  assert.equal(reactivado?.visible, true);
+  assert.equal(reactivado?.ocultoPorModeracion, false);
+});
+
+test('directorio profesional · foto/banner solo acepta URLs del almacenamiento oficial', async () => {
+  const fuera = await send('/directorio/perfil', 'PUT', perfilDatos({ foto: 'https://pixel.evil.example/track.gif' }), 'tok-libre');
+  assert.equal(fuera.status, 400);
+
+  const bannerFuera = await send('/directorio/perfil', 'PUT', perfilDatos({ banner: 'https://attacker.test/b.jpg' }), 'tok-libre');
+  assert.equal(bannerFuera.status, 400);
+
+  const credenciales = await send('/directorio/perfil', 'PUT', perfilDatos({ foto: 'https://user:pass@firebasestorage.googleapis.com/x.jpg' }), 'tok-libre');
+  assert.equal(credenciales.status, 400);
+
+  const bueno = await send(
+    '/directorio/perfil',
+    'PUT',
+    perfilDatos({ foto: 'https://firebasestorage.googleapis.com/v0/b/club-dermalysse.firebasestorage.app/o/perfiles%2Fu-libre.jpg?alt=media' }),
+    'tok-libre',
+  );
+  assert.equal(bueno.status, 200);
+});
+
 test('panel de administración modera reportes y visibilidad de cosmetólogas', async () => {
   // Asegurar que u-vip tiene perfil activo
   await send('/directorio/perfil', 'PUT', perfilDatos(), 'tok-vip');
