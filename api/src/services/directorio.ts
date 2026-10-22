@@ -45,6 +45,11 @@ export const COLECCIONES_DIRECTORIO = {
   reportes: 'v2_directorio_reportes',
   /** Contador por usuario: cupos activos y ventanas de rate limit. */
   contadores: 'v2_directorio_contadores',
+  /**
+   * Flag persistente de moderación por uid. Vive FUERA de `perfiles` para que
+   * borrar y recrear el perfil no evada la decisión del admin.
+   */
+  moderacion: 'v2_directorio_moderacion',
 } as const;
 
 const C = COLECCIONES_DIRECTORIO;
@@ -206,18 +211,15 @@ function unoDe<T extends string>(valor: unknown, permitidos: readonly T[], campo
   return valor as T;
 }
 
-// Allowlist estricta de hosts para fotos y banners del directorio: evita que un
-// perfil cargue un recurso de un dominio ajeno que podría usarse como pixel de
-// rastreo (quien abra el perfil le entrega IP y user-agent al tercero). Solo
-// orígenes operados por el proyecto o por Firebase Storage son aceptables.
-// Configurable con `DERMALYSSE_IMAGE_HOSTS` (lista separada por comas).
-const HOSTS_IMAGENES_PERMITIDOS: readonly string[] = (
-  (process.env.DERMALYSSE_IMAGE_HOSTS ?? 'firebasestorage.googleapis.com,storage.googleapis.com,club-dermalysse.firebasestorage.app')
-    .split(',')
-    .map((h) => h.trim().toLowerCase())
-    .filter(Boolean)
-);
+// Bucket oficial del proyecto; configurable con `DERMALYSSE_STORAGE_BUCKET`.
+const BUCKET_OFICIAL = (process.env.DERMALYSSE_STORAGE_BUCKET ?? 'club-dermalysse.firebasestorage.app').trim().toLowerCase();
 
+/**
+ * Allowlist estricta de orígenes para fotos y banners. No basta validar el
+ * host (otro bucket en el mismo `firebasestorage.googleapis.com` también
+ * puede servir recursos de rastreo): hay que exigir que el path identifique
+ * el bucket oficial del proyecto.
+ */
 function urlValida(valor: unknown, campo: string): string | null {
   if (valor === undefined || valor === null || valor === '') return null;
   if (typeof valor !== 'string' || valor.length > 2000) {
@@ -228,7 +230,19 @@ function urlValida(valor: unknown, campo: string): string | null {
   if (url.protocol !== 'https:' || url.username || url.password) {
     throw new ValidationError(`El campo "${campo}" debe ser una URL https sin credenciales.`);
   }
-  if (!HOSTS_IMAGENES_PERMITIDOS.includes(url.hostname.toLowerCase())) {
+  const host = url.hostname.toLowerCase();
+  const path = url.pathname;
+  // Patrones aceptados contra el bucket oficial:
+  //   - https://<bucket>/<path>                                → host == bucket
+  //   - https://firebasestorage.googleapis.com/v0/b/<bucket>/o/<path>
+  //   - https://storage.googleapis.com/<bucket>/<path>
+  const bucket = encodeURIComponent(BUCKET_OFICIAL).toLowerCase();
+  const esBucketDirecto = host === BUCKET_OFICIAL;
+  const esFirebaseStorage = host === 'firebasestorage.googleapis.com'
+    && new RegExp(`^/v0/b/(?:${BUCKET_OFICIAL}|${bucket})/o/`, 'i').test(path);
+  const esGcs = host === 'storage.googleapis.com'
+    && new RegExp(`^/${BUCKET_OFICIAL}/`, 'i').test(path);
+  if (!esBucketDirecto && !esFirebaseStorage && !esGcs) {
     throw new ValidationError(`El campo "${campo}" solo acepta recursos del almacenamiento oficial de Dermalysse.`);
   }
   return url.toString();
@@ -351,9 +365,20 @@ export class DirectorioService {
     };
   }
 
+  /** Lee el flag persistente de moderación (sobrevive al borrado del perfil). */
+  private async leerModeracion(uid: string): Promise<boolean> {
+    const snap = await this.db.get(`${C.moderacion}/${uid}`);
+    if (!snap.exists) return false;
+    const data = (snap.data() ?? {}) as { oculto?: boolean };
+    return data.oculto === true;
+  }
+
   async guardarPerfil(usuario: Usuario, body: Record<string, unknown>): Promise<Record<string, unknown>> {
     const uid = usuario.uid;
-    const previoDoc = await this.db.get(`${C.perfiles}/${uid}`);
+    const [previoDoc, oculto] = await Promise.all([
+      this.db.get(`${C.perfiles}/${uid}`),
+      this.leerModeracion(uid),
+    ]);
     const previo = previoDoc.exists ? (previoDoc.data() as unknown as PerfilDirectorio) : null;
     const nombre = this.resolverNombre(usuario);
 
@@ -388,8 +413,9 @@ export class DirectorioService {
     const credenciales = this.validarCredenciales(body.credenciales ?? previo?.credenciales ?? []);
 
     // Un perfil ocultado por moderación no puede re-publicarse desde el cliente.
-    // El flag persiste hasta que un admin reactive la visibilidad vía panel.
-    const ocultoPorModeracion = previo?.ocultoPorModeracion === true;
+    // La fuente de verdad es la colección v2_directorio_moderacion, que sobrevive
+    // al borrado y re-creación del perfil (el bypass antes de este fix).
+    const ocultoPorModeracion = oculto;
     const visible = ocultoPorModeracion
       ? false
       : (typeof body.visible === 'boolean' ? body.visible : (previo?.visible ?? true));
@@ -512,8 +538,10 @@ export class DirectorioService {
     // Contador atómico leído y escrito dentro de la transacción: dos peticiones
     // concurrentes del mismo usuario entran en conflicto y reintentan, en vez
     // de hacer un `query` fuera de la tx (TOCTOU) que permitiría superar el
-    // tope `MAX_OPORTUNIDADES_ACTIVAS`.
+    // tope `MAX_OPORTUNIDADES_ACTIVAS`. Backfill perezoso para perfiles que
+    // vienen de antes del fix (contador no inicializado).
     const contadorRef = `${C.contadores}/${usuario.uid}`;
+    await this.asegurarContadorOportunidades(usuario.uid);
     await this.db.runTransaction(async (tx) => {
       const contadorSnap = await tx.get(contadorRef);
       const contador = (contadorSnap.exists ? (contadorSnap.data() as ContadorUsuario) : {}) ?? {};
@@ -738,11 +766,14 @@ export class DirectorioService {
     let resolucion = 'descartado';
 
     if (accion === 'ocultar_perfil') {
+      // Flag persistente en colección separada: sobrevive a borrar+recrear el
+      // perfil (bypass previo). También dejamos la copia derivada en el perfil
+      // para que las queries existentes sigan funcionando.
+      await this.db.set(`${C.moderacion}/${reporte.objetivoId}`, {
+        oculto: true, decididoPor: usuario.email || usuario.uid, actualizado: ahoraIso,
+      });
       const pSnap = await this.db.get(`${C.perfiles}/${reporte.objetivoId}`);
       if (pSnap.exists) {
-        // Marca el flag de moderación: aunque el dueño vuelva a editar el
-        // perfil con visible=true, guardarPerfil lo fuerza a false mientras
-        // este flag siga activo.
         await this.db.set(`${C.perfiles}/${reporte.objetivoId}`, { visible: false, ocultoPorModeracion: true, actualizado: ahoraIso }, { merge: true });
       }
       nuevoEstado = 'resuelto';
@@ -750,6 +781,12 @@ export class DirectorioService {
     } else if (accion === 'cerrar_oportunidad') {
       const oSnap = await this.db.get(`${C.oportunidades}/${reporte.objetivoId}`);
       if (oSnap.exists) {
+        // Cerrar vía moderación debe también descontar el cupo del autor para
+        // que no quede bloqueado el límite MAX_OPORTUNIDADES_ACTIVAS.
+        const op = oSnap.data() as unknown as OportunidadDirectorio;
+        if (op.estado === 'publicada') {
+          await this.decrementarOportunidadesActivas(op.autorUid);
+        }
         await this.db.set(`${C.oportunidades}/${reporte.objetivoId}`, { estado: 'cerrada', actualizado: ahoraIso }, { merge: true });
       }
       nuevoEstado = 'resuelto';
@@ -790,11 +827,44 @@ export class DirectorioService {
     const pSnap = await this.db.get(`${C.perfiles}/${uid}`);
     if (!pSnap.exists) throw new NotFoundError('Ese perfil no existe.');
     const ahoraIso = this.ahora().toISOString();
-    // Al reactivar visibilidad desde el panel admin, también se levanta el
-    // flag de moderación. Ocultar desde admin lo deja marcado para que el
-    // dueño no pueda re-publicarlo con una edición propia.
+    // Flag persistente en colección aparte: ocultar deja marca durable;
+    // reactivar la levanta. La copia en el perfil queda sincronizada.
+    await this.db.set(`${C.moderacion}/${uid}`, visible
+      ? { oculto: false, actualizado: ahoraIso }
+      : { oculto: true, actualizado: ahoraIso });
     await this.db.set(`${C.perfiles}/${uid}`, { visible, ocultoPorModeracion: !visible, actualizado: ahoraIso }, { merge: true });
     return { uid, visible, actualizado: ahoraIso };
+  }
+
+  /** Decremento idempotente y acotado a 0. Útil cuando una oportunidad se cierra desde cualquier flujo. */
+  private async decrementarOportunidadesActivas(autorUid: string): Promise<void> {
+    const contadorRef = `${C.contadores}/${autorUid}`;
+    await this.db.runTransaction(async (tx) => {
+      const snap = await tx.get(contadorRef);
+      const contador = (snap.exists ? (snap.data() as ContadorUsuario) : {}) ?? {};
+      const activas = Math.max(0, (Number(contador.oportunidadesActivas) || 0) - 1);
+      tx.set(contadorRef, { ...contador, oportunidadesActivas: activas } as unknown as Record<string, unknown>, { merge: true });
+    });
+  }
+
+  /**
+   * Backfill perezoso del contador de oportunidades activas: la primera vez
+   * tras el deploy, perfiles pre-existentes no tenían contador y el límite se
+   * podía evadir. Se cuenta una sola vez (idempotente por `create`).
+   */
+  private async asegurarContadorOportunidades(uid: string): Promise<void> {
+    const ref = `${C.contadores}/${uid}`;
+    const snap = await this.db.get(ref);
+    if (snap.exists && typeof (snap.data() as ContadorUsuario).oportunidadesActivas === 'number') return;
+    const ops = await this.db.query(C.oportunidades, { where: [{ campo: 'autorUid', op: '==', valor: uid }] });
+    const activas = ops.filter((d) => (d.data() as unknown as OportunidadDirectorio).estado === 'publicada').length;
+    const existente = (snap.exists ? (snap.data() as ContadorUsuario) : {}) ?? {};
+    // `create` falla silenciosamente si otra petición ya puso el valor: la tx
+    // posterior usará el que haya quedado y aplicará el límite real.
+    try {
+      if (!snap.exists) await this.db.create(ref, { ...existente, oportunidadesActivas: activas });
+      else await this.db.set(ref, { ...existente, oportunidadesActivas: activas }, { merge: true });
+    } catch { /* carrera: ya existe, la tx leerá el valor ganador */ }
   }
 
   private filtrarPerfilPublico(p: PerfilDirectorio, miUid: string): Record<string, unknown> {

@@ -317,7 +317,7 @@ test('directorio profesional · bypass de moderación: dueño NO puede re-public
   assert.equal(reactivado?.ocultoPorModeracion, false);
 });
 
-test('directorio profesional · foto/banner solo acepta URLs del almacenamiento oficial', async () => {
+test('directorio profesional · foto/banner solo acepta URLs del bucket oficial', async () => {
   const fuera = await send('/directorio/perfil', 'PUT', perfilDatos({ foto: 'https://pixel.evil.example/track.gif' }), 'tok-libre');
   assert.equal(fuera.status, 400);
 
@@ -327,6 +327,21 @@ test('directorio profesional · foto/banner solo acepta URLs del almacenamiento 
   const credenciales = await send('/directorio/perfil', 'PUT', perfilDatos({ foto: 'https://user:pass@firebasestorage.googleapis.com/x.jpg' }), 'tok-libre');
   assert.equal(credenciales.status, 400);
 
+  // Host correcto pero bucket ajeno: también se rechaza (no basta validar host).
+  const otroBucket = await send(
+    '/directorio/perfil', 'PUT',
+    perfilDatos({ foto: 'https://firebasestorage.googleapis.com/v0/b/otro-bucket.appspot.com/o/x.jpg' }),
+    'tok-libre',
+  );
+  assert.equal(otroBucket.status, 400);
+
+  const otroBucketGcs = await send(
+    '/directorio/perfil', 'PUT',
+    perfilDatos({ foto: 'https://storage.googleapis.com/otro-bucket/x.jpg' }),
+    'tok-libre',
+  );
+  assert.equal(otroBucketGcs.status, 400);
+
   const bueno = await send(
     '/directorio/perfil',
     'PUT',
@@ -334,6 +349,28 @@ test('directorio profesional · foto/banner solo acepta URLs del almacenamiento 
     'tok-libre',
   );
   assert.equal(bueno.status, 200);
+});
+
+test('directorio profesional · moderación persiste al borrar+recrear perfil (bypass delete+recreate)', async () => {
+  // 1. Crea perfil
+  await send('/directorio/perfil', 'PUT', perfilDatos(), 'tok-libre');
+  // 2. Admin oculta vía panel
+  const ocultar = await send('/admin/directorio/perfiles/u-libre/visibilidad', 'PATCH', { visible: false }, 'tok-admin');
+  assert.equal(ocultar.status, 200);
+  // 3. Dueño elimina perfil
+  const del = await send('/directorio/perfil', 'DELETE', undefined, 'tok-libre');
+  assert.equal(del.status, 200);
+  // 4. Dueño re-crea perfil con visible=true: la moderación debe sobrevivir.
+  const recreado = await send('/directorio/perfil', 'PUT', perfilDatos({ visible: true }), 'tok-libre');
+  assert.equal(recreado.status, 200);
+  const guardado = db.crudo('v2_directorio_perfiles/u-libre');
+  assert.equal(guardado?.visible, false);
+  assert.equal(guardado?.ocultoPorModeracion, true);
+  // 5. Admin reactiva: la moderación se levanta
+  await send('/admin/directorio/perfiles/u-libre/visibilidad', 'PATCH', { visible: true }, 'tok-admin');
+  const tras = db.crudo('v2_directorio_perfiles/u-libre');
+  assert.equal(tras?.visible, true);
+  assert.equal(tras?.ocultoPorModeracion, false);
 });
 
 test('panel de administración modera reportes y visibilidad de cosmetólogas', async () => {
