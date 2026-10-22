@@ -49,37 +49,65 @@ function configInicial(): ConfigExperiencia {
   };
 }
 
-// Reglas aplicadas tras cualquier cambio de estado.
-function evaluarEncuesta(u: ExperienciaUsuario): void {
-  if (u.encuesta.estado === 'completada' || u.encuesta.estado === 'en-curso' || u.encuesta.estado === 'pospuesta') return;
-  if (u.entrevista.estado !== 'completada' || !u.primerAccesoEn) {
-    u.encuesta.estado = 'bloqueada';
-    u.encuesta.motivo = u.entrevista.estado === 'completada'
-      ? 'Falta registrar varios días de uso antes de abrir la encuesta.'
-      : 'La encuesta se habilita después de completar la bienvenida.';
-    u.encuesta.disponibleEn = null;
-    return;
-  }
+/**
+ * Precondición única del desbloqueo: entrevista completada + consentimiento +
+ * umbrales de tiempo y uso. Vive aquí para que cualquier transición
+ * (posponer / guardarPaso / completar) use el MISMO juicio y no haya forma de
+ * saltar el gate reescribiendo el estado desde el cliente.
+ */
+function encuestaCumpleGate(u: ExperienciaUsuario): boolean {
+  if (u.entrevista.estado !== 'completada' || !u.primerAccesoEn) return false;
   const inicio = Date.parse(u.primerAccesoEn);
   const porTiempo = Date.now() - inicio >= DIAS_PARA_ENCUESTA * DIA_MS;
   const porUso = u.sesiones.length >= SESIONES_PARA_ENCUESTA;
-  if (porTiempo && porUso) {
-    u.encuesta.estado = 'disponible';
-    u.encuesta.motivo = 'Puedes compartir tu primera impresión del club.';
-    u.encuesta.disponibleEn = null;
+  return porTiempo && porUso;
+}
+
+// Reglas aplicadas tras cualquier cambio de estado. Puede DEGRADAR estados
+// (pospuesta/en-curso → bloqueada) si en algún momento la precondición dejó
+// de cumplirse: evita que una transición pasada deje la encuesta accesible.
+function evaluarEncuesta(u: ExperienciaUsuario): void {
+  if (u.encuesta.estado === 'completada') return;
+  const cumple = encuestaCumpleGate(u);
+  if (cumple) {
+    if (u.encuesta.estado === 'bloqueada') {
+      u.encuesta.estado = 'disponible';
+      u.encuesta.motivo = 'Puedes compartir tu primera impresión del club.';
+      u.encuesta.disponibleEn = null;
+    }
+    return;
+  }
+  // No cumple el gate: forzamos de vuelta a 'bloqueada' con el motivo correcto.
+  const inicio = u.primerAccesoEn ? Date.parse(u.primerAccesoEn) : null;
+  const porTiempo = inicio !== null && Date.now() - inicio >= DIAS_PARA_ENCUESTA * DIA_MS;
+  const porUso = u.sesiones.length >= SESIONES_PARA_ENCUESTA;
+  u.encuesta.estado = 'bloqueada';
+  u.encuesta.pospuestaHasta = null;
+  u.encuesta.disponibleEn = inicio !== null && !porTiempo
+    ? new Date(inicio + DIAS_PARA_ENCUESTA * DIA_MS).toISOString()
+    : null;
+  if (u.entrevista.estado !== 'completada') {
+    u.encuesta.motivo = 'La encuesta se habilita después de completar la bienvenida.';
+  } else if (!porUso) {
+    const faltan = Math.max(SESIONES_PARA_ENCUESTA - u.sesiones.length, 1);
+    u.encuesta.motivo = `Faltan ${faltan} día(s) de uso para abrir la encuesta.`;
   } else {
-    const disponibleEn = porTiempo ? null : new Date(inicio + DIAS_PARA_ENCUESTA * DIA_MS).toISOString();
-    u.encuesta.estado = 'bloqueada';
-    u.encuesta.motivo = porUso
-      ? 'Faltan unos días más desde tu bienvenida para abrir la encuesta.'
-      : `Faltan ${SESIONES_PARA_ENCUESTA - u.sesiones.length} día(s) de uso para abrir la encuesta.`;
-    u.encuesta.disponibleEn = disponibleEn;
+    u.encuesta.motivo = 'Faltan unos días más desde tu bienvenida para abrir la encuesta.';
   }
 }
 
-function validarEstadoParaAvanzar(flujo: 'entrevista' | 'encuesta', estado: string) {
+/** Toda transición desde el cliente comparte este guardarraíl. */
+function validarEstadoParaAvanzar(u: ExperienciaUsuario, flujo: 'entrevista' | 'encuesta') {
+  const estado = u[flujo].estado;
   if (estado === 'completada') throw new ConflictError('Esta actividad ya está completada.');
-  if (flujo === 'encuesta' && estado === 'bloqueada') throw new ConflictError('La encuesta todavía no está disponible.');
+  if (flujo === 'entrevista' && !u.primerAccesoEn) {
+    throw new ConflictError('Debes aceptar la bienvenida antes de continuar.');
+  }
+  if (flujo === 'encuesta') {
+    // El gate real, no solo el estado persistido: evita cualquier vía por
+    // 'pospuesta' o 'en-curso' que haya quedado antes de cumplir la condición.
+    if (!encuestaCumpleGate(u)) throw new ConflictError('La encuesta todavía no está disponible.');
+  }
 }
 
 function sanearRespuestas(obj: unknown): Record<string, unknown> {
@@ -145,10 +173,10 @@ export class MemoryExperienciaModuloStore implements ExperienciaModuloStore {
 
   async guardarPaso(uid: string, flujo: 'entrevista' | 'encuesta', revision: number, paso: number, respuestas: Record<string, unknown>): Promise<ExperienciaUsuario> {
     const u = this.cargar(uid);
-    if (!u.primerAccesoEn) throw new ConflictError('Debes aceptar la bienvenida antes de guardar respuestas.');
     if (!Number.isInteger(paso) || paso < 0 || paso > 7) throw new ValidationError('Paso fuera de rango.');
+    evaluarEncuesta(u); // refresca el gate antes de decidir si se puede avanzar
+    validarEstadoParaAvanzar(u, flujo);
     const p = u[flujo];
-    validarEstadoParaAvanzar(flujo, p.estado);
     if (p.revision !== revision) {
       const err = new ConflictError('La revisión está desactualizada; vuelve a cargar la pantalla.');
       (err as Error & { codigo?: string }).codigo = 'revision_desactualizada';
@@ -165,8 +193,9 @@ export class MemoryExperienciaModuloStore implements ExperienciaModuloStore {
 
   async posponer(uid: string, flujo: 'entrevista' | 'encuesta', revision: number): Promise<ExperienciaUsuario> {
     const u = this.cargar(uid);
+    evaluarEncuesta(u);
+    validarEstadoParaAvanzar(u, flujo); // también rechaza encuesta bloqueada
     const p = u[flujo];
-    if (p.estado === 'completada') throw new ConflictError('Esta actividad ya está completada.');
     if (p.revision !== revision) {
       const err = new ConflictError('La revisión está desactualizada; vuelve a cargar la pantalla.');
       (err as Error & { codigo?: string }).codigo = 'revision_desactualizada';
@@ -181,9 +210,10 @@ export class MemoryExperienciaModuloStore implements ExperienciaModuloStore {
 
   async completar(uid: string, flujo: 'entrevista' | 'encuesta', revision: number, respuestasFinales?: Record<string, unknown>): Promise<ExperienciaUsuario> {
     const u = this.cargar(uid);
+    evaluarEncuesta(u);
+    if (u[flujo].estado === 'completada') return u;
+    validarEstadoParaAvanzar(u, flujo); // reevalúa el gate real, no sólo el estado persistido
     const p = u[flujo];
-    if (p.estado === 'completada') return u;
-    if (flujo === 'encuesta' && p.estado === 'bloqueada') throw new ConflictError('La encuesta todavía no está disponible.');
     if (p.revision !== revision) {
       const err = new ConflictError('La revisión está desactualizada; vuelve a cargar la pantalla.');
       (err as Error & { codigo?: string }).codigo = 'revision_desactualizada';

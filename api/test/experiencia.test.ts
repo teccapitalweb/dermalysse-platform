@@ -146,6 +146,37 @@ test('POST /me/encuesta/completar — reserva beneficio de experiencia (15 días
   assert.equal(dto.beneficios.experiencia.dias, 15);
 });
 
+test('Gate encuesta — posponer y completar son RECHAZADOS si no se cumple la precondición', async () => {
+  // Usuario "fresco": aceptó bienvenida, completó entrevista, pero sin 7 días + 3 sesiones.
+  const uid = 'uid-bypass';
+  await modulo.iniciar(uid);
+  await modulo.guardarPaso(uid, 'entrevista', 1, 1, { roles: ['estudiante'] });
+  let estado = await modulo.obtener(uid);
+  await modulo.completar(uid, 'entrevista', estado.entrevista.revision, { areas: ['Dermatología'] });
+  estado = await modulo.obtener(uid);
+  assert.equal(estado.encuesta.estado, 'bloqueada');
+
+  // posponer sobre bloqueada → ConflictError
+  await assert.rejects(
+    () => modulo.posponer(uid, 'encuesta', estado.encuesta.revision),
+    (e: Error) => e.name === 'ConflictError',
+  );
+  // completar sobre bloqueada → ConflictError
+  await assert.rejects(
+    () => modulo.completar(uid, 'encuesta', estado.encuesta.revision, { facilidad: 4 }),
+    (e: Error) => e.name === 'ConflictError',
+  );
+  // Y guardarPaso también
+  await assert.rejects(
+    () => modulo.guardarPaso(uid, 'encuesta', estado.encuesta.revision, 1, { facilidad: 4 }),
+    (e: Error) => e.name === 'ConflictError',
+  );
+  // El estado persistido sigue bloqueada: nada se movió de contrabando.
+  const final = await modulo.obtener(uid);
+  assert.equal(final.encuesta.estado, 'bloqueada');
+  assert.equal(final.encuesta.revision, 0);
+});
+
 test('GET /admin/experiencia/resumen — 403 para usuario sin admin, 200 con admin', async () => {
   const sinAdmin = { Authorization: 'Bearer dev-token' }; // DevAuth suele dar admin=true
   const r = await get('/admin/experiencia/resumen', sinAdmin);
