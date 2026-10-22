@@ -1,3 +1,5 @@
+import { Datos } from '../core/datos';
+import { cargarRetosRemotos, responderReto } from '../core/arcade-remoto';
 // Retos · hub editorial Dermalysse basado en los patrones de Élite Pecuario.
 // Hub + 4 juegos funcionales: Quiz Relámpago, Reto Diario, Casos Dermalysse y
 // Flashcards. Todo el contenido viene de los cursos (quizzes aprobados y
@@ -42,12 +44,12 @@ export function montarArcade() {
   const r = root();
   if (!r || r.dataset.mounted) return;
   r.dataset.mounted = '1';
-  vista = 'hub'; parar();
+  vista = 'hub'; parar(); retosListos = Datos.modo !== 'api';
   r.addEventListener('click', onClick);
   r.addEventListener('keydown', onKeydown);
-  window.addEventListener('retos:cambio', () => { if (vista === 'hub') hub(); });
-  hub();
-  Liga.cargar().then(() => { if (vista === 'hub' && root()) hub(); });
+  window.addEventListener('retos:cambio', () => { if (vista === 'hub' && retosListos) hub(); });
+  if (Datos.modo === 'api') { pinta('<p role=status>Cargando tus retos…</p>'); cargarRetosRemotos().then(() => { if (root() === r) { retosListos = true; hub(); } }).catch(errorArcade); } else hub();
+  Liga.cargar().then(() => { if (vista === 'hub' && retosListos && root()) hub(); });
 }
 
 function onKeydown(e: KeyboardEvent) {
@@ -58,10 +60,12 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 function onClick(e: Event) {
+  if (guardando) return;
   const el = (e.target as HTMLElement).closest<HTMLElement>('[data-a]');
   if (!el) return;
   const a = el.dataset.a!;
   const acciones: Record<string, () => void> = {
+    recargar: async () => { await cargarRetosRemotos(); retosListos = true; hub(); },
     hub: () => { parar(); vista = 'hub'; hub(); },
     'ir-quiz': bibliotecaQuiz,
     'quiz-jugar': () => iniciarQuiz(el.dataset.area || 'Todas', (el.dataset.modo || 'relampago') as 'relampago' | 'practica'),
@@ -82,10 +86,10 @@ function onClick(e: Event) {
     'actualizar-liga': () => {
       Liga.limpiar();
       hub();
-      Liga.cargar().then(() => { if (vista === 'hub' && root()) hub(); });
+      Liga.cargar().then(() => { if (vista === 'hub' && retosListos && root()) hub(); });
     },
   };
-  acciones[a]?.();
+  Promise.resolve(acciones[a]?.()).catch(errorArcade);
 }
 
 function filtrarRetos(valor: string) {
@@ -119,6 +123,7 @@ function filtrarRetos(valor: string) {
 
 // ══════════════ HUB ══════════════
 function hub() {
+  if (!retosListos) { pinta('<p role=status>No se cargaron los retos. <button class=btn data-a=recargar>Reintentar</button></p>'); return; }
   vista = 'hub';
   const nv = nivel();
   const d = retoDiario();
@@ -427,6 +432,8 @@ function bibliotecaQuiz() {
 }
 
 function iniciarQuiz(area = 'Todas', modo: 'relampago' | 'practica' = 'relampago') {
+  partida = crypto.randomUUID(); xpSesion = 0;
+
   const pool = barajar(bancoPreguntas().filter((p) => area === 'Todas' || p.area === area));
   if (!pool.length) { pinta(`${barraVolver()}<div class="ar-empty" style="padding:40px;text-align:center;color:var(--text-2)">Aún no hay preguntas publicadas en esa área.</div>`); return; }
   const lim = modo === 'practica' ? 10 : 8;
@@ -471,14 +478,16 @@ function pintaQuiz() {
     const pasado = (Date.now() - t0) / 1000;
     Q.restante = Math.max(0, TIEMPO - pasado);
     bar.style.width = (Q.restante / TIEMPO * 100) + '%';
-    if (Q.restante <= 0) { parar(); respQuiz(-1); }
+    if (Q.restante <= 0) { parar(); respQuiz(-1).catch(errorArcade); }
   }, 80);
 }
 
-function respQuiz(i: number) {
+async function respQuiz(i: number) {
   if (!Q || Q.contestada) return;
   Q.contestada = true; parar();
   const p = Q.preguntas[Q.idx];
+  const guardado = await calificar(p, i, 'quiz');
+  if (guardado === false) return;
   const ok = i === p.correcta;
   root()?.querySelectorAll<HTMLButtonElement>('.ar-opt').forEach((b, j) => {
     b.disabled = true;
@@ -488,7 +497,7 @@ function respQuiz(i: number) {
   if (ok) {
     const bonus = Q.modo === 'relampago' ? Math.round(Q.restante / TIEMPO * 100) : 40;
     const suma = Math.round((100 + bonus) * (1 + Q.combo * 0.1));
-    Q.score += suma; Q.combo++; celebrar('normal');
+    Q.score = guardado ? guardado.puntaje : Q.score + suma; Q.combo++; celebrar('normal');
   } else { Q.vidas--; Q.combo = 0; }
   const fin = Q.vidas <= 0 || Q.idx >= Q.preguntas.length - 1;
   const fb = document.getElementById('ar-fb'); if (!fb) return;
@@ -506,7 +515,7 @@ function sigQuiz() {
 function finQuiz() {
   if (!Q) return;
   parar(); registrarQuiz(Q.score);
-  const xpGan = Math.round(Q.score / 10);
+  const xpGan = Datos.modo === 'api' ? xpSesion : Math.round(Q.score / 10);
   const esRecord = Q.score >= mejorQuiz();
   pinta(`${barraVolver()}
     <section class="game-result game-result--quiz">
@@ -548,10 +557,12 @@ function pintaDiaria() {
     </div>`);
 }
 
-function respDiaria(i: number) {
+async function respDiaria(i: number) {
   if (!D || !D.pregunta || D.contestada) return;
   D.contestada = true;
   const p = D.pregunta;
+  const guardado = await calificar(p, i, 'diaria');
+  if (guardado === false) return;
   const ok = i === p.correcta;
   root()?.querySelectorAll<HTMLButtonElement>('.ar-opt').forEach((b, j) => {
     b.disabled = true;
@@ -563,7 +574,7 @@ function respDiaria(i: number) {
   const fb = document.getElementById('ar-fb'); if (!fb) return;
   fb.innerHTML = `
     <div class="ar-exp ${ok ? 'ok' : 'bad'}">
-      <strong>${ok ? '¡Correcto! +30 XP' : 'Casi… +10 XP por intentarlo'}</strong>
+      <strong>${Datos.modo === 'api' ? `Respuesta guardada · +${guardado ? guardado.xpGanados : 0} XP` : ok ? '¡Correcto! +30 XP' : 'Casi… +10 XP por intentarlo'}</strong>
       <p>${esc(p.explicacion)}</p>
       <p class="faint" style="margin-top:6px"><i data-lucide="flame" class="i" style="width:14px;height:14px;color:#d39a19;vertical-align:-2px"></i> Racha actualizada a <strong>${registro.racha} ${registro.racha === 1 ? 'día' : 'días'}</strong>. Vuelve mañana para mantenerla.</p>
       <button class="btn btn--brand" data-a="hub">Volver a Retos <i data-lucide="arrow-right" class="i"></i></button>
@@ -598,6 +609,8 @@ function elegirCaso() {
 }
 
 function iniciarCaso(id: string) {
+  xpSesion = 0;
+
   const caso = casos().find((c) => c.id === id);
   if (!caso) return;
   C = { caso, fase: 'diagnostico', aciertos: 0, respuesta: null };
@@ -634,10 +647,12 @@ function pintaCaso() {
     </article>`);
 }
 
-function respCaso(i: number) {
+async function respCaso(i: number) {
   if (!C || C.respuesta !== null) return;
   C.respuesta = i;
   const bloque = C.fase === 'diagnostico' ? C.caso.diagnostico : C.caso.plan;
+  const guardado = await calificar(bloque, i, 'caso', C.caso.id, C.fase);
+  if (guardado === false) return;
   const ok = i === bloque.correcta;
   if (ok) C.aciertos++;
   root()?.querySelectorAll<HTMLButtonElement>('.ar-opt').forEach((b, j) => {
@@ -673,8 +688,8 @@ function finCaso(): string {
       <div class="game-result__seal"><i data-lucide="${perfecto ? 'badge-check' : 'target'}" class="i"></i><span>${perfecto ? 'Criterio sólido' : 'Práctica completada'}</span></div>
       <span class="game-result__eyebrow">Cierre del expediente</span>
       <h1>${C.aciertos}<em>/2 decisiones correctas</em></h1>
-      <p>${perfecto ? 'Resolviste el caso completo y sumaste <strong>50 XP</strong>.' : 'Terminaste el recorrido. Puedes repetirlo para revisar el enfoque.'}</p>
-      <div class="game-result__stats"><span><b>02</b><small>etapas</small></span><span><b>${esc(String(C.aciertos))}</b><small>aciertos</small></span><span><b>${perfecto ? '+50' : '0'}</b><small>XP</small></span></div>
+      <p>${Datos.modo === 'api' ? `Tu práctica quedó guardada · ${xpSesion} XP nuevos.` : perfecto ? 'Resolviste el caso completo y sumaste <strong>50 XP</strong>.' : 'Terminaste el recorrido. Puedes repetirlo para revisar el enfoque.'}</p>
+      <div class="game-result__stats"><span><b>02</b><small>etapas</small></span><span><b>${esc(String(C.aciertos))}</b><small>aciertos</small></span><span><b>${Datos.modo === 'api' ? '+' + xpSesion : perfecto ? '+50' : '0'}</b><small>XP</small></span></div>
       <div class="game-result__actions">
         <button class="btn btn--brand btn--lg" data-a="ir-caso"><i data-lucide="briefcase-medical" class="i"></i>Ver más casos</button>
         <button class="btn btn--secondary btn--lg" data-a="hub">Volver a Retos</button>
@@ -758,10 +773,12 @@ function flipFlash() {
   pintaFlash();
 }
 
-function calFlash(bien: boolean) {
+async function calFlash(bien: boolean) {
   if (!F) return;
   const c = F.mazo[F.idx];
-  repasarCarta(c.id, bien);
+  const original = F, container = root(); guardando = true;
+  try { await repasarCarta(c.id, bien); } finally { guardando = false; }
+  if (original !== F || container !== root()) return;
   if (bien) F.aciertos++;
   F.idx++; F.flipped = false;
   pintaFlash();
@@ -785,4 +802,23 @@ function finFlash() {
     </section>`);
   if (pct >= 70) celebrar('normal');
   F = null;
+}
+
+let guardando = false;
+let retosListos = false;
+let partida = '';
+let xpSesion = 0;
+function errorArcade(error: unknown) {
+  parar(); guardando=false;
+  pinta(`<section class="stack" role="alert"><h2>No pudimos confirmar tu práctica</h2><p>${esc(error instanceof Error ? error.message : 'Revisa la conexión e inténtalo de nuevo.')}</p><button class="btn btn--brand" data-a="hub">Volver a Retos</button><a class="btn btn--secondary" href="#/cursos">Ir a cursos</a></section>`);
+}
+async function calificar(p: any, respuesta: number, tipo: 'quiz'|'diaria'|'caso', id=p.id, fase?: string) {
+  if (Datos.modo !== 'api') return null;
+  const before = {q:Q,c:C,d:D,root:root()}; guardando=true;
+  try {
+    const result = await responderReto({tipo,id,respuesta:respuesta < 0 ? null : respuesta,...(fase ? {fase} : {}),...(tipo==='quiz'?{partida}:{})});
+    if (before.root!==root() || before.q!==Q || before.c!==C || before.d!==D) return false;
+    p.correcta=result.correcta; p.explicacion=result.explicacion; xpSesion+=result.xpGanados;
+    return result;
+  }finally{guardando=false;}
 }
