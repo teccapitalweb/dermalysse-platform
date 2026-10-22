@@ -229,3 +229,119 @@ export interface PerfilData {
   especialidad: string;
   ciudad: string;
 }
+
+// ── Módulo Experiencia (entrevista + encuesta inicial) ────────────────────
+// Refleja EXACTAMENTE las formas que consume src/core/experiencia.ts del
+// cliente. Un DTO mal formado NUNCA debe otorgar beneficios reales.
+
+export interface BeneficioExperiencia {
+  estado: 'no-disponible' | 'reservado' | 'otorgado' | 'demo';
+  dias: number | null;
+  hasta: string | null;
+  motivo: string;
+  venceOferta: string | null;
+}
+
+export interface ProgresoExperiencia {
+  estado: 'pendiente' | 'en-curso' | 'pospuesta' | 'completada';
+  revision: number;
+  paso: number;
+  respuestas: Record<string, unknown>;
+  completadaEn: string | null;
+  pospuestaHasta: string | null;
+}
+
+export interface EncuestaExperiencia extends Omit<ProgresoExperiencia, 'estado'> {
+  id: 'experiencia-inicial-v1';
+  estado: 'bloqueada' | 'disponible' | 'en-curso' | 'pospuesta' | 'completada';
+  motivo: string;
+  disponibleEn: string | null;
+}
+
+export interface RecomendacionExperiencia {
+  id: string;
+  titulo: string;
+  area: string;
+  nivel: string;
+  portada: string;
+}
+
+/** Estado completo del módulo Experiencia para un usuario. */
+export interface ExperienciaDTO {
+  version: 1;
+  fuente: 'api' | 'demo';
+  cohorte: 'nueva' | 'existente' | 'demo';
+  primerAccesoEn: string | null;
+  areas: string[];
+  recomendaciones: RecomendacionExperiencia[];
+  entrevista: ProgresoExperiencia;
+  encuesta: EncuestaExperiencia;
+  beneficios: { bienvenida: BeneficioExperiencia; experiencia: BeneficioExperiencia };
+}
+
+/** Política de campaña (admin). */
+export interface ConfigExperiencia {
+  version: 1;
+  revision: number;
+  campanaId: string | null;
+  aprobado: boolean;
+  habilitada: boolean;
+  fechaInicio: string | null;
+  fechaFin: string | null;
+  cupo: number;
+  reservadas: number;
+  premios: { bienvenida: 7; experiencia: 15 };
+}
+
+export interface EscalaResultado {
+  respuestas: number;
+  sinEvaluar: number;
+  promedio: number | null;
+}
+
+export interface ResultadosExperiencia {
+  entrevista: {
+    total: number;
+    roles: Record<string, number>;
+    objetivo: Record<string, number>;
+    areas: Record<string, number>;
+    experiencia: Record<string, number>;
+    formato: Record<string, number>;
+    tiempo: Record<string, number>;
+    origen: Record<string, number>;
+  };
+  encuesta: {
+    total: number;
+    facilidad: EscalaResultado;
+    utilidad: EscalaResultado;
+    dificultad: Record<string, number>;
+  };
+}
+
+/** Resumen agregado para el panel administrativo. */
+export interface ResumenExperiencia {
+  version: 1;
+  cuentas: number;
+  entrevistas: { pendientes: number; enCurso: number; pospuestas: number; completadas: number };
+  encuestas: { enCurso: number; pospuestas: number; completadas: number };
+  sesionesRegistradas: number;
+  beneficios: {
+    bienvenida: { otorgados: number; dias: number };
+    experiencia: { otorgados: number; dias: number };
+  };
+  campana: { campanaId: string | null; reservadas: number; cupo: number };
+  resultados?: ResultadosExperiencia;
+}
+
+/** Estado interno persistido por usuario (no se expone tal cual al cliente). */
+export interface ExperienciaUsuario {
+  version: 1;
+  uid: string;
+  primerAccesoEn: string | null;
+  cohorte: 'nueva' | 'existente';
+  privacidadAceptada: boolean;
+  sesiones: string[];
+  entrevista: ProgresoExperiencia;
+  encuesta: EncuestaExperiencia;
+  beneficios: { bienvenida: BeneficioExperiencia; experiencia: BeneficioExperiencia };
+}

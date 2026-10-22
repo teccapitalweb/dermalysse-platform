@@ -1,9 +1,10 @@
 // Puertos (interfaces) que la API consume. Los adaptadores dev usan fixtures/memoria;
 // los adaptadores reales (Firebase/Stripe/Bunny) son seams marcados que aún no se implementan.
 import type {
-  CatalogoRemoto, CertificadoRemoto, ConfigPublica, DetalleRemoto, ExperienciaCompartida,
-  FilaLiga, HiloRemoto, Noticia, PerfilData, PerfilRemoto, ProgresoCurso, ProgresoMapa,
-  QuizFixture, RespuestaForo, ResumenLiga, Usuario,
+  CatalogoRemoto, CertificadoRemoto, ConfigExperiencia, ConfigPublica, DetalleRemoto,
+  ExperienciaCompartida, ExperienciaUsuario, FilaLiga, HiloRemoto, Noticia, PerfilData,
+  PerfilRemoto, ProgresoCurso, ProgresoMapa, QuizFixture, RespuestaForo, ResumenExperiencia,
+  ResumenLiga, Usuario,
 } from '../domain/types.js';
 
 /** Error honesto para seams no implementados. El servidor responde 501, nunca datos demo. */
@@ -85,4 +86,30 @@ export interface ForumStore {
 export interface ProfileStore {
   get(uid: string, nombrePorDefecto: string): Promise<PerfilData>;
   patch(uid: string, cambios: Partial<PerfilData>, nombrePorDefecto: string): Promise<PerfilRemoto>;
+}
+
+/**
+ * Módulo Experiencia: entrevista inicial + encuesta tras uso + beneficios VIP.
+ * El servidor es la fuente de verdad. Las reglas de desbloqueo (gates), premios y
+ * cupos NUNCA se evalúan en el cliente.
+ */
+export interface ExperienciaModuloStore {
+  /** Devuelve el estado del usuario; lo crea si no existe (sin iniciar). */
+  obtener(uid: string): Promise<ExperienciaUsuario>;
+  /** Registra el consentimiento y marca el primer acceso. Idempotente. */
+  iniciar(uid: string): Promise<ExperienciaUsuario>;
+  /** Autosave: fusiona respuestas y avanza el paso. Valida revisión. */
+  guardarPaso(uid: string, flujo: 'entrevista' | 'encuesta', revision: number, paso: number, respuestas: Record<string, unknown>): Promise<ExperienciaUsuario>;
+  /** Pospone el flujo (reaparece pasado el día). */
+  posponer(uid: string, flujo: 'entrevista' | 'encuesta', revision: number): Promise<ExperienciaUsuario>;
+  /** Completa el flujo y reserva el beneficio bajo la política vigente. */
+  completar(uid: string, flujo: 'entrevista' | 'encuesta', revision: number, respuestasFinales?: Record<string, unknown>): Promise<ExperienciaUsuario>;
+  /** Registra una sesión diaria (idempotente por uid+día). */
+  registrarSesion(uid: string): Promise<ExperienciaUsuario>;
+  /** Política de campaña (lectura administrativa). */
+  config(): Promise<ConfigExperiencia>;
+  /** Actualiza la política; valida revisión y reglas internas. */
+  guardarConfig(cambios: Omit<ConfigExperiencia, 'version' | 'reservadas' | 'premios'>): Promise<ConfigExperiencia>;
+  /** Resumen agregado para el panel admin. Sin datos personales. */
+  resumen(): Promise<ResumenExperiencia>;
 }

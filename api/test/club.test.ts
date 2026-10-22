@@ -5,6 +5,7 @@ import type { Server } from 'node:http';
 import { createApp, seleccionarAuth } from '../src/app.js';
 import { FixtureContentStore } from '../src/adapters/dev/fixtureContent.js';
 import { MemoryExperienceStore } from '../src/adapters/dev/memoryExperiences.js';
+import { MemoryExperienciaModuloStore } from '../src/adapters/dev/memoryExperienciaModulo.js';
 import { FixtureLearningStore } from '../src/adapters/dev/fixtureQuizzes.js';
 import { MemoryProgressStore } from '../src/adapters/dev/memoryProgress.js';
 import { MemoryCertificateStore } from '../src/adapters/dev/memoryCertificates.js';
@@ -22,6 +23,7 @@ before(async () => {
     auth: seleccionarAuth('dev'),
     content,
     experiences: new MemoryExperienceStore(),
+    experienciaModulo: new MemoryExperienciaModuloStore(),
     learning: new LearningService(content, new FixtureLearningStore(), new MemoryProgressStore(), new MemoryCertificateStore()),
     league: new FixtureLeagueStore(),
     forum: new MemoryForumStore(),
@@ -69,6 +71,7 @@ test('POST /foro — 403 si el usuario no es VIP', async () => {
   const content = new FixtureContentStore();
   const app = createApp({
     auth: noVip, content, experiences: new MemoryExperienceStore(),
+    experienciaModulo: new MemoryExperienciaModuloStore(),
     learning: new LearningService(content, new FixtureLearningStore(), new MemoryProgressStore(), new MemoryCertificateStore()),
     league: new FixtureLeagueStore(), forum: new MemoryForumStore(), profiles: new MemoryProfileStore(),
     corsOrigins: [],

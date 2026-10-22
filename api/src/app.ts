@@ -1,11 +1,14 @@
 // Ensambla la app Express del slice. Sin estado global: las dependencias se inyectan,
 // lo que permite probar con adaptadores dev/memoria.
 import express, { type Express, type NextFunction, type Request, type Response } from 'express';
-import type { AuthAdapter, ContentStore, ExperienceStore, ForumStore, LeagueStore, ProfileStore } from './adapters/interfaces.js';
+import type {
+  AuthAdapter, ContentStore, ExperienceStore, ExperienciaModuloStore, ForumStore, LeagueStore, ProfileStore,
+} from './adapters/interfaces.js';
 import { NotImplementedError } from './adapters/interfaces.js';
 import { DevAuthAdapter } from './adapters/dev/devAuth.js';
 import { FixtureContentStore } from './adapters/dev/fixtureContent.js';
 import { MemoryExperienceStore } from './adapters/dev/memoryExperiences.js';
+import { MemoryExperienciaModuloStore } from './adapters/dev/memoryExperienciaModulo.js';
 import { FixtureLearningStore } from './adapters/dev/fixtureQuizzes.js';
 import { MemoryProgressStore } from './adapters/dev/memoryProgress.js';
 import { MemoryCertificateStore } from './adapters/dev/memoryCertificates.js';
@@ -22,6 +25,8 @@ import { rutaNoticias } from './routes/noticias.js';
 import { rutaForo } from './routes/foro.js';
 import { rutaMe } from './routes/me.js';
 import { rutaExperiencias } from './routes/experiencias.js';
+import { rutaExperienciaMe } from './routes/experienciaMe.js';
+import { rutaExperienciaAdmin } from './routes/experienciaAdmin.js';
 import { rutaQuiz } from './routes/quiz.js';
 import { rutaProgreso } from './routes/progreso.js';
 import { rutaCertificados } from './routes/certificados.js';
@@ -32,6 +37,7 @@ export interface Dependencias {
   auth: AuthAdapter;
   content: ContentStore;
   experiences: ExperienceStore;
+  experienciaModulo: ExperienciaModuloStore;
   learning: LearningService;
   league: LeagueStore;
   forum: ForumStore;
@@ -61,7 +67,7 @@ export function createApp(deps: Dependencias): Express {
   app.use(corsDev(deps.corsOrigins));
   app.use(express.json({ limit: '32kb' }));
 
-  const { requireUser } = crearAuth(deps.auth);
+  const { requireUser, requireAdmin } = crearAuth(deps.auth);
 
   // Salud / meta (no expone secretos ni datos sensibles).
   app.get('/', (_req, res) => {
@@ -73,6 +79,8 @@ export function createApp(deps: Dependencias): Express {
   app.use('/noticias', rutaNoticias(deps.content));
   app.use('/foro', rutaForo(deps.forum, requireUser));
   app.use('/me', rutaMe(requireUser, deps.profiles));
+  app.use('/me', rutaExperienciaMe(deps.experienciaModulo, deps.content, requireUser));
+  app.use('/admin/experiencia', rutaExperienciaAdmin(deps.experienciaModulo, requireAdmin));
   app.use('/liga', rutaLiga(deps.league, requireUser));
   app.use('/experiencias', rutaExperiencias(deps.experiences, requireUser));
   app.use('/quiz', rutaQuiz(deps.learning, requireUser));
@@ -137,6 +145,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env): Express {
     auth: seleccionarAuth(env.AUTH_MODE),
     content,
     experiences: new MemoryExperienceStore(),
+    experienciaModulo: new MemoryExperienciaModuloStore(),
     learning,
     league: new FixtureLeagueStore(),
     forum: new MemoryForumStore(),
