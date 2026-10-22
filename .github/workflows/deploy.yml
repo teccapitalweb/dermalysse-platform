@@ -22,10 +22,13 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '24'
           cache: npm
 
       - run: npm ci
+      - run: npm ci --prefix api
+      - name: Verificar web y API antes de publicar
+        run: npm run check && npm test && npm run typecheck --prefix api && npm test --prefix api
 
       # Producción nunca se publica en modo demo. VITE_API_URL es una variable de repositorio
       # (Settings → Secrets and variables → Actions → Variables). Las VITE_FIREBASE_* son opcionales:
