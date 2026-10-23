@@ -1083,4 +1083,27 @@
   .network-hero h2 {
     font-size: 1.4rem;
   }
+
+  /* Pestañas del directorio en móviles estrechos: la última ("Mis conexiones")
+     se recortaba porque el nav sumaba más ancho que la ventana sin permitir
+     scroll. Mismo patrón que las chips/filtros: scroll horizontal silencioso. */
+  .network-toolbar {
+    width: 100%;
+  }
+
+  .network-toolbar nav {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .network-toolbar nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .network-toolbar nav a {
+    flex: 0 0 auto;
+  }
 }
