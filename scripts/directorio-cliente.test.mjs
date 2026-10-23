@@ -76,3 +76,20 @@ test('directorio cosmetológico cliente maneja perfiles, aparatología y conexio
   await Directorio.cerrarOportunidad(opId);
   assert.equal(Directorio.get().oportunidades.find((o) => o.id === opId)?.estado, 'cerrada');
 });
+
+test('directorio conserva ancho util en telefono y apila el hero', () => {
+  const css = fs.readFileSync(new URL('../src/styles/directorio.css', import.meta.url), 'utf8');
+  const responsive = css.slice(css.indexOf('@media (max-width: 940px)'));
+
+  assert.notEqual(responsive.length, css.length, 'Debe existir el breakpoint del directorio');
+  assert.match(
+    responsive,
+    /\.network-hero\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/s,
+    'El hero debe apilar texto y acciones antes de que la columna de acciones colapse el texto'
+  );
+  assert.match(
+    responsive,
+    /@media \(max-width:\s*720px\)[\s\S]*?\.network-grid[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)/,
+    'Las tarjetas deben usar una sola columna fluida en telefono'
+  );
+});
