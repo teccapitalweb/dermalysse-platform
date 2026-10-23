@@ -53,6 +53,8 @@ import { cargarQuizzesEmpaquetados } from './adapters/firestore/contenido.js';
 import { moduloExperiencia } from './modulos/experiencia.js';
 import { moduloAdmin } from './modulos/admin.js';
 import { moduloCursoGratis } from './modulos/cursoGratis.js';
+import { moduloRetos } from './modulos/retos.js';
+import { moduloDirectorio } from './modulos/directorio.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
@@ -88,7 +90,7 @@ function cors(origenesPermitidos: string[]) {
     if (origin && permitido.has(origin)) {
       res.setHeader('Access-Control-Allow-Origin', origin);
       res.setHeader('Vary', 'Origin');
-      res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
+      res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
       res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
     }
     if (req.method === 'OPTIONS') { res.sendStatus(204); return; }
@@ -287,5 +289,7 @@ function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: b
     moduloExperiencia(ctx),
     moduloAdmin(ctx),
     moduloCursoGratis(ctx),
+    moduloRetos(ctx),
+    moduloDirectorio(ctx),
   ];
 }

@@ -199,7 +199,7 @@ export function configuracion() {
 export function mas() {
   const items = [
     ...(Auth.usuario?.esAdmin ? [['#/admin', 'shield-check', 'Panel admin']] : []),
-    ['#/materiales', 'library', 'Materiales'], ['#/comunidad', 'messages-square', 'Comunidad'], ['#/herramientas', 'wrench', 'Herramientas'],
+    ['#/materiales', 'library', 'Materiales'], ['#/comunidad', 'messages-square', 'Comunidad'], ['#/directorio', 'contact-round', 'Directorio'], ['#/herramientas', 'wrench', 'Herramientas'],
     ['#/praxia', 'stethoscope', 'Praxia Medical'], ['#/logros', 'flame', 'Logros'], ['#/certificados', 'award', 'Certificados'],
     ...(disponible('recompensas') ? [['#/recompensas', 'gift', 'Recompensas']] : []),
     ...(disponible('experiencia') ? [['#/bienvenida', 'sparkles', 'Mi entrevista'], ['#/encuestas', 'message-square-heart', 'Encuestas']] : []),

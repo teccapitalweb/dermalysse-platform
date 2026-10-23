@@ -4,6 +4,7 @@ import { Comunidad } from '../core/comunidad';
 import { navigate, render, current } from '../core/router';
 import { api, mensajeError } from '../core/auth';
 import { AdminRemoto, cargarAdmin, cursoParaApi, invalidarAdmin, materialParaApi } from './remoto';
+import { guardarReportesDemo, guardarPerfilesDemo } from './directorio';
 import { mostrarLoteCupones } from './cupones';
 import type { LoteCupones } from './remoto';
 
@@ -276,6 +277,80 @@ export function instalarAccionesAdmin(toast: Toast) {
     if (ba && confirm('¿Borrar este aviso?')) { const id = ba.dataset.borrarAviso!; if (Datos.modo === 'api') { try { await api(`/admin/avisos/${encodeURIComponent(id)}`, { method: 'DELETE' }); await recargar('avisos'); } catch (err) { toast(mensajeError(err), 'circle-alert'); return; } } else Datos.borrarAviso(id); toast('Aviso eliminado', 'trash-2'); render(); }
     const oh = el.closest<HTMLElement>('[data-ocultar-hilo]');
     if (oh) { const id = oh.dataset.ocultarHilo!; if (Datos.modo === 'api') { const hilo = AdminRemoto.foro().find((h) => h.id === id); try { await api(`/admin/foro/${encodeURIComponent(id)}`, { method: 'PATCH', json: { oculto: !hilo?.oculto } }); await recargar('foro'); } catch (err) { toast(mensajeError(err), 'circle-alert'); return; } } else Comunidad.alternarOculto(id); render(); }
+    const rDesc = el.closest<HTMLElement>('[data-admin-reporte-descartar]');
+    if (rDesc) {
+      const id = rDesc.dataset.adminReporteDescartar!;
+      if (Datos.modo === 'api') {
+        try {
+          await AdminRemoto.moderarReporte(id, 'descartar');
+          await recargar('directorioReportes');
+        } catch (err) { toast(mensajeError(err), 'circle-alert'); return; }
+      } else {
+        const raw = localStorage.getItem('dermalysse_admin_directorio_reportes');
+        const list = raw ? JSON.parse(raw) : [];
+        const item = list.find((x: any) => x.id === id);
+        if (item) { item.estado = 'descartado'; item.actualizado = new Date().toISOString(); guardarReportesDemo(list); }
+      }
+      toast('Denuncia descartada'); render();
+    }
+
+    const rOcult = el.closest<HTMLElement>('[data-admin-reporte-ocultar]');
+    if (rOcult && confirm('¿Ocultar este perfil técnico del directorio?')) {
+      const id = rOcult.dataset.adminReporteOcultar!;
+      const uid = rOcult.dataset.uid!;
+      if (Datos.modo === 'api') {
+        try {
+          await AdminRemoto.moderarReporte(id, 'ocultar_perfil');
+          await recargar('directorioReportes', 'directorioPerfiles');
+        } catch (err) { toast(mensajeError(err), 'circle-alert'); return; }
+      } else {
+        const raw = localStorage.getItem('dermalysse_admin_directorio_reportes');
+        const list = raw ? JSON.parse(raw) : [];
+        const item = list.find((x: any) => x.id === id);
+        if (item) { item.estado = 'resuelto'; item.resolucion = 'perfil_ocultado'; item.actualizado = new Date().toISOString(); guardarReportesDemo(list); }
+        const pRaw = localStorage.getItem('dermalysse_admin_directorio_perfiles');
+        const pList = pRaw ? JSON.parse(pRaw) : [];
+        const pItem = pList.find((x: any) => x.uid === uid);
+        if (pItem) { pItem.visible = false; guardarPerfilesDemo(pList); }
+      }
+      toast('Perfil ocultado del directorio'); render();
+    }
+
+    const rCerrar = el.closest<HTMLElement>('[data-admin-reporte-cerrar]');
+    if (rCerrar && confirm('¿Cerrar esta oportunidad de cabina/empleo?')) {
+      const id = rCerrar.dataset.adminReporteCerrar!;
+      if (Datos.modo === 'api') {
+        try {
+          await AdminRemoto.moderarReporte(id, 'cerrar_oportunidad');
+          await recargar('directorioReportes');
+        } catch (err) { toast(mensajeError(err), 'circle-alert'); return; }
+      } else {
+        const raw = localStorage.getItem('dermalysse_admin_directorio_reportes');
+        const list = raw ? JSON.parse(raw) : [];
+        const item = list.find((x: any) => x.id === id);
+        if (item) { item.estado = 'resuelto'; item.resolucion = 'oportunidad_cerrada'; item.actualizado = new Date().toISOString(); guardarReportesDemo(list); }
+      }
+      toast('Oportunidad cerrada'); render();
+    }
+
+    const pTog = el.closest<HTMLElement>('[data-admin-perfil-toggle]');
+    if (pTog) {
+      const uid = pTog.dataset.adminPerfilToggle!;
+      const nuevoVisible = pTog.dataset.visible !== 'true';
+      if (Datos.modo === 'api') {
+        try {
+          await AdminRemoto.toggleVisibilidadPerfil(uid, nuevoVisible);
+          await recargar('directorioPerfiles');
+        } catch (err) { toast(mensajeError(err), 'circle-alert'); return; }
+      } else {
+        const pRaw = localStorage.getItem('dermalysse_admin_directorio_perfiles');
+        const pList = pRaw ? JSON.parse(pRaw) : [];
+        const pItem = pList.find((x: any) => x.uid === uid);
+        if (pItem) { pItem.visible = nuevoVisible; guardarPerfilesDemo(pList); }
+      }
+      toast(nuevoVisible ? 'Perfil activado' : 'Perfil ocultado'); render();
+    }
+
     if (el.closest('[data-restablecer-demo]') && confirm('Esto borra todos los cambios hechos en el demo. ¿Continuar?')) { Datos.restablecerDemo(); toast('Demo restablecido', 'rotate-ccw'); render(); }
   });
 

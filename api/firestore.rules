@@ -1,0 +1,55 @@
+rules_version = '2';
+
+// ╔══════════════════════════════════════════════════════════════════════════════╗
+// ║  CLUB DERMALYSSE - REGLAS DE SEGURIDAD FIRESTORE (v2_* Y ARQUITECTURA API)  ║
+// ║                                                                              ║
+// ║  Principio de Mínimo Privilegio y Zero-Client-Trust:                         ║
+// ║  El navegador/cliente web NO escribe ni lee datos críticos directamente.     ║
+// ║  Toda mutación y consulta de colecciones `v2_*` pasa a través de            ║
+// ║  `dermalysse-api` (Firebase Admin SDK), la cual valida tokens, permisos VIP, ║
+// ║  filtros de privacidad PII (ocultando WhatsApp y emails), y límites.         ║
+// ║                                                                              ║
+// ║  Verificación pública de certificados: pasa exclusivamente por               ║
+// ║  `GET /verificar/:folio` en la API (oculta el UID del alumno).               ║
+// ╚══════════════════════════════════════════════════════════════════════════════╝
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Certificados: sellados contra consultas o mutaciones directas desde el cliente web.
+    match /certificates/{folio}    { allow read, write: if false; }
+    match /v2_certificados/{folio} { allow read, write: if false; }
+
+    // Directorio profesional de cabinas y dermocosmiatría:
+    // Protegido contra scraping de WhatsApp, teléfonos, correos y reportes privados.
+    match /v2_directorio_perfiles/{id}      { allow read, write: if false; }
+    match /v2_directorio_oportunidades/{id} { allow read, write: if false; }
+    match /v2_directorio_conexiones/{id}    { allow read, write: if false; }
+    match /v2_directorio_reportes/{id}      { allow read, write: if false; }
+
+    // Retos arcade y práctica clínica diaria:
+    // Banco con respuestas correctas y acumuladores de XP sellados contra manipulación.
+    match /v2_retos_banco/{id}              { allow read, write: if false; }
+    match /v2_retos_estado/{uid} {
+      allow read, write: if false;
+      match /acciones/{id}                  { allow read, write: if false; }
+    }
+
+    // Academia y progresión clínica:
+    match /v2_academia_progreso/{id}        { allow read, write: if false; }
+    match /v2_academia_intentos/{id}        { allow read, write: if false; }
+    match /v2_academia_revisiones/{id}      { allow read, write: if false; }
+    match /v2_academia_lanzamiento/{id}     { allow read, write: if false; }
+
+    // Gamificación, historia interactiva, liga y experiencias:
+    match /v2_historia/{id}                 { allow read, write: if false; }
+    match /v2_experiencias/{id}             { allow read, write: if false; }
+    match /v2_liga/{id}                     { allow read, write: if false; }
+    match /v2_quiz/{id}                     { allow read, write: if false; }
+
+    // Fallback defensivo: cualquier colección futura o no especificada se deniega por omisión.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

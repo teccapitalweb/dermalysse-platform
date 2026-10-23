@@ -1,0 +1,193 @@
+{
+  "brand": "Derma",
+  "estado": "PROPUESTA CURADA LOCALMENTE, PENDIENTE DE REVISIÓN NOMINAL",
+  "aprobacionesVerificadas": 0,
+  "inventario": {
+    "quizzes": 45,
+    "preguntas": 90,
+    "quizzesVinculados": 45,
+    "huerfanos": [],
+    "casos": 10,
+    "respuestaCorrectaPorIndiceOriginal": {
+      "0": 90
+    },
+    "respuestaCorrectaPorIndiceCurada": {
+      "0": 1,
+      "1": 2,
+      "2": 3
+    },
+    "conRevisionNominal": 0
+  },
+  "items": [
+    {
+      "id": "revision_derma_pregunta_1",
+      "tipo": "pregunta",
+      "estado": "borrador",
+      "revision": null,
+      "contenido": {
+        "q": "Antes de incorporar una tecnología estética a tu práctica, el criterio profesional sugiere priorizar:",
+        "opciones": [
+          "Delegar el protocolo inicial exclusivamente en las recomendaciones comerciales del proveedor",
+          "Comprender el principio físico, la evidencia clínica disponible y las contraindicaciones documentadas",
+          "Guiarse por las tecnologías de mayor tendencia y demanda en redes sociales",
+          "Establecer una tarifa premium previa antes de validar la curva de aprendizaje y seguridad"
+        ],
+        "correcta": 1,
+        "explicacion": "La integración responsable de cualquier tecnología requiere entender su principio físico, respaldo clínico y los perfiles de pacientes en los que está contraindicada."
+      },
+      "procedencia": {
+        "archivo": "src/data/quizzes-demo.json",
+        "id": "course-uso-de-tecnologias-avanzadas-en-cosmiatria_1:0"
+      },
+      "curacion": "Opciones redistribuidas para eliminar sesgo de índice 0 y distractores profesionalizados."
+    },
+    {
+      "id": "revision_derma_tarjeta_1",
+      "tipo": "tarjeta",
+      "estado": "borrador",
+      "revision": null,
+      "contenido": {
+        "frente": "¿Qué debe priorizarse antes de incorporar una nueva aparatología o tecnología estética?",
+        "reverso": "Comprender el principio físico, la evidencia clínica disponible y las contraindicaciones documentadas. La integración responsable requiere conocer el mecanismo de acción biológico y los perfiles de riesgo donde no debe aplicarse.",
+        "area": "Práctica profesional",
+        "curso": "course-uso-de-tecnologias-avanzadas-en-cosmiatria"
+      },
+      "procedencia": {
+        "archivo": "src/data/quizzes-demo.json",
+        "id": "course-uso-de-tecnologias-avanzadas-en-cosmiatria_1:0"
+      },
+      "transformacion": "Pregunta y explicación convertidas a tarjeta; texto puntuado y separado; requiere revisión nominal."
+    },
+    {
+      "id": "revision_derma_pregunta_2",
+      "tipo": "pregunta",
+      "estado": "borrador",
+      "revision": null,
+      "contenido": {
+        "q": "¿Cuál es el objetivo principal de una valoración inicial antes de aplicar una tecnología estética?",
+        "opciones": [
+          "Determinar el número máximo de sesiones que el paciente esté dispuesto a financiar",
+          "Seleccionar el nivel de energía más alto que tolere el paciente en la primera sesión",
+          "Identificar fototipo, antecedentes clínicos, expectativas reales y posibles contraindicaciones",
+          "Reducir el tiempo de cabina combinando múltiples técnicas en una misma cita sin reposo"
+        ],
+        "correcta": 2,
+        "explicacion": "La valoración inicial define si el procedimiento es seguro, personaliza los parámetros de tratamiento y permite alinear expectativas realistas."
+      },
+      "procedencia": {
+        "archivo": "src/data/quizzes-demo.json",
+        "id": "course-uso-de-tecnologias-avanzadas-en-cosmiatria_1:1"
+      },
+      "curacion": "Opciones redistribuidas hacia índice 2 con distractores clínicos creíbles."
+    },
+    {
+      "id": "revision_derma_tarjeta_2",
+      "tipo": "tarjeta",
+      "estado": "borrador",
+      "revision": null,
+      "contenido": {
+        "frente": "¿Cuál es el objetivo principal de una valoración inicial antes de aplicar una tecnología estética?",
+        "reverso": "Identificar fototipo, antecedentes clínicos, expectativas reales y posibles contraindicaciones. La valoración inicial define si el procedimiento es seguro, personaliza los parámetros y previene efectos adversos.",
+        "area": "Práctica profesional",
+        "curso": "course-uso-de-tecnologias-avanzadas-en-cosmiatria"
+      },
+      "procedencia": {
+        "archivo": "src/data/quizzes-demo.json",
+        "id": "course-uso-de-tecnologias-avanzadas-en-cosmiatria_1:1"
+      },
+      "transformacion": "Pregunta y explicación convertidas a tarjeta con redacción fluida; requiere revisión nominal."
+    },
+    {
+      "id": "revision_derma_caso_1",
+      "tipo": "caso",
+      "estado": "borrador",
+      "revision": null,
+      "contenido": {
+        "id": "etiqueta-cosmetica-incompleta",
+        "area": "Regulación",
+        "titulo": "Una paciente trae un producto que compró por internet",
+        "paciente": "Mujer de 28 años. Trae un producto para \"borrar manchas en 7 días\" comprado en una tienda en línea. Pide opinión profesional.",
+        "presentacion": "El envase sólo tiene marca, el claim en inglés y una lista parcial de ingredientes. No tiene lote, no tiene caducidad y no indica fabricante o importador. El claim promete resultados curativos inmediatos.",
+        "hallazgos": [
+          "Sin número de lote",
+          "Sin fecha de caducidad",
+          "Sin domicilio ni razón social de fabricante o importador",
+          "Claim terapéutico no permitido en cosmética (\"borra las manchas\")"
+        ],
+        "diagnostico": {
+          "pregunta": "¿Qué incumplimientos regulatorios críticos se identifican en el envase?",
+          "opciones": [
+            "Ausencia de traducción comercial y código QR de autenticidad",
+            "Falta de trazabilidad obligatoria (lote, caducidad, importador/fabricante) y atribución de propiedades terapéuticas no permitidas",
+            "Falta de especificación del precio máximo al público en la cara frontal",
+            "Omisión de sellos de certificación ecológica voluntaria"
+          ],
+          "correcta": 1,
+          "explicacion": "La normativa cosmética exige datos mínimos de trazabilidad (lote, caducidad, fabricante/importador) y prohíbe atribuir propiedades terapéuticas o curativas a productos cosméticos."
+        },
+        "plan": {
+          "pregunta": "¿Cuál es la recomendación responsable para la paciente?",
+          "opciones": [
+            "Indicar la suspensión preventiva, explicar los riesgos sanitarios de productos sin trazabilidad y orientar hacia alternativas cosméticas reguladas",
+            "Realizar una prueba de parche en antebrazo y autorizar su uso si no hay eritema inmediato",
+            "Retener el envase sin explicación para evitar posibles litigios",
+            "Modificar la pauta de aplicación reduciéndola a días alternos para comprobar tolerancia"
+          ],
+          "correcta": 0,
+          "explicacion": "Priorizar la seguridad del paciente implica evitar productos sin trazabilidad y educar sobre cómo reconocer una formulación cosmética debidamente regulada."
+        }
+      },
+      "procedencia": {
+        "archivo": "src/data/casos.json",
+        "id": "etiqueta-cosmetica-incompleta"
+      },
+      "curacion": "Distractores corregidos para evitar alternativas inverosímiles y balancear índices diagnósticos."
+    },
+    {
+      "id": "revision_derma_caso_2",
+      "tipo": "caso",
+      "estado": "borrador",
+      "revision": null,
+      "contenido": {
+        "id": "documentacion-foto-consentimiento",
+        "area": "Regulación",
+        "titulo": "La paciente quiere ver su \"antes y después\" para compartirlo",
+        "paciente": "Paciente de 24 años terminó un plan de 6 sesiones. Pide las fotos de antes y después para subirlas a sus redes sociales como testimonio.",
+        "presentacion": "Las fotos existen porque forman parte de la ficha de seguimiento clínico. La paciente firmó el consentimiento informado del tratamiento pero no un consentimiento específico para uso de imagen en publicidad o difusión digital.",
+        "hallazgos": [
+          "Fotografías clínicas registradas en expediente",
+          "Consentimiento informado general firmado",
+          "Sin consentimiento específico para uso publicitario o difusión",
+          "Paciente mayor de edad"
+        ],
+        "diagnostico": {
+          "pregunta": "En materia de expediente y derechos de imagen, ¿qué distinción legal y técnica aplica?",
+          "opciones": [
+            "El consentimiento clínico general ampara automáticamente cualquier difusión educativa o comercial",
+            "Las fotografías clínicas son propiedad exclusiva del establecimiento y no pueden entregarse al paciente",
+            "El consentimiento para expediente clínico y el consentimiento para uso publicitario de imagen son actos jurídicos independientes",
+            "El paciente pierde la titularidad de sus datos biométricos y de imagen al concluir el plan de tratamiento"
+          ],
+          "correcta": 2,
+          "explicacion": "El uso de imagen con fines publicitarios o testimoniales requiere un consentimiento específico e informado, independiente del registro clínico de seguimiento."
+        },
+        "plan": {
+          "pregunta": "¿Cuál es el paso adecuado frente a la solicitud de la paciente?",
+          "opciones": [
+            "Publicar el caso pixelando únicamente el tercio medio del rostro sin recabar nueva firma",
+            "Condicionar la entrega del material a que la paciente etiquete la cuenta oficial de la clínica",
+            "Entregar las fotografías a la paciente para su uso personal y, si la clínica desea utilizarlas como testimonio, recabar un consentimiento específico por escrito",
+            "Negar el acceso a las fotografías argumentando secreto profesional exclusivo"
+          ],
+          "correcta": 2,
+          "explicacion": "Separar el uso personal del uso publicitario respeta el derecho de imagen y protege legalmente tanto a la clínica como al paciente."
+        }
+      },
+      "procedencia": {
+        "archivo": "src/data/casos.json",
+        "id": "documentacion-foto-consentimiento"
+      },
+      "curacion": "Distractores corregidos y balance de opciones adaptado a estándares ético-legales."
+    }
+  ]
+}

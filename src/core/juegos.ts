@@ -1,3 +1,7 @@
+import { retosRemotos, responderReto } from './arcade-remoto';
+import { crearAlmacenPorCuenta } from './almacen-cuenta';
+import { Auth } from './auth';
+import { preguntaConRespuesta } from './pregunta-practica';
 // Motor de "Retos" (arcade): XP, niveles, racha diaria, repetición espaciada,
 // mazo de flashcards y banco de preguntas — TODO alimentado por el contenido real
 // de los cursos (quizzes y notas). En modo demo el progreso vive en localStorage.
@@ -19,14 +23,17 @@ interface Estado {
 }
 
 const HOY = () => new Date().toISOString().slice(0, 10);
-const clon = <T>(v: T): T => JSON.parse(JSON.stringify(v));
 
-function leer(): Estado {
-  const def: Estado = { xp: 0, quizBest: 0, casos: {}, sr: {}, diaria: { fecha: '', racha: 0 } };
-  try { return { ...def, ...(JSON.parse(localStorage.getItem(KEY) || '{}')) }; } catch { return clon(def); }
-}
+const almacen = crearAlmacenPorCuenta<Estado>(KEY,
+  () => ({ uid: Auth.usuario?.uid ?? null, demo: Datos.modo === 'demo' }),
+  () => ({ xp: 0, quizBest: 0, casos: {}, sr: {}, diaria: { fecha: '', racha: 0 } }), {
+    getItem: (key) => localStorage.getItem(key),
+    setItem: (key, value) => localStorage.setItem(key, value),
+  });
+const leer = () => Datos.modo === 'api' ? retosRemotos().estado : almacen.leer();
 function guardar(e: Estado) {
-  try { localStorage.setItem(KEY, JSON.stringify(e)); } catch {}
+  if (Datos.modo === 'api') throw new Error('El servidor debe confirmar los retos.');
+  almacen.guardar(e);
   window.dispatchEvent(new CustomEvent('retos:cambio'));
 }
 
@@ -52,21 +59,22 @@ export function nivel() {
   return { ...actual, indice: i, xp, siguiente: sig || null, faltan: sig ? sig.min - xp : 0, pct };
 }
 
-export function ganarXP(n: number) { const e = leer(); e.xp += n; guardar(e); }
+export function ganarXP(n: number) { if (Datos.modo === 'api') return; const e = leer(); e.xp += n; guardar(e); }
 
 // ── Reto diario (mantiene una racha) ──
 export function retoDiario() {
   const e = leer();
-  const hoy = HOY();
+  const hoy = Datos.modo === 'api' ? retosRemotos().fecha : HOY();
   const ayer = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
   const hechoHoy = e.diaria.fecha === hoy;
   const racha = e.diaria.fecha === hoy || e.diaria.fecha === ayer ? e.diaria.racha : 0;
   // pregunta del día: determinística por fecha
   const banco = bancoPreguntas();
   const idx = banco.length ? hashFecha(hoy) % banco.length : 0;
-  return { hechoHoy, racha, pregunta: banco[idx] || null };
+  return { hechoHoy, racha, pregunta: Datos.modo === 'api' ? banco.find(p => p.id === retosRemotos().diariaPreguntaId) || null : banco[idx] || null };
 }
 export function completarDiaria(acierto: boolean) {
+  if (Datos.modo === 'api') return leer().diaria;
   const e = leer(); const hoy = HOY();
   if (e.diaria.fecha === hoy) return leer().diaria; // ya se hizo
   const ayer = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
@@ -82,13 +90,14 @@ const hashFecha = (s: string) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(
 export interface Pregunta { id: string; curso: string; area: string; q: string; opciones: string[]; correcta: number; explicacion: string }
 
 export function bancoPreguntas(): Pregunta[] {
+  if (Datos.modo === 'api') return retosRemotos().preguntas;
   const out: Pregunta[] = [];
   for (const qz of Datos.quizzes()) {
     const c = getCurso(qz.cursoId);
-    qz.preguntas.forEach((p, i) => out.push({
+    qz.preguntas.forEach((p, i) => { if (preguntaConRespuesta(p)) out.push({
       id: `${qz.id}#${i}`, curso: c?.titulo || qz.cursoId, area: c?.area || 'General',
       q: p.q, opciones: p.opciones, correcta: p.correcta, explicacion: p.explicacion,
-    }));
+    }); });
   }
   return out;
 }
@@ -97,6 +106,7 @@ export function bancoPreguntas(): Pregunta[] {
 export interface Flashcard { id: string; area: string; curso: string; frente: string; reverso: string }
 
 export function mazoCompleto(): Flashcard[] {
+  if (Datos.modo === 'api') return retosRemotos().tarjetas;
   const cards: Flashcard[] = [];
   // 1) De cada pregunta de quiz: frente = pregunta, reverso = respuesta + explicación.
   //    El wrapper HTML es confiable; los valores dinámicos van escapados para evitar
@@ -142,7 +152,8 @@ export function mazoFiltrado(area = 'Todas', tipo: TipoCarta = 'todas', limite =
   return [...vencidas, ...nuevas, ...futuras].slice(0, limite);
 }
 const INTERVALOS = [1, 3, 7, 16, 35]; // días
-export function repasarCarta(id: string, bien: boolean) {
+export async function repasarCarta(id: string, bien: boolean) {
+  if (Datos.modo === 'api') return (await responderReto({tipo:'tarjeta',id,calidad:bien ? 'bien' : 'otra'})).xpGanados;
   const e = leer();
   const prev = e.sr[id] || { due: '', reps: 0 };
   const reps = bien ? Math.min(prev.reps + 1, INTERVALOS.length - 1) : 0;
@@ -169,6 +180,7 @@ export function estatsMazoFiltrado(area = 'Todas', tipo: TipoCarta = 'todas') {
 
 // ── Quiz Relámpago ──
 export function registrarQuiz(puntaje: number) {
+  if (Datos.modo === 'api') return;
   const e = leer(); e.xp += Math.round(puntaje / 10); e.quizBest = Math.max(e.quizBest, puntaje); guardar(e);
 }
 export const mejorQuiz = () => leer().quizBest;
@@ -179,8 +191,9 @@ export interface Caso {
   diagnostico: { pregunta: string; opciones: string[]; correcta: number; explicacion: string };
   plan: { pregunta: string; opciones: string[]; correcta: number; explicacion: string };
 }
-export const casos = (): Caso[] => casosSeed as Caso[];
+export const casos = (): Caso[] => Datos.modo === 'api' ? retosRemotos().casos : casosSeed as Caso[];
 export function resolverCaso(id: string, perfecto: boolean) {
+  if (Datos.modo === 'api') return;
   const e = leer();
   if (!e.casos[id] && perfecto) { e.casos[id] = true; e.xp += 50; }
   guardar(e);

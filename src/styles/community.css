@@ -1386,3 +1386,24 @@ a.community-side-card:hover { transform: translateY(-2px); text-decoration: none
   .community-exp-card > footer { align-items: flex-start; }
   .community-exp-card__privacy { width: 100%; margin-left: 37px; }
 }
+
+/* Topbar de Comunidad en móvil estrecho: el grid de 3 columnas
+   (brand/stats/CTA) sumaba más ancho que el viewport, dejando "Publicar" fuera
+   del área táctil. Reorganiza en dos filas: brand+CTA arriba, stats debajo. */
+@media (max-width: 480px) {
+  .community-topbar {
+    grid-template-columns: 1fr auto;
+    row-gap: 10px;
+    gap: 12px 14px;
+    padding: 12px 16px;
+  }
+  .community-topbar__meta {
+    grid-column: 1 / -1;
+    justify-self: start;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 11px;
+  }
+  .community-topbar__meta b { font-size: 13px; }
+  .community-topbar__cta { padding: 8px 12px; font-size: 12px; }
+}
