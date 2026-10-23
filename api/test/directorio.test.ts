@@ -458,6 +458,60 @@ test('directorio profesional · migración obligatoria en eliminarPerfil: delete
   assert.equal(db.crudo('v2_directorio_perfiles/u-legacy2')?.visible, false);
 });
 
+test('directorio profesional · ciclo de vida completo con moderación (crear → listar → ocultar → re-publicar → delete → recrear → reactivar)', async () => {
+  // Suite nueva con un uid dedicado para no cruzar con otros tests.
+  TOKENS['tok-flujo'] = { uid: 'u-flujo', email: 'flujo@example.test', name: 'Flujo Pro' };
+  db.sembrar('users/u-flujo', { name: 'Flujo Pro', email: 'flujo@example.test', subscription: { status: 'active', plan: 'anual', currentPeriodEnd: '2027-01-01T00:00:00.000Z' } });
+
+  // Para medir la visibilidad "pública" listo desde OTRA cuenta (tok-vip actúa
+  // como visitante). El dueño siempre ve su propia tarjeta en el listado para
+  // poder editarla — eso no es señal de visibilidad pública.
+  const listarPublico = async () => (await (await get('/directorio', 'tok-vip')).json()) as any;
+  const listarMio = async () => (await (await get('/directorio', 'tok-flujo')).json()) as any;
+  const idEsta = (body: any) => (body.perfiles ?? []).some((p: any) => p.uid === 'u-flujo');
+  const miVisible = (body: any) => body.miPerfil?.visible === true;
+
+  // 1. Crear perfil
+  const crear = await send('/directorio/perfil', 'PUT', perfilDatos({ visible: true }), 'tok-flujo');
+  assert.equal(crear.status, 200);
+  assert.ok(idEsta(await listarPublico()), 'tras crear, aparece en listado público');
+  assert.ok(miVisible(await listarMio()), 'miPerfil.visible=true tras crear con visible=true');
+
+  // 2. Admin oculta
+  const ocultar = await send('/admin/directorio/perfiles/u-flujo/visibilidad', 'PATCH', { visible: false }, 'tok-admin');
+  assert.equal(ocultar.status, 200);
+  assert.ok(!idEsta(await listarPublico()), 'tras ocultar admin, NO aparece en listado público');
+  assert.equal((await listarMio()).miPerfil?.visible, false, 'miPerfil.visible=false para el dueño');
+  assert.equal(db.crudo('v2_directorio_moderacion/u-flujo')?.oculto, true);
+
+  // 3. Dueño intenta re-publicar con visible=true: el server lo fuerza a false
+  const bypass = await send('/directorio/perfil', 'PUT', perfilDatos({ visible: true }), 'tok-flujo');
+  assert.equal(bypass.status, 200);
+  assert.ok(!idEsta(await listarPublico()), 'bypass por PUT con visible=true no funciona');
+  assert.equal((await listarMio()).miPerfil?.visible, false);
+
+  // 4. Dueño elimina el perfil
+  const del = await send('/directorio/perfil', 'DELETE', undefined, 'tok-flujo');
+  assert.equal(del.status, 200);
+  assert.ok(!idEsta(await listarPublico()));
+  assert.equal((await listarMio()).miPerfil, null);
+  // El flag de moderación sobrevive al delete:
+  assert.equal(db.crudo('v2_directorio_moderacion/u-flujo')?.oculto, true);
+
+  // 5. Dueño recrea el perfil con visible=true: delete+recreate NO debe evadir
+  const recrear = await send('/directorio/perfil', 'PUT', perfilDatos({ visible: true }), 'tok-flujo');
+  assert.equal(recrear.status, 200);
+  assert.ok(!idEsta(await listarPublico()), 'tras recrear, sigue oculto por el flag persistente');
+  assert.equal((await listarMio()).miPerfil?.visible, false);
+
+  // 6. Admin reactiva: el perfil vuelve al listado y el flag se levanta
+  const reactivar = await send('/admin/directorio/perfiles/u-flujo/visibilidad', 'PATCH', { visible: true }, 'tok-admin');
+  assert.equal(reactivar.status, 200);
+  assert.ok(idEsta(await listarPublico()), 'tras reactivar admin, vuelve al listado público');
+  assert.ok(miVisible(await listarMio()));
+  assert.equal(db.crudo('v2_directorio_moderacion/u-flujo')?.oculto, false);
+});
+
 test('directorio profesional · migración perezosa: flag legacy del perfil también bloquea re-publicar', async () => {
   // Simula un perfil pre-fix: ya existe con ocultoPorModeracion=true, pero
   // NO hay documento en v2_directorio_moderacion (vino de antes del split).
