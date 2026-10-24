@@ -28,6 +28,11 @@ export function instalarInteraccionesDirectorio(
   render: () => Promise<void> | void,
   navigate: (p: string) => void
 ) {
+  // Al salir del módulo de perfil sin guardar, descartar la foto/portada seleccionadas.
+  window.addEventListener('hashchange', () => {
+    if (!location.hash.startsWith('#/directorio/perfil')) limpiarFotoDirectorioPendiente();
+  });
+
   document.addEventListener('click', async (e) => {
     const el = e.target as HTMLElement;
 
@@ -36,18 +41,6 @@ export function instalarInteraccionesDirectorio(
       const dialog = [...document.querySelectorAll<HTMLDialogElement>('[data-network-view-dialog]')].find(
         (d) => d.dataset.networkViewDialog === verPerfil.dataset.uid
       );
-      if (dialog) {
-        dialog.scrollTop = 0;
-        dialog.showModal();
-        createIcons({ icons });
-      }
-      return;
-    }
-
-    if (el.closest('[data-network-profile]')) {
-      limpiarFotoDirectorioPendiente();
-      el.closest<HTMLDialogElement>('dialog')?.close();
-      const dialog = document.querySelector<HTMLDialogElement>('[data-network-profile-dialog]');
       if (dialog) {
         dialog.scrollTop = 0;
         dialog.showModal();
@@ -71,6 +64,20 @@ export function instalarInteraccionesDirectorio(
 
     if (el.closest('[data-network-close]')) {
       el.closest<HTMLDialogElement>('dialog')?.close();
+      return;
+    }
+
+    const nudgeSkip = el.closest<HTMLButtonElement>('[data-network-nudge-skip]');
+    if (nudgeSkip) {
+      try { sessionStorage.setItem('dermalysse:directorio:nudge', 'omitido'); } catch { /* storage bloqueado */ }
+      nudgeSkip.disabled = true;
+      try {
+        await Directorio.asegurarPerfil();
+        toast('Te creamos un perfil básico; puedes completarlo cuando quieras.', 'user-round-check');
+      } catch (err) {
+        toast(mensajeError(err), 'circle-alert');
+      }
+      await render();
       return;
     }
 
@@ -203,9 +210,8 @@ export function instalarInteraccionesDirectorio(
       try {
         await Directorio.eliminarPerfil();
         limpiarFotoDirectorioPendiente();
-        eliminarPerfil.closest<HTMLDialogElement>('dialog')?.close();
         toast('Perfil retirado del directorio', 'user-round-x');
-        await render();
+        navigate('/directorio');
       } catch (err) {
         toast(mensajeError(err), 'circle-alert');
         eliminarPerfil.disabled = false;
@@ -248,13 +254,13 @@ export function instalarInteraccionesDirectorio(
         if (fotoDirectorioPendiente) URL.revokeObjectURL(fotoDirectorioPendiente.preview);
         fotoDirectorioPendiente = preparada;
         quitarFotoDirectorio = false;
-        const dialog = input.closest<HTMLDialogElement>('dialog');
-        const preview = dialog?.querySelector<HTMLImageElement>('[data-network-photo-preview]');
+        const cont = input.closest<HTMLElement>('[data-network-profile-form]');
+        const preview = cont?.querySelector<HTMLImageElement>('[data-network-photo-preview]');
         if (preview) {
           preview.src = preparada.preview;
           preview.hidden = false;
         }
-        const boton = dialog?.querySelector<HTMLElement>('[data-network-photo-remove]');
+        const boton = cont?.querySelector<HTMLElement>('[data-network-photo-remove]');
         if (boton) boton.hidden = false;
         toast('Foto lista para guardar', 'image');
       } catch (err) {
@@ -273,14 +279,14 @@ export function instalarInteraccionesDirectorio(
         if (bannerDirectorioPendiente) URL.revokeObjectURL(bannerDirectorioPendiente.preview);
         bannerDirectorioPendiente = preparada;
         quitarBannerDirectorio = false;
-        const dialog = input.closest<HTMLDialogElement>('dialog');
-        const preview = dialog?.querySelector<HTMLImageElement>('[data-network-banner-preview]');
+        const cont = input.closest<HTMLElement>('[data-network-profile-form]');
+        const preview = cont?.querySelector<HTMLImageElement>('[data-network-banner-preview]');
         if (preview) {
           preview.src = preparada.preview;
           preview.hidden = false;
         }
-        dialog?.querySelector('[data-network-banner-frame]')?.classList.add('has-banner');
-        const boton = dialog?.querySelector<HTMLElement>('[data-network-banner-remove]');
+        cont?.querySelector('[data-network-banner-frame]')?.classList.add('has-banner');
+        const boton = cont?.querySelector<HTMLElement>('[data-network-banner-remove]');
         if (boton) boton.hidden = false;
         toast('Portada lista para guardar', 'image');
       } catch (err) {
@@ -377,9 +383,8 @@ export function instalarInteraccionesDirectorio(
           quitarBannerDirectorio
         );
         limpiarFotoDirectorioPendiente();
-        f.closest<HTMLDialogElement>('dialog')?.close();
         toast('Perfil cosmetológico actualizado', 'badge-check');
-        await render();
+        navigate('/directorio');
       } catch (err) {
         toast(mensajeError(err), 'circle-alert');
         if (boton) boton.disabled = false;

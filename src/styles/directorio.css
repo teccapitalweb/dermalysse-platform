@@ -1107,3 +1107,83 @@
     flex: 0 0 auto;
   }
 }
+
+/* Perfil del directorio como MÓDULO/página (antes era un <dialog> flotante). */
+.directory-page--perfil {
+  padding: 4px 0 36px;
+}
+
+.network-profile-page__back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto 14px;
+  color: var(--text-2, #5f87a1);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.network-profile-page__back:hover {
+  color: var(--primary, #681c31);
+}
+
+.network-profile-page__back .i {
+  width: 16px;
+  height: 16px;
+}
+
+/* Reusa el estilo interno de .network-dialog--profile pero fluye como página, sin overlay. */
+.network-profile-page {
+  width: 100%;
+  max-width: 920px;
+  max-height: none;
+  margin: 0 auto;
+  overflow: visible;
+  box-shadow: 0 10px 40px rgba(104, 28, 49, 0.1);
+}
+
+/* Aviso (nudge) para completar el perfil del directorio cuando está incompleto. */
+.network-nudge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  padding: 18px 22px;
+  border: 1px solid var(--line, #e7eef2);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(104, 28, 49, 0.06), rgba(37, 66, 90, 0.05));
+}
+
+.network-nudge__copy h3 {
+  margin: 4px 0;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.network-nudge__copy p {
+  margin: 0;
+  max-width: 540px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-2, #5f87a1);
+}
+
+.network-nudge__actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .network-nudge__actions {
+    width: 100%;
+  }
+  .network-nudge__actions .btn {
+    flex: 1;
+  }
+}

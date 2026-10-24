@@ -55,7 +55,7 @@ function tarjetaPersona(p: PerfilDirectorio) {
         <button class="btn btn--ghost btn--sm" data-network-view data-uid="${esc(p.uid)}">Ver perfil</button>
         ${
           p.esMio
-            ? '<button class="btn btn--secondary btn--sm" data-network-profile><i data-lucide="pencil" class="i"></i>Editar</button>'
+            ? '<a class="btn btn--secondary btn--sm" href="#/directorio/perfil"><i data-lucide="pencil" class="i"></i>Editar</a>'
             : `${botonReportar('perfil', p.uid, p.nombre)}<button class="btn btn--brand btn--sm" data-network-connect data-uid="${esc(p.uid)}" data-name="${esc(p.nombre)}"><i data-lucide="user-plus" class="i"></i>Conectar</button>`
         }
       </div>
@@ -281,6 +281,11 @@ const filaCredencial = (x: { nombre?: string; emisor?: string; anio?: string } =
 
 function directorioPanel(query: URLSearchParams) {
   const data = Directorio.get();
+  const miPerfil = data.miPerfil;
+  const perfilIncompleto = !miPerfil || !miPerfil.titular || !miPerfil.bio;
+  let nudgeOmitido = false;
+  try { nudgeOmitido = sessionStorage.getItem('dermalysse:directorio:nudge') === 'omitido'; } catch { /* storage bloqueado */ }
+  const mostrarNudge = perfilIncompleto && !nudgeOmitido;
   const vista = query.get('vista') || 'personas';
   const q = (query.get('q') || '').trim().toLocaleLowerCase('es-MX');
   const coincide = (campos: unknown[]) => !q || campos.flat().join(' ').toLocaleLowerCase('es-MX').includes(q);
@@ -302,10 +307,22 @@ function directorioPanel(query: URLSearchParams) {
         </div>
       </div>
       <div class="network-hero__actions">
-        <button class="btn btn--secondary" data-network-profile><i data-lucide="contact" class="i"></i>${data.miPerfil ? 'Editar mi perfil' : 'Crear mi perfil'}</button>
+        <a class="btn btn--secondary" href="#/directorio/perfil"><i data-lucide="contact" class="i"></i>${data.miPerfil ? 'Editar mi perfil' : 'Crear mi perfil'}</a>
         <button class="btn btn--brand" data-network-job><i data-lucide="plus" class="i"></i>Publicar espacio / equipo</button>
       </div>
     </div>
+
+    ${mostrarNudge ? `<div class="network-nudge" data-network-nudge>
+      <div class="network-nudge__copy">
+        <span class="eyebrow"><i data-lucide="sparkles" class="i"></i>Directorio profesional</span>
+        <h3>${miPerfil ? 'Completa tu perfil profesional' : 'Crea tu perfil profesional'}</h3>
+        <p>Aparece ante cosmetólogas y clínicas para interconsultas, colaboración y renta de espacios. Solo se muestra cuando tú lo publicas.</p>
+      </div>
+      <div class="network-nudge__actions">
+        <a class="btn btn--brand" href="#/directorio/perfil"><i data-lucide="contact" class="i"></i>${miPerfil ? 'Completar mi perfil' : 'Crear mi perfil'}</a>
+        <button type="button" class="btn btn--ghost" data-network-nudge-skip>Ahora no</button>
+      </div>
+    </div>` : ''}
 
     <div class="network-toolbar">
       <nav>
@@ -387,9 +404,118 @@ function directorioPanel(query: URLSearchParams) {
 
     ${vista === 'personas' ? perfiles.map(detallePersona).join('') : ''}
 
-    <!-- Modal Editar Mi Perfil -->
-    <dialog class="network-dialog network-dialog--profile" data-network-profile-dialog>
-      <form method="dialog" data-network-profile-form>
+
+    <!-- Modal Publicar Oportunidad / Renta -->
+    <dialog class="network-dialog" data-network-job-dialog>
+      <form method="dialog" data-network-job-form>
+        <header>
+          <div>
+            <span class="eyebrow">Espacios y Aparatología VIP</span>
+            <h3>Nueva Oportunidad o Renta</h3>
+          </div>
+          <button type="button" data-network-close aria-label="Cerrar"><i data-lucide="x" class="i"></i></button>
+        </header>
+        <div class="network-form-grid">
+          <label class="network-form-wide">Título de la publicación<input class="input" name="titulo" required minlength="8" maxlength="120" placeholder="Renta de Cabina Premium por Jornada"></label>
+          <label>Tipo de publicación
+            <select class="input" name="tipo">
+              <option value="renta_cabina">Renta de cabina estética</option>
+              <option value="renta_aparatologia">Renta de aparatología</option>
+              <option value="interconsulta">Interconsulta clínica</option>
+              <option value="suplencia">Suplencia temporal</option>
+              <option value="empleo">Vacante para cosmetóloga</option>
+            </select>
+          </label>
+          <label>Modalidad
+            <select class="input" name="modalidad">
+              <option value="presencial">Presencial en cabina</option>
+              <option value="remoto">Remota / Asesoría</option>
+              <option value="hibrido">Híbrida</option>
+            </select>
+          </label>
+          <label>Clínica o Centro<input class="input" name="organizacion" required maxlength="120" placeholder="Lumière Esthétique"></label>
+          <label>Ciudad<input class="input" name="ciudad" placeholder="Guadalajara"></label>
+          <label>Estado<input class="input" name="entidad" placeholder="Jalisco"></label>
+          <label>Aparatología o Especialidad<input class="input" name="especialidades" placeholder="HIFU, Láser Diodo, Cabinas"></label>
+          <label class="network-form-wide">Descripción y equipamiento<textarea class="input" name="resumen" minlength="40" maxlength="1000" rows="4" required placeholder="Describe las características de la cabina o especificaciones técnicas del equipo..."></textarea></label>
+          <label class="network-form-wide">Requisitos<textarea class="input" name="requisitos" maxlength="1000" rows="2" placeholder="Cédula profesional, depósito en garantía o constancia de capacitación."></textarea></label>
+          <label class="network-form-wide">Costos y condiciones<input class="input" name="compensacion" maxlength="180" placeholder="$650 MXN / Jornada o condiciones de renta"></label>
+        </div>
+        <footer>
+          <p>Visible durante 45 días. Exclusivo para miembros VIP.</p>
+          <button class="btn btn--brand">Publicar oportunidad</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- Modal Solicitar Conexión -->
+    <dialog class="network-dialog network-dialog--small" data-network-connect-dialog>
+      <form method="dialog" data-network-connect-form>
+        <header>
+          <div>
+            <span class="eyebrow">Contacto Seguro</span>
+            <h3>Conectar con <span data-network-name>Colega</span></h3>
+          </div>
+          <button type="button" data-network-close aria-label="Cerrar"><i data-lucide="x" class="i"></i></button>
+        </header>
+        <input type="hidden" name="paraUid">
+        <input type="hidden" name="oportunidadId">
+        <div style="padding:16px 24px">
+          <label style="display:grid;gap:6px;font-size:11px;font-weight:700;color:var(--text-2)">
+            Mensaje inicial
+            <textarea class="input" name="mensaje" required minlength="20" maxlength="500" rows="5" placeholder="Preséntate e indica tu interés en interconsulta, aparatología o vinculación profesional..."></textarea>
+          </label>
+        </div>
+        <footer>
+          <p>Tus datos no se compartirán hasta que la contraparte acepte.</p>
+          <button class="btn btn--brand">Enviar solicitud</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <!-- Modal Reporte / Denuncia -->
+    <dialog class="network-dialog network-dialog--small" data-network-report-dialog>
+      <form method="dialog" data-network-report-form>
+        <header>
+          <div>
+            <span class="eyebrow">Comunidad Segura</span>
+            <h3>Reportar <span data-network-report-name>contenido</span></h3>
+          </div>
+          <button type="button" data-network-close aria-label="Cerrar"><i data-lucide="x" class="i"></i></button>
+        </header>
+        <input type="hidden" name="tipo">
+        <input type="hidden" name="objetivoId">
+        <div class="network-form-grid">
+          <label class="network-form-wide">Motivo del reporte
+            <select class="input" name="motivo" required>
+              <option value="spam">Spam o publicidad no solicitada</option>
+              <option value="suplantacion">Suplantación de identidad</option>
+              <option value="contenido_inapropiado">Contenido inapropiado o conducta indebida</option>
+              <option value="datos_falsos">Información profesional o certificaciones falsas</option>
+              <option value="otro">Otro motivo</option>
+            </select>
+          </label>
+          <label class="network-form-wide">Detalles
+            <textarea class="input" name="detalle" maxlength="500" rows="4" placeholder="Describe brevemente la situación..."></textarea>
+          </label>
+        </div>
+        <footer>
+          <p><i data-lucide="shield-check" class="i"></i>El equipo de moderación revisará la denuncia de forma confidencial.</p>
+          <button class="btn btn--brand"><i data-lucide="flag" class="i"></i>Enviar reporte</button>
+        </footer>
+      </form>
+    </dialog>
+  </section>`;
+}
+
+export function directorio(_: Record<string, string>, query: URLSearchParams) {
+  return `<section class="directory-page" aria-label="Directorio profesional Dermalysse">${directorioPanel(query)}</section>`;
+}
+
+
+// Formulario del Perfil Profesional, como MÓDULO (antes era un <dialog> flotante).
+function formularioPerfil(data: ReturnType<typeof Directorio.get>) {
+  return `<form data-network-profile-form>
         <header>
           <div>
             <span class="eyebrow">Directorio Dermalysse</span>
@@ -399,7 +525,6 @@ function directorioPanel(query: URLSearchParams) {
           <div style="text-align:right">
             <span style="font-size:11px;font-weight:700;color:var(--primary)">${completitudPerfil(data.miPerfil)}% completo</span>
           </div>
-          <button type="button" data-network-close aria-label="Cerrar"><i data-lucide="x" class="i"></i></button>
         </header>
 
         <section class="network-banner-editor ${data.miPerfil?.banner ? 'has-banner' : ''}" data-network-banner-frame>
@@ -515,112 +640,15 @@ function directorioPanel(query: URLSearchParams) {
           </div>
           <button class="btn btn--brand"><i data-lucide="badge-check" class="i"></i>Guardar perfil</button>
         </footer>
-      </form>
-    </dialog>
-
-    <!-- Modal Publicar Oportunidad / Renta -->
-    <dialog class="network-dialog" data-network-job-dialog>
-      <form method="dialog" data-network-job-form>
-        <header>
-          <div>
-            <span class="eyebrow">Espacios y Aparatología VIP</span>
-            <h3>Nueva Oportunidad o Renta</h3>
-          </div>
-          <button type="button" data-network-close aria-label="Cerrar"><i data-lucide="x" class="i"></i></button>
-        </header>
-        <div class="network-form-grid">
-          <label class="network-form-wide">Título de la publicación<input class="input" name="titulo" required minlength="8" maxlength="120" placeholder="Renta de Cabina Premium por Jornada"></label>
-          <label>Tipo de publicación
-            <select class="input" name="tipo">
-              <option value="renta_cabina">Renta de cabina estética</option>
-              <option value="renta_aparatologia">Renta de aparatología</option>
-              <option value="interconsulta">Interconsulta clínica</option>
-              <option value="suplencia">Suplencia temporal</option>
-              <option value="empleo">Vacante para cosmetóloga</option>
-            </select>
-          </label>
-          <label>Modalidad
-            <select class="input" name="modalidad">
-              <option value="presencial">Presencial en cabina</option>
-              <option value="remoto">Remota / Asesoría</option>
-              <option value="hibrido">Híbrida</option>
-            </select>
-          </label>
-          <label>Clínica o Centro<input class="input" name="organizacion" required maxlength="120" placeholder="Lumière Esthétique"></label>
-          <label>Ciudad<input class="input" name="ciudad" placeholder="Guadalajara"></label>
-          <label>Estado<input class="input" name="entidad" placeholder="Jalisco"></label>
-          <label>Aparatología o Especialidad<input class="input" name="especialidades" placeholder="HIFU, Láser Diodo, Cabinas"></label>
-          <label class="network-form-wide">Descripción y equipamiento<textarea class="input" name="resumen" minlength="40" maxlength="1000" rows="4" required placeholder="Describe las características de la cabina o especificaciones técnicas del equipo..."></textarea></label>
-          <label class="network-form-wide">Requisitos<textarea class="input" name="requisitos" maxlength="1000" rows="2" placeholder="Cédula profesional, depósito en garantía o constancia de capacitación."></textarea></label>
-          <label class="network-form-wide">Costos y condiciones<input class="input" name="compensacion" maxlength="180" placeholder="$650 MXN / Jornada o condiciones de renta"></label>
-        </div>
-        <footer>
-          <p>Visible durante 45 días. Exclusivo para miembros VIP.</p>
-          <button class="btn btn--brand">Publicar oportunidad</button>
-        </footer>
-      </form>
-    </dialog>
-
-    <!-- Modal Solicitar Conexión -->
-    <dialog class="network-dialog network-dialog--small" data-network-connect-dialog>
-      <form method="dialog" data-network-connect-form>
-        <header>
-          <div>
-            <span class="eyebrow">Contacto Seguro</span>
-            <h3>Conectar con <span data-network-name>Colega</span></h3>
-          </div>
-          <button type="button" data-network-close aria-label="Cerrar"><i data-lucide="x" class="i"></i></button>
-        </header>
-        <input type="hidden" name="paraUid">
-        <input type="hidden" name="oportunidadId">
-        <div style="padding:16px 24px">
-          <label style="display:grid;gap:6px;font-size:11px;font-weight:700;color:var(--text-2)">
-            Mensaje inicial
-            <textarea class="input" name="mensaje" required minlength="20" maxlength="500" rows="5" placeholder="Preséntate e indica tu interés en interconsulta, aparatología o vinculación profesional..."></textarea>
-          </label>
-        </div>
-        <footer>
-          <p>Tus datos no se compartirán hasta que la contraparte acepte.</p>
-          <button class="btn btn--brand">Enviar solicitud</button>
-        </footer>
-      </form>
-    </dialog>
-
-    <!-- Modal Reporte / Denuncia -->
-    <dialog class="network-dialog network-dialog--small" data-network-report-dialog>
-      <form method="dialog" data-network-report-form>
-        <header>
-          <div>
-            <span class="eyebrow">Comunidad Segura</span>
-            <h3>Reportar <span data-network-report-name>contenido</span></h3>
-          </div>
-          <button type="button" data-network-close aria-label="Cerrar"><i data-lucide="x" class="i"></i></button>
-        </header>
-        <input type="hidden" name="tipo">
-        <input type="hidden" name="objetivoId">
-        <div class="network-form-grid">
-          <label class="network-form-wide">Motivo del reporte
-            <select class="input" name="motivo" required>
-              <option value="spam">Spam o publicidad no solicitada</option>
-              <option value="suplantacion">Suplantación de identidad</option>
-              <option value="contenido_inapropiado">Contenido inapropiado o conducta indebida</option>
-              <option value="datos_falsos">Información profesional o certificaciones falsas</option>
-              <option value="otro">Otro motivo</option>
-            </select>
-          </label>
-          <label class="network-form-wide">Detalles
-            <textarea class="input" name="detalle" maxlength="500" rows="4" placeholder="Describe brevemente la situación..."></textarea>
-          </label>
-        </div>
-        <footer>
-          <p><i data-lucide="shield-check" class="i"></i>El equipo de moderación revisará la denuncia de forma confidencial.</p>
-          <button class="btn btn--brand"><i data-lucide="flag" class="i"></i>Enviar reporte</button>
-        </footer>
-      </form>
-    </dialog>
-  </section>`;
+      </form>`;
 }
 
-export function directorio(_: Record<string, string>, query: URLSearchParams) {
-  return `<section class="directory-page" aria-label="Directorio profesional Dermalysse">${directorioPanel(query)}</section>`;
+// Página propia del perfil: #/directorio/perfil. El botón "Crear/Editar mi perfil" navega aquí.
+export function directorioPerfil(_: Record<string, string>, _query: URLSearchParams) {
+  const data = Directorio.get();
+  const titulo = data.miPerfil ? 'Editar mi perfil' : 'Crear mi perfil';
+  return `<section class="directory-page directory-page--perfil" aria-label="${titulo}">
+    <a class="network-profile-page__back" href="#/directorio"><i data-lucide="arrow-left" class="i"></i>Volver al directorio</a>
+    <div class="network-dialog network-dialog--profile network-profile-page">${formularioPerfil(data)}</div>
+  </section>`;
 }

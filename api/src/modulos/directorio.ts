@@ -37,6 +37,16 @@ export function moduloDirectorio(ctx: { db: FirestorePort; ahora: () => Date }):
       }),
     );
 
+    // Crea un perfil mínimo OCULTO si el miembro aún no tiene (cuando omite llenar sus datos).
+    app.post(
+      '/directorio/perfil/asegurar',
+      requireUser,
+      asyncHandler(async (req, res) => {
+        res.set('Cache-Control', 'no-store');
+        res.json(await directorio.asegurarPerfilMinimo(req.usuario!));
+      }),
+    );
+
     app.post(
       '/directorio/oportunidades',
       requireUser,

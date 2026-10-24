@@ -483,6 +483,48 @@ export class DirectorioService {
     return { ...this.filtrarPerfilPublico(perfil, uid), visible: perfil.visible, contacto: perfil.contacto };
   }
 
+  /**
+   * Asegura que el miembro tenga AL MENOS un perfil mínimo OCULTO en el directorio, con lo que el
+   * sistema ya sabe (su nombre). Se usa cuando un usuario nuevo omite llenar sus datos: aun así se le
+   * crea el directorio básico. Idempotente (si ya hay perfil no hace nada) y respeta la moderación
+   * (si un admin lo ocultó/eliminó, no se recrea desde el sistema).
+   */
+  async asegurarPerfilMinimo(usuario: Usuario): Promise<{ creado: boolean }> {
+    const uid = usuario.uid;
+    const [previoDoc, oculto] = await Promise.all([
+      this.db.get(`${C.perfiles}/${uid}`),
+      this.leerModeracion(uid),
+    ]);
+    if (previoDoc.exists || oculto) return { creado: false };
+    const perfil: PerfilDirectorio = {
+      uid,
+      nombre: this.resolverNombre(usuario),
+      titular: '',
+      etapa: 'otro',
+      especialidades: [],
+      aparatologia: [],
+      ciudad: '',
+      estado: '',
+      modalidades: ['presencial'],
+      disponibilidad: ['colaboraciones'],
+      habilidades: [],
+      bio: '',
+      foto: null,
+      banner: null,
+      anosExperiencia: null,
+      idiomas: [],
+      experiencia: [],
+      formacion: [],
+      credenciales: [],
+      visible: false, // oculto hasta que el miembro lo complete y lo publique
+      ocultoPorModeracion: false,
+      contacto: { canal: 'correo', valor: String(usuario.email || '').trim().toLowerCase() },
+      actualizado: this.ahora().toISOString(),
+    };
+    await this.db.set(`${C.perfiles}/${uid}`, perfil as unknown as Record<string, unknown>);
+    return { creado: true };
+  }
+
   async eliminarPerfil(usuario: Usuario): Promise<{ ok: true }> {
     const uid = usuario.uid;
     const ref = `${C.perfiles}/${uid}`;
