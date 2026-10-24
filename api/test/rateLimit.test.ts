@@ -96,33 +96,49 @@ test('clavePorIp: IPv4 completa, IPv4-mapeada reducida, IPv6 agrupada por /64', 
   assert.notEqual(clavePorIp(reqFalso('2001:db8:1:3::1')), a);
 });
 
+test('clavePorIp: formas distintas del MISMO /64 colapsan a una clave (sin parser differential)', () => {
+  // "::" comprimido vs. expandido, y ceros a la izquierda: todas son el mismo /64.
+  const formas = [
+    '2001:db8::1',
+    '2001:0db8:0:0:0:0:0:1',
+    '2001:db8:0:0:abcd:ef01:2:3',
+    '2001:db8::',
+  ];
+  const claves = formas.map((f) => clavePorIp(reqFalso(f)));
+  for (const k of claves) assert.equal(k, '2001:db8:0:0::/64', `forma mal canonizada: ${k}`);
+  // El zone id no cambia la clave.
+  assert.equal(clavePorIp(reqFalso('2001:db8::1%eth0')), '2001:db8:0:0::/64');
+  // Un /64 distinto no colisiona.
+  assert.notEqual(clavePorIp(reqFalso('2001:db8:0:1::1')), '2001:db8:0:0::/64');
+});
+
 test('rotar los 64 bits bajos de IPv6 NO evade el límite', () => {
   const t = 0;
   const mw = crearRateLimiter({ ventanaMs: 60000, max: 2, ahora: () => t });
   const next: NextFunction = () => {};
-  const bajos = ['::1', '::2', '::3']; // mismo /64, sufijos distintos
-  const estados = bajos.map((suf) => {
+  const direcciones = ['2001:db8:1:2::1', '2001:db8:1:2::2', '2001:db8:1:2::3']; // válidas, mismo /64
+  const estados = direcciones.map((ip) => {
     const res = resFalso();
-    mw(reqFalso(`2001:db8:1:2:${suf.slice(2)}`), res, next);
+    mw(reqFalso(ip), res, next);
     return res._status;
   });
   // 2 permitidas y la 3ª bloqueada, aunque la IP completa sea distinta cada vez.
   assert.deepEqual(estados, [200, 200, 429]);
 });
 
-test('cota dura de memoria: expulsa las claves más antiguas (no crece sin límite)', () => {
+test('memoria llena: NO se reinician contadores activos; las claves nuevas caen en desborde (fail-closed)', () => {
   const t = 0;
-  // maxClaves=2, max=1: al entrar una 3ª clave se expulsa la más antigua.
+  // maxClaves=2, max=1, clave = la IP tal cual (para controlar las claves en la prueba).
   const mw = crearRateLimiter({ ventanaMs: 60000, max: 1, maxClaves: 2, ahora: () => t, clave: (r) => (r as { ip: string }).ip });
   const next: NextFunction = () => {};
   const golpe = (ip: string) => { const res = resFalso(); mw(reqFalso(ip), res, next); return res._status; };
 
-  assert.equal(golpe('A'), 200);           // A en el mapa (1/1)
-  assert.equal(golpe('B'), 200);           // B en el mapa (mapa lleno: A,B)
-  assert.equal(golpe('C'), 200);           // C entra → expulsa a A (la más antigua)
-  // A fue expulsada al entrar C: su siguiente golpe cuenta desde cero (200), no 429.
-  // (Si A NO se hubiera expulsado, este golpe sería su 2º y daría 429 con max=1: prueba la expulsión.)
-  assert.equal(golpe('A'), 200, 'A debió ser expulsada y recibir presupuesto nuevo');
+  assert.equal(golpe('A'), 200);  // A activo (1/1), mapa: {A}
+  assert.equal(golpe('B'), 200);  // B activo (1/1), mapa lleno: {A,B}
+  assert.equal(golpe('C'), 200);  // mapa lleno de activos → C va al cubo de desborde (1/1)
+  assert.equal(golpe('D'), 429);  // D comparte desborde con C (2/1) → bloqueado (fail-closed)
+  // A NO fue expulsada ni reiniciada: su 2º golpe sigue contando → 429.
+  assert.equal(golpe('A'), 429, 'el contador activo de A debe preservarse, no reiniciarse');
 });
 
 // ── integración: la app real limita por HTTP ──
