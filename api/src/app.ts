@@ -24,6 +24,7 @@ import { FirestoreExperienceStore, FirestoreHistoriaStore, FirestoreLeagueStore,
 import { FirestoreAcademiaAttemptStore, FirestoreAcademiaProgressStore, FirestoreAcademiaReviewStore } from './adapters/firestore/academia.js';
 import { LegacyWebhookClient, type FetchLike } from './adapters/legacy/webhook.js';
 import { crearAuth } from './middleware/auth.js';
+import { crearRateLimiter } from './middleware/rateLimit.js';
 import { CodedError, ConflictError, ForbiddenError, NotFoundError, ValidationError } from './services/errors.js';
 import { LearningService } from './services/learning.js';
 import { AcademiaService } from './services/academia.js';
@@ -78,6 +79,17 @@ export interface Dependencias {
   /** Nombre del modo de datos (solo informativo en GET /). */
   dataMode?: string;
   corsOrigins: string[];
+  /**
+   * Limitador de tasa (opt-in). Si está, monta un límite global por IP y uno más estricto
+   * en /cupones y /stripe. `ahora` permite inyectar el reloj en pruebas.
+   */
+  rateLimit?: {
+    ventanaMs: number;
+    max: number;
+    sensibleMax: number;
+    trustProxy: number | boolean;
+    ahora?: () => number;
+  };
   /** Módulos que montan sus propias rutas (recompensas, cupones, materiales, admin…); ver src/modulos/tipos.ts. */
   modulos?: ModuloApi[];
 }
@@ -101,7 +113,17 @@ function cors(origenesPermitidos: string[]) {
 export function createApp(deps: Dependencias): Express {
   const app = express();
   app.disable('x-powered-by');
+  // Detrás de Railway la IP real viene en X-Forwarded-For; confiar solo en los saltos declarados.
+  if (deps.rateLimit) app.set('trust proxy', deps.rateLimit.trustProxy);
   app.use(cors(deps.corsOrigins));
+  if (deps.rateLimit) {
+    const rl = deps.rateLimit;
+    // Límite global por IP. El CORS ya respondió los preflight OPTIONS, así que no se cuentan.
+    app.use(crearRateLimiter({ ventanaMs: rl.ventanaMs, max: rl.max, ahora: rl.ahora }));
+    // Límite estricto en endpoints sensibles (canje de cupones = fuerza bruta de códigos; Stripe = externo).
+    app.use('/cupones', crearRateLimiter({ ventanaMs: rl.ventanaMs, max: rl.sensibleMax, ahora: rl.ahora }));
+    app.use('/stripe', crearRateLimiter({ ventanaMs: rl.ventanaMs, max: rl.sensibleMax, ahora: rl.ahora }));
+  }
   app.use(express.json({ limit: '32kb' }));
 
   const { requireUser, requireAdmin } = crearAuth(deps.auth);
@@ -215,6 +237,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
   const config = leerConfig(env);
 
   const ahora = inyecciones.ahora ?? (() => new Date());
+  const rateLimit = config.rateLimit ? { ...config.rateLimit, ahora: () => ahora().getTime() } : undefined;
   if (!config.produccion) {
     // Desarrollo: los módulos usan un Firestore en memoria (vacío al arrancar).
     const db = inyecciones.firestore ?? new MemoryFirestore();
@@ -239,6 +262,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
       ),
       dataMode: config.dataMode,
       corsOrigins: config.corsOrigins,
+      rateLimit,
       modulos,
     });
   }
@@ -274,6 +298,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
     foroRequiereSesion: true,
     dataMode: config.dataMode,
     corsOrigins: config.corsOrigins,
+    rateLimit,
     modulos: crearModulos({ db, ahora, produccion: true }),
   });
 }

@@ -18,11 +18,24 @@ export interface ConfigProduccion {
   appUrl: string;
 }
 
+export interface ConfigRateLimit {
+  /** Tamaño de la ventana en milisegundos. */
+  ventanaMs: number;
+  /** Máximo global de peticiones por ventana e IP. */
+  max: number;
+  /** Máximo más estricto para endpoints sensibles (/cupones, /stripe). */
+  sensibleMax: number;
+  /** Saltos de proxy de confianza para derivar la IP real (Railway = 1). */
+  trustProxy: number | boolean;
+}
+
 export interface ConfigApi {
   authMode: ModoAuth;
   dataMode: ModoDatos;
   corsOrigins: string[];
   academiaMostrarBorradores: boolean;
+  /** Limitador de tasa. Opcional (opt-in): ausente si no se configura RATE_LIMIT_MAX. */
+  rateLimit?: ConfigRateLimit;
   /** Solo en firebase + firestore. */
   produccion?: ConfigProduccion;
 }
@@ -74,6 +87,46 @@ function cuentaServicio(valor: string | undefined, problemas: string[]): CuentaS
   return { projectId, clientEmail, privateKey: privateKey.includes('\\n') ? privateKey.replace(/\\n/g, '\n') : privateKey };
 }
 
+/**
+ * Limitador de tasa, opt-in: devuelve undefined salvo que se configure RATE_LIMIT_MAX.
+ * Así, sin configurarlo, la API se comporta igual que antes (y las pruebas no cambian).
+ */
+function leerRateLimit(env: NodeJS.ProcessEnv, problemas: string[]): ConfigRateLimit | undefined {
+  const maxCrudo = (env.RATE_LIMIT_MAX || '').trim();
+  if (!maxCrudo) return undefined;
+  const max = Number(maxCrudo);
+  if (!Number.isInteger(max) || max < 1 || max > 100000) {
+    problemas.push('RATE_LIMIT_MAX debe ser un entero entre 1 y 100000.');
+    return undefined;
+  }
+  let ventanaMs = 60000;
+  if (env.RATE_LIMIT_WINDOW_MS) {
+    ventanaMs = Number(env.RATE_LIMIT_WINDOW_MS);
+    if (!Number.isInteger(ventanaMs) || ventanaMs < 1000 || ventanaMs > 3600000) {
+      problemas.push('RATE_LIMIT_WINDOW_MS debe ser un entero entre 1000 y 3600000.');
+    }
+  }
+  let sensibleMax = Math.max(1, Math.ceil(max / 10));
+  if (env.RATE_LIMIT_SENSITIVE_MAX) {
+    sensibleMax = Number(env.RATE_LIMIT_SENSITIVE_MAX);
+    if (!Number.isInteger(sensibleMax) || sensibleMax < 1 || sensibleMax > max) {
+      problemas.push('RATE_LIMIT_SENSITIVE_MAX debe ser un entero entre 1 y RATE_LIMIT_MAX.');
+    }
+  }
+  let trustProxy: number | boolean = 1;
+  if (env.TRUST_PROXY !== undefined && env.TRUST_PROXY.trim() !== '') {
+    const tp = env.TRUST_PROXY.trim();
+    if (tp === 'false' || tp === '0') trustProxy = false;
+    else if (tp === 'true') trustProxy = true;
+    else {
+      const n = Number(tp);
+      if (Number.isInteger(n) && n >= 1 && n <= 10) trustProxy = n;
+      else problemas.push('TRUST_PROXY debe ser true, false o un entero entre 0 y 10.');
+    }
+  }
+  return { ventanaMs, max, sensibleMax, trustProxy };
+}
+
 export function leerConfig(env: NodeJS.ProcessEnv): ConfigApi {
   const problemas: string[] = [];
   const authCrudo = (env.AUTH_MODE || 'dev').trim();
@@ -96,8 +149,11 @@ export function leerConfig(env: NodeJS.ProcessEnv): ConfigApi {
     academiaMostrarBorradores: env.ACADEMIA_MOSTRAR_BORRADORES === 'true',
   };
 
+  const rateLimit = leerRateLimit(env, problemas);
+
   if (authMode === 'dev') {
-    return { ...base, corsOrigins: (env.CORS_ORIGINS || 'http://localhost:5173,http://127.0.0.1:5173').split(',').map((o) => o.trim()).filter(Boolean) };
+    if (problemas.length) throw new ErrorConfiguracion(problemas);
+    return { ...base, rateLimit, corsOrigins: (env.CORS_ORIGINS || 'http://localhost:5173,http://127.0.0.1:5173').split(',').map((o) => o.trim()).filter(Boolean) };
   }
 
   const cuenta = cuentaServicio(env.FIREBASE_SERVICE_ACCOUNT, problemas);
@@ -116,5 +172,5 @@ export function leerConfig(env: NodeJS.ProcessEnv): ConfigApi {
     }
   }
   if (problemas.length || !cuenta || !webhookUrl || !appUrl) throw new ErrorConfiguracion(problemas);
-  return { ...base, corsOrigins, produccion: { cuenta, webhookUrl, webhookTimeoutMs, appUrl } };
+  return { ...base, rateLimit, corsOrigins, produccion: { cuenta, webhookUrl, webhookTimeoutMs, appUrl } };
 }
