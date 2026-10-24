@@ -118,3 +118,42 @@
 .cg-banner--mio { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); background: var(--accent-soft); }
 .cg-banner--mio .cg-banner__ic { background: var(--brand-gradient); }
 .cg-banner--vip .cg-banner__ic { background: var(--brand-navy); }
+
+/* Módulo dedicado #/curso-gratis: reusa el estilo del anuncio pero fluye como página (sin overlay). */
+.acg--pagina {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 32px 16px;
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(104, 28, 49, 0.08), transparent 70%),
+    var(--surface-2, #f4f7f9);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.acg--pagina .acg__box {
+  width: 100%;
+  max-width: 920px;
+  max-height: none;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.acg__box--hecho {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+  padding: 40px 28px;
+}
+
+/* La confirmación, cuando se abre desde el módulo (adjunta al body), va fija a pantalla completa. */
+body > .acg-confirm {
+  position: fixed;
+  z-index: 90;
+  border-radius: 0;
+}
