@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import type { AddressInfo } from 'node:net';
 import type { Server } from 'node:http';
 import type { NextFunction, Request, Response } from 'express';
-import { crearRateLimiter } from '../src/middleware/rateLimit.js';
+import { crearRateLimiter, clavePorIp } from '../src/middleware/rateLimit.js';
 import { buildApp } from '../src/app.js';
 
 // ── utilidades de prueba ──
@@ -82,6 +82,47 @@ test('cada clave (IP) tiene su propio presupuesto', () => {
   const resA2 = resFalso();
   mw(reqFalso('10.0.0.1'), resA2, next);
   assert.equal(resA2._status, 429);
+});
+
+test('clavePorIp: IPv4 completa, IPv4-mapeada reducida, IPv6 agrupada por /64', () => {
+  assert.equal(clavePorIp(reqFalso('5.6.7.8')), '5.6.7.8');
+  assert.equal(clavePorIp(reqFalso('::ffff:1.2.3.4')), '1.2.3.4');
+  // Dos direcciones del mismo /64 (difieren solo en los 64 bits bajos) → misma clave.
+  const a = clavePorIp(reqFalso('2001:db8:1:2:aaaa:bbbb:cccc:dddd'));
+  const b = clavePorIp(reqFalso('2001:db8:1:2:1111:2222:3333:4444'));
+  assert.equal(a, b);
+  assert.equal(a, '2001:db8:1:2::/64');
+  // Distinto /64 → clave distinta.
+  assert.notEqual(clavePorIp(reqFalso('2001:db8:1:3::1')), a);
+});
+
+test('rotar los 64 bits bajos de IPv6 NO evade el límite', () => {
+  const t = 0;
+  const mw = crearRateLimiter({ ventanaMs: 60000, max: 2, ahora: () => t });
+  const next: NextFunction = () => {};
+  const bajos = ['::1', '::2', '::3']; // mismo /64, sufijos distintos
+  const estados = bajos.map((suf) => {
+    const res = resFalso();
+    mw(reqFalso(`2001:db8:1:2:${suf.slice(2)}`), res, next);
+    return res._status;
+  });
+  // 2 permitidas y la 3ª bloqueada, aunque la IP completa sea distinta cada vez.
+  assert.deepEqual(estados, [200, 200, 429]);
+});
+
+test('cota dura de memoria: expulsa las claves más antiguas (no crece sin límite)', () => {
+  const t = 0;
+  // maxClaves=2, max=1: al entrar una 3ª clave se expulsa la más antigua.
+  const mw = crearRateLimiter({ ventanaMs: 60000, max: 1, maxClaves: 2, ahora: () => t, clave: (r) => (r as { ip: string }).ip });
+  const next: NextFunction = () => {};
+  const golpe = (ip: string) => { const res = resFalso(); mw(reqFalso(ip), res, next); return res._status; };
+
+  assert.equal(golpe('A'), 200);           // A en el mapa (1/1)
+  assert.equal(golpe('B'), 200);           // B en el mapa (mapa lleno: A,B)
+  assert.equal(golpe('C'), 200);           // C entra → expulsa a A (la más antigua)
+  // A fue expulsada al entrar C: su siguiente golpe cuenta desde cero (200), no 429.
+  // (Si A NO se hubiera expulsado, este golpe sería su 2º y daría 429 con max=1: prueba la expulsión.)
+  assert.equal(golpe('A'), 200, 'A debió ser expulsada y recibir presupuesto nuevo');
 });
 
 // ── integración: la app real limita por HTTP ──
