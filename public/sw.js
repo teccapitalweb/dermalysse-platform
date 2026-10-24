@@ -3,7 +3,7 @@
 // Nunca toca el backend, Firebase, Stripe ni Bunny.
 // Vive bajo la base del sitio ('/' en desarrollo, '/dermalysse-platform/' en GitHub Pages): todas las rutas
 // se calculan desde el ámbito con que se registró.
-const VERSION = 'dermalysse-v6';
+const VERSION = 'dermalysse-v7-net-first-bundles';
 const BASE = new URL(self.registration.scope).pathname;
 const APP_SHELL = BASE + 'club/';
 const OFFLINE = BASE + 'offline.html';
@@ -20,7 +20,12 @@ self.addEventListener('activate', (e) => {
 
 // Ruta relativa a la base, siempre con '/' inicial ('/assets/…', '/club/…').
 const relativa = (url) => (url.pathname.startsWith(BASE) ? '/' + url.pathname.slice(BASE.length) : null);
-const estatico = (ruta) => /^\/(assets|brand|img|media)\//.test(ruta);
+const bundle = (ruta) => ruta.startsWith('/assets/');
+const imagen = (ruta) => /^\/(brand|img|media)\//.test(ruta);
+
+self.addEventListener('message', (e) => {
+  if (e.data === 'SKIP_WAITING') self.skipWaiting();
+});
 
 self.addEventListener('fetch', (e) => {
   const req = e.request;
@@ -44,7 +49,18 @@ self.addEventListener('fetch', (e) => {
       : caches.match(OFFLINE)));
     return;
   }
-  if (estatico(ruta)) {
+  // Bundles del cliente: red primero (los deploys nuevos se ven de inmediato).
+  if (bundle(ruta)) {
+    e.respondWith(
+      fetch(req).then((r) => {
+        if (r.ok) caches.open(VERSION).then((c) => c.put(req, r.clone()));
+        return r;
+      }).catch(() => caches.match(req)),
+    );
+    return;
+  }
+  // Imágenes: cache-first con revalidación en segundo plano.
+  if (imagen(ruta)) {
     e.respondWith(caches.open(VERSION).then(async (c) => {
       const hit = await c.match(req);
       const red = fetch(req).then((r) => { if (r.ok) c.put(req, r.clone()); return r; }).catch(() => hit);

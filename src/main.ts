@@ -1138,7 +1138,30 @@ document.addEventListener('submit', async (e) => {
 });
 
 // ── PWA: service worker y botón de instalar fijo, nunca popups ──
-if ('serviceWorker' in navigator && import.meta.env.PROD) window.addEventListener('load', () => navigator.serviceWorker.register(import.meta.env.BASE_URL + 'sw.js').catch(() => {}));
+// Registro del service worker + auto-update: cuando llega un bundle nuevo,
+// activamos el SW y recargamos UNA sola vez para servir la versión fresca
+// sin pedirle al usuario hacer Ctrl+Shift+R.
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register(import.meta.env.BASE_URL + 'sw.js');
+      if (reg.waiting) reg.waiting.postMessage('SKIP_WAITING');
+      reg.addEventListener('updatefound', () => {
+        const nuevo = reg.installing;
+        if (!nuevo) return;
+        nuevo.addEventListener('statechange', () => {
+          if (nuevo.state === 'installed' && navigator.serviceWorker.controller) nuevo.postMessage('SKIP_WAITING');
+        });
+      });
+      let recargando = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (recargando) return;
+        recargando = true;
+        location.reload();
+      });
+    } catch { /* El cliente seguirá funcionando sin SW */ }
+  });
+}
 let deferred: any = null;
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; });
 window.addEventListener('appinstalled', () => { document.querySelectorAll('[data-install]').forEach((x) => x.remove()); toast('Dermalysse quedó instalado en tu dispositivo', 'smartphone'); });
