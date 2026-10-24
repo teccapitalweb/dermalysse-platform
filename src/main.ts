@@ -92,7 +92,8 @@ import { adminAcademia, montarAdminAcademia } from './admin/academia';
 import { ganarXP } from './core/juegos';
 import { celebrar } from './ui/celebracion';
 import { montarTicker } from './ui/noticias';
-import { abrirAnuncioCursoGratis, pedirElegirCursoGratis } from './ui/anuncio-curso-gratis';
+import { paginaCursoGratis, confirmarCursoGratis } from './pages/curso-gratis';
+import { debeElegir } from './core/curso-gratis';
 import { instalarAvisosLogros } from './ui/logro-desbloqueado';
 
 let _showQuiz = false;
@@ -231,6 +232,7 @@ route('/cursos', catalogo);
 route('/curso/:id', curso);
 route('/curso/:id/clase/:n', clase);
 route('/curso/:id/examen', examenFinal);
+route('/curso-gratis', paginaCursoGratis);
 // Academia: juego y examen antes de :t para que no los capture el lector de temas.
 route('/academia', academia);
 route('/academia/:programa', academiaPrograma);
@@ -289,7 +291,17 @@ onRender(() => {
   // La bienvenida guiada conduce al regalo de curso al final; no interrumpirla con el modal global.
   const estadoBienvenida = getExperiencia()?.entrevista.estado;
   const bienvenidaTerminada = !disponible('experiencia') || !estadoBienvenida || estadoBienvenida === 'completada';
-  if (shellActual === 'miembro' && path !== '/bienvenida' && bienvenidaTerminada) abrirAnuncioCursoGratis();
+  // Miembro gratuito que aún no elige su curso: se le lleva al MÓDULO #/curso-gratis una vez por sesión
+  // (sin "posponer" permanente, para que no se lo salte). Después puede navegar para decidir con calma.
+  if (shellActual === 'miembro' && path !== '/bienvenida' && path !== '/curso-gratis' && bienvenidaTerminada && debeElegir()) {
+    let yaLlevado = false;
+    try { yaLlevado = sessionStorage.getItem('dermalysse:curso-gratis-llevado') === '1'; } catch { /* sin almacenamiento */ }
+    if (!yaLlevado) {
+      try { sessionStorage.setItem('dermalysse:curso-gratis-llevado', '1'); } catch { /* sin almacenamiento */ }
+      navigate('/curso-gratis');
+      return;
+    }
+  }
   const crumb = document.querySelector('[data-crumb]'); if (crumb) crumb.textContent = document.querySelector('#outlet h1')?.textContent?.trim() || 'Administración';
   if (Datos.modo === 'api') {
     const video = document.querySelector<HTMLElement>('[data-video-api]');
@@ -709,9 +721,13 @@ document.addEventListener('click', async (e) => {
   const pw = el.closest<HTMLElement>('[data-paywall]');
   if (pw) { mostrarPaywall(pw.dataset.paywall || undefined); return; }
 
-  // «Escoge tu curso gratis»: elegir desde la página del curso (confirma, es permanente).
+  // «Escoge tu curso gratis»: desde la página del curso se va al MÓDULO dedicado (no un modal flotante).
   const elegirCurso = el.closest<HTMLElement>('[data-elegir-curso]');
-  if (elegirCurso) { e.preventDefault(); pedirElegirCursoGratis(elegirCurso.dataset.elegirCurso!); return; }
+  if (elegirCurso) { e.preventDefault(); navigate('/curso-gratis'); return; }
+
+  // Tarjeta del módulo #/curso-gratis: confirma la elección (permanente) y lleva al curso.
+  const cgElegir = el.closest<HTMLElement>('[data-cg-elegir]');
+  if (cgElegir) { e.preventDefault(); confirmarCursoGratis(cgElegir.dataset.cgElegir!, toast, navigate); return; }
 
   // Modo API: material con archivo protegido y enlaces de En vivo (los pide a la API con sesión).
   const abrirMaterial = el.closest<HTMLElement>('[data-abrir-material]');
