@@ -1,0 +1,38 @@
+rules_version = '2';
+
+// ╔══════════════════════════════════════════════════════════════════════════════╗
+// ║  CLUB DERMALYSSE - REGLAS DE SEGURIDAD STORAGE (BUCKET FIREBASE STORAGE)     ║
+// ║                                                                              ║
+// ║  Los materiales y guías clínicas se descargan exclusivamente mediante URLs   ║
+// ║  firmadas de 10 min expedidas por el backend solo para miembros VIP.        ║
+// ║  Las subidas se realizan por URLs firmadas autorizadas solo para admins.     ║
+// ║  Las portadas y fotos públicas de directorio permiten lectura directa CDN.   ║
+// ║  Ninguna escritura directa desde el navegador está permitida.                ║
+// ╚══════════════════════════════════════════════════════════════════════════════╝
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Portadas de materiales y cursos: públicas para catálogo y catálogo de cabina.
+    match /materiales/portadas/{archivo} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Archivos de materiales (PDFs clínicos, protocolos): estrictamente privados.
+    match /materiales/{archivo} {
+      allow read, write: if false;
+    }
+
+    // Fotos de perfil y banners del directorio profesional (opt-in de especialistas).
+    // Escritura restringida a URLs firmadas emitidas por la API para el UID autenticado.
+    match /directorio/perfiles/{uid}/{archivo} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Denegación por omisión para cualquier otra ruta de Storage.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
