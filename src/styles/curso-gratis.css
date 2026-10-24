@@ -124,9 +124,13 @@
   position: static;
   inset: auto;
   z-index: auto;
-  display: block;
-  padding: 0;
-  background: none;
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 32px 16px;
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(104, 28, 49, 0.08), transparent 70%),
+    var(--surface-2, #f4f7f9);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }

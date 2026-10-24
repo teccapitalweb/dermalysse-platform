@@ -46,7 +46,7 @@ export function paginaCursoGratis(): string {
     </header>
     <div class="acg__grid">${cursos.map(tarjeta).join('')}</div>
     <footer class="acg__foot">
-      <span class="acg__nota">${ic('info')} Tómate tu tiempo: abre cualquier curso para conocerlo antes de decidir.</span>
+      <span class="acg__nota">${ic('info')} Tu elección es permanente. Elige con calma el curso con el que quieres empezar.</span>
     </footer>
   </div></section>`;
 }

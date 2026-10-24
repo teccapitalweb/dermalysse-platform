@@ -213,7 +213,9 @@ onBeforeRender(async (path) => {
   }
   // Bienvenida y encuesta ocupan toda la pantalla, sin menú ni barras del club.
   // Si la función está apagada, la ruta muestra «Próximamente» dentro del club (con menú).
-  const pantallaCompleta = !funcionApagada && (path === '/bienvenida' || path === '/encuestas');
+  // El módulo «curso gratis» también va a pantalla completa (solo ese módulo, sin menú del club),
+  // como una página dedicada de primera vez; al elegir, continúa al curso.
+  const pantallaCompleta = (!funcionApagada && (path === '/bienvenida' || path === '/encuestas')) || path === '/curso-gratis';
   if (pantallaCompleta && path === '/bienvenida') { try { localStorage.setItem(invitacionExperiencia(u.uid), '1'); } catch { /* sin almacenamiento */ } }
   montar(pantallaCompleta ? 'solo' : 'miembro');
   if (!pantallaCompleta) instalarAvisosLogros(u.uid);
