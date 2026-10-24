@@ -67,6 +67,20 @@ export function instalarInteraccionesDirectorio(
       return;
     }
 
+    const nudgeSkip = el.closest<HTMLButtonElement>('[data-network-nudge-skip]');
+    if (nudgeSkip) {
+      try { sessionStorage.setItem('dermalysse:directorio:nudge', 'omitido'); } catch { /* storage bloqueado */ }
+      nudgeSkip.disabled = true;
+      try {
+        await Directorio.asegurarPerfil();
+        toast('Te creamos un perfil básico; puedes completarlo cuando quieras.', 'user-round-check');
+      } catch (err) {
+        toast(mensajeError(err), 'circle-alert');
+      }
+      await render();
+      return;
+    }
+
     if (el.closest('[data-network-photo-remove]')) {
       if (fotoDirectorioPendiente) URL.revokeObjectURL(fotoDirectorioPendiente.preview);
       fotoDirectorioPendiente = null;

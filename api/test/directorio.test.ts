@@ -28,6 +28,7 @@ const TOKENS: Record<string, TokenDecodificado> = {
   'tok-vip': { uid: 'u-vip', email: 'vip@example.test', name: 'Dra. Elena VIP' },
   'tok-libre': { uid: 'u-libre', email: 'libre@example.test', name: 'Carla Cosmiatra' },
   'tok-admin': { uid: 'u-admin', email: 'admin@example.test', name: 'Admin Dermalysse' },
+  'tok-nuevo': { uid: 'u-nuevo', email: 'nuevo@example.test', name: 'Miembro Nuevo' },
 };
 
 const verificador = {
@@ -535,4 +536,29 @@ test('directorio profesional · migración perezosa: flag legacy del perfil tamb
   assert.equal(tras?.visible, false);
   // Y la migración perezosa debió crear el doc en la colección aparte.
   assert.equal(db.crudo('v2_directorio_moderacion/u-legacy')?.oculto, true);
+});
+
+test('directorio profesional · asegurar crea perfil mínimo OCULTO para usuario nuevo e idempotente', async () => {
+  // Usuario nuevo sin perfil: asegurar crea uno mínimo y OCULTO.
+  const r1 = await send('/directorio/perfil/asegurar', 'POST', {}, 'tok-nuevo');
+  assert.equal(r1.status, 200);
+  assert.equal(((await r1.json()) as any).creado, true);
+
+  // Su perfil propio existe (para editarlo) con lo básico y sin publicar.
+  const dir = (await (await get('/directorio', 'tok-nuevo')).json()) as any;
+  assert.ok(dir.miPerfil, 'debe tener miPerfil tras asegurar');
+  assert.equal(dir.miPerfil.nombre, 'Miembro Nuevo');
+  assert.equal(dir.miPerfil.visible, false);
+  // OCULTO: otro miembro NO lo ve en el listado público (solo se listan visibles).
+  const dirOtro = (await (await get('/directorio', 'tok-vip')).json()) as any;
+  assert.ok(!dirOtro.perfiles.some((p: any) => p.uid === 'u-nuevo'), 'un perfil oculto no lo ven otros');
+
+  // Idempotente: un segundo asegurar no recrea.
+  const r2 = await send('/directorio/perfil/asegurar', 'POST', {}, 'tok-nuevo');
+  assert.equal(((await r2.json()) as any).creado, false);
+
+  // No pisa un perfil ya completo.
+  await send('/directorio/perfil', 'PUT', perfilDatos(), 'tok-nuevo');
+  const r3 = await send('/directorio/perfil/asegurar', 'POST', {}, 'tok-nuevo');
+  assert.equal(((await r3.json()) as any).creado, false);
 });

@@ -281,6 +281,11 @@ const filaCredencial = (x: { nombre?: string; emisor?: string; anio?: string } =
 
 function directorioPanel(query: URLSearchParams) {
   const data = Directorio.get();
+  const miPerfil = data.miPerfil;
+  const perfilIncompleto = !miPerfil || !miPerfil.titular || !miPerfil.bio;
+  let nudgeOmitido = false;
+  try { nudgeOmitido = sessionStorage.getItem('dermalysse:directorio:nudge') === 'omitido'; } catch { /* storage bloqueado */ }
+  const mostrarNudge = perfilIncompleto && !nudgeOmitido;
   const vista = query.get('vista') || 'personas';
   const q = (query.get('q') || '').trim().toLocaleLowerCase('es-MX');
   const coincide = (campos: unknown[]) => !q || campos.flat().join(' ').toLocaleLowerCase('es-MX').includes(q);
@@ -306,6 +311,18 @@ function directorioPanel(query: URLSearchParams) {
         <button class="btn btn--brand" data-network-job><i data-lucide="plus" class="i"></i>Publicar espacio / equipo</button>
       </div>
     </div>
+
+    ${mostrarNudge ? `<div class="network-nudge" data-network-nudge>
+      <div class="network-nudge__copy">
+        <span class="eyebrow"><i data-lucide="sparkles" class="i"></i>Directorio profesional</span>
+        <h3>${miPerfil ? 'Completa tu perfil profesional' : 'Crea tu perfil profesional'}</h3>
+        <p>Aparece ante cosmetólogas y clínicas para interconsultas, colaboración y renta de espacios. Solo se muestra cuando tú lo publicas.</p>
+      </div>
+      <div class="network-nudge__actions">
+        <a class="btn btn--brand" href="#/directorio/perfil"><i data-lucide="contact" class="i"></i>${miPerfil ? 'Completar mi perfil' : 'Crear mi perfil'}</a>
+        <button type="button" class="btn btn--ghost" data-network-nudge-skip>Ahora no</button>
+      </div>
+    </div>` : ''}
 
     <div class="network-toolbar">
       <nav>

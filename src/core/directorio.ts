@@ -444,6 +444,14 @@ export const Directorio = {
     guardar();
     return estado;
   },
+  // Asegura un perfil mínimo OCULTO cuando el miembro omite llenar sus datos (usuario nuevo).
+  async asegurarPerfil() {
+    if (Datos.modo !== 'api') return estado;
+    await api('/directorio/perfil/asegurar', { method: 'POST', json: {} });
+    this.invalidar();
+    await this.cargar();
+    return estado;
+  },
   async reportar(tipo: 'perfil' | 'oportunidad', objetivoId: string, motivo: string, detalle: string) {
     if (Datos.modo === 'api') return api<{ id: string; estado: string }>('/directorio/reportes', { method: 'POST', json: { tipo, objetivoId, motivo, detalle } });
     return { id: `demo-reporte-${Date.now()}`, estado: 'pendiente' };
