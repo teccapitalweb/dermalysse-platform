@@ -7,6 +7,13 @@ export const materiales: Material[] = [];
 const recargar = () => materiales.splice(0, materiales.length, ...Datos.materiales().filter((m) => m.estado !== 'oculto'));
 recargar(); window.addEventListener('datos:cambio', recargar);
 const tipoIcon: Record<string, string> = { PDF: 'file-text', Guía: 'notebook-tabs', Libro: 'book-open', Presentación: 'presentation' };
+
+// Portada del material: la imagen si la tiene; si no (p. ej. PDFs viejos del admin sin cover), un
+// placeholder con el icono de su tipo, para no mostrar un cuadro en blanco.
+const coverMaterial = (m: Material) =>
+  m.portada
+    ? `<img src="${esc(m.portada)}" alt="" loading="lazy">`
+    : `<div class="cover-ph"><i data-lucide="${tipoIcon[m.tipo] || 'file-text'}" class="i" aria-hidden="true"></i></div>`;
 const GUARDADOS_KEY = 'dermalysse:materiales-guardados';
 
 export function materialesGuardados(): string[] {
@@ -31,7 +38,7 @@ export function alternarMaterialGuardado(id: string) {
 export function estante(items: Material[]) {
   return `<div class="shelf">${items.map((m) => `
     <a class="shelf__item" href="#/materiales/${m.id}">
-      <div class="shelf__cover"><img src="${m.portada}" alt="" loading="lazy">${m.estado !== 'disponible' ? '<span class="chip chip--glass" style="position:absolute;left:8px;bottom:8px;height:22px;font-size:10px">Próximamente</span>' : m.gratis ? '<span class="chip chip--glass" style="position:absolute;left:8px;bottom:8px;height:22px;font-size:10px">Gratis</span>' : !Acceso.materialAccesible(m) ? '<span class="chip chip--glass" style="position:absolute;top:8px;right:8px;height:24px;width:24px;padding:0;justify-content:center"><i data-lucide="lock" class="i" style="width:13px;height:13px"></i></span>' : ''}</div>
+      <div class="shelf__cover">${coverMaterial(m)}${m.estado !== 'disponible' ? '<span class="chip chip--glass" style="position:absolute;left:8px;bottom:8px;height:22px;font-size:10px">Próximamente</span>' : m.gratis ? '<span class="chip chip--glass" style="position:absolute;left:8px;bottom:8px;height:22px;font-size:10px">Gratis</span>' : !Acceso.materialAccesible(m) ? '<span class="chip chip--glass" style="position:absolute;top:8px;right:8px;height:24px;width:24px;padding:0;justify-content:center"><i data-lucide="lock" class="i" style="width:13px;height:13px"></i></span>' : ''}</div>
       <div class="shelf__title">${esc(m.titulo)}</div>
       <div class="shelf__meta">${m.tipo} · ${m.paginas} ${m.tipo === 'Presentación' ? 'láminas' : 'págs'}</div>
     </a>`).join('')}</div>`;
@@ -101,7 +108,7 @@ export function fichaLibro(m: Material, compacto: boolean) {
     : '';
   return `
   <div class="book">
-    <div class="book__cover"><img src="${m.portada}" alt=""><span class="chip"><i data-lucide="${tipoIcon[m.tipo] || 'file'}" class="i"></i>${m.tipo} · ${m.paginas} ${m.tipo === 'Presentación' ? 'láminas' : 'págs'}</span></div>
+    <div class="book__cover">${coverMaterial(m)}<span class="chip"><i data-lucide="${tipoIcon[m.tipo] || 'file'}" class="i"></i>${m.tipo} · ${m.paginas} ${m.tipo === 'Presentación' ? 'láminas' : 'págs'}</span></div>
     ${accionMovil}
     <div>
       <span class="eyebrow">${esc(m.categoria)} · ${esc(m.area)}${m.gratis ? ' · Acceso gratuito' : ''}</span>
