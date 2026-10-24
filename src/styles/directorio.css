@@ -1107,3 +1107,40 @@
     flex: 0 0 auto;
   }
 }
+
+/* Perfil del directorio como MÓDULO/página (antes era un <dialog> flotante). */
+.directory-page--perfil {
+  padding: 4px 0 36px;
+}
+
+.network-profile-page__back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto 14px;
+  color: var(--text-2, #5f87a1);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.network-profile-page__back:hover {
+  color: var(--primary, #681c31);
+}
+
+.network-profile-page__back .i {
+  width: 16px;
+  height: 16px;
+}
+
+/* Reusa el estilo interno de .network-dialog--profile pero fluye como página, sin overlay. */
+.network-profile-page {
+  width: 100%;
+  max-width: 920px;
+  max-height: none;
+  margin: 0 auto;
+  overflow: visible;
+  box-shadow: 0 10px 40px rgba(104, 28, 49, 0.1);
+}
