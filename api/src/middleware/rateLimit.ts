@@ -11,12 +11,14 @@
 //    que dos escrituras del mismo prefijo (p. ej. "2001:db8::1" y "2001:db8:0:0:0:0:0:1") no caigan
 //    en claves distintas (parser differential). Las formas IPv4-mapeadas (::ffff:a.b.c.d) se reducen
 //    a IPv4. Se quita el zone id (fe80::1%eth0).
-//  - Memoria ACOTADA sin reset explotable: hay una cota dura de claves (maxClaves). Cuando el mapa se
-//    llena NO se expulsan contadores activos (expulsar al más antiguo permitiría a un atacante, con un
-//    flood de claves nuevas, reiniciar el contador de una víctima). En su lugar las claves nuevas caen
-//    en un ÚNICO cubo de desborde compartido (fail-closed): comparten presupuesto, y los contadores ya
-//    existentes se preservan. El barrido de vencidas se amortiza (a lo sumo una vez por ventana), nunca
-//    es un escaneo por petición.
+//  - Memoria ACOTADA sin reset explotable: hay una cota dura de claves (maxClaves, holgada porque cada
+//    entrada es diminuta). Cuando el mapa se llena NO se expulsan contadores activos (expulsar al más
+//    antiguo permitiría a un atacante, con un flood de claves nuevas, reiniciar el contador de una
+//    víctima). En su lugar las claves nuevas se reparten en N cubos de desborde FIJOS por hash de la
+//    clave (fail-closed): así un atacante no bloquea a "todos" los clientes nuevos con un solo cubo
+//    global —el radio de impacto es 1/N— y la memoria sigue acotada. Los contadores ya existentes se
+//    preservan. El barrido de vencidas se amortiza (a lo sumo una vez por ventana), nunca es un escaneo
+//    por petición.
 //
 // No sustituye a un WAF ni a un almacén compartido entre instancias; es una primera barrera por
 // instancia. Para rutas con sesión (p. ej. /cupones/canjear) un límite adicional por uid sería más
@@ -47,8 +49,20 @@ interface Entrada {
   reinicioEn: number;
 }
 
-/** Clave del cubo de desborde (fail-closed) cuando el mapa está lleno de contadores activos. */
-const DESBORDE = '__desborde__';
+// Cubos de desborde (fail-closed) cuando el mapa está lleno de contadores activos. Se reparte por
+// hash en N cubos FIJOS para no colapsar a todos los clientes nuevos en uno solo (radio de impacto 1/N).
+const DESBORDE_SHARDS = 1024;
+const DESBORDE_PREFIJO = '\0desborde:'; // el \0 lo hace imposible de chocar con una IP real
+
+/** Hash FNV-1a de 32 bits (determinista, sin dependencias) para repartir el desborde. */
+function hashCadena(s: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i += 1) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return h >>> 0;
+}
 
 /**
  * Expande una IPv6 (ya validada por net.isIP) a sus 8 hextets normalizados (hex en minúsculas, sin
@@ -118,7 +132,7 @@ export function clavePorIp(req: Request): string {
 export function crearRateLimiter(opciones: OpcionesRateLimit): RequestHandler {
   const ventanaMs = Math.max(1, Math.floor(opciones.ventanaMs));
   const max = Math.max(1, Math.floor(opciones.max));
-  const maxClaves = Math.max(1, Math.floor(opciones.maxClaves ?? 20_000));
+  const maxClaves = Math.max(1, Math.floor(opciones.maxClaves ?? 100_000));
   const ahora = opciones.ahora ?? (() => Date.now());
   const clave = opciones.clave ?? clavePorIp;
   const codigo = opciones.codigo ?? 'demasiadas-solicitudes';
@@ -145,10 +159,11 @@ export function crearRateLimiter(opciones: OpcionesRateLimit): RequestHandler {
     if (!entrada || t >= entrada.reinicioEn) {
       // Hace falta una entrada nueva (clave nueva o ventana vencida).
       if (!entrada && almacen.size >= maxClaves) {
-        // Mapa lleno. No expulsar contadores activos (sería un reset explotable): la clave nueva
-        // comparte el cubo de desborde (fail-closed). El barrido perezoso ya recupera vencidas; aquí
-        // no se escanea, así que el camino de desborde es O(1).
-        id = DESBORDE;
+        // Mapa lleno. No expulsar contadores activos (sería un reset explotable): la clave nueva va a
+        // uno de N cubos de desborde FIJOS, elegido por hash de su propia clave (fail-closed). Así el
+        // bloqueo no es global: un cliente nuevo solo comparte presupuesto con los que caen en su mismo
+        // cubo (1/N). El barrido perezoso ya recupera vencidas; aquí no se escanea → O(1).
+        id = `${DESBORDE_PREFIJO}${hashCadena(id) % DESBORDE_SHARDS}`;
         entrada = almacen.get(id);
       }
       if (!entrada || t >= entrada.reinicioEn) {

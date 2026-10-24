@@ -126,19 +126,23 @@ test('rotar los 64 bits bajos de IPv6 NO evade el límite', () => {
   assert.deepEqual(estados, [200, 200, 429]);
 });
 
-test('memoria llena: NO se reinician contadores activos; las claves nuevas caen en desborde (fail-closed)', () => {
+test('memoria llena: no reinicia contadores activos y reparte el desborde en varios cubos (sin lockout global)', () => {
   const t = 0;
-  // maxClaves=2, max=1, clave = la IP tal cual (para controlar las claves en la prueba).
-  const mw = crearRateLimiter({ ventanaMs: 60000, max: 1, maxClaves: 2, ahora: () => t, clave: (r) => (r as { ip: string }).ip });
+  // maxClaves=1, max=1, clave = la IP tal cual. Una sola clave llena el mapa.
+  const mw = crearRateLimiter({ ventanaMs: 60000, max: 1, maxClaves: 1, ahora: () => t, clave: (r) => (r as { ip: string }).ip });
   const next: NextFunction = () => {};
   const golpe = (ip: string) => { const res = resFalso(); mw(reqFalso(ip), res, next); return res._status; };
 
-  assert.equal(golpe('A'), 200);  // A activo (1/1), mapa: {A}
-  assert.equal(golpe('B'), 200);  // B activo (1/1), mapa lleno: {A,B}
-  assert.equal(golpe('C'), 200);  // mapa lleno de activos → C va al cubo de desborde (1/1)
-  assert.equal(golpe('D'), 429);  // D comparte desborde con C (2/1) → bloqueado (fail-closed)
-  // A NO fue expulsada ni reiniciada: su 2º golpe sigue contando → 429.
-  assert.equal(golpe('A'), 429, 'el contador activo de A debe preservarse, no reiniciarse');
+  assert.equal(golpe('ACTIVA'), 200); // ocupa el único hueco (1/1); el mapa queda lleno
+
+  // Muchas claves nuevas distintas caen en desborde. Al repartirse por hash en varios cubos, casi
+  // todas pasan: NO hay un único cubo global que las bloquee a todas (ese era el lockout global).
+  let exitos = 0;
+  for (let i = 0; i < 50; i += 1) if (golpe(`nuevo-${i}`) === 200) exitos += 1;
+  assert.ok(exitos >= 40, `el desborde debe repartirse (exitos=${exitos}); un cubo global daría ~1`);
+
+  // El contador activo se preserva: su 2º golpe sigue contando → 429 (el desborde no lo reinició).
+  assert.equal(golpe('ACTIVA'), 429, 'el contador activo no debe reiniciarse');
 });
 
 // ── integración: la app real limita por HTTP ──
