@@ -4,11 +4,11 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import ts from 'typescript';
 
-function fixture(apiFn = async () => ({})) {
+function fixture(apiFn = async () => ({}), modo = 'demo') {
   const exports = {};
   const mocks = {
     './auth': { api: apiFn },
-    './datos': { Datos: { modo: 'demo' } },
+    './datos': { Datos: { modo } },
   };
   const store = new Map();
   const src = fs.readFileSync(new URL('../src/core/directorio.ts', import.meta.url), 'utf8');
@@ -26,6 +26,7 @@ function fixture(apiFn = async () => ({})) {
         createObjectURL: () => 'blob:mock',
         revokeObjectURL: () => {},
       },
+      URLSearchParams,
       structuredClone: (x) => JSON.parse(JSON.stringify(x)),
       Date,
       Map,
@@ -36,6 +37,33 @@ function fixture(apiFn = async () => ({})) {
   );
   return exports;
 }
+
+test('directorio en modo API inicia vacío y nunca cae en perfiles demo', async () => {
+  const remotoVacio = {
+    perfiles: [], oportunidades: [], conexiones: [], miPerfil: null,
+    paginacion: {
+      perfiles: { hayMas: false, siguiente: null },
+      oportunidades: { hayMas: false, siguiente: null },
+      conexiones: { truncadas: false },
+    },
+  };
+  const { Directorio } = fixture(async () => remotoVacio, 'api');
+
+  assert.equal(Directorio.get().perfiles.length, 0);
+  assert.equal(Directorio.get().oportunidades.length, 0);
+  await Directorio.cargar();
+  assert.equal(Directorio.get().perfiles.length, 0);
+  assert.equal(Directorio.get().errorCarga, null);
+});
+
+test('fallo de API deja un error honesto sin datos de demostración', async () => {
+  const { Directorio } = fixture(async () => { throw new Error('red caída'); }, 'api');
+
+  await assert.rejects(() => Directorio.cargar(), /red caída/);
+  assert.equal(Directorio.get().perfiles.length, 0);
+  assert.equal(Directorio.get().oportunidades.length, 0);
+  assert.match(Directorio.get().errorCarga, /directorio real/i);
+});
 
 test('directorio cosmetológico cliente maneja perfiles, aparatología y conexiones', async () => {
   const { Directorio } = fixture();

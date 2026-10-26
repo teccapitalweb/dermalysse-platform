@@ -13,7 +13,7 @@ export interface ResumenAdmin {
 }
 
 export interface MiembroDetalle {
-  uid: string; nombre: string; email: string; esVip: boolean; esAdmin: boolean;
+  uid: string; nombre: string; email: string; telefono: string; esVip: boolean; esAdmin: boolean;
   plan: string | null; vence: string | null; cortesiaHasta: string | null;
   cuponHasta?: string | null;
   accesoCupon?: { hasta?: string; ultimoCodigo?: string } | null;
@@ -93,7 +93,7 @@ const adaptarCurso = (c: any): Curso => ({
 const adaptarMaterial = (m: any): Material => ({ ...m, portada: m.portada || '/media/hidrafacial.png', url: m.archivo || '' });
 const adaptarEvento = (e: any): Evento => ({ ...e, reservas: Array.isArray(e.reservas) ? e.reservas.length : Number(e.reservas) || 0 });
 const adaptarMiembro = (m: any): MiembroDemo => ({
-  uid: m.uid, nombre: m.nombre || 'Sin nombre', email: m.email || '', plan: planMiembro(m),
+  uid: m.uid, nombre: m.nombre || 'Sin nombre', email: m.email || '', telefono: m.telefono || '', plan: planMiembro(m),
   vence: m.vence || m.cortesiaHasta || null, alta: m.alta || '', clasesVistas: Number(m.clasesVistas) || 0,
   ultimaActividad: m.ultimaActividad || '', cortesiaHasta: m.cortesiaHasta || null,
   cuponHasta: m.cuponHasta || null,
@@ -148,6 +148,7 @@ export async function cargarAdmin(path: string, forzar = false) {
   else if (path === '/admin/directorio') {
     cargar('directorioReportes', async () => { reportesDirectorio = await api<ReporteAdmin[]>('/admin/directorio/reportes'); });
     cargar('directorioPerfiles', async () => { perfilesDirectorio = await api<PerfilAdminDirectorio[]>('/admin/directorio/perfiles'); });
+    miembros();
   }
   else if (path === '/admin/avisos') avisos();
   else if (path === '/admin/ajustes') config();
@@ -173,6 +174,9 @@ export const AdminRemoto = {
   cupones: () => cupones,
   reportesDirectorio: () => reportesDirectorio,
   perfilesDirectorio: () => perfilesDirectorio,
+  // Evita que el panel de Directorio tome `miembros-demo.json` mientras la
+  // petición real no haya terminado o haya fallado.
+  cuentasDirectorio: () => cargadas.has('miembros') ? Datos.miembros() : [],
   moderarReporte: async (id: string, accion: 'descartar' | 'ocultar_perfil' | 'cerrar_oportunidad') =>
     api<ReporteAdmin>(`/admin/directorio/reportes/${encodeURIComponent(id)}`, { method: 'PATCH', json: { accion } }),
   toggleVisibilidadPerfil: async (uid: string, visible: boolean) =>

@@ -281,6 +281,17 @@ const filaCredencial = (x: { nombre?: string; emisor?: string; anio?: string } =
 
 function directorioPanel(query: URLSearchParams) {
   const data = Directorio.get();
+  if (data.errorCarga) {
+    return `<section class="network-directory">
+      <div class="card card--pad" role="alert" style="text-align:center;padding:56px 20px">
+        <i data-lucide="cloud-off" class="i" style="width:38px;height:38px;color:var(--primary);margin:0 auto 14px"></i>
+        <span class="eyebrow">Directorio profesional</span>
+        <h2 style="margin:8px 0">No pudimos cargar los perfiles reales</h2>
+        <p class="muted">No mostraremos perfiles de ejemplo ni información guardada como sustituto.</p>
+        <button class="btn btn--brand" type="button" data-network-retry style="margin-top:16px"><i data-lucide="refresh-cw" class="i"></i>Volver a intentar</button>
+      </div>
+    </section>`;
+  }
   const miPerfil = data.miPerfil;
   const perfilIncompleto = !miPerfil || !miPerfil.titular || !miPerfil.bio;
   let nudgeOmitido = false;

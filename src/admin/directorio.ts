@@ -105,6 +105,10 @@ export function guardarPerfilesDemo(lista: PerfilAdminDirectorio[]) {
 export function adminDirectorio() {
   const reportes = obtenerReportes();
   const perfiles = obtenerPerfiles();
+  // El padrón contiene datos personales y solo se hidrata desde la ruta admin
+  // autenticada. En demo queda vacío: nunca inventamos correos o teléfonos.
+  const cuentas = Datos.modo === 'api' ? AdminRemoto.cuentasDirectorio() : [];
+  const perfilesPorUid = new Map(perfiles.map((p) => [p.uid, p]));
 
   const pendientes = reportes.filter((r) => r.estado === 'pendiente');
   const atendidos = reportes.filter((r) => r.estado !== 'pendiente');
@@ -121,7 +125,7 @@ export function adminDirectorio() {
   return `
   ${adminHead('Directorio Clínico & Red Profesional', 'Moderación de perfiles cosmetológicos, cabinas y atención de denuncias comunitarias.')}
   <div class="kpis">
-    ${kpi('users', 'Especialistas en red', String(perfiles.length), `${visibles.length} perfiles activos en directorio`)}
+    ${kpi('users', 'Cuentas reales', Datos.modo === 'api' ? String(cuentas.length) : '—', `${perfiles.length} con perfil · ${visibles.length} visibles`)}
     ${kpi('shield-alert', 'Denuncias pendientes', String(pendientes.length), pendientes.length === 0 ? 'Sin denuncias activas' : 'Requieren revisión clínica')}
     ${kpi('shield-check', 'Denuncias atendidas', String(atendidos.length), 'Descartadas o sancionadas')}
     ${kpi('eye-off', 'Perfiles ocultos', String(perfiles.length - visibles.length), 'Suspendidos o en revisión')}
@@ -218,5 +222,50 @@ export function adminDirectorio() {
         </table>
       </div>
     </div>` : vacio('Sin perfiles', 'No hay especialistas registradas en el directorio.')}
+  </section>
+
+  <section class="stack" style="gap:16px;margin-top:16px" aria-label="Padrón privado de cuentas">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow"><i data-lucide="lock-keyhole" class="i"></i> Solo administración</span>
+        <h2 class="display" style="font-size:var(--fs-xl)">Todas las personas que han entrado a la plataforma</h2>
+        <p class="muted" style="font-size:var(--fs-sm)">Padrón privado de <code>users</code> y <code>members</code>. Correo y teléfono nunca se envían al directorio público; ahí solo aparecen perfiles publicados por consentimiento.</p>
+      </div>
+    </div>
+
+    ${Datos.modo !== 'api'
+      ? vacio('Sin datos simulados', 'Este padrón solo se llena con cuentas reales desde la API autenticada.')
+      : cuentas.length
+        ? `<div class="card" style="overflow:hidden">
+          <div style="overflow-x:auto">
+            <table class="table" style="width:100%;text-align:left;border-collapse:collapse">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border);font-size:var(--fs-xs);color:var(--text-muted)">
+                  <th style="padding:12px 16px">Persona</th>
+                  <th style="padding:12px 16px">Contacto privado</th>
+                  <th style="padding:12px 16px">Acceso</th>
+                  <th style="padding:12px 16px">Directorio público</th>
+                  <th style="padding:12px 16px;text-align:right">Cuenta</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${cuentas.map((cuenta) => {
+                  const perfil = perfilesPorUid.get(cuenta.uid);
+                  const estadoDirectorio = perfil?.visible ? 'Publicado' : perfil ? 'Oculto / incompleto' : 'Sin perfil';
+                  const claseDirectorio = perfil?.visible ? 'chip--primary' : perfil ? 'chip--danger' : 'chip--outline';
+                  const acceso = cuenta.esAdmin ? 'Admin' : cuenta.esVip ? 'VIP' : 'Gratuito';
+                  return `<tr style="border-bottom:1px solid var(--border);font-size:var(--fs-sm)">
+                    <td style="padding:12px 16px"><strong>${esc(cuenta.nombre || 'Sin nombre')}</strong><div class="faint mono" style="font-size:11px">${esc(cuenta.uid)}</div></td>
+                    <td style="padding:12px 16px"><div>${esc(cuenta.email || 'Correo no disponible')}</div><div class="faint">${esc(cuenta.telefono || 'Teléfono no registrado')}</div></td>
+                    <td style="padding:12px 16px"><span class="chip ${cuenta.esVip || cuenta.esAdmin ? 'chip--accent' : 'chip--outline'}">${acceso}</span></td>
+                    <td style="padding:12px 16px"><span class="chip ${claseDirectorio}">${estadoDirectorio}</span></td>
+                    <td style="padding:12px 16px;text-align:right"><a class="btn btn--ghost btn--xs" href="#/admin/miembros/${encodeURIComponent(cuenta.uid)}">Ver cuenta<i data-lucide="chevron-right" class="i"></i></a></td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>`
+        : vacio('Sin cuentas registradas', 'La API real no devolvió cuentas en users o members.')}
   </section>`;
 }

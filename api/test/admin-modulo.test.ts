@@ -51,7 +51,7 @@ function sembrar(f: MemoryFirestore) {
   f.sembrar('members/u-admin', { id: 'u-admin', uid: 'u-admin', name: 'Admin', email: 'admin@example.test', plan: 'Free', status: 'active', joined: '2025-01-01', courses: 0 });
 
   f.sembrar('users/u-vip', {
-    name: 'Ana', lastname: 'López', email: 'ana@example.test', _lastLoginDate: fecha(-1),
+    name: 'Ana', lastname: 'López', email: 'ana@example.test', phone: '5215512345678', _lastLoginDate: fecha(-1),
     subscription: { status: 'active', plan: 'anual', currentPeriodEnd: iso(200), stripeCustomerId: 'cus_secreto', stripeSubscriptionId: 'sub_secreto', cancelAtPeriodEnd: false },
     progress: { [CURSO_CATALOGO]: [1, 2] },
   });
@@ -71,7 +71,7 @@ function sembrar(f: MemoryFirestore) {
   f.sembrar('users/u-baja', { name: 'Beto', email: 'beto@example.test', subscription: { status: 'canceled', plan: 'mensual', currentPeriodEnd: iso(-10) } });
   f.sembrar('members/u-baja', { id: 'u-baja', uid: 'u-baja', name: 'Beto', email: 'beto@example.test', plan: 'Free', status: 'active', joined: fecha(-60), courses: 0 });
   // Solo en users (sin members) y sin acceso.
-  f.sembrar('users/u-suelto', { name: 'Sol', email: 'sol@example.test' });
+  f.sembrar('users/u-suelto', { name: 'Sol', email: 'sol@example.test', phone: '5213312345678' });
 
   f.sembrar(`courses/${CURSO_CATALOGO}`, {
     id: CURSO_CATALOGO, name: 'Tecnologías en Cosmiatría', desc: 'Desc', cat: 'Cosmiatría', level: 'Profesional', instructor: 'Equipo',
@@ -306,9 +306,10 @@ test('GET /admin/miembros — members + estado real de users (regla de acceso), 
   assert.ok(por.has('u-suelto'), 'incluye cuentas de users sin members');
   const ana: any = por.get('u-vip');
   assert.deepEqual(ana, {
-    uid: 'u-vip', nombre: 'Ana López', email: 'ana@example.test', plan: 'anual', vence: iso(200), alta: `${fecha(-10)}T12:00:00.000Z`,
+    uid: 'u-vip', nombre: 'Ana López', email: 'ana@example.test', telefono: '5215512345678', plan: 'anual', vence: iso(200), alta: `${fecha(-10)}T12:00:00.000Z`,
     clasesVistas: 2, ultimaActividad: `${fecha(-1)}T12:00:00.000Z`, cortesiaHasta: null, cortesiaMotivo: '', esVip: true, esAdmin: false,
   });
+  assert.equal((por.get('u-suelto') as any).telefono, '5213312345678');
   const carla: any = por.get('u-cortesia');
   assert.equal(carla.plan, 'cortesia');
   assert.equal(carla.cortesiaHasta, iso(5));
@@ -330,6 +331,7 @@ test('GET /admin/miembros/:uid — detalle con progreso y certificados, sin ids 
   assert.ok(!texto.includes('cus_secreto') && !texto.includes('sub_secreto'));
   const d = await json(r);
   assert.equal(d.nombre, 'Ana López');
+  assert.equal(d.telefono, '5215512345678');
   assert.equal(d.plan, 'anual');
   assert.equal(d.esVip, true);
   assert.deepEqual(d.suscripcion, { estado: 'active', plan: 'anual', periodoFin: iso(200), cancelaAlFinal: false });

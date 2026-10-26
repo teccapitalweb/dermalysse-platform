@@ -101,7 +101,7 @@ export function adminMiembros(_: Record<string, string>, query: URLSearchParams)
   const q = (query.get('q') || '').toLowerCase();
   const f = query.get('estado') || '';
   let l = Datos.miembros();
-  if (q) l = l.filter((m) => (m.nombre + m.email).toLowerCase().includes(q));
+  if (q) l = l.filter((m) => (m.nombre + m.email + (m.telefono || '')).toLowerCase().includes(q));
   if (f === 'vip') l = l.filter((m) => estadoMiembro(m).vip && !m.cortesiaHasta);
   if (f === 'cortesia') l = l.filter((m) => m.cortesiaHasta && new Date(m.cortesiaHasta).getTime() > Date.now());
   if (f === 'sin') l = l.filter((m) => !estadoMiembro(m).vip);
@@ -109,12 +109,12 @@ export function adminMiembros(_: Record<string, string>, query: URLSearchParams)
   return `
   ${adminHead('Miembros', `${Datos.miembros().length} cuentas · ${Datos.miembros().filter((m) => estadoMiembro(m).vip).length} con acceso`, '<a class="btn btn--secondary" href="#/admin/cupones"><i data-lucide="ticket-percent" class="i"></i>Cupones</a>')}
   <div class="row" style="justify-content:space-between">
-    <form class="search" style="flex:1;max-width:420px" data-form="buscar-miembro"><i data-lucide="search" class="i"></i><input class="input" name="q" value="${esc(q)}" placeholder="Buscar por nombre o correo"></form>
+    <form class="search" style="flex:1;max-width:420px" data-form="buscar-miembro"><i data-lucide="search" class="i"></i><input class="input" name="q" value="${esc(q)}" placeholder="Buscar por nombre, correo o teléfono"></form>
     <div class="row" style="gap:6px">${chip('', 'Todos')}${chip('vip', 'VIP')}${chip('cortesia', 'Cortesía')}${chip('sin', 'Sin membresía')}</div>
   </div>
   ${l.length ? `<div class="card dtable-wrap"><table class="dtable"><thead><tr><th>Miembro</th><th>Estado</th><th>Vence</th><th>Clases vistas</th><th>Última actividad</th><th></th></tr></thead><tbody>
     ${l.map((m) => { const e = estadoMiembro(m); return `<tr>
-      <td><a class="dtable__main" href="#/admin/miembros/${m.uid}"><span class="avatar" style="width:34px;height:34px;font-size:12px">${iniciales(m.nombre)}</span><span><strong>${esc(m.nombre)}</strong><br><span class="faint">${esc(m.email)}</span></span></a></td>
+      <td><a class="dtable__main" href="#/admin/miembros/${m.uid}"><span class="avatar" style="width:34px;height:34px;font-size:12px">${iniciales(m.nombre)}</span><span><strong>${esc(m.nombre)}</strong><br><span class="faint">${esc(m.email)}${m.telefono ? ` · ${esc(m.telefono)}` : ''}</span></span></a></td>
       <td><span class="chip ${e.chip}">${e.etiqueta}</span></td><td>${fecha(m.cortesiaHasta || m.vence)}</td><td class="mono">${m.clasesVistas}</td><td>${hace(m.ultimaActividad)}</td>
       <td><a class="btn btn--ghost btn--icon btn--xs" href="#/admin/miembros/${m.uid}"><i data-lucide="chevron-right" class="i"></i></a></td></tr>`; }).join('')}
   </tbody></table></div>` : vacio('Sin resultados', 'Prueba con otro nombre o filtro.')}`;
@@ -134,7 +134,7 @@ export function adminMiembro(params: Record<string, string>) {
     <a class="section-head__cta" href="#/admin/miembros" style="align-self:flex-start"><span class="circle-btn circle-btn--glass" style="width:34px;height:34px"><i data-lucide="arrow-left" class="i" style="width:15px;height:15px"></i></span>Miembros</a>
     <div class="card card--pad row" style="gap:18px;align-items:center">
       <div class="avatar avatar--lg">${iniciales(d.nombre)}</div>
-      <div style="flex:1"><h1 class="display" style="font-size:var(--fs-xl)">${esc(d.nombre)}</h1><p class="muted">${esc(d.email || 'Correo no disponible')}</p></div>
+      <div style="flex:1"><h1 class="display" style="font-size:var(--fs-xl)">${esc(d.nombre)}</h1><p class="muted">${esc(d.email || 'Correo no disponible')}${d.telefono ? ` · ${esc(d.telefono)}` : ''}</p></div>
       <span class="chip ${chipEstado}" style="height:32px;font-size:var(--fs-sm)">${etiqueta}</span>
     </div>
     <div class="kpis">

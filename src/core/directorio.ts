@@ -91,6 +91,7 @@ export interface EstadoDirectorio {
   conexiones: ConexionDirectorio[];
   miPerfil: PerfilDirectorio | null;
   paginacion?: PaginacionDirectorio;
+  errorCarga?: string | null;
 }
 
 export interface ImagenDirectorioPreparada {
@@ -224,7 +225,17 @@ const DEMO: EstadoDirectorio = {
   miPerfil: null,
 };
 
-let estado: EstadoDirectorio = structuredClone(DEMO);
+const VACIO: EstadoDirectorio = {
+  perfiles: [],
+  oportunidades: [],
+  conexiones: [],
+  miPerfil: null,
+  errorCarga: null,
+};
+
+// Producción nunca parte de la semilla demo. Si la API falla antes de responder,
+// el estado permanece vacío y la interfaz muestra un error honesto.
+let estado: EstadoDirectorio = structuredClone(Datos.modo === 'api' ? VACIO : DEMO);
 let cargadoEn = 0;
 
 const combinar = <T extends { id?: string; uid?: string }>(a: T[], b: T[]) =>
@@ -242,6 +253,7 @@ function guardar() {
 }
 
 function cargarDemo() {
+  if (Datos.modo !== 'demo') return;
   try {
     const v = JSON.parse(localStorage.getItem(KEY) || 'null');
     if (v?.perfiles) estado = v;
@@ -313,28 +325,35 @@ export const Directorio = {
   },
   async cargar(mas?: 'perfiles' | 'oportunidades') {
     if (Datos.modo === 'api') {
-      const qs = new URLSearchParams({ limite: '24' });
-      const siguiente = mas ? estado.paginacion?.[mas]?.siguiente : null;
-      if (mas === 'perfiles' && siguiente) qs.set('perfilesAntes', siguiente);
-      if (mas === 'oportunidades' && siguiente) qs.set('oportunidadesAntes', siguiente);
-      const remoto = await api<EstadoDirectorio>(`/directorio?${qs}`);
-      estado =
-        mas === 'perfiles'
-          ? {
-              ...remoto,
-              perfiles: combinar(estado.perfiles, remoto.perfiles),
-              oportunidades: estado.oportunidades,
-              paginacion: { ...remoto.paginacion!, oportunidades: estado.paginacion?.oportunidades ?? remoto.paginacion!.oportunidades },
-            }
-          : mas === 'oportunidades'
-          ? {
-              ...remoto,
-              perfiles: estado.perfiles,
-              oportunidades: combinar(estado.oportunidades, remoto.oportunidades),
-              paginacion: { ...remoto.paginacion!, perfiles: estado.paginacion?.perfiles ?? remoto.paginacion!.perfiles },
-            }
-          : remoto;
-      cargadoEn = Date.now();
+      try {
+        const qs = new URLSearchParams({ limite: '24' });
+        const siguiente = mas ? estado.paginacion?.[mas]?.siguiente : null;
+        if (mas === 'perfiles' && siguiente) qs.set('perfilesAntes', siguiente);
+        if (mas === 'oportunidades' && siguiente) qs.set('oportunidadesAntes', siguiente);
+        const remoto = await api<EstadoDirectorio>(`/directorio?${qs}`);
+        estado =
+          mas === 'perfiles'
+            ? {
+                ...remoto,
+                perfiles: combinar(estado.perfiles, remoto.perfiles),
+                oportunidades: estado.oportunidades,
+                paginacion: { ...remoto.paginacion!, oportunidades: estado.paginacion?.oportunidades ?? remoto.paginacion!.oportunidades },
+                errorCarga: null,
+              }
+            : mas === 'oportunidades'
+            ? {
+                ...remoto,
+                perfiles: estado.perfiles,
+                oportunidades: combinar(estado.oportunidades, remoto.oportunidades),
+                paginacion: { ...remoto.paginacion!, perfiles: estado.paginacion?.perfiles ?? remoto.paginacion!.perfiles },
+                errorCarga: null,
+              }
+            : { ...remoto, errorCarga: null };
+        cargadoEn = Date.now();
+      } catch (error) {
+        if (!mas) estado = { ...structuredClone(VACIO), errorCarga: 'No pudimos cargar el directorio real. Intenta de nuevo.' };
+        throw error;
+      }
     }
     return estado;
   },

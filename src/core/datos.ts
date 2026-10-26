@@ -25,7 +25,7 @@ export interface Evento {
 }
 export interface Pregunta { q: string; opciones: string[]; correcta: number; explicacion: string }
 export interface Quiz { id: string; cursoId: string; n: number; estado: 'borrador' | 'aprobado'; preguntas: Pregunta[]; actualizado: string }
-export interface MiembroDemo { uid: string; nombre: string; email: string; plan: 'mensual' | 'anual' | 'cortesia' | 'cupon' | 'ninguno'; vence: string | null; alta: string; clasesVistas: number; ultimaActividad: string; cortesiaHasta?: string | null; cuponHasta?: string | null; cortesiaMotivo?: string; esVip?: boolean; esAdmin?: boolean }
+export interface MiembroDemo { uid: string; nombre: string; email: string; telefono?: string; plan: 'mensual' | 'anual' | 'cortesia' | 'cupon' | 'ninguno'; vence: string | null; alta: string; clasesVistas: number; ultimaActividad: string; cortesiaHasta?: string | null; cuponHasta?: string | null; cortesiaMotivo?: string; esVip?: boolean; esAdmin?: boolean }
 export interface Aviso { id: string; titulo: string; texto: string; enlace?: string; fecha: string }
 export interface Config { precioMensual: number; precioAnual: number; descuentoVIP: number; whatsappSoporte: string; canalWhatsApp: string }
 

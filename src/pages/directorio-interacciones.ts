@@ -36,6 +36,20 @@ export function instalarInteraccionesDirectorio(
   document.addEventListener('click', async (e) => {
     const el = e.target as HTMLElement;
 
+    const reintentar = el.closest<HTMLButtonElement>('[data-network-retry]');
+    if (reintentar) {
+      reintentar.disabled = true;
+      try {
+        Directorio.invalidar();
+        await Directorio.cargar();
+        await render();
+      } catch (err) {
+        toast(mensajeError(err), 'circle-alert');
+        reintentar.disabled = false;
+      }
+      return;
+    }
+
     const verPerfil = el.closest<HTMLElement>('[data-network-view]');
     if (verPerfil) {
       const dialog = [...document.querySelectorAll<HTMLDialogElement>('[data-network-view-dialog]')].find(

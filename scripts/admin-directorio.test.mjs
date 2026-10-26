@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import ts from 'typescript';
 
-function fixture(modo = 'demo', apiData = { reportes: [], perfiles: [] }) {
+function fixture(modo = 'demo', apiData = { reportes: [], perfiles: [], cuentas: [] }) {
   const exports = {};
   const store = new Map();
   const mocks = {
@@ -12,6 +12,7 @@ function fixture(modo = 'demo', apiData = { reportes: [], perfiles: [] }) {
       Datos: {
         modo,
         config: () => ({ precioMensual: 499, precioAnual: 4990, descuentoVIP: 20 }),
+        miembros: () => apiData.cuentas || [],
       },
     },
     '../ui/partials': {
@@ -27,6 +28,7 @@ function fixture(modo = 'demo', apiData = { reportes: [], perfiles: [] }) {
       AdminRemoto: {
         reportesDirectorio: () => apiData.reportes,
         perfilesDirectorio: () => apiData.perfiles,
+        cuentasDirectorio: () => apiData.cuentas || [],
       },
     },
   };
@@ -64,6 +66,8 @@ test('adminDirectorio renderiza KPIs, denuncias y tabla de cosmetólogas', () =>
   assert.match(html, /data-admin-perfil-toggle/);
   assert.match(html, /Lic\. Sofía Valenzuela/);
   assert.match(html, /HIFU/);
+  assert.match(html, /Sin datos simulados/);
+  assert.doesNotMatch(html, /demo@example/);
 });
 
 test('adminDirectorio en modo API utiliza los datos de AdminRemoto', () => {
@@ -96,12 +100,27 @@ test('adminDirectorio en modo API utiliza los datos de AdminRemoto', () => {
       actualizado: new Date().toISOString(),
     },
   ];
+  const mockCuentas = [
+    {
+      uid: 'u-456', nombre: 'Dra. Prueba', email: 'prueba@example.test', telefono: '5213312345678',
+      plan: 'ninguno', vence: null, alta: '', clasesVistas: 0, ultimaActividad: '', esVip: false, esAdmin: false,
+    },
+    {
+      uid: 'u-sin-perfil', nombre: 'Cuenta real', email: 'real@example.test', telefono: '',
+      plan: 'mensual', vence: '2026-12-01T00:00:00.000Z', alta: '', clasesVistas: 0, ultimaActividad: '', esVip: true, esAdmin: false,
+    },
+  ];
 
-  const { exports } = fixture('api', { reportes: mockReportes, perfiles: mockPerfiles });
+  const { exports } = fixture('api', { reportes: mockReportes, perfiles: mockPerfiles, cuentas: mockCuentas });
   const html = exports.adminDirectorio();
 
   assert.match(html, /Spam comercial/);
   assert.match(html, /Spam sobre productos no autorizados por COFEPRIS\./);
   assert.match(html, /Dra\. Prueba/);
   assert.match(html, /Láser Diodo/);
+  assert.match(html, /Todas las personas que han entrado a la plataforma/);
+  assert.match(html, /prueba@example\.test/);
+  assert.match(html, /5213312345678/);
+  assert.match(html, /real@example\.test/);
+  assert.match(html, /Sin perfil/);
 });

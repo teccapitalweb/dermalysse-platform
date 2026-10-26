@@ -73,6 +73,7 @@ export interface MiembroFila {
   uid: string;
   nombre: string;
   email: string;
+  telefono: string;
   plan: 'mensual' | 'anual' | 'cortesia' | null;
   vence: string | null;
   alta: string;
@@ -85,7 +86,7 @@ export interface MiembroFila {
 }
 
 export interface MiembroDetalle {
-  uid: string; nombre: string; email: string; esVip: boolean; esAdmin: boolean;
+  uid: string; nombre: string; email: string; telefono: string; esVip: boolean; esAdmin: boolean;
   plan: 'mensual' | 'anual' | 'cortesia' | null; vence: string | null; cortesiaHasta: string | null;
   motivoAcceso: string;
   cortesia: { motivo: string; hasta: string } | null;
@@ -420,6 +421,8 @@ export class ServicioAdminNucleo {
       const m = members.get(uid);
       const u = users.get(uid) ?? {};
       const email = texto(u.email) || texto(m?.email);
+      const telefono = texto(u.phone) || texto(u.telefono) || texto(u.whatsapp)
+        || texto(m?.phone) || texto(m?.telefono) || texto(m?.whatsapp);
       const acceso = resumenAcceso(u, ahoraMs);
       const cortesiaMs = aMillis(u.vigenciaHasta);
       const cortesiaHasta = Number.isFinite(cortesiaMs) && cortesiaMs > ahoraMs ? new Date(cortesiaMs).toISOString() : null;
@@ -427,6 +430,7 @@ export class ServicioAdminNucleo {
         uid,
         nombre: nombreDe(u, m, email),
         email,
+        telefono,
         plan: acceso.plan,
         vence: acceso.vence,
         alta: isoDeFecha(m?.joined) ?? isoDeFecha(mapa(u.subscription).subscribedAt) ?? '',
@@ -460,6 +464,8 @@ export class ServicioAdminNucleo {
     const u = userDoc.data() ?? {};
     const m = memberDoc.data();
     const email = texto(u.email) || texto(m?.email);
+    const telefono = texto(u.phone) || texto(u.telefono) || texto(u.whatsapp)
+      || texto(m?.phone) || texto(m?.telefono) || texto(m?.whatsapp);
     const acceso = resumenAcceso(u, ahoraMs);
     const cortesiaMs = aMillis(u.vigenciaHasta);
     const cortesiaHasta = Number.isFinite(cortesiaMs) && cortesiaMs > ahoraMs ? new Date(cortesiaMs).toISOString() : null;
@@ -483,6 +489,7 @@ export class ServicioAdminNucleo {
       uid,
       nombre: nombreDe(u, m, email),
       email,
+      telefono,
       esVip: acceso.esVip,
       esAdmin: adminDoc.exists,
       plan: acceso.plan,
