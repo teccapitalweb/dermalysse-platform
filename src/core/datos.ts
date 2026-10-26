@@ -5,6 +5,7 @@ import materialesSeed from '../data/materiales.json';
 import eventosSeed from '../data/envivo.json';
 import miembrosSeed from '../data/miembros-demo.json';
 import quizzesSeed from '../data/quizzes-demo.json';
+import { versionarPortadaCurso } from './portada-curso';
 
 export interface Nota { resumen: string; conceptos: { t: string; texto: string }[] }
 export interface Clase { n: number; titulo: string; videoId: string; duracion: number | null; gratis: boolean; notas?: Nota }
@@ -70,10 +71,14 @@ export const Datos = {
     // Sin perder progreso ni ediciones locales, sincroniza reglas de acceso y portadas del catálogo publicado.
     .map((c) => {
       // En producción Firebase es la fuente de verdad; estas correcciones solo migran el demo local antiguo.
-      if (MODO === 'api') return c;
+      if (MODO === 'api') {
+        const portada = versionarPortadaCurso(c.portada);
+        return portada === c.portada ? c : { ...c, portada };
+      }
       const s = cursosSeed.find((x) => x.id === c.id);
-      if (!s) return c;
-      const portada = /^\/cursos\/curso-\d+\.webp$/.test(c.portada) && s.portada !== c.portada ? s.portada : c.portada;
+      if (!s) return { ...c, portada: versionarPortadaCurso(c.portada) };
+      const portadaBase = /^\/cursos\/curso-\d+\.webp$/.test(c.portada) && s.portada !== c.portada ? s.portada : c.portada;
+      const portada = versionarPortadaCurso(portadaBase);
       const clases = c.clases.map((clase) => {
         const publicada = s.clases.find((x) => x.n === clase.n);
         return publicada && clase.gratis !== publicada.gratis ? { ...clase, gratis: publicada.gratis } : clase;

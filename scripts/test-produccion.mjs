@@ -7,6 +7,7 @@ import {
 } from '../src/core/video-progreso.ts';
 import { hashVerificacionLegada, busquedaSinCodigo, normalizarFolio, esFolioDermalysse, anioFolio } from '../src/core/legado.ts';
 import { FUNCIONES, EN_PRODUCCION, disponibleEn, funcionDeRuta, urlAdminLegado } from '../src/core/funciones.ts';
+import { VERSION_PORTADAS_CURSOS, versionarPortadaCurso } from '../src/core/portada-curso.ts';
 
 function reloj(inicio = 1_000_000) {
   let t = inicio;
@@ -182,4 +183,17 @@ test('VITE_ADMIN_LEGADO_URL: solo https sin credenciales', () => {
   for (const malo of [undefined, '', '  ', 'http://admin.example.test', 'javascript:alert(1)', 'https://u:p@admin.example.test', 'no es url']) {
     assert.equal(urlAdminLegado(malo), null, String(malo));
   }
+});
+
+test('las portadas locales de cursos cambian de URL al renovarse, sin alterar recursos externos', () => {
+  assert.equal(
+    versionarPortadaCurso('/cursos/course-regulacion-cosmetica.jpg'),
+    `/cursos/course-regulacion-cosmetica.jpg?v=${VERSION_PORTADAS_CURSOS}`,
+  );
+  assert.equal(
+    versionarPortadaCurso('/cursos/course-regulacion-cosmetica.jpg?v=anterior'),
+    `/cursos/course-regulacion-cosmetica.jpg?v=${VERSION_PORTADAS_CURSOS}`,
+  );
+  assert.equal(versionarPortadaCurso('https://cdn.example.test/portada.jpg'), 'https://cdn.example.test/portada.jpg');
+  assert.equal(versionarPortadaCurso('/media/hero-background.png'), '/media/hero-background.png');
 });
