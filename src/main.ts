@@ -73,6 +73,7 @@ import { emitirCertificado, limpiarCertificados } from './core/certificados-remo
 import { herramientas, montarHerramientas } from './pages/herramientas';
 import { paginaPraxia } from './pages/praxia';
 import { paginaRecompensas } from './pages/recompensas';
+import { actualizarPuntosShell, invalidarPanelPuntos } from './core/puntos';
 import { perfil, suscripcion, configuracion, mas, confirmarPagoStripe } from './pages/cuenta';
 import { directorio, directorioPerfil } from './pages/directorio';
 import { instalarInteraccionesDirectorio } from './pages/directorio-interacciones';
@@ -111,6 +112,7 @@ function setTheme(t: 'light' | 'dark') {
     img.src = admin || t === 'dark' ? '/brand/dermalysse-horizontal-light.svg' : '/brand/dermalysse-horizontal.svg';
   });
   createIcons({ icons });
+  if (shellActual === 'miembro' && disponible('recompensas')) void actualizarPuntosShell();
 }
 
 // ── Avisos breves ──
@@ -792,17 +794,42 @@ document.addEventListener('click', async (e) => {
 
   const canjear = disponible('recompensas') ? el.closest<HTMLButtonElement>('[data-canjear]') : null;
   if (canjear) {
+    if (Datos.modo !== 'api') { toast('Esta es una vista de demostración; el canje real requiere una cuenta conectada.', 'info'); return; }
     if (canjear.disabled) return;
     canjear.disabled = true;
     const rid = canjear.dataset.canjear!;
     try {
       const resultado = await api<{ hasta: string }>(`/recompensas/${rid}/canjear`, { method: 'POST' });
+      invalidarPanelPuntos();
       await Auth.refrescarEstado();
       remontar();
       navigate('/recompensas');
       celebrar('grande');
       toast(`Recompensa canjeada. VIP hasta ${new Date(resultado.hasta).toLocaleDateString('es-MX')}.`, 'gift');
     } catch (err) { toast(mensajeError(err), 'circle-alert'); canjear.disabled = false; }
+    return;
+  }
+
+  const canjearBeneficio = disponible('recompensas') ? el.closest<HTMLButtonElement>('[data-canjear-beneficio]') : null;
+  if (canjearBeneficio) {
+    if (Datos.modo !== 'api') { toast('Esta es una vista de demostración; conecta una cuenta para canjear.', 'info'); return; }
+    if (canjearBeneficio.disabled) return;
+    canjearBeneficio.disabled = true;
+    canjearBeneficio.setAttribute('aria-busy', 'true');
+    try {
+      const resultado = await api<{ canje: { nombre: string; diasVip: number | null; vigenciaHasta: string | null } }>(`/beneficios/${canjearBeneficio.dataset.canjearBeneficio!}/canjear`, { method: 'POST' });
+      invalidarPanelPuntos();
+      if (resultado.canje.diasVip) await Auth.refrescarEstado();
+      render();
+      celebrar('grande');
+      toast(resultado.canje.diasVip && resultado.canje.vigenciaHasta
+        ? `${resultado.canje.nombre} activado. VIP hasta ${new Date(resultado.canje.vigenciaHasta).toLocaleDateString('es-MX')}.`
+        : `${resultado.canje.nombre} ya forma parte de tu biblioteca permanente.`, 'gem');
+    } catch (err) {
+      toast(mensajeError(err), 'circle-alert');
+      canjearBeneficio.disabled = false;
+      canjearBeneficio.removeAttribute('aria-busy');
+    }
     return;
   }
 

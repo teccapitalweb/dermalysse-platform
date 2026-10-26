@@ -20,6 +20,9 @@ export interface ReglaRecompensa {
   metrica: MetricaVip;
   meta: number;
   premio: { duracion: DuracionVip; dias: number | null };
+  /** false = conserva el avance visible, pero no entrega valor hasta tener una señal segura. */
+  habilitada?: boolean;
+  motivoPausa?: string;
 }
 
 /** Reglas aprobadas por el propietario (las mismas que muestra el club en demo). */
@@ -27,9 +30,9 @@ export const REGLAS_RECOMPENSAS: readonly ReglaRecompensa[] = [
   { id: 'primer-paso', nombre: 'Primer Paso', descripcion: 'Mira 5 clases de cualquier curso', icono: 'play', metrica: 'clasesVistas', meta: 5, premio: { duracion: 'personalizada', dias: 7 } },
   { id: 'curso-completo', nombre: 'Curso Completo', descripcion: 'Completa 1 curso', icono: 'book-check', metrica: 'cursosCompletados', meta: 1, premio: { duracion: '15d', dias: null } },
   { id: 'doble-logro', nombre: 'Doble Logro', descripcion: 'Completa 2 cursos', icono: 'trophy', metrica: 'cursosCompletados', meta: 2, premio: { duracion: '1m', dias: null } },
-  { id: 'explorador', nombre: 'Explorador', descripcion: 'Completa 5 niveles de historia', icono: 'compass', metrica: 'nivelesHistoria', meta: 5, premio: { duracion: 'personalizada', dias: 7 } },
-  { id: 'aventurero', nombre: 'Aventurero', descripcion: 'Completa los 10 niveles de historia', icono: 'map', metrica: 'nivelesHistoria', meta: 10, premio: { duracion: '15d', dias: null } },
-  { id: 'participativo', nombre: 'Participativo', descripcion: 'Publica 3 hilos en el foro', icono: 'message-square', metrica: 'hilosForo', meta: 3, premio: { duracion: 'personalizada', dias: 7 } },
+  { id: 'explorador', nombre: 'Explorador', descripcion: 'Completa 5 niveles de historia', icono: 'compass', metrica: 'nivelesHistoria', meta: 5, premio: { duracion: 'personalizada', dias: 7 }, habilitada: false, motivoPausa: 'En validación: Historia todavía debe acreditar cada nivel completamente en el servidor.' },
+  { id: 'aventurero', nombre: 'Aventurero', descripcion: 'Completa los 10 niveles de historia', icono: 'map', metrica: 'nivelesHistoria', meta: 10, premio: { duracion: '15d', dias: null }, habilitada: false, motivoPausa: 'En validación: Historia todavía debe acreditar cada nivel completamente en el servidor.' },
+  { id: 'participativo', nombre: 'Participativo', descripcion: 'Publica 3 aportaciones de calidad', icono: 'message-square', metrica: 'hilosForo', meta: 3, premio: { duracion: 'personalizada', dias: 7 }, habilitada: false, motivoPausa: 'En moderación: contará aportaciones aprobadas por calidad, no volumen de publicaciones.' },
   { id: 'certificado', nombre: 'Certificado', descripcion: 'Obtén tu primer certificado', icono: 'award', metrica: 'certificados', meta: 1, premio: { duracion: '15d', dias: null } },
   { id: 'maestro', nombre: 'Criterio Dermalysse', descripcion: 'Completa 5 cursos', icono: 'crown', metrica: 'cursosCompletados', meta: 5, premio: { duracion: '1m', dias: null } },
 ];
@@ -46,6 +49,8 @@ export interface Recompensa {
   canjeado: boolean;
   canjeadoEn: string | null;
   premio: { duracion: string; dias: number | null };
+  disponible: boolean;
+  motivoPausa: string | null;
 }
 
 export interface CanjeRecompensa { fecha: string; dias: number; vigenciaHasta: string }
@@ -93,6 +98,8 @@ export function recompensaDesdeRegla(regla: ReglaRecompensa, metricas: MetricasV
     canjeado: !!canje,
     canjeadoEn: canje ? canje.fecha || null : null,
     premio: { ...regla.premio },
+    disponible: regla.habilitada !== false,
+    motivoPausa: regla.motivoPausa ?? null,
   };
 }
 
@@ -113,6 +120,7 @@ export class RecompensasService {
   async canjear(uid: string, id: string): Promise<ResultadoCanjeRecompensa> {
     const regla = REGLAS_RECOMPENSAS.find((r) => r.id === id);
     if (!regla) throw new NotFoundError('Esa recompensa no existe.');
+    if (regla.habilitada === false) throw new CodedError(409, 'recompensa/validacion-pendiente', regla.motivoPausa ?? 'Esta recompensa está en validación.');
     const dias = diasDeRegla(regla);
 
     // El progreso solo crece (avance, historia, foro y certificados no se pierden): se valida antes de la transacción.

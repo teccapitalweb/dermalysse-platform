@@ -28,6 +28,8 @@ export interface MetricasVip {
   nivelesHistoria: number;
   hilosForo: number;
   certificados: number;
+  /** XP acreditado por el motor autoritativo de Retos; nunca viene del cliente. */
+  xpRetos: number;
 }
 
 export type MetricaVip = keyof MetricasVip;
@@ -52,12 +54,13 @@ export function avanceDesdeProgress(progress: unknown, clasesPorCurso: ReadonlyM
 
 export async function leerMetricasVip(db: FirestorePort, uid: string): Promise<MetricasVip> {
   const id = segmento(uid);
-  const [user, cursos, historia, hilos, certificados] = await Promise.all([
+  const [user, cursos, historia, hilos, certificados, retos] = await Promise.all([
     db.get(`users/${id}`),
     db.query('courses'),
     db.get(`${COLECCIONES_V2.historia}/${id}`),
     db.query('forum', { where: [{ campo: 'authorUid', op: '==', valor: uid }] }),
     db.query('certificates', { where: [{ campo: 'uid', op: '==', valor: uid }] }),
+    db.get(`v2_retos_estado/${id}`),
   ]);
 
   const clasesPorCurso = new Map<string, number>();
@@ -78,5 +81,6 @@ export async function leerMetricasVip(db: FirestorePort, uid: string): Promise<M
     nivelesHistoria: normalizarGuardada(historia.data()).completados.filter((id) => NIVELES_HISTORIA_REALES.has(id)).length,
     hilosForo: hilos.filter((h) => h.data()?.oculto !== true).length,
     certificados: cursosCertificados.size,
+    xpRetos: Math.max(0, Math.floor(Number(retos.data()?.xp) || 0)),
   };
 }

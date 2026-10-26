@@ -21,15 +21,18 @@ import { cargarMaterialesEditoriales, cargarQuizzesEmpaquetados, FirestoreConten
 import type { FirestorePort } from '../adapters/firestore/port.js';
 import { asyncHandler } from '../routes/util.js';
 import { ContenidoService } from '../services/contenido.js';
+import { PuntosService } from '../services/puntos.js';
 import type { ModuloApi } from './tipos.js';
 
 /** Servicio de contenido sobre un Firestore (lo comparten el módulo y /catalogo de producción). */
 export function crearServicioContenido(db: FirestorePort, ahora: () => Date = () => new Date()): ContenidoService {
+  const puntos = new PuntosService(db, ahora);
   return new ContenidoService(new FirestoreContenidoStore(db), {
     editoriales: cargarMaterialesEditoriales(),
     cursos: cargarCatalogoEditorial(),
     quizzes: cargarQuizzesEmpaquetados(),
     ahora,
+    tieneMaterialCanjeado: (uid, materialId) => puntos.tieneMaterial(uid, materialId),
   });
 }
 

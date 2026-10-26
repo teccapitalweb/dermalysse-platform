@@ -13,7 +13,7 @@ export const COLECCION_BITACORA_VIP = 'v2_vip_bitacora';
 export const DIAS_VIP_MAX = 366;
 const DIA_MS = 86_400_000;
 
-export type FuenteVip = 'recompensa' | 'cupon' | 'bienvenida' | 'admin';
+export type FuenteVip = 'recompensa' | 'cupon' | 'bienvenida' | 'admin' | 'puntos';
 
 export interface OtorgamientoVip {
   uid: string;

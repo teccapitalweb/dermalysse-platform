@@ -9,21 +9,29 @@ import type { FirestorePort } from '../adapters/firestore/port.js';
 import { asyncHandler } from '../routes/util.js';
 import { CuponesService } from '../services/cupones.js';
 import { RecompensasService } from '../services/recompensas.js';
+import { PuntosService } from '../services/puntos.js';
 import type { ModuloApi } from './tipos.js';
 
 export function moduloVip(ctx: { db: FirestorePort; ahora: () => Date; produccion: boolean }): ModuloApi {
   const recompensas = new RecompensasService(ctx.db, ctx.ahora);
+  const puntos = new PuntosService(ctx.db, ctx.ahora);
   const cupones = new CuponesService(ctx.db, ctx.ahora);
 
   return ({ app, requireUser, requireAdmin }) => {
     app.get('/recompensas', requireUser, asyncHandler(async (req, res) => {
       res.set('Cache-Control', 'no-store');
-      res.json({ recompensas: await recompensas.listar(req.usuario!.uid) });
+      const [lista, panel] = await Promise.all([recompensas.listar(req.usuario!.uid), puntos.panel(req.usuario!.uid)]);
+      res.json({ recompensas: lista, ...panel });
     }));
 
     app.post('/recompensas/:id/canjear', requireUser, asyncHandler(async (req, res) => {
       res.set('Cache-Control', 'no-store');
       res.json(await recompensas.canjear(req.usuario!.uid, String(req.params.id)));
+    }));
+
+    app.post('/beneficios/:id/canjear', requireUser, asyncHandler(async (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.canjear(req.usuario!.uid, String(req.params.id)));
     }));
 
     app.post('/cupones/canjear', requireUser, asyncHandler(async (req, res) => {

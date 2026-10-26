@@ -12,6 +12,7 @@ import { avanceDesdeProgress } from '../src/adapters/firestore/metricasVip.js';
 import { REGLAS_RECOMPENSAS, diasDeRegla } from '../src/services/recompensas.js';
 import { normalizarCodigo } from '../src/services/cupones.js';
 import { COLECCION_BITACORA_VIP } from '../src/services/vip.js';
+import { nivelDe } from '../src/services/puntos.js';
 
 const CUENTA_FALSA = JSON.stringify({ project_id: 'club-dermalysse', client_email: 'prueba@example.invalid', private_key: 'llave-falsa-de-prueba' });
 const ENV = {
@@ -29,6 +30,7 @@ const TOKENS: Record<string, TokenDecodificado> = {
   'tok-avance': { uid: 'u-avance', email: 'avance@example.test', name: 'Avance' },
   'tok-libre': { uid: 'u-libre', email: 'libre@example.test', name: 'Libre' },
   'tok-tercero': { uid: 'u-tercero', email: 'tercero@example.test', name: 'Tercero' },
+  'tok-puntos-vip': { uid: 'u-puntos-vip', email: 'puntos@example.test', name: 'Puntos' },
   'tok-admin': { uid: 'u-admin', email: 'admin@example.test', name: 'Admin' },
 };
 const verificador = {
@@ -65,10 +67,15 @@ function sembrar(f: MemoryFirestore) {
   f.sembrar('forum/h5', { title: 'Ajeno', authorUid: 'u-otro', createdAt: 5 });
   f.sembrar('certificates/DRML-2026-AAAAAAAAAAAA', { uid: 'u-avance', courseId: 'course-a', status: 'valid' });
   f.sembrar('certificates/DRML-2026-BBBBBBBBBBBB', { uid: 'u-avance', courseId: 'course-c', status: 'revoked' });
+  f.sembrar('v2_retos_estado/u-avance', { xp: 80, quizBest: 300, casos: {}, sr: {}, diaria: { fecha: '2026-10-15', racha: 2 } });
+  f.sembrar('pdfs/p-1784228079707', { id: 'p-1784228079707', name: 'REGULACIÓN COSMÉTICA', status: 'published', estado: 'disponible', drive: 'https://drive.google.com/file/d/archivo-prueba/view', downloads: 0 });
 
   // u-libre: cortesía vencida, 5 clases de course-c (sin completar el curso).
   f.sembrar('users/u-libre', { name: 'Libre', email: 'libre@example.test', vigenciaHasta: '2026-01-01T00:00:00.000Z', progress: { 'course-c': [1, 2, 3], 'course-a': [1, 2] } });
   f.sembrar('users/u-tercero', { name: 'Tercero', email: 'tercero@example.test' });
+  f.sembrar('v2_puntos/u-tercero', { uid: 'u-tercero', saldo: 300, experiencia: 300, ganados: 300, gastados: 0, canjes: 0, acreditado: { clases: 0, cursos: 0, certificados: 0, puntosRetos: 0 }, vipDiasPorAnio: {}, actualizado: AHORA.toISOString() });
+  f.sembrar('users/u-puntos-vip', { name: 'Puntos', email: 'puntos@example.test', subscription: { status: 'inactive', plan: null } });
+  f.sembrar('v2_puntos/u-puntos-vip', { uid: 'u-puntos-vip', saldo: 8000, experiencia: 8000, ganados: 8000, gastados: 0, canjes: 0, acreditado: { clases: 0, cursos: 0, certificados: 0, puntosRetos: 0 }, vipDiasPorAnio: {}, actualizado: AHORA.toISOString() });
   f.sembrar('admins/u-admin', { email: 'admin@example.test' });
   f.sembrar('users/u-admin', { name: 'Admin', email: 'admin@example.test' });
 
@@ -107,6 +114,16 @@ test('avanceDesdeProgress: solo índices válidos de cursos publicados, sin repe
   assert.deepEqual(avanceDesdeProgress(null, clases), { clasesVistas: 0, cursosCompletados: 0 });
 });
 
+test('Puntos Dermalysse conserva seis niveles y Legado es el nivel máximo', () => {
+  assert.equal(nivelDe(0).id, 'descubrimiento');
+  assert.equal(nivelDe(300).id, 'constancia');
+  assert.equal(nivelDe(3500).id, 'curaduria');
+  assert.deepEqual(nivelDe(6000), {
+    id: 'legado', nombre: 'Legado Dermalysse', desde: 6000, siguiente: null,
+    descripcion: 'El nivel de participación más alto del club.',
+  });
+});
+
 test('normalizarCodigo: mayúsculas, sin espacios; formatos imposibles ⇒ null', () => {
   assert.equal(normalizarCodigo('  derma-ab cd '), 'DERMA-ABCD');
   assert.equal(normalizarCodigo('a/b'), null);
@@ -118,12 +135,13 @@ test('normalizarCodigo: mayúsculas, sin espacios; formatos imposibles ⇒ null'
 
 test('GET /recompensas exige sesión', async () => {
   assert.equal((await get('/recompensas')).status, 401);
+  assert.equal((await send('/beneficios/material-regulacion-cosmetica/canjear', 'POST')).status, 401);
 });
 
-test('GET /recompensas: progreso calculado en el servidor desde los datos sembrados', async () => {
+test('GET /recompensas: progreso y Puntos Dermalysse calculados en el servidor', async () => {
   const r = await get('/recompensas', 'tok-avance');
   assert.equal(r.status, 200);
-  const { recompensas } = await json(r);
+  const { recompensas, puntos, boutique, movimientos, hitos, colecciones, objetivo, vipAnual, proximasFormasDeGanar } = await json(r);
   assert.equal(recompensas.length, 8);
   const x = porId(recompensas);
   const resumen = (id: string) => `${x[id].progreso}/${x[id].meta}:${x[id].completado}`;
@@ -136,11 +154,39 @@ test('GET /recompensas: progreso calculado en el servidor desde los datos sembra
   assert.equal(resumen('certificado'), '1/1:true'); // el revocado no cuenta
   assert.equal(resumen('maestro'), '1/5:false');
   // Forma exacta del cliente.
-  assert.deepEqual(Object.keys(x['curso-completo']).sort(), ['canjeadoEn', 'canjeado', 'completado', 'descripcion', 'icono', 'id', 'meta', 'nombre', 'premio', 'progreso'].sort());
+  assert.deepEqual(Object.keys(x['curso-completo']).sort(), ['canjeadoEn', 'canjeado', 'completado', 'descripcion', 'disponible', 'icono', 'id', 'meta', 'motivoPausa', 'nombre', 'premio', 'progreso'].sort());
   assert.deepEqual(x['curso-completo'].premio, { duracion: '15d', dias: null });
   assert.deepEqual(x['primer-paso'].premio, { duracion: 'personalizada', dias: 7 });
   assert.equal(x['primer-paso'].canjeado, false);
   assert.equal(x['primer-paso'].canjeadoEn, null);
+  assert.equal(x['explorador'].disponible, false, 'Historia no entrega valor hasta ser autoritativa');
+  assert.equal(x['participativo'].disponible, false, 'el foro requiere moderación de calidad');
+  assert.equal(puntos.saldo, 540, '240 base + bonos vitalicios de primera clase, 5 clases, primer curso y certificado');
+  assert.equal(puntos.experiencia, 540);
+  assert.equal(puntos.nivel.id, 'constancia');
+  assert.deepEqual(puntos.metricas, { clases: 5, cursos: 1, certificados: 1, xpRetos: 80 });
+  assert.ok(boutique.some((b: any) => b.id === 'material-regulacion-cosmetica' && b.disponible));
+  assert.ok(boutique.some((b: any) => b.id === 'vip-1-dia'));
+  assert.ok(boutique.some((b: any) => b.id === 'vip-30-dias'));
+  assert.ok(boutique.some((b: any) => b.id === 'vip-7-dias'));
+  assert.equal(movimientos.length, 8);
+  assert.equal(hitos.length, 11);
+  assert.equal(hitos.filter((h: any) => h.completado).length, 4);
+  assert.equal(porId(hitos)['primer-curso'].premio, 125);
+  assert.equal(colecciones.length, 4);
+  assert.equal(objetivo.beneficioId, 'material-regulacion-cosmetica');
+  assert.deepEqual(vipAnual, { anio: 2026, usados: 0, disponibles: 30, limite: 30 });
+  assert.equal(proximasFormasDeGanar.length, 3);
+
+  const repetido = await json(await get('/recompensas', 'tok-avance'));
+  assert.equal(repetido.puntos.saldo, 540, 'la reconciliación y los bonos son idempotentes');
+  assert.equal(repetido.movimientos.length, 8, 'no duplica movimientos ni bonos');
+});
+
+test('recompensas no autoritativas conservan avance, pero no se pueden canjear', async () => {
+  const r = await send('/recompensas/explorador/canjear', 'POST', undefined, 'tok-avance');
+  assert.equal(r.status, 409);
+  assert.equal((await json(r)).error, 'recompensa/validacion-pendiente');
 });
 
 test('no se puede canjear una recompensa incompleta ni una inexistente', async () => {
@@ -190,6 +236,53 @@ test('canje con cortesía vencida: cuenta desde ahora y regaloDesde arranca hoy'
   const cuerpo = await json(await send('/recompensas/primer-paso/canjear', 'POST', undefined, 'tok-libre'));
   assert.equal(cuerpo.hasta, iso(AHORA.getTime() + 7 * DIA));
   assert.equal(usuario('u-libre').regaloDesde, AHORA.toISOString());
+});
+
+// ── Boutique de beneficios ──
+
+test('material canjeado con puntos queda disponible permanentemente y no se cobra dos veces', async () => {
+  const antes = await get('/materiales/p-1784228079707/acceso', 'tok-tercero');
+  assert.equal(antes.status, 403);
+  const r = await send('/beneficios/material-regulacion-cosmetica/canjear', 'POST', undefined, 'tok-tercero');
+  assert.equal(r.status, 200);
+  const cuerpo = await json(r);
+  assert.equal(cuerpo.canje.costo, 200);
+  assert.equal(cuerpo.canje.materialId, 'p-1784228079707');
+  assert.equal(cuerpo.puntos.saldo, 100);
+  assert.equal(cuerpo.puntos.experiencia, 300, 'gastar no baja el nivel ni la experiencia');
+  assert.equal(db.crudo('v2_beneficios/u-tercero__p-1784228079707')?.permanente, true);
+  const acceso = await json(await get('/materiales/p-1784228079707/acceso', 'tok-tercero'));
+  assert.equal(acceso.url, 'https://drive.google.com/file/d/archivo-prueba/view');
+  const repetido = await send('/beneficios/material-regulacion-cosmetica/canjear', 'POST', undefined, 'tok-tercero');
+  assert.equal(repetido.status, 409);
+  assert.equal((await json(repetido)).error, 'beneficio/ya-canjeado');
+  assert.equal(db.crudo('v2_puntos/u-tercero')?.saldo, 100);
+});
+
+test('beneficio rechaza saldo insuficiente sin crear canje', async () => {
+  const r = await send('/beneficios/vip-3-dias/canjear', 'POST', undefined, 'tok-libre');
+  assert.equal(r.status, 409);
+  const cuerpo = await json(r);
+  assert.equal(cuerpo.error, 'puntos/insuficientes');
+  assert.equal(cuerpo.costo, 900);
+  assert.equal((await send('/beneficios/no-existe/canjear', 'POST', undefined, 'tok-libre')).status, 404);
+});
+
+test('días VIP con puntos se suman por vip.ts y respetan el máximo de 30 días por año', async () => {
+  const primero = await json(await send('/beneficios/vip-15-dias/canjear', 'POST', undefined, 'tok-puntos-vip'));
+  assert.equal(primero.canje.diasVip, 15);
+  assert.equal(primero.puntos.saldo, 4500);
+  const segundo = await json(await send('/beneficios/vip-15-dias/canjear', 'POST', undefined, 'tok-puntos-vip'));
+  assert.equal(segundo.puntos.saldo, 1000);
+  assert.equal(segundo.canje.vigenciaHasta, iso(AHORA.getTime() + 30 * DIA));
+  const limite = await send('/beneficios/vip-3-dias/canjear', 'POST', undefined, 'tok-puntos-vip');
+  assert.equal(limite.status, 409);
+  assert.equal((await json(limite)).error, 'beneficio/limite-vip');
+  assert.equal(db.crudo('v2_puntos/u-puntos-vip')?.saldo, 1000, 'el rechazo no descuenta puntos');
+  assert.deepEqual(usuario('u-puntos-vip').subscription, { status: 'inactive', plan: null });
+  const panel = await json(await get('/recompensas', 'tok-puntos-vip'));
+  assert.deepEqual(panel.vipAnual, { anio: 2026, usados: 30, disponibles: 0, limite: 30 });
+  assert.ok(panel.boutique.filter((b: any) => b.categoria === 'vip').every((b: any) => b.puedeCanjear === false));
 });
 
 // ── Cupones (admin) ──
@@ -317,5 +410,5 @@ test('nunca se toca subscription: users/* solo recibe vigenciaHasta y regaloDesd
   assert.deepEqual(usuario('u-avance').subscription, SUSCRIPCION);
   const bitacora = (await db.query(COLECCION_BITACORA_VIP)).map((d) => d.data()!);
   assert.equal(bitacora.length, escriturasUsers.length);
-  assert.deepEqual(new Set(bitacora.map((b) => b.fuente)), new Set(['recompensa', 'cupon']));
+  assert.deepEqual(new Set(bitacora.map((b) => b.fuente)), new Set(['recompensa', 'cupon', 'puntos']));
 });

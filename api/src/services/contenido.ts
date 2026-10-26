@@ -75,6 +75,8 @@ export interface OpcionesContenido {
   cursos: CursoEditorial[];
   quizzes: QuizFixture[];
   ahora?: () => Date;
+  /** Derecho permanente adquirido con Puntos Dermalysse. */
+  tieneMaterialCanjeado?: (uid: string, materialId: string) => Promise<boolean>;
 }
 
 export class ContenidoService {
@@ -82,12 +84,14 @@ export class ContenidoService {
   private readonly cursos: Map<string, CursoEditorial>;
   private readonly quizzesEmpaquetados: QuizFixture[];
   private readonly ahora: () => Date;
+  private readonly tieneMaterialCanjeado: (uid: string, materialId: string) => Promise<boolean>;
 
   constructor(private readonly store: FirestoreContenidoStore, opciones: OpcionesContenido) {
     this.editoriales = new Map(opciones.editoriales.map((m) => [m.id, m]));
     this.cursos = new Map(opciones.cursos.map((c) => [c.id, c]));
     this.quizzesEmpaquetados = opciones.quizzes;
     this.ahora = opciones.ahora ?? (() => new Date());
+    this.tieneMaterialCanjeado = opciones.tieneMaterialCanjeado ?? (async () => false);
   }
 
   // ── Público (/catalogo) ──
@@ -117,7 +121,7 @@ export class ContenidoService {
     const editorial = this.editoriales.get(id);
     if (editorial) {
       if (editorial.estado !== 'disponible' || !editorial.url) throw new CodedError(409, 'material/no-disponible', 'Este material aún no está disponible.');
-      if (!accesoTotal(usuario) && editorial.gratis !== true) throw new ForbiddenError('Este material es exclusivo para miembros VIP.');
+      if (!accesoTotal(usuario) && editorial.gratis !== true && !(await this.tieneMaterialCanjeado(usuario.uid, id))) throw new ForbiddenError('Este material es exclusivo para miembros VIP o requiere un canje permanente.');
       return { id, tipo: 'visor', url: null };
     }
     const datos = await this.store.leer(COLECCIONES_LEGADO.pdfs, id);
@@ -126,7 +130,7 @@ export class ContenidoService {
     if (material.estado === 'oculto') throw new NotFoundError('El material no existe.');
     const url = texto(datos.drive).trim();
     if (material.estado !== 'disponible' || !url) throw new CodedError(409, 'material/no-disponible', 'Este material aún no está disponible.');
-    if (!accesoTotal(usuario) && !material.gratis) throw new ForbiddenError('Este material es exclusivo para miembros VIP.');
+    if (!accesoTotal(usuario) && !material.gratis && !(await this.tieneMaterialCanjeado(usuario.uid, id))) throw new ForbiddenError('Este material es exclusivo para miembros VIP o requiere un canje permanente.');
     await this.store.sumarDescarga(id);
     return { id, tipo: 'enlace', url };
   }

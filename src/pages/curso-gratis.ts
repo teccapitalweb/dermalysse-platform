@@ -39,7 +39,7 @@ export function paginaCursoGratis(): string {
       <h2 class="acg__title">Elige tu <em>curso de bienvenida</em></h2>
       <p class="acg__sub">Escoge un curso del catálogo para empezar tu ruta. Podrás estudiar sus clases disponibles para miembros gratuitos; la última clase requiere VIP. Tu elección es permanente y la confirmarás antes de guardarla.</p>
       <ol class="acg__pasos">
-        <li>${ic('hand-pointer')}<span>Elige un curso</span></li>
+        <li>${ic('mouse-pointer-click')}<span>Elige un curso</span></li>
         <li>${ic('book-open')}<span>Estúdialo casi completo</span></li>
         <li>${ic('crown')}<span>Hazte VIP para abrir todo</span></li>
       </ol>

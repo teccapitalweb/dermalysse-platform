@@ -64,12 +64,16 @@ Decisión del propietario (15 de octubre de 2026): publicar el club nuevo con **
 | PATCH `/historia` | misma forma (campos opcionales) | avance fusionado: unión de completados, máximo de puntajes, `ultimoNivel` de la fuente más reciente; nunca retrocede. 400 si tipos o tamaño inválidos | `v2_historia/{uid}` (transacción) |
 | GET `/recompensas` | — | `{recompensas: [{id, nombre, descripcion, icono, progreso, meta, completado, canjeado, canjeadoEn, premio:{duracion, dias}}]}`; reglas y progreso calculados en el servidor | `users.progress` + `courses` publicados, `v2_historia`, `forum` (authorUid), `certificates` (valid), `v2_recompensas/{uid}` |
 | POST `/recompensas/:id/canjear` | — | `{ok, hasta, regaloDesde, dias, recompensa}`; 403 `recompensa/incompleta`, 404, 409 `recompensa/canjeada` | transacción: `v2_recompensas/{uid}` + `users.vigenciaHasta/regaloDesde` + `v2_vip_bitacora` |
+| GET `/recompensas` (ampliado) | — | además de `recompensas`, entrega `{puntos, boutique, movimientos, canjes, hitos, colecciones, objetivo, vipAnual, proximasFormasDeGanar}`; concilia actividad confiable y bonos vitalicios de forma idempotente | `users.progress`, `certificates`, `v2_retos_estado`, `v2_puntos*`, `v2_beneficios` |
+| POST `/beneficios/:id/canjear` | — | `{ok, canje, puntos}`; 409 por saldo insuficiente, canje repetido, material no disponible o límite VIP | transacción: `v2_puntos`, `v2_puntos_canjes`, `v2_puntos_movimientos`, `v2_beneficios` y, para días VIP, `users` + `v2_vip_bitacora` |
 | POST `/cupones/canjear` | `{codigo}` | `{ok, codigo, dias, hasta, regaloDesde}`; 404 `cupon/no-existe`, 409 `cupon/inactivo`\|`cupon/ya-usado`\|`cupon/agotado`, 410 `cupon/vencido` | transacción: `v2_cupones/{CODIGO}` (+ `canjes/{uid}`) + `users` + `v2_vip_bitacora` |
 | GET `/admin/cupones` (admin) | — | `[{codigo, loteId, duracion, dias, maxUsos, usos, activo, creadoEn, venceEn}]` | `v2_cupones` |
 | POST `/admin/cupones` (admin) | `{duracion: '15d'\|'1m'\|'3m'\|'1y'\|'personalizada', dias?, modalidad: 'compartido'\|'individuales', cantidad (1–100), idempotencia?, venceEn?}` | 201 `{id, modalidad, cantidad, duracion, dias, codigos, creadoEn}` (misma `idempotencia` ⇒ mismo lote) | `v2_cupones`, `v2_cupones_lotes` |
 | PATCH `/admin/cupones/:codigo` (admin) | `{activo: boolean}` | cupón actualizado | `v2_cupones/{CODIGO}` |
 
 Días VIP de recompensas y cupones: solo `api/src/services/vip.ts` (extiende desde la cortesía vigente; nunca toca `subscription`). «1 mes» = 30 días, «1 año» = 365; máximo 366 días por otorgamiento.
+
+Puntos Dermalysse: reglas, costos, niveles, colecciones y controles en `docs/PUNTOS-DERMALYSSE.md`. Los materiales canjeados se autorizan permanentemente en `GET /materiales/:id/acceso`. Historia y foro no generan valor canjeable hasta tener validación autoritativa/antispam.
 
 ### Funciones por interruptor en producción
 
