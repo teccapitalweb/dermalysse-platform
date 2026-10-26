@@ -3,6 +3,7 @@
 // La cuenta de servicio llega ya validada desde config.ts (FIREBASE_SERVICE_ACCOUNT); nunca se registra.
 import type { Auth, DecodedIdToken } from 'firebase-admin/auth';
 import type { DocumentSnapshot, FieldValue as TipoFieldValue, Firestore, Query } from 'firebase-admin/firestore';
+import type { DirectorioAuthAdmin } from '../interfaces.js';
 import type { Consulta, Datos, Documento, FirestorePort, Transaccion } from './port.js';
 
 export interface CuentaServicio {
@@ -46,6 +47,31 @@ export class FirebaseAdminPerezoso {
   /** Verificador de ID tokens para FirebaseAuthAdapter. */
   verificador(): { verifyIdToken(token: string, checkRevoked: boolean): Promise<DecodedIdToken> } {
     return { verifyIdToken: async (token, checkRevoked) => (await this.recursos()).auth.verifyIdToken(token, checkRevoked) };
+  }
+
+  /** Padrón completo de Firebase Auth, reducido a los campos privados que usa el admin. */
+  directorioAdmin(): DirectorioAuthAdmin {
+    return {
+      listar: async () => {
+        const auth = (await this.recursos()).auth;
+        const cuentas = [];
+        let pageToken: string | undefined;
+        do {
+          const pagina = await auth.listUsers(1000, pageToken);
+          cuentas.push(...pagina.users.map((u) => ({
+            uid: u.uid,
+            email: u.email ?? '',
+            telefono: u.phoneNumber ?? '',
+            nombre: u.displayName ?? '',
+            creada: u.metadata.creationTime ? new Date(u.metadata.creationTime).toISOString() : '',
+            ultimoAcceso: u.metadata.lastSignInTime ? new Date(u.metadata.lastSignInTime).toISOString() : '',
+            deshabilitada: u.disabled,
+          })));
+          pageToken = pagina.pageToken;
+        } while (pageToken);
+        return cuentas;
+      },
+    };
   }
 }
 

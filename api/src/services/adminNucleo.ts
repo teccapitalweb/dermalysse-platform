@@ -14,6 +14,7 @@ import { cargarCatalogoEditorial, hiloDesdeForum, minutosDeTexto, PRECIO_ANO_POR
 import { aIso, aMillis, texto, type Datos, type FirestorePort } from '../adapters/firestore/port.js';
 import { segmento } from '../adapters/firestore/v2.js';
 import type { Usuario } from '../domain/types.js';
+import type { DirectorioAuthAdmin } from '../adapters/interfaces.js';
 import { CodedError, ConflictError, NotFoundError, ValidationError } from './errors.js';
 import { diasVipValidos, DIAS_VIP_MAX, otorgarDiasVipEnTx } from './vip.js';
 
@@ -83,6 +84,8 @@ export interface MiembroFila {
   cortesiaMotivo: string;
   esVip: boolean;
   esAdmin: boolean;
+  tieneFicha: boolean;
+  deshabilitada: boolean;
 }
 
 export interface MiembroDetalle {
@@ -176,6 +179,7 @@ export class ServicioAdminNucleo {
     private readonly db: FirestorePort,
     private readonly ahora: () => Date,
     private readonly cargarEditorial: () => CursoEditorial[] = cargarCatalogoEditorial,
+    private readonly directorioAuth?: DirectorioAuthAdmin,
   ) {}
 
   private editorial(): Map<string, CursoEditorial> {
@@ -410,36 +414,42 @@ export class ServicioAdminNucleo {
     const filtro = estado === undefined || estado === '' ? 'todos' : String(estado);
     if (!['todos', 'vip', 'cortesia', 'sin'].includes(filtro)) throw new ValidationError('«estado» debe ser todos, vip, cortesia o sin.');
     const ahoraMs = this.ahora().getTime();
-    const [members, users, admins, cortesias] = await Promise.all([
+    const [members, users, admins, cortesias, cuentasAuth] = await Promise.all([
       this.datosDe('members'), this.datosDe('users'), this.datosDe('admins'), this.datosDe(COLECCION_CORTESIAS_ADMIN),
+      this.directorioAuth?.listar() ?? [],
     ]);
-    // Base: members (como el panel actual) + cuentas de users con correo que no tengan members.
+    const auth = new Map(cuentasAuth.map((cuenta) => [cuenta.uid, cuenta]));
+    // Base: Firebase Auth + documentos members/users. Así incluye cuentas que aún no tienen perfil ni ficha.
     const uids = new Set<string>(members.keys());
-    for (const [uid, u] of users) if (texto(u.email)) uids.add(uid);
+    for (const uid of users.keys()) uids.add(uid);
+    for (const uid of auth.keys()) uids.add(uid);
 
     const filas = [...uids].map((uid): MiembroFila => {
       const m = members.get(uid);
       const u = users.get(uid) ?? {};
-      const email = texto(u.email) || texto(m?.email);
+      const cuenta = auth.get(uid);
+      const email = texto(u.email) || texto(m?.email) || cuenta?.email || '';
       const telefono = texto(u.phone) || texto(u.telefono) || texto(u.whatsapp)
-        || texto(m?.phone) || texto(m?.telefono) || texto(m?.whatsapp);
+        || texto(m?.phone) || texto(m?.telefono) || texto(m?.whatsapp) || cuenta?.telefono || '';
       const acceso = resumenAcceso(u, ahoraMs);
       const cortesiaMs = aMillis(u.vigenciaHasta);
       const cortesiaHasta = Number.isFinite(cortesiaMs) && cortesiaMs > ahoraMs ? new Date(cortesiaMs).toISOString() : null;
       return {
         uid,
-        nombre: nombreDe(u, m, email),
+        nombre: nombreDe(u, m, cuenta?.nombre || email),
         email,
         telefono,
         plan: acceso.plan,
         vence: acceso.vence,
-        alta: isoDeFecha(m?.joined) ?? isoDeFecha(mapa(u.subscription).subscribedAt) ?? '',
+        alta: isoDeFecha(m?.joined) ?? isoDeFecha(mapa(u.subscription).subscribedAt) ?? cuenta?.creada ?? '',
         clasesVistas: clasesVistasDe(u),
-        ultimaActividad: isoDeFecha(u._lastLoginDate) ?? '',
+        ultimaActividad: isoDeFecha(u._lastLoginDate) ?? cuenta?.ultimoAcceso ?? '',
         cortesiaHasta,
         cortesiaMotivo: cortesiaHasta ? texto(cortesias.get(uid)?.motivo) : '',
         esVip: acceso.esVip,
         esAdmin: admins.has(uid),
+        tieneFicha: users.has(uid) || members.has(uid),
+        deshabilitada: cuenta?.deshabilitada === true,
       };
     });
 

@@ -108,6 +108,7 @@ test('adminDirectorio en modo API utiliza los datos de AdminRemoto', () => {
     {
       uid: 'u-sin-perfil', nombre: 'Cuenta real', email: 'real@example.test', telefono: '',
       plan: 'mensual', vence: '2026-12-01T00:00:00.000Z', alta: '', clasesVistas: 0, ultimaActividad: '', esVip: true, esAdmin: false,
+      tieneFicha: false, deshabilitada: false,
     },
   ];
 
@@ -123,4 +124,5 @@ test('adminDirectorio en modo API utiliza los datos de AdminRemoto', () => {
   assert.match(html, /5213312345678/);
   assert.match(html, /real@example\.test/);
   assert.match(html, /Sin perfil/);
+  assert.match(html, /Solo Auth/);
 });

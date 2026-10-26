@@ -113,10 +113,14 @@ export function adminMiembros(_: Record<string, string>, query: URLSearchParams)
     <div class="row" style="gap:6px">${chip('', 'Todos')}${chip('vip', 'VIP')}${chip('cortesia', 'Cortesía')}${chip('sin', 'Sin membresía')}</div>
   </div>
   ${l.length ? `<div class="card dtable-wrap"><table class="dtable"><thead><tr><th>Miembro</th><th>Estado</th><th>Vence</th><th>Clases vistas</th><th>Última actividad</th><th></th></tr></thead><tbody>
-    ${l.map((m) => { const e = estadoMiembro(m); return `<tr>
-      <td><a class="dtable__main" href="#/admin/miembros/${m.uid}"><span class="avatar" style="width:34px;height:34px;font-size:12px">${iniciales(m.nombre)}</span><span><strong>${esc(m.nombre)}</strong><br><span class="faint">${esc(m.email)}${m.telefono ? ` · ${esc(m.telefono)}` : ''}</span></span></a></td>
-      <td><span class="chip ${e.chip}">${e.etiqueta}</span></td><td>${fecha(m.cortesiaHasta || m.vence)}</td><td class="mono">${m.clasesVistas}</td><td>${hace(m.ultimaActividad)}</td>
-      <td><a class="btn btn--ghost btn--icon btn--xs" href="#/admin/miembros/${m.uid}"><i data-lucide="chevron-right" class="i"></i></a></td></tr>`; }).join('')}
+    ${l.map((m) => {
+      const e = estadoMiembro(m);
+      const identidad = `<span class="avatar" style="width:34px;height:34px;font-size:12px">${iniciales(m.nombre)}</span><span><strong>${esc(m.nombre)}</strong><br><span class="faint">${esc(m.email)}${m.telefono ? ` · ${esc(m.telefono)}` : ''}</span></span>`;
+      return `<tr>
+      <td>${m.tieneFicha === false ? `<div class="dtable__main">${identidad}</div>` : `<a class="dtable__main" href="#/admin/miembros/${encodeURIComponent(m.uid)}">${identidad}</a>`}</td>
+      <td><span class="chip ${m.deshabilitada ? 'chip--danger' : e.chip}">${m.deshabilitada ? 'Deshabilitada' : e.etiqueta}</span></td><td>${fecha(m.cortesiaHasta || m.vence)}</td><td class="mono">${m.clasesVistas}</td><td>${hace(m.ultimaActividad)}</td>
+      <td>${m.tieneFicha === false ? '<span class="faint">Solo Auth</span>' : `<a class="btn btn--ghost btn--icon btn--xs" href="#/admin/miembros/${encodeURIComponent(m.uid)}"><i data-lucide="chevron-right" class="i"></i></a>`}</td></tr>`;
+    }).join('')}
   </tbody></table></div>` : vacio('Sin resultados', 'Prueba con otro nombre o filtro.')}`;
 }
 

@@ -98,6 +98,7 @@ const adaptarMiembro = (m: any): MiembroDemo => ({
   ultimaActividad: m.ultimaActividad || '', cortesiaHasta: m.cortesiaHasta || null,
   cuponHasta: m.cuponHasta || null,
   cortesiaMotivo: m.cortesiaMotivo || '', esVip: m.esVip === true, esAdmin: m.esAdmin === true,
+  tieneFicha: m.tieneFicha !== false, deshabilitada: m.deshabilitada === true,
 });
 
 async function una(clave: Clave, tarea: () => Promise<void>, forzar = false) {

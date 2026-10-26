@@ -253,13 +253,15 @@ export function adminDirectorio() {
                   const perfil = perfilesPorUid.get(cuenta.uid);
                   const estadoDirectorio = perfil?.visible ? 'Publicado' : perfil ? 'Oculto / incompleto' : 'Sin perfil';
                   const claseDirectorio = perfil?.visible ? 'chip--primary' : perfil ? 'chip--danger' : 'chip--outline';
-                  const acceso = cuenta.esAdmin ? 'Admin' : cuenta.esVip ? 'VIP' : 'Gratuito';
+                  const acceso = cuenta.deshabilitada ? 'Deshabilitada' : cuenta.esAdmin ? 'Admin' : cuenta.esVip ? 'VIP' : 'Gratuito';
                   return `<tr style="border-bottom:1px solid var(--border);font-size:var(--fs-sm)">
                     <td style="padding:12px 16px"><strong>${esc(cuenta.nombre || 'Sin nombre')}</strong><div class="faint mono" style="font-size:11px">${esc(cuenta.uid)}</div></td>
                     <td style="padding:12px 16px"><div>${esc(cuenta.email || 'Correo no disponible')}</div><div class="faint">${esc(cuenta.telefono || 'Teléfono no registrado')}</div></td>
-                    <td style="padding:12px 16px"><span class="chip ${cuenta.esVip || cuenta.esAdmin ? 'chip--accent' : 'chip--outline'}">${acceso}</span></td>
+                    <td style="padding:12px 16px"><span class="chip ${cuenta.deshabilitada ? 'chip--danger' : cuenta.esVip || cuenta.esAdmin ? 'chip--accent' : 'chip--outline'}">${acceso}</span></td>
                     <td style="padding:12px 16px"><span class="chip ${claseDirectorio}">${estadoDirectorio}</span></td>
-                    <td style="padding:12px 16px;text-align:right"><a class="btn btn--ghost btn--xs" href="#/admin/miembros/${encodeURIComponent(cuenta.uid)}">Ver cuenta<i data-lucide="chevron-right" class="i"></i></a></td>
+                    <td style="padding:12px 16px;text-align:right">${cuenta.tieneFicha === false
+                      ? '<span class="faint">Solo Auth</span>'
+                      : `<a class="btn btn--ghost btn--xs" href="#/admin/miembros/${encodeURIComponent(cuenta.uid)}">Ver cuenta<i data-lucide="chevron-right" class="i"></i></a>`}</td>
                   </tr>`;
                 }).join('')}
               </tbody>

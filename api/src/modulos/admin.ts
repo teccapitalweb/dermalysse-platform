@@ -4,6 +4,7 @@
 // Lógica y compatibilidad con el panel actual: services/adminNucleo.ts.
 import { Router } from 'express';
 import type { FirestorePort } from '../adapters/firestore/port.js';
+import type { DirectorioAuthAdmin } from '../adapters/interfaces.js';
 import { asyncHandler } from '../routes/util.js';
 import { CodedError } from '../services/errors.js';
 import { ServicioAdminNucleo } from '../services/adminNucleo.js';
@@ -16,10 +17,12 @@ export interface ContextoAdmin {
   produccion: boolean;
   /** Solo pruebas: catálogo editorial inyectado (por defecto, api/content/club/cursos.json). */
   catalogoEditorial?: () => CursoEditorial[];
+  /** Firebase Auth en producción; permite incluir cuentas sin documentos users/members. */
+  directorioAuth?: DirectorioAuthAdmin;
 }
 
 export function moduloAdmin(ctx: ContextoAdmin): ModuloApi {
-  const svc = new ServicioAdminNucleo(ctx.db, ctx.ahora, ctx.catalogoEditorial);
+  const svc = new ServicioAdminNucleo(ctx.db, ctx.ahora, ctx.catalogoEditorial, ctx.directorioAuth);
 
   return ({ app, requireAdmin }) => {
     const r = Router();

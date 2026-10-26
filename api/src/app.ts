@@ -1,7 +1,7 @@
 // Ensambla la app Express. Sin estado global: las dependencias se inyectan, lo que permite probar
 // con adaptadores dev/memoria y con el Firestore falso + fetch falso del modo producción.
 import express, { type Express, type NextFunction, type Request, type Response } from 'express';
-import type { AuthAdapter, ContentStore, ExperienceStore, ForumStore, HistoriaStore, LeagueStore, ProfileStore } from './adapters/interfaces.js';
+import type { AuthAdapter, ContentStore, DirectorioAuthAdmin, ExperienceStore, ForumStore, HistoriaStore, LeagueStore, ProfileStore } from './adapters/interfaces.js';
 import { NotImplementedError } from './adapters/interfaces.js';
 import { DevAuthAdapter } from './adapters/dev/devAuth.js';
 import { FixtureContentStore } from './adapters/dev/fixtureContent.js';
@@ -215,6 +215,8 @@ export interface Inyecciones {
   catalogoEditorial?: CursoEditorial[];
   /** Reloj inyectable para pruebas de los módulos. */
   ahora?: () => Date;
+  /** Solo pruebas/integraciones: padrón de Firebase Auth para /admin/miembros. */
+  directorioAuth?: DirectorioAuthAdmin;
 }
 
 /**
@@ -299,7 +301,13 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
     dataMode: config.dataMode,
     corsOrigins: config.corsOrigins,
     rateLimit,
-    modulos: crearModulos({ db, ahora, produccion: true }),
+    modulos: crearModulos({
+      db,
+      ahora,
+      produccion: true,
+      // Las pruebas que inyectan Firestore no deben abrir Firebase real salvo que también inyecten este puerto.
+      directorioAuth: inyecciones.directorioAuth ?? (inyecciones.firestore ? undefined : firebase.directorioAdmin()),
+    }),
   });
 }
 
@@ -307,7 +315,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
  * Módulos del club con sus rutas propias. Cada uno recibe el mismo Firestore (memoria en desarrollo,
  * el real en producción). Agrega aquí una línea por módulo.
  */
-function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: boolean }): ModuloApi[] {
+function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: boolean; directorioAuth?: DirectorioAuthAdmin }): ModuloApi[] {
   return [
     moduloVip(ctx),
     moduloContenido(ctx),

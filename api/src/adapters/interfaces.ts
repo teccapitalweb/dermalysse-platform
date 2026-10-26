@@ -22,6 +22,22 @@ export interface AuthAdapter {
   verificar(token: string): Promise<Usuario | null>;
 }
 
+/** Cuenta mínima de Firebase Auth para el padrón privado del panel administrativo. */
+export interface CuentaAuthAdmin {
+  uid: string;
+  email: string;
+  telefono: string;
+  nombre: string;
+  creada: string;
+  ultimoAcceso: string;
+  deshabilitada: boolean;
+}
+
+/** Lista cuentas de identidad; nunca se expone fuera de una ruta requireAdmin. */
+export interface DirectorioAuthAdmin {
+  listar(): Promise<CuentaAuthAdmin[]>;
+}
+
 /** Contenido de solo lectura del club (catálogo, noticias, foro, config). */
 export interface ContentStore {
   config(): Promise<ConfigPublica>;

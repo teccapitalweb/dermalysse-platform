@@ -40,6 +40,14 @@ const verificador = {
 };
 let llamadasWebhook = 0;
 const fetchFalso: FetchLike = async () => { llamadasWebhook++; throw new TypeError('sin red en pruebas'); };
+const directorioAuth = {
+  async listar() {
+    return [{
+      uid: 'u-solo-auth', email: 'auth@example.test', telefono: '+5215511122233', nombre: 'Cuenta Auth',
+      creada: iso(-3), ultimoAcceso: iso(-1), deshabilitada: false,
+    }];
+  },
+};
 
 let db: MemoryFirestore;
 let server: Server;
@@ -100,7 +108,7 @@ function sembrar(f: MemoryFirestore) {
 before(async () => {
   db = new MemoryFirestore();
   sembrar(db);
-  const app = buildApp(ENV, { firestore: db, verificador, fetch: fetchFalso, ahora: () => AHORA });
+  const app = buildApp(ENV, { firestore: db, verificador, fetch: fetchFalso, directorioAuth, ahora: () => AHORA });
   await new Promise<void>((resolve) => { server = app.listen(0, '127.0.0.1', resolve); });
   base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
 });
@@ -296,7 +304,7 @@ test('DELETE /admin/cursos/:id — solo borradores fuera del catálogo y sin his
 
 // ── Miembros ──
 
-test('GET /admin/miembros — members + estado real de users (regla de acceso), sin ids de Stripe', async () => {
+test('GET /admin/miembros — Firebase Auth + users + members, sin ids de Stripe', async () => {
   const r = await get('/admin/miembros?estado=todos', ADMIN);
   assert.equal(r.status, 200);
   const texto = await r.clone().text();
@@ -304,12 +312,19 @@ test('GET /admin/miembros — members + estado real de users (regla de acceso), 
   const l = await json(r);
   const por = new Map(l.map((m: any) => [m.uid, m]));
   assert.ok(por.has('u-suelto'), 'incluye cuentas de users sin members');
+  assert.ok(por.has('u-solo-auth'), 'incluye cuentas de Firebase Auth sin users ni members');
   const ana: any = por.get('u-vip');
   assert.deepEqual(ana, {
     uid: 'u-vip', nombre: 'Ana López', email: 'ana@example.test', telefono: '5215512345678', plan: 'anual', vence: iso(200), alta: `${fecha(-10)}T12:00:00.000Z`,
     clasesVistas: 2, ultimaActividad: `${fecha(-1)}T12:00:00.000Z`, cortesiaHasta: null, cortesiaMotivo: '', esVip: true, esAdmin: false,
+    tieneFicha: true, deshabilitada: false,
   });
   assert.equal((por.get('u-suelto') as any).telefono, '5213312345678');
+  assert.deepEqual(por.get('u-solo-auth'), {
+    uid: 'u-solo-auth', nombre: 'Cuenta Auth', email: 'auth@example.test', telefono: '+5215511122233',
+    plan: null, vence: null, alta: iso(-3), clasesVistas: 0, ultimaActividad: iso(-1), cortesiaHasta: null,
+    cortesiaMotivo: '', esVip: false, esAdmin: false, tieneFicha: false, deshabilitada: false,
+  });
   const carla: any = por.get('u-cortesia');
   assert.equal(carla.plan, 'cortesia');
   assert.equal(carla.cortesiaHasta, iso(5));
