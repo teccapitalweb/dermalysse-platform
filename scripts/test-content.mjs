@@ -62,7 +62,7 @@ test('todas las portadas locales son imágenes utilizables', async () => {
 });
 
 test('los materiales heredados con portada faltante tienen una imagen editorial local', async () => {
-  assert.equal(Object.keys(portadasMateriales).length, 4);
+  assert.equal(Object.keys(portadasMateriales).length, 7);
   for (const [id, portada] of Object.entries(portadasMateriales)) {
     assert.match(id, /^p-\d+$/);
     assert.match(portada, /^\/materiales\/portadas\/[a-z0-9][a-z0-9._/-]*\.(?:webp|png|jpe?g)$/i);
