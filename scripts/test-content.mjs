@@ -6,6 +6,7 @@ import path from 'node:path';
 const root = path.resolve(import.meta.dirname, '..');
 const catalogo = JSON.parse(await readFile(path.join(root, 'src/data/catalogo.json'), 'utf8'));
 const quizzes = JSON.parse(await readFile(path.join(root, 'src/data/quizzes-demo.json'), 'utf8'));
+const portadasMateriales = JSON.parse(await readFile(path.join(root, 'src/data/materiales-portadas.json'), 'utf8'));
 
 test('el catálogo usa los 12 cursos publicados de Dermalysse', () => {
   assert.equal(catalogo.cursos.length, 12);
@@ -57,6 +58,17 @@ test('todas las portadas locales son imágenes utilizables', async () => {
     assert.doesNotMatch(curso.portada, /\.\./);
     const info = await stat(path.join(root, 'public', curso.portada.slice(1)));
     assert.ok(info.size > 10_000, `${curso.portada} debe contener una imagen real`);
+  }
+});
+
+test('los materiales heredados con portada faltante tienen una imagen editorial local', async () => {
+  assert.equal(Object.keys(portadasMateriales).length, 4);
+  for (const [id, portada] of Object.entries(portadasMateriales)) {
+    assert.match(id, /^p-\d+$/);
+    assert.match(portada, /^\/materiales\/portadas\/[a-z0-9][a-z0-9._/-]*\.(?:webp|png|jpe?g)$/i);
+    assert.doesNotMatch(portada, /\.\./);
+    const info = await stat(path.join(root, 'public', portada.slice(1)));
+    assert.ok(info.size > 10_000, `${portada} debe contener una imagen real`);
   }
 });
 

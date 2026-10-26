@@ -2,18 +2,25 @@ import { Datos, type Material } from '../core/datos';
 import { curso as getCurso } from '../core/catalogo';
 import { esc, placeholder } from '../ui/partials';
 import { Acceso } from '../core/acceso';
+import portadasLegadoJson from '../data/materiales-portadas.json';
 
 export const materiales: Material[] = [];
 const recargar = () => materiales.splice(0, materiales.length, ...Datos.materiales().filter((m) => m.estado !== 'oculto'));
 recargar(); window.addEventListener('datos:cambio', recargar);
 const tipoIcon: Record<string, string> = { PDF: 'file-text', Guía: 'notebook-tabs', Libro: 'book-open', Presentación: 'presentation' };
 
+// Portadas editoriales propias para documentos heredados cuya miniatura remota falta o no es una
+// imagen utilizable. Se resuelven por el id estable de Firestore sin modificar el archivo protegido.
+const portadasLegado = portadasLegadoJson as Record<string, string>;
+
 // Portada del material: la imagen si la tiene; si no (p. ej. PDFs viejos del admin sin cover), un
 // placeholder con el icono de su tipo, para no mostrar un cuadro en blanco.
-const coverMaterial = (m: Material) =>
-  m.portada
-    ? `<img src="${esc(m.portada)}" alt="" loading="lazy">`
+const coverMaterial = (m: Material) => {
+  const portada = portadasLegado[m.id] || m.portada;
+  return portada
+    ? `<img src="${esc(portada)}" alt="" loading="lazy">`
     : `<div class="cover-ph"><i data-lucide="${tipoIcon[m.tipo] || 'file-text'}" class="i" aria-hidden="true"></i></div>`;
+};
 const GUARDADOS_KEY = 'dermalysse:materiales-guardados';
 
 export function materialesGuardados(): string[] {
