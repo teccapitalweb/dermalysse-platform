@@ -11,7 +11,7 @@ export const COLECCION_CODIGOS_CAMPANA = 'v2_campanas_codigos';
 export const COLECCION_CANJES_CAMPANA = 'v2_campanas_canjes';
 export const COLECCION_PREFERENCIAS_CAMPANA = 'v2_campanas_preferencias';
 export const CAMPANA_BIENVENIDA_ID = 'bienvenida-dermalysse-50';
-export const CODIGO_BIENVENIDA = 'DERMALYSSE50';
+export const CODIGO_BIENVENIDA_PRUEBA = 'TEST-DERMALYSSE-50';
 const DIA_MS = 86_400_000;
 
 export type EstadoCampana = 'activa' | 'pausada' | 'agotada' | 'terminada';
@@ -107,11 +107,10 @@ const beneficiosIniciales: BeneficiosCampana = {
   manuales: [],
 };
 
-const INICIAL: CampanaGuardada = {
+const INICIAL_BASE: Omit<CampanaGuardada, 'codigo'> = {
   id: CAMPANA_BIENVENIDA_ID,
   nombre: 'Bienvenida Dermalysse · Primera Edición',
   descripcion: 'Un paquete digital de bienvenida para las primeras 50 cuentas que canjeen el código oficial.',
-  codigo: CODIGO_BIENVENIDA,
   cupoTotal: 50,
   solicitudes: 0,
   emitidos: 0,
@@ -255,11 +254,32 @@ function formularioCampana(cuerpo: unknown): Omit<CampanaGuardada, 'id' | 'solic
 }
 
 export class CampanasService {
-  constructor(private readonly db: FirestorePort, private readonly ahora: () => Date) {}
+  private readonly codigoBienvenida: string;
+
+  constructor(private readonly db: FirestorePort, private readonly ahora: () => Date, codigoBienvenida = CODIGO_BIENVENIDA_PRUEBA) {
+    const normalizado = normalizarCodigo(codigoBienvenida);
+    if (!normalizado) throw new Error('CAMPANA_BIENVENIDA_CODIGO no tiene un formato válido.');
+    this.codigoBienvenida = normalizado;
+  }
 
   private async asegurarInicial(): Promise<void> {
-    await this.db.create(rutaCampana(INICIAL.id), INICIAL as unknown as Datos);
-    await this.db.create(rutaCodigo(INICIAL.codigo), { codigo: INICIAL.codigo, campanaId: INICIAL.id, creadoEn: INICIAL.creadoEn });
+    const inicial: CampanaGuardada = { ...INICIAL_BASE, codigo: this.codigoBienvenida };
+    await this.db.runTransaction(async (tx) => {
+      const doc = await tx.get(rutaCampana(inicial.id));
+      const existente = campanaDesde(doc.data());
+      if (!existente) {
+        tx.set(rutaCampana(inicial.id), inicial as unknown as Datos);
+        tx.set(rutaCodigo(inicial.codigo), { codigo: inicial.codigo, campanaId: inicial.id, creadoEn: inicial.creadoEn });
+        return;
+      }
+      if (existente.codigo !== inicial.codigo) {
+        tx.set(rutaCampana(inicial.id), { codigo: inicial.codigo, actualizadoEn: this.ahora().toISOString() }, { merge: true });
+        tx.set(rutaCodigo(inicial.codigo), { codigo: inicial.codigo, campanaId: inicial.id, creadoEn: this.ahora().toISOString() });
+        if (existente.codigo) tx.delete(rutaCodigo(existente.codigo));
+        return;
+      }
+      tx.set(rutaCodigo(inicial.codigo), { codigo: inicial.codigo, campanaId: inicial.id, creadoEn: inicial.creadoEn }, { merge: true });
+    });
   }
 
   async bienvenida(uid: string): Promise<CampanaMiembro> {

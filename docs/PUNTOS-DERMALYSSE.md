@@ -150,7 +150,7 @@ La API vuelve a comprobar experiencia, disponibilidad del contenido, derechos ex
 
 ## Bienvenida Dermalysse · Primera Edición
 
-La campaña inicial usa el código `DERMALYSSE50` y admite exactamente 50 cuentas distintas entre el 28 de octubre y el 31 de diciembre de 2026. El código nunca viaja en `GET /campanas/bienvenida`; solo se compara en el servidor al canjearlo.
+La campaña inicial admite exactamente 50 cuentas distintas entre el 28 de octubre y el 31 de diciembre de 2026. El código oficial vive únicamente en `CAMPANA_BIENVENIDA_CODIGO` dentro del entorno protegido de la API: no se guarda en Git, no entra al bundle web y nunca viaja en `GET /campanas/bienvenida`; solo se compara en el servidor al canjearlo.
 
 Cada cuenta aceptada recibe, dentro de una sola transacción:
 

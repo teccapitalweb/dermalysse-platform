@@ -15,6 +15,7 @@ const CUENTA_FALSA = JSON.stringify({ project_id: 'club-dermalysse', client_emai
 const ENV = {
   AUTH_MODE: 'firebase', DATA_MODE: 'firestore', FIREBASE_SERVICE_ACCOUNT: CUENTA_FALSA,
   LEGACY_WEBHOOK_URL: 'https://webhook.example.test/', APP_URL: 'https://club.example.test', CORS_ORIGINS: 'https://club.example.test',
+  CAMPANA_BIENVENIDA_CODIGO: 'TEST-DERMALYSSE-50',
 } as unknown as NodeJS.ProcessEnv;
 
 const TOKENS: Record<string, TokenDecodificado> = {

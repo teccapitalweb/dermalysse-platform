@@ -107,7 +107,7 @@ export async function posponerCampanaBienvenida(id: string): Promise<string> {
 
 export async function canjearCampanaBienvenida(codigo: string): Promise<CampanaMiembro> {
   if (Datos.modo === 'demo') {
-    if (codigo.trim().toUpperCase() !== 'DERMALYSSE50') throw new Error('El código no corresponde a una campaña vigente.');
+    if (codigo.trim().toUpperCase() !== 'DEMO-BIENVENIDA-50') throw new Error('El código no corresponde a una campaña vigente.');
     if (demoCanje) throw new Error('Esta cuenta ya recibió el beneficio de la campaña.');
     const ahora = new Date().toISOString();
     demoCanje = {

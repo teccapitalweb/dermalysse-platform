@@ -16,6 +16,8 @@ export interface ConfigProduccion {
   webhookUrl: string;
   webhookTimeoutMs: number;
   appUrl: string;
+  /** Código inicial de bienvenida; solo vive en variables protegidas del servidor. */
+  codigoCampanaBienvenida: string;
 }
 
 export interface ConfigRateLimit {
@@ -161,6 +163,10 @@ export function leerConfig(env: NodeJS.ProcessEnv): ConfigApi {
   if (!webhookUrl) problemas.push('Falta LEGACY_WEBHOOK_URL o no es una URL https válida (URL base del webhook actual, sin ruta de endpoint).');
   const appUrl = urlBase(env.APP_URL);
   if (!appUrl) problemas.push('Falta APP_URL o no es una URL https válida (URL pública del club nuevo; se usa para volver de Stripe).');
+  const codigoCampanaBienvenida = (env.CAMPANA_BIENVENIDA_CODIGO || '').replace(/\s+/g, '').toUpperCase();
+  if (!/^[A-Z0-9][A-Z0-9_-]{7,39}$/.test(codigoCampanaBienvenida)) {
+    problemas.push('Falta CAMPANA_BIENVENIDA_CODIGO o no tiene un formato válido (8–40 caracteres A-Z, 0-9, guion o guion bajo).');
+  }
   const corsOrigins = (env.CORS_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean);
   if (!corsOrigins.length) problemas.push('Falta CORS_ORIGINS (orígenes del club nuevo separados por coma).');
   if (base.academiaMostrarBorradores) problemas.push('ACADEMIA_MOSTRAR_BORRADORES=true solo se permite en desarrollo (mostraría borradores a todos los miembros).');
@@ -172,5 +178,5 @@ export function leerConfig(env: NodeJS.ProcessEnv): ConfigApi {
     }
   }
   if (problemas.length || !cuenta || !webhookUrl || !appUrl) throw new ErrorConfiguracion(problemas);
-  return { ...base, rateLimit, corsOrigins, produccion: { cuenta, webhookUrl, webhookTimeoutMs, appUrl } };
+  return { ...base, rateLimit, corsOrigins, produccion: { cuenta, webhookUrl, webhookTimeoutMs, appUrl, codigoCampanaBienvenida } };
 }

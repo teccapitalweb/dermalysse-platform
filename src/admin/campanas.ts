@@ -13,7 +13,7 @@ const valorFecha = (iso: string) => {
 };
 
 const CAMPANA_DEMO: CampanaAdmin = {
-  id: 'bienvenida-dermalysse-50', nombre: 'Bienvenida Dermalysse · Primera Edición', descripcion: 'Paquete digital de lanzamiento para las primeras 50 cuentas.', codigo: 'DERMALYSSE50', estado: 'activa',
+  id: 'bienvenida-dermalysse-50', nombre: 'Bienvenida Dermalysse · Primera Edición', descripcion: 'Paquete digital de lanzamiento para las primeras 50 cuentas.', codigo: 'DEMO-BIENVENIDA-50', estado: 'activa',
   cupoTotal: 50, lugaresRestantes: 38, solicitudes: 12, emitidos: 12, activados: 12, pendientes: 0,
   inicio: '2026-10-28T06:00:00.000Z', fin: '2027-01-01T05:59:59.999Z', creadoEn: '2026-10-28T06:00:00.000Z', actualizadoEn: '2026-10-28T18:00:00.000Z',
   beneficios: { diamantes: 750, vipDias: 7, materiales: [{ id: 'p-1784228079707', nombre: 'Regulación cosmética' }, { id: 'p-1784228150217', nombre: 'Estudios de estabilidad cosmética' }], manuales: [] },

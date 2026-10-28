@@ -6,12 +6,13 @@ import { buildApp } from '../src/app.js';
 import { MemoryFirestore } from '../src/adapters/firestore/memoria.js';
 import type { FetchLike } from '../src/adapters/legacy/webhook.js';
 import type { TokenDecodificado } from '../src/adapters/firebase/firebaseAuth.js';
-import { CAMPANA_BIENVENIDA_ID, CampanasService, COLECCION_CAMPANAS, CODIGO_BIENVENIDA } from '../src/services/campanas.js';
+import { CAMPANA_BIENVENIDA_ID, CampanasService, COLECCION_CAMPANAS, CODIGO_BIENVENIDA_PRUEBA } from '../src/services/campanas.js';
 
 const CUENTA_FALSA = JSON.stringify({ project_id: 'club-dermalysse', client_email: 'prueba@example.invalid', private_key: 'llave-falsa-de-prueba' });
 const ENV = {
   AUTH_MODE: 'firebase', DATA_MODE: 'firestore', FIREBASE_SERVICE_ACCOUNT: CUENTA_FALSA,
   LEGACY_WEBHOOK_URL: 'https://webhook.example.test/', APP_URL: 'https://club.example.test', CORS_ORIGINS: 'https://club.example.test',
+  CAMPANA_BIENVENIDA_CODIGO: CODIGO_BIENVENIDA_PRUEBA,
 } as unknown as NodeJS.ProcessEnv;
 const AHORA = new Date('2026-10-28T18:00:00.000Z');
 const fetchFalso: FetchLike = async () => { throw new TypeError('sin red en esta prueba'); };
@@ -85,7 +86,7 @@ test('un código inválido no reserva cupo ni entrega beneficios', async () => {
 });
 
 test('canje válido entrega Diamantes, VIP y dos materiales en una sola operación', async () => {
-  const r = await send('/campanas/canjear', 'POST', { codigo: ' dermalysse 50 ' }, 'tok-miembro');
+  const r = await send('/campanas/canjear', 'POST', { codigo: ' test-dermalysse-50 ' }, 'tok-miembro');
   assert.equal(r.status, 200);
   const cuerpo = await r.json() as any;
   assert.equal(cuerpo.ok, true);
@@ -101,18 +102,18 @@ test('canje válido entrega Diamantes, VIP y dos materiales en una sola operaci�
   const campaña = db.crudo(`${COLECCION_CAMPANAS}/${CAMPANA_BIENVENIDA_ID}`)!;
   assert.deepEqual([campaña.solicitudes, campaña.emitidos, campaña.activados], [1, 1, 1]);
 
-  const repetido = await send('/campanas/canjear', 'POST', { codigo: CODIGO_BIENVENIDA }, 'tok-miembro');
+  const repetido = await send('/campanas/canjear', 'POST', { codigo: CODIGO_BIENVENIDA_PRUEBA }, 'tok-miembro');
   assert.equal(repetido.status, 409);
   assert.equal(db.crudo('v2_puntos/miembro')?.saldo, 750, 'repetir nunca duplica el saldo');
   const despues = await (await get('/campanas/bienvenida', 'tok-miembro')).text();
-  assert.equal(despues.includes(CODIGO_BIENVENIDA), false, 'GET sigue sin filtrar el código después del canje');
+  assert.equal(despues.includes(CODIGO_BIENVENIDA_PRUEBA), false, 'GET sigue sin filtrar el código después del canje');
 });
 
 test('el cupo de 50 se reserva atómicamente bajo concurrencia', async () => {
   const local = new MemoryFirestore();
   materiales(local);
   const servicio = new CampanasService(local, () => AHORA);
-  const resultados = await Promise.allSettled(Array.from({ length: 51 }, (_, i) => servicio.canjear(`cuenta-${i + 1}`, CODIGO_BIENVENIDA)));
+  const resultados = await Promise.allSettled(Array.from({ length: 51 }, (_, i) => servicio.canjear(`cuenta-${i + 1}`, CODIGO_BIENVENIDA_PRUEBA)));
   assert.equal(resultados.filter((r) => r.status === 'fulfilled').length, 50);
   assert.equal(resultados.filter((r) => r.status === 'rejected').length, 1);
   const campaña = local.crudo(`${COLECCION_CAMPANAS}/${CAMPANA_BIENVENIDA_ID}`)!;
@@ -124,7 +125,7 @@ test('el admin ve métricas agregadas y puede pausar o ampliar el cupo', async (
   const listado = await get('/admin/campanas', 'tok-admin');
   assert.equal(listado.status, 200);
   const [campana] = await listado.json() as any[];
-  assert.equal(campana.codigo, CODIGO_BIENVENIDA);
+  assert.equal(campana.codigo, CODIGO_BIENVENIDA_PRUEBA);
   assert.equal(campana.solicitudes, 1);
   assert.equal(campana.grafica[0].solicitudes, 1);
   assert.equal('email' in campana.grafica[0], false);

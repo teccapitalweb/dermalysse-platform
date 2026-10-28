@@ -99,7 +99,7 @@ Biblioteca y En vivo (`/catalogo`) ya no salen vacías en producción: `contenid
 
 ## 4. Lo que debe aportar el propietario (solo nombres; nunca valores en el repo)
 
-- API nueva (nuevo servicio en Railway): `AUTH_MODE=firebase`, `DATA_MODE=firestore`, `FIREBASE_SERVICE_ACCOUNT` (cuenta de servicio de `club-dermalysse`; puede ser la misma que ya usa el webhook), `CORS_ORIGINS`, `LEGACY_WEBHOOK_URL`, `PORT`.
+- API nueva (nuevo servicio en Railway): `AUTH_MODE=firebase`, `DATA_MODE=firestore`, `FIREBASE_SERVICE_ACCOUNT` (cuenta de servicio de `club-dermalysse`; puede ser la misma que ya usa el webhook), `CORS_ORIGINS`, `LEGACY_WEBHOOK_URL`, `CAMPANA_BIENVENIDA_CODIGO`, `PORT`.
 - Build del cliente: `VITE_API_URL` y `VITE_FIREBASE_*` (valores públicos del club actual).
 - Firebase Auth: agregar los dominios nuevos a «Authorized domains».
 - Webhook en Railway: agregar los orígenes nuevos a su lista CORS (cambio pequeño en `dermalysse-webhook/index.js`, requiere autorización y redeploy).

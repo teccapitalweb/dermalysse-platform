@@ -118,6 +118,7 @@ describe('/historia — firebase + firestore (v2_historia)', () => {
     AUTH_MODE: 'firebase', DATA_MODE: 'firestore',
     FIREBASE_SERVICE_ACCOUNT: JSON.stringify({ project_id: 'club-dermalysse', client_email: 'prueba@example.invalid', private_key: 'llave-falsa-de-prueba' }),
     LEGACY_WEBHOOK_URL: 'https://webhook.example.test/', APP_URL: 'https://club.example.test', CORS_ORIGINS: 'https://club.example.test',
+    CAMPANA_BIENVENIDA_CODIGO: 'TEST-DERMALYSSE-50',
   } as unknown as NodeJS.ProcessEnv;
   const TOKENS: Record<string, TokenDecodificado> = {
     'tok-ana': { uid: 'u-ana', email: 'ana@example.test', name: 'Ana' },

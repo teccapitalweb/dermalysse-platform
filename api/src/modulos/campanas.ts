@@ -5,8 +5,8 @@ import { asyncHandler } from '../routes/util.js';
 import { CampanasService } from '../services/campanas.js';
 import type { ModuloApi } from './tipos.js';
 
-export function moduloCampanas(ctx: { db: FirestorePort; ahora: () => Date; produccion: boolean }): ModuloApi {
-  const campanas = new CampanasService(ctx.db, ctx.ahora);
+export function moduloCampanas(ctx: { db: FirestorePort; ahora: () => Date; produccion: boolean; codigoCampanaBienvenida: string }): ModuloApi {
+  const campanas = new CampanasService(ctx.db, ctx.ahora, ctx.codigoCampanaBienvenida);
   return ({ app, requireUser, requireAdmin }) => {
     app.get('/campanas/bienvenida', requireUser, asyncHandler(async (req, res) => {
       res.set('Cache-Control', 'no-store');

@@ -244,7 +244,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
   if (!config.produccion) {
     // Desarrollo: los módulos usan un Firestore en memoria (vacío al arrancar).
     const db = inyecciones.firestore ?? new MemoryFirestore();
-    const modulos: ModuloApi[] = crearModulos({ db, ahora, produccion: false });
+    const modulos: ModuloApi[] = crearModulos({ db, ahora, produccion: false, codigoCampanaBienvenida: 'DEMO-BIENVENIDA-50' });
     const content = new FixtureContentStore();
     const learning = new LearningService(content, new FixtureLearningStore(), new MemoryProgressStore(), new MemoryCertificateStore());
     return createApp({
@@ -306,6 +306,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
       db,
       ahora,
       produccion: true,
+      codigoCampanaBienvenida: p.codigoCampanaBienvenida,
       // Las pruebas que inyectan Firestore no deben abrir Firebase real salvo que también inyecten este puerto.
       directorioAuth: inyecciones.directorioAuth ?? (inyecciones.firestore ? undefined : firebase.directorioAdmin()),
     }),
@@ -316,7 +317,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
  * Módulos del club con sus rutas propias. Cada uno recibe el mismo Firestore (memoria en desarrollo,
  * el real en producción). Agrega aquí una línea por módulo.
  */
-function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: boolean; directorioAuth?: DirectorioAuthAdmin }): ModuloApi[] {
+function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: boolean; codigoCampanaBienvenida: string; directorioAuth?: DirectorioAuthAdmin }): ModuloApi[] {
   return [
     moduloVip(ctx),
     moduloContenido(ctx),

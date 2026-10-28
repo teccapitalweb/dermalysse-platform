@@ -22,6 +22,7 @@ const ENV = {
   LEGACY_WEBHOOK_URL: 'https://webhook.example.test/',
   APP_URL: 'https://club.example.test',
   CORS_ORIGINS: 'https://club.example.test',
+  CAMPANA_BIENVENIDA_CODIGO: 'TEST-DERMALYSSE-50',
 } as unknown as NodeJS.ProcessEnv;
 
 const AHORA = new Date('2026-10-21T12:00:00.000Z');

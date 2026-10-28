@@ -33,6 +33,7 @@ npm run dev            # igual que start, con recarga (tsx watch)
 | `FIREBASE_SERVICE_ACCOUNT` | producción | JSON completo de la cuenta de servicio de `club-dermalysse`, en una línea (puede ser la del webhook). Secreto. Debe traer `project_id = club-dermalysse`. |
 | `LEGACY_WEBHOOK_URL` | producción | URL base https del webhook actual (`dermalysse-webhook` en Railway), sin ruta. |
 | `APP_URL` | producción | URL pública https del club nuevo; Stripe vuelve a `<APP_URL>/#/suscripcion?pago=exito&session_id={CHECKOUT_SESSION_ID}` (cancelar: `?pago=cancelado`; portal: `/#/suscripcion`). |
+| `CAMPANA_BIENVENIDA_CODIGO` | producción | Código oficial de la campaña inicial. Se guarda únicamente como variable protegida del servidor; nunca se incluye en el repositorio ni en el bundle web. |
 | `LEGACY_WEBHOOK_TIMEOUT_MS` | producción, opcional | Tiempo máximo por llamada al webhook (1000–60000, default 15000). |
 
 El arranque **falla rápido** si falta o es inválida cualquiera de las variables de producción; el mensaje solo nombra variables (nunca imprime valores ni cita el JSON de la cuenta de servicio). `firebase-admin` se inicializa de forma perezosa: en la primera petición, nunca al importar.
