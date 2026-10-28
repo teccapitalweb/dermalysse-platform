@@ -382,9 +382,11 @@ onRender(() => {
       return;
     }
   }
-  if (shellActual === 'miembro' && path !== '/bienvenida' && path !== '/curso-gratis' && bienvenidaTerminada) {
+  // El acceso manual al regalo debe estar disponible aunque la entrevista guiada siga pendiente.
+  // Solo la apertura automática espera a que termine la bienvenida, para no superponer dos flujos.
+  if (shellActual === 'miembro' && path !== '/bienvenida' && path !== '/curso-gratis') {
     void montarCampanaBienvenida({
-      autoMostrar: path !== '/recompensas',
+      autoMostrar: bienvenidaTerminada && path !== '/recompensas',
       toast,
       celebrar: () => celebrar('grande'),
       iconos: () => createIcons({ icons }),
