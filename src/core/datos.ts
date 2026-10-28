@@ -18,6 +18,8 @@ export interface Material {
   cursoId: string | null; descripcion: string; estado: 'disponible' | 'proximamente' | 'oculto' | string; gratis?: boolean; url?: string;
   /** Modo API: hay archivo, pero su enlace se pide con sesión (GET /materiales/:id/acceso). */
   enlaceProtegido?: boolean;
+  /** Material versionado con el repositorio: el panel lo muestra, pero no permite mutarlo. */
+  editorial?: boolean;
 }
 export interface Evento {
   id: string; titulo: string; ponente: string; fecha: string; duracionMin: number; enlace?: string; cursoId?: string; publicado?: boolean; reservas?: number;
@@ -28,11 +30,15 @@ export interface Pregunta { q: string; opciones: string[]; correcta: number; exp
 export interface Quiz { id: string; cursoId: string; n: number; estado: 'borrador' | 'aprobado'; preguntas: Pregunta[]; actualizado: string }
 export interface MiembroDemo { uid: string; nombre: string; email: string; telefono?: string; plan: 'mensual' | 'anual' | 'cortesia' | 'cupon' | 'ninguno'; vence: string | null; alta: string; clasesVistas: number; ultimaActividad: string; cortesiaHasta?: string | null; cuponHasta?: string | null; cortesiaMotivo?: string; esVip?: boolean; esAdmin?: boolean; tieneFicha?: boolean; deshabilitada?: boolean }
 export interface Aviso { id: string; titulo: string; texto: string; enlace?: string; fecha: string }
-export interface Config { precioMensual: number; precioAnual: number; descuentoVIP: number; whatsappSoporte: string; canalWhatsApp: string }
+export interface Config {
+  precioMensual: number; precioAnual: number; descuentoVIP: number; whatsappSoporte: string; canalWhatsApp: string;
+  mantenimiento: boolean; registroAbierto: boolean; avisoNuevoMiembro: boolean;
+}
 
 const PREFIX = 'dermalysse:datos:v1:';
 const CONFIG_DEF: Config = {
   precioMensual: 0, precioAnual: 0, descuentoVIP: 0, whatsappSoporte: '', canalWhatsApp: '',
+  mantenimiento: false, registroAbierto: true, avisoNuevoMiembro: true,
 };
 
 function leer<T>(k: string, semilla: T): T {

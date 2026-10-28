@@ -30,6 +30,8 @@ export interface MetricasVip {
   certificados: number;
   /** XP acreditado por el motor autoritativo de Retos; nunca viene del cliente. */
   xpRetos: number;
+  /** Racha diaria actual acreditada por el motor de Retos. */
+  rachaRetos: number;
 }
 
 export type MetricaVip = keyof MetricasVip;
@@ -82,5 +84,6 @@ export async function leerMetricasVip(db: FirestorePort, uid: string): Promise<M
     hilosForo: hilos.filter((h) => h.data()?.oculto !== true).length,
     certificados: cursosCertificados.size,
     xpRetos: Math.max(0, Math.floor(Number(retos.data()?.xp) || 0)),
+    rachaRetos: Math.max(0, Math.floor(Number((retos.data()?.diaria as Datos | undefined)?.racha) || 0)),
   };
 }

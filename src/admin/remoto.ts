@@ -36,6 +36,31 @@ export interface ExperienciaAdmin {
 export interface CuponAdmin { codigo: string; loteId: string; duracion: string; dias: number | null; maxUsos: number; usos: number; activo: boolean; creadoEn: string }
 export interface LoteCupones { id: string; modalidad: 'compartido' | 'individuales'; cantidad: number; duracion: string; dias: number | null; codigos: string[]; creadoEn: string }
 
+export interface CuentaPuntosAdmin {
+  uid: string; nombre: string; email: string; saldo: number; experiencia: number; ganados: number; gastados: number; canjes: number;
+  bienvenidaAcreditada: boolean; nivel: { id: string; nombre: string; desde: number; siguiente: number | null }; actualizado: string;
+}
+
+export interface MovimientoPuntosAdmin { id: string; uid?: string; tipo: 'ganado' | 'canje'; puntos: number; concepto: string; detalle: string; fecha: string }
+export interface CanjePuntosAdmin { id: string; uid?: string; beneficioId: string; nombre: string; categoria: 'material' | 'vip' | 'paquete'; costo: number; fecha: string; diasVip: number | null; origen?: 'puntos' | 'nivel' }
+export interface ResumenPuntosAdmin {
+  moneda: { nombre: 'Diamantes Dermalysse'; icono: 'gem' };
+  cuentas: number; saldoCirculante: number; diamantesGanados: number; diamantesGastados: number; canjes: number;
+  materialesPermanentes: number; diasVipEntregados: number; cofresBienvenida: number;
+  catalogo: { total: number; materiales: number; colecciones: number; pasesVip: number };
+  movimientosRecientes: MovimientoPuntosAdmin[]; canjesRecientes: CanjePuntosAdmin[];
+}
+export interface DetallePuntosAdmin { cuenta: CuentaPuntosAdmin; movimientos: MovimientoPuntosAdmin[]; canjes: CanjePuntosAdmin[]; materialesPermanentes: number }
+
+export interface CampanaAdmin {
+  id: string; nombre: string; descripcion: string; codigo: string; estado: 'activa' | 'pausada' | 'agotada' | 'terminada';
+  cupoTotal: number; lugaresRestantes: number; solicitudes: number; emitidos: number; activados: number; pendientes: number;
+  inicio: string; fin: string; creadoEn: string; actualizadoEn: string;
+  beneficios: { diamantes: number; vipDias: number; materiales: { id: string; nombre: string }[]; manuales: { id: string; nombre: string }[] };
+  grafica: { fecha: string; solicitudes: number; emisiones: number; activaciones: number }[];
+  entregasPendientes: { uid: string; referencia: string; solicitadoEn: string; beneficios: string[] }[];
+}
+
 export interface ReporteAdmin {
   id: string;
   reportanteUid: string;
@@ -65,16 +90,20 @@ export interface PerfilAdminDirectorio {
   actualizado: string;
 }
 
-type Clave = 'resumen' | 'cursos' | 'materiales' | 'eventos' | 'quizzes' | 'miembros' | 'foro' | 'experiencias' | 'avisos' | 'config' | 'cupones' | 'directorioReportes' | 'directorioPerfiles';
+type Clave = 'resumen' | 'cursos' | 'materiales' | 'eventos' | 'quizzes' | 'miembros' | 'foro' | 'experiencias' | 'avisos' | 'config' | 'cupones' | 'recompensasResumen' | 'recompensasCuentas' | 'campanas' | 'directorioReportes' | 'directorioPerfiles';
 const cargadas = new Set<Clave>();
 const pendientes = new Map<Clave, Promise<void>>();
 let resumen: ResumenAdmin | null = null;
 let foro: HiloAdmin[] = [];
 let experiencias: ExperienciaAdmin[] = [];
 let cupones: CuponAdmin[] = [];
+let recompensasResumen: ResumenPuntosAdmin | null = null;
+let recompensasCuentas: CuentaPuntosAdmin[] = [];
+let campanas: CampanaAdmin[] = [];
 let reportesDirectorio: ReporteAdmin[] = [];
 let perfilesDirectorio: PerfilAdminDirectorio[] = [];
 const detalles = new Map<string, MiembroDetalle>();
+const detallesPuntos = new Map<string, DetallePuntosAdmin>();
 
 const planMiembro = (m: any): MiembroDemo['plan'] => {
   if (m.cortesiaHasta) return 'cortesia';
@@ -90,7 +119,7 @@ const adaptarCurso = (c: any): Curso => ({
   clases: (Array.isArray(c.clases) ? c.clases : []).map((k: any) => ({ ...k, duracion: k.duracionMin ?? k.duracion ?? null })),
 });
 
-const adaptarMaterial = (m: any): Material => ({ ...m, portada: m.portada || '/media/hidrafacial.png', url: m.archivo || '' });
+const adaptarMaterial = (m: any): Material => ({ ...m, portada: m.portada || '/media/hidrafacial.png', url: m.archivo || '', editorial: m.editorial === true });
 const adaptarEvento = (e: any): Evento => ({ ...e, reservas: Array.isArray(e.reservas) ? e.reservas.length : Number(e.reservas) || 0 });
 const adaptarMiembro = (m: any): MiembroDemo => ({
   uid: m.uid, nombre: m.nombre || 'Sin nombre', email: m.email || '', telefono: m.telefono || '', plan: planMiembro(m),
@@ -126,7 +155,11 @@ export async function cargarAdmin(path: string, forzar = false) {
   const avisos = () => cargar('avisos', async () => Datos.hidratarAdmin('avisos', await api<Aviso[]>('/admin/avisos')));
   const config = () => cargar('config', async () => {
     const c = await api<any>('/admin/config');
-    const adaptada: Config = { precioMensual: Number(c.precios?.mensual) || 0, precioAnual: Number(c.precios?.anual) || 0, descuentoVIP: Number(c.descuentoVIP) || 0, whatsappSoporte: c.whatsappSoporte || '', canalWhatsApp: c.canalWhatsApp || '' };
+    const adaptada: Config = {
+      precioMensual: Number(c.precios?.mensual) || 0, precioAnual: Number(c.precios?.anual) || 0,
+      descuentoVIP: Number(c.descuentoVIP) || 0, whatsappSoporte: c.whatsappSoporte || '', canalWhatsApp: c.canalWhatsApp || '',
+      mantenimiento: c.mantenimiento === true, registroAbierto: c.registroAbierto !== false, avisoNuevoMiembro: c.avisoNuevoMiembro !== false,
+    };
     Datos.hidratarAdmin('config', adaptada);
   });
 
@@ -139,6 +172,16 @@ export async function cargarAdmin(path: string, forzar = false) {
   else if (path.startsWith('/admin/en-vivo')) { eventos(); cursos(); }
   else if (path === '/admin/miembros') miembros();
   else if (path === '/admin/cupones') cargar('cupones', async () => { cupones = await api<CuponAdmin[]>('/admin/cupones'); });
+  else if (path === '/admin/campanas') {
+    cargar('campanas', async () => { campanas = await api<CampanaAdmin[]>('/admin/campanas'); });
+    materiales();
+  }
+  else if (path === '/admin/recompensas' || path.startsWith('/admin/recompensas/')) {
+    cargar('recompensasResumen', async () => { recompensasResumen = await api<ResumenPuntosAdmin>('/admin/recompensas/resumen'); });
+    cargar('recompensasCuentas', async () => { recompensasCuentas = await api<CuentaPuntosAdmin[]>('/admin/recompensas/cuentas'); });
+    const uid = path.startsWith('/admin/recompensas/') ? decodeURIComponent(path.split('/')[3] || '') : '';
+    if (uid) cargas.push(api<DetallePuntosAdmin>(`/admin/recompensas/cuentas/${encodeURIComponent(uid)}`).then((d) => { detallesPuntos.set(uid, d); }));
+  }
   else if (path.startsWith('/admin/miembros/')) {
     const uid = decodeURIComponent(path.split('/')[3] || '');
     if (uid) cargas.push(api<MiembroDetalle>(`/admin/miembros/${encodeURIComponent(uid)}`).then((d) => { detalles.set(uid, d); }));
@@ -159,11 +202,14 @@ export async function cargarAdmin(path: string, forzar = false) {
 
 export function invalidarAdmin(...claves: Clave[]) {
   claves.forEach((clave) => cargadas.delete(clave));
-  Datos.invalidarAdmin(...claves.filter((c): c is any => !['resumen', 'foro', 'experiencias', 'cupones', 'directorioReportes', 'directorioPerfiles'].includes(c)));
+  Datos.invalidarAdmin(...claves.filter((c): c is any => !['resumen', 'foro', 'experiencias', 'cupones', 'recompensasResumen', 'recompensasCuentas', 'campanas', 'directorioReportes', 'directorioPerfiles'].includes(c)));
   if (claves.includes('resumen')) resumen = null;
   if (claves.includes('foro')) foro = [];
   if (claves.includes('experiencias')) experiencias = [];
   if (claves.includes('cupones')) cupones = [];
+  if (claves.includes('recompensasResumen')) recompensasResumen = null;
+  if (claves.includes('recompensasCuentas')) { recompensasCuentas = []; detallesPuntos.clear(); }
+  if (claves.includes('campanas')) campanas = [];
   if (claves.includes('directorioReportes')) reportesDirectorio = [];
   if (claves.includes('directorioPerfiles')) perfilesDirectorio = [];
 }
@@ -173,6 +219,10 @@ export const AdminRemoto = {
   foro: () => foro,
   experiencias: () => experiencias,
   cupones: () => cupones,
+  recompensasResumen: () => recompensasResumen,
+  recompensasCuentas: () => recompensasCuentas,
+  campanas: () => campanas,
+  detallePuntos: (uid: string) => detallesPuntos.get(uid),
   reportesDirectorio: () => reportesDirectorio,
   perfilesDirectorio: () => perfilesDirectorio,
   // Evita que el panel de Directorio tome `miembros-demo.json` mientras la

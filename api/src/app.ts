@@ -55,6 +55,7 @@ import { moduloExperiencia } from './modulos/experiencia.js';
 import { moduloAdmin } from './modulos/admin.js';
 import { moduloCursoGratis } from './modulos/cursoGratis.js';
 import { moduloRetos } from './modulos/retos.js';
+import { moduloCampanas } from './modulos/campanas.js';
 import { moduloDirectorio } from './modulos/directorio.js';
 
 export interface Dependencias {
@@ -323,6 +324,7 @@ function crearModulos(ctx: { db: FirestorePort; ahora: () => Date; produccion: b
     moduloAdmin(ctx),
     moduloCursoGratis(ctx),
     moduloRetos(ctx),
+    moduloCampanas(ctx),
     moduloDirectorio(ctx),
   ];
 }

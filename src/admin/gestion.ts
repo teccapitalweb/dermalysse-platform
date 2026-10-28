@@ -261,7 +261,7 @@ export function adminAvisos() {
 export function adminAjustes() {
   const c = Datos.config();
   return `
-  ${adminHead('Ajustes', 'Precios, contacto y administración del club.')}
+  ${adminHead('Ajustes', 'Precios, acceso, notificaciones y contacto del club.')}
   <form class="card card--pad stack" style="gap:14px;max-width:820px" data-form="config">
     <h3 class="admin-card-title">Membresía</h3>
     <div class="form-grid form-grid--3">
@@ -269,7 +269,13 @@ export function adminAjustes() {
       <div class="field"><label>Precio anual (MXN)</label><input class="input" type="number" min="0" name="precioAnual" value="${c.precioAnual}"></div>
       <div class="field"><label>Descuento VIP en vivo (%)</label><input class="input" type="number" min="0" max="100" name="descuentoVIP" value="${c.descuentoVIP}"></div>
     </div>
-    <p class="faint" style="font-size:var(--fs-xs)">Los precios que se cobran los define Stripe. Cambiarlos aquí actualiza lo que se muestra; con el backend conectado se valida que coincidan con los precios de Stripe.</p>
+    <div class="admin-callout admin-callout--warn"><i data-lucide="badge-alert" class="i"></i><div><strong>Estos importes tienen efecto operativo</strong><p>El backend usa los precios mensual y anual en los nuevos checkouts. Antes de guardarlos, confirma con la persona propietaria del negocio que coincidan con la oferta autorizada y su configuración de cobro.</p></div></div>
+    <h3 class="admin-card-title" style="margin-top:8px">Acceso a la plataforma</h3>
+    <div class="form-grid form-grid--3">
+      <div class="field"><label>Modo mantenimiento</label><select class="input" name="mantenimiento"><option value="0" ${!c.mantenimiento ? 'selected' : ''}>Club disponible</option><option value="1" ${c.mantenimiento ? 'selected' : ''}>Solo administradores</option></select><span class="faint">Bloquea temporalmente el acceso de miembros.</span></div>
+      <div class="field"><label>Registro de cuentas</label><select class="input" name="registroAbierto"><option value="1" ${c.registroAbierto ? 'selected' : ''}>Abierto</option><option value="0" ${!c.registroAbierto ? 'selected' : ''}>Cerrado</option></select><span class="faint">Impide nuevas altas; no afecta cuentas existentes.</span></div>
+      <div class="field"><label>Aviso de nuevo miembro</label><select class="input" name="avisoNuevoMiembro"><option value="1" ${c.avisoNuevoMiembro ? 'selected' : ''}>Activado</option><option value="0" ${!c.avisoNuevoMiembro ? 'selected' : ''}>Desactivado</option></select><span class="faint">Controla la notificación operativa configurada.</span></div>
+    </div>
     <h3 class="admin-card-title" style="margin-top:8px">Contacto</h3>
     <div class="form-grid">
       <div class="field"><label>WhatsApp de soporte (con lada, solo números)</label><input class="input mono" name="whatsappSoporte" value="${esc(c.whatsappSoporte)}" pattern="[0-9]{10,15}"></div>

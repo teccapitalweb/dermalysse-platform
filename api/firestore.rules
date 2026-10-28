@@ -47,6 +47,12 @@ service cloud.firestore {
     match /v2_liga/{id}                     { allow read, write: if false; }
     match /v2_quiz/{id}                     { allow read, write: if false; }
 
+    // Campañas, códigos, cupos, preferencias y entregas: solo la API puede leerlos o escribirlos.
+    match /v2_campanas/{id}                 { allow read, write: if false; }
+    match /v2_campanas_codigos/{id}         { allow read, write: if false; }
+    match /v2_campanas_canjes/{id}          { allow read, write: if false; }
+    match /v2_campanas_preferencias/{id}    { allow read, write: if false; }
+
     // Fallback defensivo: cualquier colección futura o no especificada se deniega por omisión.
     match /{document=**} {
       allow read, write: if false;

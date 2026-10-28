@@ -68,7 +68,7 @@ export function adminCurso(params: Record<string, string>) {
         </div>
       </div>
       <div class="card card--pad stack" style="gap:12px">
-        <h3 class="admin-card-title">Portada 3:4</h3>
+        <h3 class="admin-card-title">Portada 16:9</h3>
         <div class="cover-drop"><img src="${c.portada}" alt="" data-preview="portada">${api ? '' : `<label class="btn btn--secondary btn--sm"><i data-lucide="upload" class="i"></i>Subir imagen<input type="file" accept="image/*" hidden data-subir-imagen="portada"></label>`}</div>
         <input type="hidden" name="portada" value="${esc(c.portada)}">
         <p class="faint" style="font-size:var(--fs-xs)">${api ? 'La portada del club sale del catálogo editorial; por ahora no se cambia desde aquí.' : 'Usa las imágenes generadas con la guía de Flow. Se optimizan al subir.'}</p>
@@ -151,7 +151,7 @@ export function adminMateriales() {
     <tbody>${l.map((m) => `<tr>
       <td><a class="dtable__main dtable__main--book" href="#/admin/materiales/${m.id}"><img src="${m.portada}" alt=""><span><strong>${esc(m.titulo)}</strong><br><span class="faint">${esc(m.categoria)}</span></span></a></td>
       <td>${esc(m.tipo)}</td><td>${esc(m.area)}</td><td class="mono">${m.paginas}</td><td>${estado(m.estado)}</td>
-      <td><a class="btn btn--ghost btn--icon btn--xs" href="#/admin/materiales/${m.id}"><i data-lucide="pencil" class="i"></i></a></td></tr>`).join('')}</tbody></table></div>`;
+      <td><a class="btn btn--ghost btn--icon btn--xs" href="#/admin/materiales/${m.id}" aria-label="${m.editorial ? 'Ver material editorial' : 'Editar material'}"><i data-lucide="${m.editorial ? 'eye' : 'pencil'}" class="i"></i></a></td></tr>`).join('')}</tbody></table></div>`;
 }
 
 export function adminMaterial(params: Record<string, string>) {
@@ -160,6 +160,21 @@ export function adminMaterial(params: Record<string, string>) {
     : Datos.materiales().find((x) => x.id === params.id)!;
   if (!m) return vacio('Material no encontrado', '', '<a class="btn btn--brand" href="#/admin/materiales">Volver</a>');
   const cursos = Datos.cursos();
+  if (Datos.modo === 'api' && m.editorial) return `
+  <a class="section-head__cta" href="#/admin/materiales" style="align-self:flex-start"><span class="circle-btn circle-btn--glass" style="width:34px;height:34px"><i data-lucide="arrow-left" class="i" style="width:15px;height:15px"></i></span>Materiales</a>
+  ${adminHead(esc(m.titulo), 'Material editorial versionado y protegido.', '<span class="chip chip--primary"><i data-lucide="shield-check" class="i"></i>Solo lectura</span>')}
+  <div class="admin-callout"><i data-lucide="git-branch" class="i"></i><div><strong>Este recurso forma parte del catálogo editorial</strong><p>Su ficha, portada y archivo se revisan en el repositorio y se publican mediante el flujo de despliegue. El panel no ofrece acciones que aparenten modificarlo.</p></div></div>
+  <div class="admin-grid">
+    <section class="card card--pad stack" style="gap:14px"><h3 class="admin-card-title">Ficha publicada</h3>
+      <div class="row" style="justify-content:space-between"><span class="muted">Tipo</span><strong>${esc(m.tipo)}</strong></div>
+      <div class="row" style="justify-content:space-between"><span class="muted">Categoría</span><strong>${esc(m.categoria)}</strong></div>
+      <div class="row" style="justify-content:space-between"><span class="muted">Área</span><strong>${esc(m.area)}</strong></div>
+      <div class="row" style="justify-content:space-between"><span class="muted">Autor</span><strong>${esc(m.autor)}</strong></div>
+      <div class="row" style="justify-content:space-between"><span class="muted">Páginas</span><strong>${m.paginas}</strong></div>
+      <p class="muted">${esc(m.descripcion)}</p>
+    </section>
+    <section class="card card--pad stack" style="gap:12px"><h3 class="admin-card-title">Portada editorial 3:4</h3><div class="cover-drop cover-drop--book"><img src="${m.portada}" alt="Portada de ${esc(m.titulo)}"></div></section>
+  </div>`;
   return `
   <a class="section-head__cta" href="#/admin/materiales" style="align-self:flex-start"><span class="circle-btn circle-btn--glass" style="width:34px;height:34px"><i data-lucide="arrow-left" class="i" style="width:15px;height:15px"></i></span>Materiales</a>
   <form class="stack" style="gap:20px" data-form="material" data-id="${m.id}">
@@ -187,8 +202,8 @@ export function adminMaterial(params: Record<string, string>) {
       </div>
       <div class="card card--pad stack" style="gap:12px">
         <h3 class="admin-card-title">Portada 3:4</h3>
-        <div class="cover-drop cover-drop--book"><img src="${m.portada}" alt="" data-preview="portada"><label class="btn btn--secondary btn--sm"><i data-lucide="upload" class="i"></i>Subir portada<input type="file" accept="image/*" hidden data-subir-imagen="portada"></label></div>
-        <input type="hidden" name="portada" value="${esc(m.portada)}">
+        <div class="cover-drop cover-drop--book"><img src="${m.portada}" alt="" data-preview="portada">${Datos.modo === 'api' ? '' : '<label class="btn btn--secondary btn--sm"><i data-lucide="upload" class="i"></i>Subir portada<input type="file" accept="image/*" hidden data-subir-imagen="portada"></label>'}</div>
+        ${Datos.modo === 'api' ? `<div class="field"><label>URL pública de la portada</label><input class="input mono" type="url" name="portada" value="${esc(m.portada)}" required><span class="faint">El almacenamiento nativo todavía no está configurado; usa una URL HTTPS autorizada.</span></div>` : `<input type="hidden" name="portada" value="${esc(m.portada)}">`}
       </div>
     </div>
     ${!nuevo ? `<div class="card card--pad row" style="justify-content:space-between"><div><strong>Borrar material</strong><p class="faint" style="font-size:var(--fs-xs)">Si solo quieres esconderlo, cambia el estado a Oculto.</p></div><button type="button" class="btn btn--danger" data-borrar-material="${m.id}"><i data-lucide="trash-2" class="i"></i>Borrar</button></div>` : ''}

@@ -29,9 +29,39 @@ export function moduloVip(ctx: { db: FirestorePort; ahora: () => Date; produccio
       res.json(await recompensas.canjear(req.usuario!.uid, String(req.params.id)));
     }));
 
+    app.post('/beneficios/atelier/canjear', requireUser, asyncHandler(async (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.canjearAtelier(req.usuario!.uid, (req.body as { materialIds?: unknown } | undefined)?.materialIds));
+    }));
+
     app.post('/beneficios/:id/canjear', requireUser, asyncHandler(async (req, res) => {
       res.set('Cache-Control', 'no-store');
       res.json(await puntos.canjear(req.usuario!.uid, String(req.params.id)));
+    }));
+
+    app.post('/puntos/misiones/:id/activar', requireUser, asyncHandler(async (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.activarMision(req.usuario!.uid, String(req.params.id)));
+    }));
+
+    app.put('/puntos/objetivo', requireUser, asyncHandler(async (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.seleccionarObjetivo(req.usuario!.uid, (req.body as { beneficioId?: unknown } | undefined)?.beneficioId));
+    }));
+
+    app.put('/puntos/favoritos/:id', requireUser, asyncHandler(async (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.marcarFavorito(req.usuario!.uid, String(req.params.id), (req.body as { activo?: unknown } | undefined)?.activo));
+    }));
+
+    app.post('/beneficios/atelier/cotizar', requireUser, asyncHandler(async (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.cotizarAtelier(req.usuario!.uid, (req.body as { materialIds?: unknown } | undefined)?.materialIds));
+    }));
+
+    app.post('/puntos/niveles/:id/canjear', requireUser, asyncHandler(async (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.canjearPremioNivel(req.usuario!.uid, String(req.params.id), (req.body as { beneficioId?: unknown } | undefined)?.beneficioId));
     }));
 
     app.post('/cupones/canjear', requireUser, asyncHandler(async (req, res) => {
@@ -42,6 +72,26 @@ export function moduloVip(ctx: { db: FirestorePort; ahora: () => Date; produccio
     app.get('/admin/cupones', requireAdmin, asyncHandler(async (_req, res) => {
       res.set('Cache-Control', 'no-store');
       res.json(await cupones.listar());
+    }));
+
+    app.get('/admin/recompensas/resumen', requireAdmin, asyncHandler(async (_req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.adminResumen());
+    }));
+
+    app.get('/admin/recompensas/cuentas', requireAdmin, asyncHandler(async (_req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.adminCuentas());
+    }));
+
+    app.get('/admin/recompensas/cuentas/:uid', requireAdmin, asyncHandler(async (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.adminCuenta(String(req.params.uid)));
+    }));
+
+    app.post('/admin/recompensas/ajustes', requireAdmin, asyncHandler(async (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.json(await puntos.adminAjustar(req.usuario!, req.body));
     }));
 
     app.post('/admin/cupones', requireAdmin, asyncHandler(async (req, res) => {

@@ -19,6 +19,7 @@ import './styles/quiz.css';
 import './styles/certificado.css';
 import './styles/historia.css';
 import './styles/recompensas.css';
+import './styles/campanas.css';
 import './styles/curso-gratis.css';
 import './styles/noticias.css';
 import './styles/dashboard.css';
@@ -73,7 +74,7 @@ import { emitirCertificado, limpiarCertificados } from './core/certificados-remo
 import { herramientas, montarHerramientas } from './pages/herramientas';
 import { paginaPraxia } from './pages/praxia';
 import { paginaRecompensas } from './pages/recompensas';
-import { actualizarPuntosShell, invalidarPanelPuntos } from './core/puntos';
+import { actualizarPuntosShell, invalidarPanelPuntos, type CotizacionAtelier } from './core/puntos';
 import { perfil, suscripcion, configuracion, mas, confirmarPagoStripe } from './pages/cuenta';
 import { directorio, directorioPerfil } from './pages/directorio';
 import { instalarInteraccionesDirectorio } from './pages/directorio-interacciones';
@@ -83,6 +84,8 @@ import { adminCursos, adminCurso, adminQuizzes, adminQuiz, adminMateriales, admi
 import { adminResumen, adminMiembros, adminMiembro, adminComunidad, adminAvisos, adminAjustes } from './admin/gestion';
 import { adminCupones } from './admin/cupones';
 import { adminDirectorio } from './admin/directorio';
+import { adminRecompensas } from './admin/recompensas';
+import { adminCampanas, montarAdminCampanas } from './admin/campanas';
 import { cargarAdmin } from './admin/remoto';
 import { cargarClub } from './core/remoto';
 import { registrarIntentoQuiz } from './core/quiz-clase';
@@ -96,6 +99,7 @@ import { montarTicker } from './ui/noticias';
 import { paginaCursoGratis, confirmarCursoGratis } from './pages/curso-gratis';
 import { debeElegir } from './core/curso-gratis';
 import { instalarAvisosLogros } from './ui/logro-desbloqueado';
+import { montarCampanaBienvenida } from './ui/campana-bienvenida';
 
 let _showQuiz = false;
 let desmontarExperiencia: (() => void) | null = null;
@@ -123,6 +127,58 @@ function toast(msg: string, icon = 'check') {
   host.appendChild(t); createIcons({ icons }); setTimeout(() => t.remove(), 3200);
 }
 
+const seleccionAtelier = (taller: HTMLElement) => [...taller.querySelectorAll<HTMLButtonElement>('[data-atelier-material][aria-pressed="true"]')]
+  .map((boton) => boton.dataset.atelierMaterial ?? '').filter(Boolean);
+
+function pintarAtelier(taller: HTMLElement, cotizacion: CotizacionAtelier | null, mensaje?: string) {
+  const seleccion = seleccionAtelier(taller);
+  const cuenta = taller.querySelector<HTMLElement>('[data-atelier-count]');
+  const original = taller.querySelector<HTMLElement>('[data-atelier-original]');
+  const descuento = taller.querySelector<HTMLElement>('[data-atelier-discount]');
+  const ahorro = taller.querySelector<HTMLElement>('[data-atelier-saving]');
+  const total = taller.querySelector<HTMLElement>('[data-atelier-total]');
+  const estado = taller.querySelector<HTMLElement>('[data-atelier-message]');
+  const canjear = taller.querySelector<HTMLButtonElement>('[data-canjear-atelier]');
+  const limpiar = taller.querySelector<HTMLButtonElement>('[data-limpiar-atelier]');
+  if (cuenta) cuenta.textContent = String(seleccion.length);
+  if (original) original.textContent = `${(cotizacion?.costoOriginal ?? 0).toLocaleString('es-MX')} diamantes`;
+  if (descuento) descuento.textContent = `${cotizacion?.descuento ?? 0}%`;
+  if (ahorro) ahorro.textContent = `${(cotizacion?.ahorro ?? 0).toLocaleString('es-MX')} diamantes`;
+  if (total) total.textContent = cotizacion ? `${cotizacion.costo.toLocaleString('es-MX')} diamantes` : '—';
+  if (estado) estado.textContent = mensaje ?? (cotizacion
+    ? cotizacion.puedeCanjear ? 'Tu saldo alcanza. La cotización será confirmada al canjear.' : `Te faltan ${cotizacion.faltan.toLocaleString('es-MX')} diamantes.`
+    : `Elige al menos ${taller.dataset.atelierMin ?? 2} materiales para recibir tu cotización.`);
+  if (canjear) canjear.disabled = !cotizacion?.puedeCanjear;
+  if (limpiar) limpiar.disabled = seleccion.length === 0;
+  taller.dataset.atelierQuote = cotizacion ? JSON.stringify(cotizacion) : '';
+}
+
+async function cotizarAtelier(taller: HTMLElement) {
+  const materialIds = seleccionAtelier(taller);
+  const minimo = Number(taller.dataset.atelierMin ?? 2);
+  if (materialIds.length < minimo) { pintarAtelier(taller, null); return; }
+  const clave = materialIds.join('|');
+  taller.dataset.atelierPending = clave;
+  pintarAtelier(taller, null, 'Calculando tu mejor precio…');
+  try {
+    let cotizacion: CotizacionAtelier;
+    if (Datos.modo === 'api') {
+      ({ cotizacion } = await api<{ cotizacion: CotizacionAtelier }>('/beneficios/atelier/cotizar', { method: 'POST', json: { materialIds } }));
+    } else {
+      const botones = [...taller.querySelectorAll<HTMLButtonElement>('[data-atelier-material][aria-pressed="true"]')];
+      const costoOriginal = botones.reduce((total, boton) => total + Number(boton.dataset.atelierCost ?? 0), 0);
+      const porcentajes: Record<number, number> = { 2: 8, 3: 12, 4: 16, 5: 20 };
+      const porcentaje = porcentajes[materialIds.length] ?? 0;
+      const costo = Math.round((costoOriginal * (1 - porcentaje / 100)) / 10) * 10;
+      const saldo = Number(taller.dataset.atelierSaldo ?? 0);
+      cotizacion = { materialIds, materiales: [], cantidad: materialIds.length, descuento: porcentaje, costoOriginal, costo, ahorro: costoOriginal - costo, saldo, faltan: Math.max(0, costo - saldo), puedeCanjear: saldo >= costo };
+    }
+    if (taller.dataset.atelierPending === clave && seleccionAtelier(taller).join('|') === clave) pintarAtelier(taller, cotizacion);
+  } catch (err) {
+    if (taller.dataset.atelierPending === clave) pintarAtelier(taller, null, mensajeError(err));
+  }
+}
+
 // ── Cascarones: miembro, admin o pantalla sola (login) ──
 let shellActual: 'miembro' | 'admin' | 'solo' | null = null;
 function montar(tipo: 'miembro' | 'admin' | 'solo') {
@@ -133,6 +189,19 @@ function montar(tipo: 'miembro' | 'admin' | 'solo') {
   actualizarNotifs();
 }
 function remontar() { const t = shellActual; shellActual = null; if (t) montar(t); render(); }
+
+function cargaAdminVisible() {
+  document.getElementById('admin-route-loading')?.remove();
+  const panel = document.createElement('div');
+  panel.id = 'admin-route-loading';
+  panel.className = 'admin-route-loading';
+  panel.setAttribute('role', 'status');
+  panel.setAttribute('aria-live', 'polite');
+  panel.innerHTML = '<span><i data-lucide="loader-circle" class="i"></i></span><strong>Cargando datos reales</strong><small>Consultando la API de Dermalysse…</small>';
+  document.body.append(panel);
+  createIcons({ icons });
+  return () => panel.remove();
+}
 
 // ── Mantenimiento (GET /config): solo administración entra; el resto ve una pantalla honesta ──
 function pantallaMantenimiento() {
@@ -181,9 +250,12 @@ onBeforeRender(async (path) => {
     if (!u.esAdmin) { toast('Tu cuenta no tiene acceso al panel de administración', 'shield-alert'); navigate('/'); return false; }
     // Sin 'adminGestion' solo existen el Inicio del admin y la Academia; el resto lleva al Inicio (con el enlace al panel actual).
     if (funcionApagada && !/^\/admin\/?$/.test(path)) { navigate('/admin'); return false; }
+    montar('admin');
+    const ocultarCarga = Datos.modo === 'api' ? cargaAdminVisible() : () => undefined;
     try { await cargarAdmin(path); }
     catch (e) { toast(`No se pudieron cargar los datos reales: ${mensajeError(e)}`, 'circle-alert'); }
-    montar('admin'); return true;
+    finally { ocultarCarga(); }
+    return true;
   }
   try { await cargarClub(path); }
   catch (e) { toast(`No se pudo cargar el catálogo: ${mensajeError(e)}`, 'circle-alert'); }
@@ -283,6 +355,9 @@ route('/admin/en-vivo/:id', adminEvento);
 route('/admin/miembros', adminMiembros);
 route('/admin/miembros/:uid', adminMiembro);
 route('/admin/directorio', adminDirectorio);
+route('/admin/recompensas', adminRecompensas);
+route('/admin/recompensas/:uid', adminRecompensas);
+route('/admin/campanas', adminCampanas);
 route('/admin/cupones', adminCupones);
 route('/admin/experiencia', paginaAdminExperiencia);
 route('/admin/comunidad', adminComunidad);
@@ -307,6 +382,16 @@ onRender(() => {
       return;
     }
   }
+  if (shellActual === 'miembro' && path !== '/bienvenida' && path !== '/curso-gratis' && bienvenidaTerminada) {
+    void montarCampanaBienvenida({
+      autoMostrar: path !== '/recompensas',
+      toast,
+      celebrar: () => celebrar('grande'),
+      iconos: () => createIcons({ icons }),
+    }).then(() => createIcons({ icons }));
+  }
+  const reintentarCampana = document.querySelector<HTMLButtonElement>('[data-reintentar-campana]');
+  if (reintentarCampana) reintentarCampana.onclick = () => render();
   const crumb = document.querySelector('[data-crumb]'); if (crumb) crumb.textContent = document.querySelector('#outlet h1')?.textContent?.trim() || 'Administración';
   if (Datos.modo === 'api') {
     const video = document.querySelector<HTMLElement>('[data-video-api]');
@@ -320,6 +405,7 @@ onRender(() => {
   if (path === '/herramientas') montarHerramientas();
   montarAcademia(); // siempre: desmonta la página anterior y solo conecta si la actual es de la Academia
   if (shellActual === 'admin' && path === '/admin/academia') montarAdminAcademia(toast, render);
+  if (shellActual === 'admin' && path === '/admin/campanas') montarAdminCampanas(toast, render);
   if (path === '/comunidad' && Comunidad.cargando()) Comunidad.cargarListado().then(() => render()).catch((e) => toast(mensajeError(e), 'circle-alert'));
   if (path.startsWith('/comunidad/') && path !== '/comunidad/experiencias') {
     const id = path.split('/')[2];
@@ -767,6 +853,105 @@ document.addEventListener('click', async (e) => {
     tab.closest('[data-tabs]')?.querySelectorAll<HTMLElement>('[data-tab]').forEach((p) => (p.hidden = p.dataset.tab !== tab.dataset.for));
   }
 
+  const abrirTabPuntos = el.closest<HTMLButtonElement>('[data-open-points-tab]');
+  if (abrirTabPuntos) {
+    const nombre = abrirTabPuntos.dataset.openPointsTab;
+    const boton = document.querySelector<HTMLButtonElement>(`.points-tabs [data-for="${nombre}"]`);
+    boton?.click();
+    document.querySelector<HTMLElement>('[data-tabs]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  const filtroBeneficios = el.closest<HTMLButtonElement>('[data-benefit-filter]');
+  if (filtroBeneficios) {
+    const filtro = filtroBeneficios.dataset.benefitFilter ?? 'all';
+    const panelBoutique = filtroBeneficios.closest<HTMLElement>('[data-tab="boutique"]');
+    panelBoutique?.querySelectorAll<HTMLButtonElement>('[data-benefit-filter]').forEach((boton) => {
+      const activo = boton === filtroBeneficios;
+      boton.classList.toggle('is-active', activo);
+      boton.setAttribute('aria-pressed', String(activo));
+    });
+    panelBoutique?.querySelectorAll<HTMLElement>('[data-benefit-card]').forEach((tarjeta) => {
+      tarjeta.hidden = filtro !== 'all'
+        && tarjeta.dataset.benefitKind !== filtro
+        && tarjeta.dataset.benefitState !== filtro;
+    });
+    panelBoutique?.querySelectorAll<HTMLElement>('[data-benefit-shelf]').forEach((estante) => {
+      estante.hidden = [...estante.querySelectorAll<HTMLElement>('[data-benefit-card]')].every((tarjeta) => tarjeta.hidden);
+    });
+    return;
+  }
+
+  const favorito = disponible('recompensas') ? el.closest<HTMLButtonElement>('[data-toggle-favorito]') : null;
+  if (favorito) {
+    if (Datos.modo !== 'api') { toast('Favorito actualizado en la demostración. Una cuenta conectada guarda hasta cinco opciones.', 'heart'); return; }
+    if (favorito.disabled) return;
+    favorito.disabled = true;
+    favorito.setAttribute('aria-busy', 'true');
+    const activo = favorito.dataset.favoritoActivo === 'true';
+    try {
+      await api(`/puntos/favoritos/${favorito.dataset.toggleFavorito!}`, { method: 'PUT', json: { activo } });
+      invalidarPanelPuntos();
+      render();
+      toast(activo ? 'Beneficio guardado en tu ruta de deseos.' : 'Beneficio retirado de tu ruta de deseos.', activo ? 'heart' : 'heart-off');
+    } catch (err) {
+      toast(mensajeError(err), 'circle-alert');
+      favorito.disabled = false;
+      favorito.removeAttribute('aria-busy');
+    }
+    return;
+  }
+
+  const piezaAtelier = disponible('recompensas') ? el.closest<HTMLButtonElement>('[data-atelier-material]') : null;
+  if (piezaAtelier) {
+    const taller = piezaAtelier.closest<HTMLElement>('[data-atelier]');
+    if (!taller) return;
+    const activo = piezaAtelier.getAttribute('aria-pressed') === 'true';
+    const maximo = Number(taller.dataset.atelierMax ?? 5);
+    if (!activo && seleccionAtelier(taller).length >= maximo) { toast(`Puedes combinar hasta ${maximo} materiales por colección.`, 'info'); return; }
+    piezaAtelier.setAttribute('aria-pressed', String(!activo));
+    piezaAtelier.classList.toggle('is-selected', !activo);
+    const icono = piezaAtelier.querySelector<HTMLElement>(':scope > .i:last-child, :scope > svg:last-child');
+    if (icono) icono.setAttribute('data-lucide', activo ? 'plus' : 'check');
+    createIcons({ icons });
+    await cotizarAtelier(taller);
+    return;
+  }
+
+  const limpiarAtelier = disponible('recompensas') ? el.closest<HTMLButtonElement>('[data-limpiar-atelier]') : null;
+  if (limpiarAtelier) {
+    const taller = limpiarAtelier.closest<HTMLElement>('[data-atelier]');
+    taller?.querySelectorAll<HTMLButtonElement>('[data-atelier-material]').forEach((boton) => {
+      boton.setAttribute('aria-pressed', 'false');
+      boton.classList.remove('is-selected');
+    });
+    if (taller) pintarAtelier(taller, null);
+    return;
+  }
+
+  const canjearAtelier = disponible('recompensas') ? el.closest<HTMLButtonElement>('[data-canjear-atelier]') : null;
+  if (canjearAtelier) {
+    const taller = canjearAtelier.closest<HTMLElement>('[data-atelier]');
+    if (!taller || canjearAtelier.disabled) return;
+    if (Datos.modo !== 'api') { toast('El Atelier está listo para explorar; conecta una cuenta para entregar los materiales reales.', 'info'); return; }
+    const materialIds = seleccionAtelier(taller);
+    canjearAtelier.disabled = true;
+    canjearAtelier.setAttribute('aria-busy', 'true');
+    try {
+      const resultado = await api<{ canje: { nombre: string; ahorro?: number; materialIds?: string[] } }>('/beneficios/atelier/canjear', { method: 'POST', json: { materialIds } });
+      invalidarPanelPuntos();
+      render();
+      celebrar('grande');
+      toast(`${resultado.canje.nombre} ya está en tu biblioteca${resultado.canje.ahorro ? `; ahorraste ${resultado.canje.ahorro.toLocaleString('es-MX')} diamantes` : ''}.`, 'wand-sparkles');
+    } catch (err) {
+      toast(mensajeError(err), 'circle-alert');
+      canjearAtelier.disabled = false;
+      canjearAtelier.removeAttribute('aria-busy');
+      await cotizarAtelier(taller);
+    }
+    return;
+  }
+
   const emitir = el.closest<HTMLButtonElement>('[data-emitir-certificado]');
   if (emitir && Datos.modo === 'api') { if (!emitir.disabled) await abrirCertificado(emitir.dataset.emitirCertificado!, true, emitir); return; }
   if (el.closest('[data-reintentar-club]')) { await cargarPlataforma(true); render(); return; }
@@ -807,6 +992,68 @@ document.addEventListener('click', async (e) => {
       celebrar('grande');
       toast(`Recompensa canjeada. VIP hasta ${new Date(resultado.hasta).toLocaleDateString('es-MX')}.`, 'gift');
     } catch (err) { toast(mensajeError(err), 'circle-alert'); canjear.disabled = false; }
+    return;
+  }
+
+  const seleccionarObjetivo = disponible('recompensas') ? el.closest<HTMLButtonElement>('[data-seleccionar-objetivo]') : null;
+  if (seleccionarObjetivo) {
+    if (Datos.modo !== 'api') { toast('Meta elegida en la vista de demostración. Una cuenta conectada la conserva entre sesiones.', 'target'); return; }
+    if (seleccionarObjetivo.disabled) return;
+    seleccionarObjetivo.disabled = true;
+    seleccionarObjetivo.setAttribute('aria-busy', 'true');
+    try {
+      await api('/puntos/objetivo', { method: 'PUT', json: { beneficioId: seleccionarObjetivo.dataset.seleccionarObjetivo } });
+      invalidarPanelPuntos();
+      render();
+      toast('Meta de ahorro actualizada. Verás tu avance cada vez que regreses.', 'target');
+    } catch (err) {
+      toast(mensajeError(err), 'circle-alert');
+      seleccionarObjetivo.disabled = false;
+      seleccionarObjetivo.removeAttribute('aria-busy');
+    }
+    return;
+  }
+
+  const premioNivel = disponible('recompensas') ? el.closest<HTMLButtonElement>('[data-canjear-premio-nivel]') : null;
+  if (premioNivel) {
+    if (Datos.modo !== 'api') { toast('La bóveda está en modo demostración; una cuenta conectada entrega el beneficio real.', 'info'); return; }
+    if (premioNivel.disabled) return;
+    premioNivel.disabled = true;
+    premioNivel.setAttribute('aria-busy', 'true');
+    try {
+      const resultado = await api<{ canje: { nombre: string; diasVip: number | null; vigenciaHasta: string | null } }>(`/puntos/niveles/${premioNivel.dataset.canjearPremioNivel!}/canjear`, { method: 'POST', json: { beneficioId: premioNivel.dataset.beneficioId } });
+      invalidarPanelPuntos();
+      if (resultado.canje.diasVip) await Auth.refrescarEstado();
+      render();
+      celebrar('grande');
+      toast(resultado.canje.diasVip && resultado.canje.vigenciaHasta
+        ? `${resultado.canje.nombre} activado como premio de nivel. VIP hasta ${new Date(resultado.canje.vigenciaHasta).toLocaleDateString('es-MX')}.`
+        : `${resultado.canje.nombre} se añadió permanentemente a tu biblioteca.`, 'gift');
+    } catch (err) {
+      toast(mensajeError(err), 'circle-alert');
+      premioNivel.disabled = false;
+      premioNivel.removeAttribute('aria-busy');
+    }
+    return;
+  }
+
+  const activarMision = disponible('recompensas') ? el.closest<HTMLButtonElement>('[data-activar-mision]') : null;
+  if (activarMision) {
+    if (Datos.modo !== 'api') { toast('En el demo puedes explorar la misión; una cuenta conectada guarda el punto de partida real.', 'info'); return; }
+    if (activarMision.disabled) return;
+    activarMision.disabled = true;
+    activarMision.setAttribute('aria-busy', 'true');
+    try {
+      const resultado = await api<{ ok: true; mision: { nombre: string } }>(`/puntos/misiones/${activarMision.dataset.activarMision!}/activar`, { method: 'POST' });
+      invalidarPanelPuntos();
+      render();
+      celebrar('normal');
+      toast(`${resultado.mision.nombre} activada. Solo contará tu actividad nueva verificada.`, 'route');
+    } catch (err) {
+      toast(mensajeError(err), 'circle-alert');
+      activarMision.disabled = false;
+      activarMision.removeAttribute('aria-busy');
+    }
     return;
   }
 

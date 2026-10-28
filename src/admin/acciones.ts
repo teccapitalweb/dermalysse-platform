@@ -122,6 +122,7 @@ export function instalarAccionesAdmin(toast: Toast) {
       }
       if (tipo === 'material') {
         const previo = Datos.materiales().find((m) => m.id === f.dataset.id);
+        if (Datos.modo === 'api' && previo?.editorial) { toast('Este material editorial se actualiza desde el repositorio.', 'shield-alert'); return; }
         const titulo = String(d.get('titulo')).trim();
         const m: Material = { ...(previo || {}), id: f.dataset.id || slug(titulo), titulo, tipo: String(d.get('tipo')), categoria: String(d.get('categoria')).trim(),
           area: String(d.get('area')).trim(), autor: String(d.get('autor')).trim(), paginas: Number(d.get('paginas')) || 1, portada: String(d.get('portada')),
@@ -175,16 +176,49 @@ export function instalarAccionesAdmin(toast: Toast) {
         toast('Aviso publicado', 'megaphone'); render();
       }
       if (tipo === 'config') {
+        const anterior = Datos.config();
+        const siguiente = {
+          precioMensual: Number(d.get('precioMensual')), precioAnual: Number(d.get('precioAnual')), descuentoVIP: Number(d.get('descuentoVIP')),
+          whatsappSoporte: String(d.get('whatsappSoporte')).trim(), canalWhatsApp: String(d.get('canalWhatsApp')).trim(),
+          mantenimiento: d.get('mantenimiento') === '1', registroAbierto: d.get('registroAbierto') === '1', avisoNuevoMiembro: d.get('avisoNuevoMiembro') === '1',
+        };
         if (Datos.modo === 'api') {
-          await api('/admin/config', { method: 'PATCH', json: { precios: { mensual: Number(d.get('precioMensual')), anual: Number(d.get('precioAnual')) }, descuentoVIP: Number(d.get('descuentoVIP')), whatsappSoporte: String(d.get('whatsappSoporte')).trim(), canalWhatsApp: String(d.get('canalWhatsApp')).trim() } });
+          const cambiaPrecio = anterior.precioMensual !== siguiente.precioMensual || anterior.precioAnual !== siguiente.precioAnual;
+          const cambiaAcceso = anterior.mantenimiento !== siguiente.mantenimiento || anterior.registroAbierto !== siguiente.registroAbierto;
+          if ((cambiaPrecio || cambiaAcceso) && !confirm(`${cambiaPrecio ? 'Los precios se usarán en los nuevos checkouts. ' : ''}${cambiaAcceso ? 'También cambiará el acceso general a la plataforma. ' : ''}¿Confirmas que revisaste estos ajustes?`)) return;
+          await api('/admin/config', { method: 'PATCH', json: {
+            precios: { mensual: siguiente.precioMensual, anual: siguiente.precioAnual }, descuentoVIP: siguiente.descuentoVIP,
+            whatsappSoporte: siguiente.whatsappSoporte, canalWhatsApp: siguiente.canalWhatsApp,
+            mantenimiento: siguiente.mantenimiento, registroAbierto: siguiente.registroAbierto, avisoNuevoMiembro: siguiente.avisoNuevoMiembro,
+          } });
           await recargar('config'); toast('Ajustes guardados en Firebase'); render(); return;
         }
-        Datos.guardarConfig({ precioMensual: Number(d.get('precioMensual')), precioAnual: Number(d.get('precioAnual')), descuentoVIP: Number(d.get('descuentoVIP')),
-          whatsappSoporte: String(d.get('whatsappSoporte')).trim(), canalWhatsApp: String(d.get('canalWhatsApp')).trim() });
+        Datos.guardarConfig(siguiente);
         toast('Ajustes guardados');
+      }
+      if (tipo === 'ajuste-diamantes') {
+        if (Datos.modo !== 'api') { toast('Los ajustes reales requieren conexión con la API.', 'circle-alert'); return; }
+        const diamantes = Number(d.get('diamantes'));
+        const motivo = String(d.get('motivo')).trim();
+        const accion = diamantes > 0 ? `acreditar ${diamantes}` : `retirar ${Math.abs(diamantes)}`;
+        if (!confirm(`Vas a ${accion} Diamantes. Esta operación quedará en la bitácora. ¿Continuar?`)) return;
+        const btn = f.querySelector<HTMLButtonElement>('button[type="submit"]');
+        btn?.setAttribute('disabled', '');
+        try {
+          const idempotencia = f.dataset.idempotencia || crypto.randomUUID();
+          f.dataset.idempotencia = idempotencia;
+          const resultado = await api<{ repetido: boolean }>('/admin/recompensas/ajustes', { method: 'POST', json: { uid: f.dataset.uid, diamantes, motivo, idempotencia } });
+          delete f.dataset.idempotencia;
+          await recargar('recompensasResumen', 'recompensasCuentas');
+          toast(resultado.repetido ? 'El ajuste ya estaba registrado' : 'Ajuste registrado con bitácora', 'gem');
+          render(); return;
+        } finally { btn?.removeAttribute('disabled'); }
       }
       if (tipo === 'buscar-miembro') {
         const p = current().query; p.set('q', String(d.get('q'))); navigate('/admin/miembros?' + p.toString());
+      }
+      if (tipo === 'buscar-recompensas') {
+        const p = current().query; const q = String(d.get('q')).trim(); if (q) p.set('q', q); else p.delete('q'); navigate('/admin/recompensas?' + p.toString());
       }
     } catch (err) { console.error(err); toast(mensajeError(err), 'circle-alert'); }
   });
@@ -195,6 +229,11 @@ export function instalarAccionesAdmin(toast: Toast) {
 
     if (el.closest('[data-refrescar-cupones]')) {
       try { await recargar('cupones'); render(); }
+      catch (err) { toast(mensajeError(err), 'circle-alert'); }
+      return;
+    }
+    if (el.closest('[data-refrescar-recompensas]')) {
+      try { await recargar('recompensasResumen', 'recompensasCuentas'); render(); }
       catch (err) { toast(mensajeError(err), 'circle-alert'); }
       return;
     }

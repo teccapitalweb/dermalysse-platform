@@ -4,8 +4,10 @@ import type { AddressInfo } from 'node:net';
 import type { Server } from 'node:http';
 import { buildApp } from '../src/app.js';
 import { MemoryFirestore } from '../src/adapters/firestore/memoria.js';
+import type { Consulta } from '../src/adapters/firestore/port.js';
 import type { FetchLike } from '../src/adapters/legacy/webhook.js';
 import type { TokenDecodificado } from '../src/adapters/firebase/firebaseAuth.js';
+import { DirectorioService } from '../src/services/directorio.js';
 
 const CUENTA_FALSA = JSON.stringify({
   project_id: 'club-dermalysse',
@@ -146,6 +148,41 @@ const oportunidadDatos = (extra = {}) => ({
   requisitos: 'Cédula técnica o diplomado, comprobante de seguro de responsabilidad.',
   compensacion: 'Cuota fija mensual o por día quirúrgico.',
   ...extra,
+});
+
+class FirestoreSinIndicesCompuestos extends MemoryFirestore {
+  override async query(coleccion: string, consulta: Consulta = {}) {
+    if ((consulta.where?.length ?? 0) > 0 && consulta.orderBy) {
+      throw Object.assign(new Error('The query requires an index.'), { code: 9 });
+    }
+    return super.query(coleccion, consulta);
+  }
+}
+
+test('directorio profesional · carga y conserva el orden sin índices compuestos de Firestore', async () => {
+  const firestore = new FirestoreSinIndicesCompuestos();
+  firestore.sembrar('v2_directorio_perfiles/perfil-antiguo', {
+    ...perfilDatos(), uid: 'perfil-antiguo', nombre: 'Perfil antiguo', actualizado: '2026-10-20T12:00:00.000Z',
+  });
+  firestore.sembrar('v2_directorio_perfiles/perfil-nuevo', {
+    ...perfilDatos(), uid: 'perfil-nuevo', nombre: 'Perfil nuevo', actualizado: '2026-10-21T12:00:00.000Z',
+  });
+  firestore.sembrar('v2_directorio_oportunidades/oportunidad-antigua', {
+    ...oportunidadDatos(), id: 'oportunidad-antigua', autorUid: 'otra-cuenta', autor: 'Otra persona',
+    estado: 'publicada', fecha: '2026-10-20T12:00:00.000Z', expira: '2026-11-20T12:00:00.000Z',
+  });
+  firestore.sembrar('v2_directorio_oportunidades/oportunidad-nueva', {
+    ...oportunidadDatos(), id: 'oportunidad-nueva', autorUid: 'otra-cuenta', autor: 'Otra persona',
+    estado: 'publicada', fecha: '2026-10-21T12:00:00.000Z', expira: '2026-11-21T12:00:00.000Z',
+  });
+
+  const directorio = new DirectorioService(firestore, () => AHORA);
+  const resultado = await directorio.obtenerDirectorio({
+    uid: 'u-sin-indice', email: 'miembro@example.test', nombre: 'Miembro', esVip: false, esAdmin: false,
+  });
+
+  assert.deepEqual(resultado.perfiles.map((perfil) => perfil.uid), ['perfil-nuevo', 'perfil-antiguo']);
+  assert.deepEqual(resultado.oportunidades.map((oportunidad) => oportunidad.id), ['oportunidad-nueva', 'oportunidad-antigua']);
 });
 
 test('directorio profesional · requiere sesión y permite crear perfil opt-in', async () => {

@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import type { FirestorePort } from '../adapters/firestore/port.js';
+import { aMillis, type Documento, type FirestorePort } from '../adapters/firestore/port.js';
 import type { Usuario } from '../domain/types.js';
 import { CodedError, ConflictError, ForbiddenError, NotFoundError, ValidationError } from './errors.js';
 
@@ -70,6 +70,22 @@ const MAX_CONEXIONES_DIA = 10;
 const MAX_OPORTUNIDADES_ACTIVAS = 3;
 const MAX_REPORTES_DIA = 10;
 const REINTENTO_RECHAZADO_MS = 30 * 86400000;
+
+/**
+ * El directorio debe poder arrancar en un proyecto nuevo sin exigir índices
+ * compuestos creados a mano. Las consultas públicas usan un solo filtro
+ * (cubierto por los índices automáticos de Firestore) y el servidor ordena el
+ * conjunto acotado antes de paginarlo.
+ */
+function ordenarDocumentosDesc(documentos: Documento[], campo: string): Documento[] {
+  return [...documentos].sort((a, b) => {
+    const aFecha = aMillis(a.data()?.[campo]);
+    const bFecha = aMillis(b.data()?.[campo]);
+    if (Number.isFinite(aFecha) && Number.isFinite(bFecha) && aFecha !== bFecha) return bFecha - aFecha;
+    if (Number.isFinite(aFecha) !== Number.isFinite(bFecha)) return Number.isFinite(bFecha) ? 1 : -1;
+    return b.id.localeCompare(a.id);
+  });
+}
 
 export interface ContactoDirectorio {
   canal: 'whatsapp' | 'correo';
@@ -274,8 +290,8 @@ export class DirectorioService {
     const ahoraIso = this.ahora().toISOString();
 
     const [todosPerfiles, todasOportunidades, miPerfilDoc, conexionesDe, conexionesPara] = await Promise.all([
-      this.db.query(C.perfiles, { where: [{ campo: 'visible', op: '==', valor: true }], orderBy: { campo: 'actualizado', dir: 'desc' }, limit: 200 }),
-      this.db.query(C.oportunidades, { where: [{ campo: 'estado', op: '==', valor: 'publicada' }], orderBy: { campo: 'fecha', dir: 'desc' }, limit: 200 }),
+      this.db.query(C.perfiles, { where: [{ campo: 'visible', op: '==', valor: true }], limit: 1000 }),
+      this.db.query(C.oportunidades, { where: [{ campo: 'estado', op: '==', valor: 'publicada' }], limit: 1000 }),
       this.db.get(`${C.perfiles}/${uid}`),
       this.db.query(C.conexiones, { where: [{ campo: 'deUid', op: '==', valor: uid }], limit: LIMITE_CONEXIONES }),
       this.db.query(C.conexiones, { where: [{ campo: 'paraUid', op: '==', valor: uid }], limit: LIMITE_CONEXIONES }),
@@ -284,7 +300,7 @@ export class DirectorioService {
     const misOportunidades = await this.db.query(C.oportunidades, { where: [{ campo: 'autorUid', op: '==', valor: uid }], limit: 20 });
 
     // Paginación perfiles
-    let perfilesDocs = todosPerfiles;
+    let perfilesDocs = ordenarDocumentosDesc(todosPerfiles, 'actualizado').slice(0, 200);
     if (perfilesAntes) {
       const idx = perfilesDocs.findIndex((d) => d.id === perfilesAntes);
       perfilesDocs = idx >= 0 ? perfilesDocs.slice(idx + 1) : perfilesDocs;
@@ -302,7 +318,7 @@ export class DirectorioService {
     const perfiles = [...mapaPerfiles.values()].map((p) => this.filtrarPerfilPublico(p, uid));
 
     // Paginación oportunidades
-    let opsDocs = todasOportunidades;
+    let opsDocs = ordenarDocumentosDesc(todasOportunidades, 'fecha').slice(0, 200);
     if (oportunidadesAntes) {
       const idx = opsDocs.findIndex((d) => d.id === oportunidadesAntes);
       opsDocs = idx >= 0 ? opsDocs.slice(idx + 1) : opsDocs;

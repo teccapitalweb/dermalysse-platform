@@ -27,7 +27,7 @@ export function shellHTML() {
   const items = navVisible().map((n) =>
     'group' in n
       ? `<div class="nav__label eyebrow">${n.group}</div>`
-      : `<a class="nav__item" href="${n.href}" data-nav><i data-lucide="${n.icon}" class="i"></i>${n.label}${n.href === '#/recompensas' ? '<span class="nav-points" data-puntos-total>…</span>' : ''}</a>`
+      : `<a class="nav__item" href="${n.href}" data-nav><i data-lucide="${n.icon}" class="i"></i>${n.label}${n.href === '#/recompensas' ? '<span class="nav-points"><i data-lucide="gem" class="i"></i><strong data-puntos-total>…</strong></span>' : ''}</a>`
   ).join('');
   // Barra inferior móvil: 4 accesos + «Más». Academia ocupa el lugar de Materiales, que sigue en «Más».
   const bottom = navVisible().filter((n) => 'href' in n && ['#/', '#/cursos', '#/academia', '#/retos'].includes(n.href)).map((n: any) =>
@@ -56,7 +56,8 @@ export function shellHTML() {
       <header class="topbar">
         <form class="search" data-search><i data-lucide="search" class="i"></i><input class="input" name="q" placeholder="Buscar cursos, clases o materiales…" autocomplete="off" /></form>
         <div class="topbar__right">
-          ${disponible('recompensas') ? `<a class="points-pill is-loading" href="#/recompensas" data-puntos-shell aria-label="Abrir Puntos Dermalysse"><i data-lucide="gem" class="i"></i><strong data-puntos-total>…</strong><span>puntos</span></a>` : ''}
+          <button type="button" class="welcome-gift-pill is-loading" data-campana-shell aria-label="Abrir mi regalo de bienvenida" hidden><span class="welcome-gift-pill__icon"><i data-lucide="gift" class="i"></i></span><span class="welcome-gift-pill__text" data-campana-shell-text>Regalo de bienvenida</span><strong class="welcome-gift-pill__badge" data-campana-shell-badge hidden></strong></button>
+          ${disponible('recompensas') ? `<a class="points-pill is-loading" href="#/recompensas" data-puntos-shell aria-label="Abrir Diamantes Dermalysse"><span class="points-pill__gem"><i data-lucide="gem" class="i"></i></span><strong data-puntos-total>…</strong><span>diamantes</span></a>` : ''}
           <button class="btn btn--ghost btn--icon" data-guia aria-label="Guía de la plataforma"><i data-lucide="help-circle" class="i"></i></button>
           <button class="btn btn--ghost btn--icon" data-theme-toggle aria-label="Cambiar tema"><i data-lucide="moon" class="i"></i></button>
           <div class="notifs"><button class="btn btn--ghost btn--icon" aria-label="Notificaciones" data-notifs><i data-lucide="bell" class="i"></i><span class="badge notifs__badge" data-notifs-badge hidden></span></button><div class="notifs__panel" data-notifs-panel hidden></div></div>

@@ -82,6 +82,7 @@ export async function cargarClub(path = '/', forzar = false) {
     const remota = respuesta.config || {};
     const actual = Datos.config();
     const config: Config = {
+      ...actual,
       precioMensual: Number(remota.precios?.mensual) || actual.precioMensual,
       precioAnual: Number(remota.precios?.anual) || actual.precioAnual,
       descuentoVIP: Number(remota.descuentoVIP) || actual.descuentoVIP,
