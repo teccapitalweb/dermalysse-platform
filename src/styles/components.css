@@ -207,6 +207,9 @@
 .install-card > * { position: relative; }
 .install-card h4, .install-card p { display: none; }
 .install-card .btn { width: 100%; background: #fff; color: var(--brand-navy); }
+@media (display-mode: standalone) {
+  [data-install] { display: none !important; }
+}
 
 /* ═══ Tarjeta "Continúa" ═══ */
 .resume {

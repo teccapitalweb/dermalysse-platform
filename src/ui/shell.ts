@@ -39,11 +39,12 @@ export function shellHTML() {
       <a class="sidebar__logo" href="#/"><img data-logo src="/brand/dermalysse-horizontal.svg" alt="Dermalysse" /></a>
       <nav class="nav">${items}${Auth.usuario?.esAdmin ? `<div class="nav__label eyebrow">Dermalysse</div><a class="nav__item nav__item--admin" href="#/admin"><i data-lucide="shield-check" class="i"></i>Panel admin</a>` : ''}</nav>
       <div class="sidebar__foot">
-        ${!Acceso.vip() ? `<button class="btn btn--brand" style="width:100%" data-paywall="Hazte VIP y desbloquea todos los cursos, la biblioteca y los retos."><i data-lucide="crown" class="i"></i>Hazte VIP</button>` : `<div class="install-card" data-install>
+        ${!Acceso.vip() ? `<button class="btn btn--brand" style="width:100%" data-paywall="Hazte VIP y desbloquea todos los cursos, la biblioteca y los retos."><i data-lucide="crown" class="i"></i>Hazte VIP</button>` : ''}
+        <div class="install-card" data-install>
           <h4>Lleva Dermalysse en tu bolsillo</h4>
           <p>Instálalo como app: abre más rápido y a pantalla completa.</p>
           <button class="btn btn--sm" data-install-btn><i data-lucide="download" class="i"></i>Instalar app</button>
-        </div>`}
+        </div>
         <a class="user-card" href="#/perfil">
           <div class="avatar">${avatar}</div>
           <div><div class="user-card__name">${esc(Perfil.get().nombre)}</div><div class="user-card__plan">${Acceso.vip() ? `<i data-lucide="crown" class="i"></i>VIP ${esc(Perfil.get().plan)}` : `<i data-lucide="user" class="i"></i>Plan gratis`}</div></div>

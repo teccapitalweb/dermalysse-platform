@@ -3,19 +3,22 @@
   "short_name": "Dermalysse",
   "description": "Formación Dermalysse en dermatología, cosmetología, estética y bienestar.",
   "lang": "es-MX",
-  "start_url": "club/#/",
-  "scope": "club/",
+  "id": "/",
+  "start_url": "/#/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#f6f5f1",
   "theme_color": "#0b2435",
   "categories": ["education", "lifestyle"],
   "icons": [
-    { "src": "brand/dermalysse-isotipo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    { "src": "/brand/dermalysse-app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/brand/dermalysse-app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/brand/dermalysse-app-icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "shortcuts": [
-    { "name": "Continuar curso", "url": "club/#/" },
-    { "name": "Materiales", "url": "club/#/materiales" },
-    { "name": "Comunidad", "url": "club/#/comunidad" }
+    { "name": "Continuar curso", "url": "/#/" },
+    { "name": "Materiales", "url": "/#/materiales" },
+    { "name": "Comunidad", "url": "/#/comunidad" }
   ]
 }

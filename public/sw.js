@@ -3,11 +3,19 @@
 // Nunca toca el backend, Firebase, Stripe ni Bunny.
 // Vive bajo la base del sitio ('/' en desarrollo, '/dermalysse-platform/' en GitHub Pages): todas las rutas
 // se calculan desde el ámbito con que se registró.
-const VERSION = 'dermalysse-v7-net-first-bundles';
+const VERSION = 'dermalysse-v8-premium-app-icon';
 const BASE = new URL(self.registration.scope).pathname;
 const APP_SHELL = BASE + 'club/';
 const OFFLINE = BASE + 'offline.html';
-const SHELL = [APP_SHELL, BASE + 'manifest.webmanifest', BASE + 'brand/dermalysse-isotipo.svg', BASE + 'brand/dermalysse-horizontal.svg', OFFLINE];
+const SHELL = [
+  APP_SHELL,
+  BASE + 'manifest.webmanifest',
+  BASE + 'brand/dermalysse-app-icon-192.png',
+  BASE + 'brand/dermalysse-app-icon-512.png',
+  BASE + 'brand/dermalysse-app-icon-maskable-512.png',
+  BASE + 'brand/dermalysse-horizontal.svg',
+  OFFLINE,
+];
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
