@@ -11,7 +11,7 @@ import { Perfil, type PerfilRemoto } from './perfil';
 import { Progreso } from './progreso';
 import { usarUsuarioHistoria, type ProgresoHistoria } from './historia';
 
-export interface Usuario { uid: string; email: string; nombre: string; foto: string; esAdmin: boolean; esVip: boolean; cursoGratis: string | null }
+export interface Usuario { uid: string; email: string; nombre: string; foto: string; esAdmin: boolean; esVip: boolean; cursoGratis: string | null; motivoAcceso: string }
 
 interface RespuestaMe {
   uid: string;
@@ -95,6 +95,7 @@ async function cargarSesion(u: User | null) {
     esAdmin: me?.esAdmin === true,
     esVip: me?.esVip === true,
     cursoGratis: (me?.esVip ? null : me?.cursoGratis) ?? null,
+    motivoAcceso: me?.motivoAcceso || 'none',
   };
   const historiaUnida = usarUsuarioHistoria(u.uid, historia);
   if (historia) {
@@ -120,7 +121,7 @@ export const Auth = {
     if (listo) return listo;
     listo = (async () => {
       if (Datos.modo === 'demo') {
-        usuario = localStorage.getItem(DEMO_KEY) ? { uid: 'demo', email: 'demo@dermalysse.local', nombre: 'Modo demo', foto: '', esAdmin: true, esVip: !!localStorage.getItem('dermalysse:vip-sim'), cursoGratis: localStorage.getItem('dermalysse:curso-gratis') || null } : null;
+        usuario = localStorage.getItem(DEMO_KEY) ? { uid: 'demo', email: 'demo@dermalysse.local', nombre: 'Modo demo', foto: '', esAdmin: true, esVip: !!localStorage.getItem('dermalysse:vip-sim'), cursoGratis: localStorage.getItem('dermalysse:curso-gratis') || null, motivoAcceso: 'active' } : null;
         if (usuario) { Perfil.usarUsuario(usuario.uid); Progreso.usarUsuario(usuario.uid); usarUsuarioHistoria(usuario.uid); Perfil.set({ nombre: usuario.nombre, plan: usuario.esVip ? 'anual' : 'invitado' }); }
         else { Perfil.usarUsuario(null); Progreso.usarUsuario(null); usarUsuarioHistoria(null); }
         return;
@@ -222,6 +223,7 @@ export const Auth = {
       esAdmin: me.esAdmin === true,
       esVip: me.esVip === true,
       cursoGratis: (me.esVip ? null : me.cursoGratis) ?? null,
+      motivoAcceso: me.motivoAcceso || 'none',
     };
     invalidarClub();
     return me;

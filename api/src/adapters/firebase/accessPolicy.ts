@@ -1,8 +1,9 @@
 // Port LITERAL a TypeScript de dermalysse-webhook/access-policy.js (regla de acceso a la membresía).
 // No cambiar la lógica sin cambiarla también en el webhook: ambos deben decidir lo mismo.
 //  1. vigenciaHasta en el futuro ⇒ acceso ('courtesy').
-//  2. status active/trialing ⇒ acceso si no hay currentPeriodEnd o si está en el futuro.
-//  3. status canceled o cancelAtPeriodEnd === true, con currentPeriodEnd en el futuro ⇒ acceso ('canceling').
+//  2. cancelAtPeriodEnd === true, con currentPeriodEnd en el futuro ⇒ acceso ('canceling').
+//  3. status active/trialing ⇒ acceso si no hay currentPeriodEnd o si está en el futuro.
+//     status canceled conserva acceso únicamente hasta currentPeriodEnd ('canceling').
 //  4. En otro caso, sin acceso ('past_due' o 'none'; 'expired' si venció el periodo de 2/3).
 
 export interface AccesoMembresia {
@@ -30,11 +31,17 @@ export function membershipAccess(userData: unknown, nowValue?: number): AccesoMe
   const subscription = data.subscription || {};
   const status = String(subscription.status || 'none').toLowerCase();
   const periodEnd = toTimestamp(subscription.currentPeriodEnd);
+  // Stripe conserva status=active cuando la cancelación está programada.
+  // Debe seguir permitida hasta el fin del periodo, pero reportarse como canceling.
+  if (subscription.cancelAtPeriodEnd === true && Number.isFinite(periodEnd)) {
+    const allowed = periodEnd > now;
+    return { allowed, reason: allowed ? 'canceling' : 'expired', expiresAt: periodEnd };
+  }
   if (status === 'active' || status === 'trialing') {
     const allowed = !Number.isFinite(periodEnd) || periodEnd > now;
     return { allowed, reason: allowed ? status : 'expired', expiresAt: periodEnd };
   }
-  if ((status === 'canceled' || subscription.cancelAtPeriodEnd === true) && Number.isFinite(periodEnd)) {
+  if (status === 'canceled' && Number.isFinite(periodEnd)) {
     const allowed = periodEnd > now;
     return { allowed, reason: allowed ? 'canceling' : 'expired', expiresAt: periodEnd };
   }

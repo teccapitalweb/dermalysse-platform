@@ -37,6 +37,7 @@ test('2. active / trialing: sin currentPeriodEnd ⇒ acceso; futuro ⇒ acceso; 
 
 test('3. canceled o cancelAtPeriodEnd con currentPeriodEnd futuro ⇒ canceling; pasado ⇒ expired', () => {
   assert.equal(membershipAccess({ subscription: { status: 'canceled', currentPeriodEnd: FUTURO } }, AHORA).reason, 'canceling');
+  assert.equal(membershipAccess({ subscription: { status: 'active', cancelAtPeriodEnd: true, currentPeriodEnd: FUTURO } }, AHORA).reason, 'canceling');
   assert.equal(membershipAccess({ subscription: { status: 'past_due', cancelAtPeriodEnd: true, currentPeriodEnd: FUTURO } }, AHORA).reason, 'canceling');
   const r = membershipAccess({ subscription: { status: 'canceled', currentPeriodEnd: PASADO } }, AHORA);
   assert.deepEqual([r.allowed, r.reason], [false, 'expired']);

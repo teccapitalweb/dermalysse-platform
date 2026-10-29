@@ -11,6 +11,7 @@ import { disponible } from '../core/plataforma';
 export function perfil() {
   const p = Perfil.get();
   const plan = BRAND.planes.find((x) => x.id === p.plan);
+  const cancelando = Auth.usuario?.motivoAcceso === 'canceling';
   const accesoTemporal = p.plan === 'cupon' ? 'Acceso por cupón' : p.plan === 'cortesia' ? 'Acceso de cortesía' : '';
   return `
   <section class="stack" style="gap:20px;max-width:900px">
@@ -31,7 +32,7 @@ export function perfil() {
         <div class="card card--pad stack" style="gap:10px;background:var(--brand-navy);color:#fff;border:0">
           <span class="eyebrow" style="color:var(--brand-teal)">Tu membresía</span>
           <div class="display" style="font-size:var(--fs-xl)">${plan ? plan.nombre : accesoTemporal || 'Invitado'}</div>
-          <p style="font-size:var(--fs-sm);opacity:.8">${plan ? `Renueva el ${new Date(p.vence).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })} · $${plan.precio} MXN/${plan.periodo}` : accesoTemporal && p.vence ? `Acceso VIP hasta el ${new Date(p.vence).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })}.` : 'Activa tu membresía para ver todo el catálogo.'}</p>
+          <p style="font-size:var(--fs-sm);opacity:.8">${plan ? `${cancelando ? 'Acceso pagado hasta' : 'Renueva el'} ${new Date(p.vence).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })}${cancelando ? '' : ` · $${plan.precio} MXN/${plan.periodo}`}` : accesoTemporal && p.vence ? `Acceso VIP hasta el ${new Date(p.vence).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })}.` : 'Activa tu membresía para ver todo el catálogo.'}</p>
           <a class="btn btn--white btn--sm" href="#/suscripcion">Gestionar suscripción</a>
         </div>
         <div class="card card--pad stack" style="gap:8px">
@@ -98,6 +99,7 @@ export async function suscripcion(_params: Record<string, string>, query: URLSea
   }
   const p = Perfil.get();
   const esVip = Auth.usuario?.esVip === true;
+  const cancelando = Auth.usuario?.motivoAcceso === 'canceling';
   const planPago = p.plan === 'mensual' || p.plan === 'anual';
   const nombreAcceso = p.plan === 'cupon' ? 'Acceso por cupón' : p.plan === 'cortesia' ? 'Acceso de cortesía' : BRAND.planes.find((x) => x.id === p.plan)?.nombre || 'VIP';
   const perks = [
@@ -118,8 +120,8 @@ export async function suscripcion(_params: Record<string, string>, query: URLSea
     <div class="sus-hero">
       <div class="sus-hero__content">
         <span class="sus-hero__badge"><i data-lucide="crown" class="i"></i>${esVip ? 'Tu membresía' : 'Membresía VIP'}</span>
-        <h1 class="display display--black">${esVip ? `${nombreAcceso} activo` : 'Desbloquea todo el club'}</h1>
-        <p>${esVip && p.vence ? `Tu acceso está vigente hasta el ${new Date(p.vence).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })}.` : esVip ? 'Tienes acceso completo al Club Dermalysse.' : 'Cursos, materiales, certificados y herramientas educativas para tu formación Dermalysse.'}</p>
+        <h1 class="display display--black">${esVip ? cancelando ? `${nombreAcceso} · cancelación programada` : `${nombreAcceso} activo` : 'Desbloquea todo el club'}</h1>
+        <p>${esVip && p.vence ? `${cancelando ? 'Conservarás todos los beneficios hasta' : 'Tu acceso está vigente hasta'} el ${new Date(p.vence).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })}.` : esVip ? 'Tienes acceso completo al Club Dermalysse.' : 'Cursos, materiales, certificados y herramientas educativas para tu formación Dermalysse.'}</p>
       </div>
       <div class="sus-hero__deco"><i data-lucide="shield-check" class="i"></i></div>
     </div>
