@@ -1,7 +1,7 @@
 {
   "name": "Club Dermalysse",
   "short_name": "Dermalysse",
-  "description": "Formación Dermalysse en dermatología, cosmetología, estética y bienestar.",
+  "description": "Cursos, Academia, materiales, retos, comunidad, certificados y beneficios digitales para aprender sobre la piel a tu ritmo.",
   "lang": "es-MX",
   "id": "/",
   "start_url": "/#/",
@@ -15,6 +15,29 @@
     { "src": "/brand/dermalysse-app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "/brand/dermalysse-app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     { "src": "/brand/dermalysse-app-icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    {
+      "src": "/brand/pwa/club-cursos-mobile.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Cursos Dermalysse y mapa de aprendizaje"
+    },
+    {
+      "src": "/brand/pwa/club-academia-mobile.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Academia Dermalysse por módulos"
+    },
+    {
+      "src": "/brand/pwa/club-recompensas-mobile.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Diamantes y beneficios digitales Dermalysse"
+    }
   ],
   "shortcuts": [
     { "name": "Continuar curso", "url": "/#/" },

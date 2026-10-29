@@ -44,6 +44,22 @@ test('los iconos Dermalysse tienen dimensiones reales para navegador, iPhone y A
   }
 });
 
+test('el manifiesto ofrece una instalación enriquecida con capturas móviles reales', async () => {
+  const manifest = JSON.parse(await leer('public/manifest.webmanifest'));
+
+  assert.match(manifest.description, /Cursos/);
+  assert.equal(manifest.screenshots.length, 3);
+  for (const captura of manifest.screenshots) {
+    assert.equal(captura.form_factor, 'narrow');
+    assert.equal(captura.type, 'image/png');
+    assert.equal(captura.sizes, '720x1280');
+    assert.ok(captura.label, `${captura.src} debe explicar la vista`);
+    const imagen = await png(`public${captura.src}`);
+    assert.deepEqual([imagen.width, imagen.height], [720, 1280], `${captura.src} debe medir 720x1280`);
+    assert.ok(imagen.bytes > 100_000, `${captura.src} debe contener una vista real de la aplicación`);
+  }
+});
+
 test('el Club publica icono iOS, manifiesto y acceso visible para instalar la app', async () => {
   const [html, shell, cuenta, css, sw] = await Promise.all([
     leer('club/index.html'),
