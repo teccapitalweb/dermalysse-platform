@@ -135,6 +135,12 @@ export interface AcademiaProgressStore {
   marcarTema(uid: string, programa: string, n: number, tema: string, fecha: string): Promise<AvanceModuloAcademia>;
   /** Registra un examen calificado: conserva la mejor marca y nunca retira una aprobación previa. */
   registrarExamen(uid: string, programa: string, n: number, resultado: { porcentaje: number; aprobado: boolean; fecha: string }): Promise<AvanceModuloAcademia>;
+  /** Fusiona únicamente resultados que el servicio de juegos ya validó contra el contenido. */
+  registrarJuego(uid: string, programa: string, n: number, resultado: {
+    version: string; tipo: 'sopa' | 'crucigrama' | 'memorama'; resueltos: string[]; total: number; acierto: boolean; fecha: string;
+  }): Promise<AvanceModuloAcademia>;
+  /** Recibo visual de que el libro mayor idempotente ya resolvió la recompensa. */
+  marcarRecompensaJuego(uid: string, programa: string, n: number): Promise<AvanceModuloAcademia>;
 }
 
 /** Examen emitido por usuario y módulo. */

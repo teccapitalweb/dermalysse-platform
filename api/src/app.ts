@@ -57,6 +57,7 @@ import { moduloCursoGratis } from './modulos/cursoGratis.js';
 import { moduloRetos } from './modulos/retos.js';
 import { moduloCampanas } from './modulos/campanas.js';
 import { moduloDirectorio } from './modulos/directorio.js';
+import { PuntosService } from './services/puntos.js';
 
 export interface Dependencias {
   auth: AuthAdapter;
@@ -244,6 +245,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
   if (!config.produccion) {
     // Desarrollo: los módulos usan un Firestore en memoria (vacío al arrancar).
     const db = inyecciones.firestore ?? new MemoryFirestore();
+    const puntosAcademia = new PuntosService(db, ahora);
     const modulos: ModuloApi[] = crearModulos({ db, ahora, produccion: false, codigoCampanaBienvenida: 'DEMO-BIENVENIDA-50' });
     const content = new FixtureContentStore();
     const learning = new LearningService(content, new FixtureLearningStore(), new MemoryProgressStore(), new MemoryCertificateStore());
@@ -261,7 +263,11 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
         new MemoryAcademiaProgressStore(),
         new MemoryAcademiaAttemptStore(),
         new MemoryAcademiaReviewStore(),
-        { mostrarBorradores: config.academiaMostrarBorradores },
+        {
+          mostrarBorradores: config.academiaMostrarBorradores,
+          ahora,
+          recompensarJuego: (uid, programa, n) => puntosAcademia.acreditarJuegoAcademia(uid, programa, n),
+        },
       ),
       dataMode: config.dataMode,
       corsOrigins: config.corsOrigins,
@@ -273,6 +279,7 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
   const p = config.produccion;
   const firebase = new FirebaseAdminPerezoso(p.cuenta);
   const db = inyecciones.firestore ?? new AdminFirestore(firebase);
+  const puntosAcademia = new PuntosService(db, ahora);
   const verificador = inyecciones.verificador ?? firebase.verificador();
   const editorial = inyecciones.catalogoEditorial ?? cargarCatalogoEditorial();
   const forum = new FirestoreForumStore(db);
@@ -295,7 +302,11 @@ export function buildApp(env: NodeJS.ProcessEnv = process.env, inyecciones: Inye
       new FirestoreAcademiaProgressStore(db),
       new FirestoreAcademiaAttemptStore(db),
       new FirestoreAcademiaReviewStore(db),
-      { mostrarBorradores: config.academiaMostrarBorradores },
+      {
+        mostrarBorradores: config.academiaMostrarBorradores,
+        ahora,
+        recompensarJuego: (uid, programa, n) => puntosAcademia.acreditarJuegoAcademia(uid, programa, n),
+      },
     ),
     produccion: new ClubProduccionService(db, webhook, progreso, certificados, { appUrl: p.appUrl }),
     foroRequiereSesion: true,

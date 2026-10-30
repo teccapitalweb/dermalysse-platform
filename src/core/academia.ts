@@ -51,17 +51,28 @@ export interface Tema {
   glosario: { termino: string; definicion: string }[]; verificacion: PreguntaA[];
 }
 export type Minijuego =
-  | { tipo: 'sopa'; titulo: string; palabras: string[] }
-  | { tipo: 'crucigrama'; titulo: string; pistas: { palabra: string; pista: string }[] }
-  | { tipo: 'memorama'; titulo: string; pares: { a: string; b: string }[] };
+  | { tipo: 'sopa'; titulo: string; palabras?: string[] }
+  | { tipo: 'crucigrama'; titulo: string; pistas?: { palabra: string; pista: string }[] }
+  | { tipo: 'memorama'; titulo: string; pares?: { a: string; b: string }[] };
 export interface Modulo {
   programa: string; modulo: number; titulo: string; estado: string; resumen: string; objetivos: string[]; duracionMin: number;
   portada?: { id: string; proporcion: string; alt: string };
   temas: Tema[]; minijuego?: Minijuego;
   examen: { aprobar: number; mostrar: number; total?: number; preguntas?: PreguntaA[] };
 }
-export interface AvanceModulo { temas?: Record<string, string>; mejor?: number; intentos?: number; aprobado?: boolean; aprobadoEn?: string }
+export interface AvanceJuego {
+  version: string; tipo: Minijuego['tipo']; resueltos: string[]; jugadas: number; errores: number; completado: boolean;
+  iniciadoEn: string; actualizadoEn: string; completadoEn?: string; recompensaAcreditada?: boolean;
+}
+export interface AvanceModulo { temas?: Record<string, string>; juego?: AvanceJuego; mejor?: number; intentos?: number; aprobado?: boolean; aprobadoEn?: string }
 export type Avance = Record<string, { modulos?: Record<string, AvanceModulo> }>;
+export interface JuegoAcademia {
+  version: string; tipo: Minijuego['tipo']; titulo: string; total: number;
+  recompensa: { diamantes: number; acreditada: boolean };
+  progreso: { resueltos: string[]; marcadas: string[]; jugadas: number; errores: number; puntaje: number; completado: boolean; completadoEn: string | null; recompensaAcreditada: boolean };
+  tablero: Record<string, unknown>;
+  acierto?: boolean; diamantesGanados?: number; saldoDiamantes?: number | null;
+}
 export interface ExamenEmitido { aprobar: number; total: number; preguntas: PreguntaA[] }
 export interface DetalleExamen { id: string; acertada: boolean; correcta?: number; explicacion?: string }
 export interface ResultadoExamen {
@@ -88,6 +99,7 @@ export interface ProgramaRevision { id: string; numero: number | null; titulo: s
 export const APROBATORIO = 70;
 export const ESPERA_EXAMEN_MS = 3 * 60 * 1000;
 const MODO_API = Datos.modo === 'api';
+export const academiaUsaApi = () => MODO_API;
 
 /** Error con el código que también usa la API (requiere_vip, modulo_bloqueado, modulo_programado, …). */
 export class ErrorAcademia extends Error {
@@ -357,14 +369,46 @@ export async function marcarTemaLeido(p: string, n: number, tema: string): Promi
   }
 }
 
-// El minijuego es práctica sin valor: su marca vive en el navegador en ambos modos.
+// En demo la marca sigue local y se identifica como vista previa. En API, tablero, validación,
+// progreso y recompensa vienen del servidor; nunca se sustituyen con el contenido local.
 const claveJuegos = () => `dermalysse:academia:juegos:${uid()}`;
+const cacheJuegos = new Map<string, JuegoAcademia>();
 export function marcarJuego(p: string, n: number) {
+  if (MODO_API) return;
   const j = leerLS<Record<string, string>>(claveJuegos(), {});
   j[`${p}/${n}`] ||= new Date().toISOString();
   escribirLS(claveJuegos(), j);
 }
-export const juegoCompletado = (p: string, n: number) => !!leerLS<Record<string, string>>(claveJuegos(), {})[`${p}/${n}`];
+export const juegoCompletado = (p: string, n: number) => MODO_API
+  ? cacheJuegos.get(`${p}/${n}`)?.progreso.completado === true || avanceModulo(p, n).juego?.completado === true
+  : !!leerLS<Record<string, string>>(claveJuegos(), {})[`${p}/${n}`];
+
+export async function cargarJuegoRemoto(p: string, n: number): Promise<JuegoAcademia> {
+  if (!MODO_API) throw new ErrorAcademia('juego_demo', 'El demo prepara el laboratorio desde el contenido local.');
+  try {
+    const juego = await api<JuegoAcademia>(`/academia/${encodeURIComponent(p)}/${n}/juego`);
+    cacheJuegos.set(`${p}/${n}`, juego);
+    return juego;
+  } catch (e) { throw comoError(e, 'No se pudo cargar el laboratorio.'); }
+}
+
+export async function enviarJugadaRemota(p: string, n: number, entrada: Record<string, unknown>): Promise<JuegoAcademia> {
+  try {
+    const juego = await api<JuegoAcademia>(`/academia/${encodeURIComponent(p)}/${n}/juego`, { method: 'POST', json: entrada });
+    cacheJuegos.set(`${p}/${n}`, juego);
+    const anterior = avanceModulo(p, n).juego;
+    mutarCache(p, n, (a) => {
+      a.juego = {
+        version: juego.version, tipo: juego.tipo, resueltos: [...juego.progreso.resueltos], jugadas: juego.progreso.jugadas,
+        errores: juego.progreso.errores, completado: juego.progreso.completado,
+        iniciadoEn: anterior?.iniciadoEn || new Date().toISOString(), actualizadoEn: new Date().toISOString(),
+        ...(juego.progreso.completadoEn ? { completadoEn: juego.progreso.completadoEn } : {}),
+        recompensaAcreditada: juego.progreso.recompensaAcreditada,
+      };
+    });
+    return juego;
+  } catch (e) { throw comoError(e, 'No se pudo validar la jugada.'); }
+}
 
 export const moduloAprobado = (p: string, n: number) => !!avanceModulo(p, n).aprobado;
 /** Pista visual del candado (la decisión real la toma la API o prepararLocal). */

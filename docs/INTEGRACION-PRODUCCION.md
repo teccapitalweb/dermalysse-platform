@@ -59,7 +59,9 @@ Decisión del propietario (15 de octubre de 2026): publicar el club nuevo con **
 | POST `/stripe/confirmar` | `{sessionId?}` | `{activa, plan, vence}` (relee `users/{uid}.subscription`) | users |
 | GET/POST `/foro…` | contrato actual del cliente | | `forum`, `forum/{id}/replies` |
 | GET `/noticias` | — | publicadas | `news` |
-| `/academia…` | contrato actual | | `v2_academia_progreso`, `v2_academia_intentos`, `v2_academia_revisiones`, `v2_academia_lanzamiento` |
+| GET `/academia/:programa/:n/juego` | — | reto estable por cuenta y módulo más avance, puntuación y recompensa; nunca incluye respuestas, palabras colocadas ni parejas | contenido empaquetado + `v2_academia_progreso` |
+| POST `/academia/:programa/:n/juego` | jugada según tipo: `{inicio, fin}`, `{letras}` o `{cartas:[id,id]}` | reto público actualizado, `acierto`, `diamantesGanados` y `saldoDiamantes`; la API valida y acredita una sola vez | `v2_academia_progreso`, `v2_puntos`, `v2_puntos_movimientos` |
+| `/academia…` (catálogo, lectura y examen) | contrato actual | | `v2_academia_progreso`, `v2_academia_intentos`, `v2_academia_revisiones`, `v2_academia_lanzamiento` |
 | GET `/historia` | — | `{completados: string[], puntajes: {[idNivel]: 0–100}, ultimoNivel, actualizado}` (vacío si no hay) | `v2_historia/{uid}` |
 | PATCH `/historia` | misma forma (campos opcionales) | avance fusionado: unión de completados, máximo de puntajes, `ultimoNivel` de la fuente más reciente; nunca retrocede. 400 si tipos o tamaño inválidos | `v2_historia/{uid}` (transacción) |
 | GET `/recompensas` | — | `{recompensas: [{id, nombre, descripcion, icono, progreso, meta, completado, canjeado, canjeadoEn, premio:{duracion, dias}}]}`; reglas y progreso calculados en el servidor | `users.progress` + `courses` publicados, `v2_historia`, `forum` (authorUid), `certificates` (valid), `v2_recompensas/{uid}` |

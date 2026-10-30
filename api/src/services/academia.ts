@@ -24,6 +24,7 @@ import {
   type PreguntaAcademia, type ProgramaAcademia, type ProgresoAcademia, type RevisionAcademia, type Usuario,
 } from '../domain/types.js';
 import { CodedError, NotFoundError, ValidationError } from './errors.js';
+import { crearJuego, evaluarJuego, publicarJuego } from './academiaJuegos.js';
 
 /** Porcentaje mínimo para aprobar si el módulo no define otro. */
 export const APROBATORIO_ACADEMIA = 70;
@@ -39,6 +40,8 @@ export interface OpcionesAcademia {
   ahora?: () => Date;
   /** Entero aleatorio en [0, max). Inyectable para pruebas. */
   azar?: (max: number) => number;
+  /** Crédito idempotente del laboratorio. Ausente en ensamblajes aislados que no incluyen Diamantes. */
+  recompensarJuego?: (uid: string, programa: string, n: number) => Promise<{ diamantes: number; repetida: boolean; saldo: number }>;
 }
 
 // ── Calendario de lanzamiento (reglas puras) ──
@@ -126,6 +129,8 @@ export function moduloPublico(m: ModuloAcademia, estado: EstadoAcademia | null, 
     return tema;
   });
   copia.estado = estado;
+  // El tablero y sus soluciones se entregan únicamente por /juego, nunca mezclados con el contenido.
+  copia.minijuego = m.minijuego ? { tipo: m.minijuego.tipo, titulo: m.minijuego.titulo } : undefined;
   copia.examen = { aprobar: aprobarDe(m), mostrar: Math.min(Number(m.examen?.mostrar) || MOSTRAR_POR_DEFECTO, total), total };
   return copia;
 }
@@ -192,6 +197,7 @@ export class AcademiaService {
   private readonly borradores: boolean;
   private readonly ahora: () => Date;
   private readonly azar: (max: number) => number;
+  private readonly recompensarJuego?: OpcionesAcademia['recompensarJuego'];
 
   constructor(
     private readonly content: AcademiaContentStore,
@@ -203,6 +209,7 @@ export class AcademiaService {
     this.borradores = opciones.mostrarBorradores === true;
     this.ahora = opciones.ahora ?? (() => new Date());
     this.azar = opciones.azar ?? randomInt;
+    this.recompensarJuego = opciones.recompensarJuego;
   }
 
   private async programa(id: string): Promise<ProgramaAcademia> {
@@ -300,6 +307,34 @@ export class AcademiaService {
     if (typeof tema !== 'string' || !temasDe(m).some((t) => t.n === tema)) throw new ValidationError('"tema" no pertenece a este módulo.');
     const avance = await this.progress.marcarTema(usuario.uid, p.id, n, tema, this.ahora().toISOString());
     return { ok: true, temas: avance.temas ?? {} };
+  }
+
+  /** Desafío estable por cuenta y módulo, sin coordenadas/parejas/respuestas de solución. */
+  async juego(usuario: Usuario, programaId: string, nParam: unknown) {
+    const { p, n, m } = await this.preparar(usuario, programaId, nParam);
+    const reto = crearJuego(m, usuario.uid, p.id, n);
+    const avance = await this.progress.modulo(usuario.uid, p.id, n);
+    return publicarJuego(reto, avance.juego);
+  }
+
+  /** Valida una jugada en servidor, fusiona avance y acredita una sola recompensa al completar. */
+  async registrarJuego(usuario: Usuario, programaId: string, nParam: unknown, entrada: unknown) {
+    const { p, n, m } = await this.preparar(usuario, programaId, nParam);
+    const reto = crearJuego(m, usuario.uid, p.id, n);
+    const evaluada = evaluarJuego(reto, entrada);
+    let avance = await this.progress.registrarJuego(usuario.uid, p.id, n, {
+      version: reto.version, tipo: reto.tipo, resueltos: evaluada.resueltos, total: reto.total, acierto: evaluada.acierto,
+      fecha: this.ahora().toISOString(),
+    });
+    let diamantesGanados = 0;
+    let saldoDiamantes: number | null = null;
+    if (avance.juego?.completado && !avance.juego.recompensaAcreditada && !usuario.esAdmin && this.recompensarJuego) {
+      const recompensa = await this.recompensarJuego(usuario.uid, p.id, n);
+      diamantesGanados = recompensa.repetida ? 0 : recompensa.diamantes;
+      saldoDiamantes = recompensa.saldo;
+      avance = await this.progress.marcarRecompensaJuego(usuario.uid, p.id, n);
+    }
+    return { ...publicarJuego(reto, avance.juego), acierto: evaluada.acierto, diamantesGanados, saldoDiamantes };
   }
 
   /** Emite un examen: preguntas al azar del banco, SIN respuestas. Guarda qué preguntas se dieron. */

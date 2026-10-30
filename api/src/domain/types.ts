@@ -348,6 +348,25 @@ export interface TemaAcademia {
   [campo: string]: unknown;
 }
 
+export type MinijuegoAcademia =
+  | { tipo: 'sopa'; titulo: string; palabras: string[] }
+  | { tipo: 'crucigrama'; titulo: string; pistas: { palabra: string; pista: string }[] }
+  | { tipo: 'memorama'; titulo: string; pares: { a: string; b: string }[] };
+
+/** Progreso autoritativo del laboratorio de un módulo. Las soluciones nunca se guardan aquí. */
+export interface AvanceJuegoAcademia {
+  version: string;
+  tipo: MinijuegoAcademia['tipo'];
+  resueltos: string[];
+  jugadas: number;
+  errores: number;
+  completado: boolean;
+  iniciadoEn: string;
+  actualizadoEn: string;
+  completadoEn?: string;
+  recompensaAcreditada?: boolean;
+}
+
 export interface ModuloAcademia {
   programa: string;
   modulo: number;
@@ -355,6 +374,7 @@ export interface ModuloAcademia {
   estado?: string;
   duracionMin?: number;
   temas?: TemaAcademia[];
+  minijuego?: MinijuegoAcademia;
   examen?: { aprobar?: number; mostrar?: number; preguntas?: PreguntaAcademia[] };
   [campo: string]: unknown;
 }
@@ -362,6 +382,7 @@ export interface ModuloAcademia {
 /** Avance de un módulo (forma que hidrata el cliente). */
 export interface AvanceModuloAcademia {
   temas?: Record<string, string>;
+  juego?: AvanceJuegoAcademia;
   mejor?: number;
   intentos?: number;
   aprobado?: boolean;

@@ -27,10 +27,13 @@ La primera conciliación de cada cuenta acredita automáticamente y una sola vez
 | Clase acreditada | 10 puntos | `users.progress`, escrito por el webhook después del avance real del reproductor |
 | Curso completado | 100 puntos adicionales | todas las clases publicadas acreditadas |
 | Certificado válido | 50 puntos | `certificates`, emitido por el servidor |
+| Laboratorio de Academia completado | 10 puntos y 10 XP, una vez por módulo | jugadas validadas por la API y recibo en `v2_academia_progreso`; movimiento idempotente en `v2_puntos_movimientos` |
 | Retos | 1 punto por cada 2 XP | `v2_retos_estado.xp`, calificado y limitado por la API |
 | Racha de Retos | bonos en hitos de 3 / 7 / 14 / 30 días | `v2_retos_estado.diaria.racha`, calculada por la API |
 
 La conciliación es retroactiva e idempotente: reconoce actividad previa y guarda hasta qué contador fue acreditado. Repetir una consulta o una operación no vuelve a entregar puntos.
+
+Los Laboratorios de Academia se acreditan al confirmar la última respuesta correcta, no por abrir la pantalla. El movimiento usa `uid__academia__<programa>__<n>__j2`; el progreso guarda además `recompensaAcreditada` para que una recarga, un reintento o el cambio de dispositivo no vuelvan a entregar el premio. La previsualización administrativa y el modo demo local no acreditan saldo real.
 
 Modo Historia y Comunidad no entregan saldo todavía. Historia permite avance reportado por el cliente; Comunidad necesita moderación de calidad y defensa contra spam. Sus metas anteriores conservan progreso visible, pero el canje queda pausado hasta tener autoridad de servidor.
 

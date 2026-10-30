@@ -23,6 +23,8 @@ import { LearningService } from '../src/services/learning.js';
 import {
   AcademiaService, ESPERA_EXAMEN_MS, disponibleDesde, estadoEfectivo, fechaCalendarioValida, hoyMexico, lanzamientoCatalogo, moduloPublico,
 } from '../src/services/academia.js';
+import { crearJuego, evaluarJuego, publicarJuego } from '../src/services/academiaJuegos.js';
+import { PuntosService } from '../src/services/puntos.js';
 import type { CatalogoAcademia, ModuloAcademia, Usuario } from '../src/domain/types.js';
 
 // ── Contenido en memoria: un programa de 3 módulos, 2 temas cada uno y bancos de 6 preguntas (se muestran 4).
@@ -32,6 +34,17 @@ const pregunta = (id: string, correcta: number) => ({ id, q: `Pregunta ${id}`, o
 const correctaDe = (id: string) => Number(id.split('-p')[1]) % 4;
 
 function modulo(n: number, estado = 'aprobado'): ModuloAcademia {
+  const minijuego = n === 1
+    ? { tipo: 'sopa' as const, titulo: 'Mapa de conceptos', palabras: ['DERMIS', 'BARRERA', 'MELANINA', 'ORGANO', 'CELULA', 'TEJIDO', 'SUDOR', 'TACTO'] }
+    : n === 2
+      ? { tipo: 'crucigrama' as const, titulo: 'Arquitectura cutánea', pistas: [
+          { palabra: 'DERMIS', pista: 'Capa de soporte' }, { palabra: 'CELULA', pista: 'Unidad funcional' }, { palabra: 'BARRERA', pista: 'Protección de la superficie' },
+          { palabra: 'TEJIDO', pista: 'Conjunto organizado' }, { palabra: 'TACTO', pista: 'Función sensorial' }, { palabra: 'SUDOR', pista: 'Secreción acuosa' },
+        ] }
+      : { tipo: 'memorama' as const, titulo: 'Conexiones esenciales', pares: [
+          { a: 'Dermis', b: 'Soporte' }, { a: 'Melanina', b: 'Pigmento' }, { a: 'Sudor', b: 'Termorregulación' },
+          { a: 'Barrera', b: 'Protección' }, { a: 'Tacto', b: 'Sensación' }, { a: 'Célula', b: 'Unidad funcional' },
+        ] };
   return {
     programa: 'prog', modulo: n, titulo: `Módulo ${n}`, estado, duracionMin: 40 + n,
     resumen: 'Resumen', objetivos: ['Explicar'],
@@ -42,6 +55,7 @@ function modulo(n: number, estado = 'aprobado'): ModuloAcademia {
       glosario: [], verificacion: [],
       fuentes: [{ tipo: 'propia', titulo: `Fuente ${n}.${t}`, autor: 'Dermalysse', anio: 2026 }],
     })),
+    minijuego,
     examen: { aprobar: 70, mostrar: 4, preguntas: [0, 1, 2, 3, 4, 5].map((i) => pregunta(`m${n}-p${i}`, i % 4)) },
   };
 }
@@ -75,12 +89,14 @@ const auth: AuthAdapter = { modo: 'test', async verificar(token) { return USUARI
 interface Entorno {
   contenido: MemoriaContenido;
   reloj: { ahora: Date };
+  premios: Set<string>;
   pedir: (metodo: string, ruta: string, token?: string | null, cuerpo?: unknown) => Promise<{ status: number; body: any }>;
 }
 
 async function entorno(t: TestContext, o: { estados?: Record<number, string | null>; borradores?: boolean; contenido?: MemoriaContenido; lanzamiento?: { inicio: string; cadaDias?: number } } = {}): Promise<Entorno> {
   const contenido = o.contenido ?? new MemoriaContenido(o.estados, o.lanzamiento);
   const reloj = { ahora: new Date('2026-10-15T10:00:00.000Z') };
+  const premios = new Set<string>();
   const content = new FixtureContentStore();
   const app = createApp({
     auth, content, experiences: new MemoryExperienceStore(),
@@ -89,6 +105,11 @@ async function entorno(t: TestContext, o: { estados?: Record<number, string | nu
     academia: new AcademiaService(contenido, new MemoryAcademiaProgressStore(), new MemoryAcademiaAttemptStore(), new MemoryAcademiaReviewStore(), {
       mostrarBorradores: o.borradores === true,
       ahora: () => reloj.ahora,
+      recompensarJuego: async (uid, programa, n) => {
+        const clave = `${uid}|${programa}|${n}`;
+        const repetida = premios.has(clave); premios.add(clave);
+        return { diamantes: 10, repetida, saldo: premios.size * 10 };
+      },
     }),
     corsOrigins: [],
   });
@@ -102,7 +123,7 @@ async function entorno(t: TestContext, o: { estados?: Record<number, string | nu
     const r = await fetch(base + ruta, { method: metodo, headers, body: cuerpo === undefined ? undefined : JSON.stringify(cuerpo) });
     return { status: r.status, body: await r.json().catch(() => null) };
   };
-  return { contenido, reloj, pedir };
+  return { contenido, reloj, premios, pedir };
 }
 
 const avanzar = (e: Entorno, ms: number) => { e.reloj.ahora = new Date(e.reloj.ahora.getTime() + ms); };
@@ -141,6 +162,7 @@ describe('academia · sesión y catálogo', () => {
     const e = await entorno(t);
     for (const [metodo, ruta] of [
       ['GET', '/academia'], ['GET', '/academia/progreso'], ['GET', '/academia/prog/1'], ['POST', '/academia/prog/1/tema'],
+      ['GET', '/academia/prog/1/juego'], ['POST', '/academia/prog/1/juego'],
       ['GET', '/academia/prog/1/examen'], ['POST', '/academia/prog/1/examen'], ['GET', '/admin/academia'], ['PATCH', '/admin/academia/prog/1'],
       ['PATCH', '/admin/academia/prog/lanzamiento'], ['DELETE', '/admin/academia/prog/lanzamiento'],
     ] as const) {
@@ -178,6 +200,8 @@ describe('academia · sesión y catálogo', () => {
     assert.deepEqual(r.body.examen, { aprobar: 70, mostrar: 4, total: 6 });
     assert.equal(r.body.estado, 'aprobado');
     assert.equal(r.body.temas.length, 2);
+    assert.deepEqual(r.body.minijuego, { tipo: 'sopa', titulo: 'Mapa de conceptos' });
+    assert.equal(JSON.stringify(r.body).includes('MELANINA'), false, 'el módulo no expone contenido solucionable del juego');
     assert.ok(sinBanco(r.body));
     // Las fuentes son para la revisión profesional: el miembro no las recibe; el admin sí.
     assert.equal(r.body.fuentes, undefined);
@@ -291,6 +315,73 @@ describe('academia · acceso y desbloqueo', () => {
     const r = await e.pedir('GET', '/academia/prog/2', 'admin');
     assert.equal(r.status, 404);
     assert.equal(r.body.error, 'modulo_en_preparacion');
+  });
+});
+
+describe('academia · laboratorios', () => {
+  test('los tres motores publican el tablero sin claves de solución y validan en servidor', () => {
+    for (const n of [1, 2, 3]) {
+      const interno = crearJuego(modulo(n), 'u-vip', 'prog', n);
+      const publico = publicarJuego(interno);
+      const json = JSON.stringify(publico);
+      assert.equal(publico.tipo, n === 1 ? 'sopa' : n === 2 ? 'crucigrama' : 'memorama');
+      assert.equal(/correcta|data-letra|pareja/.test(json), false, `módulo ${n} no expone claves de solución`);
+      if (interno.tipo === 'sopa') {
+        const r = evaluarJuego(interno, { ruta: interno.ubicaciones[0].celdas });
+        assert.deepEqual(r, { resueltos: [interno.ubicaciones[0].palabra], acierto: true });
+      } else if (interno.tipo === 'crucigrama') {
+        const respuestas = Object.fromEntries(interno.celdas);
+        const r = evaluarJuego(interno, { respuestas });
+        assert.equal(r.acierto, true); assert.equal(r.resueltos.length, interno.total);
+      } else {
+        const [a, b] = interno.cartas.filter((c) => c.pareja === interno.cartas[0].pareja);
+        const r = evaluarJuego(interno, { cartas: [a.id, b.id] });
+        assert.deepEqual(r, { resueltos: [a.pareja], acierto: true });
+      }
+    }
+  });
+
+  test('la sopa guarda avance, sincroniza entre lecturas y acredita una sola recompensa', async (t) => {
+    const e = await entorno(t);
+    const inicio = await e.pedir('GET', '/academia/prog/1/juego');
+    assert.equal(inicio.status, 200);
+    assert.equal(inicio.body.tipo, 'sopa');
+    assert.equal(inicio.body.recompensa.diamantes, 10);
+    assert.equal(inicio.body.progreso.completado, false);
+    assert.equal(JSON.stringify(inicio.body).includes('ubicaciones'), false);
+
+    const fallo = await e.pedir('POST', '/academia/prog/1/juego', 'vip', { ruta: ['99,99', '99,98'] });
+    assert.equal(fallo.status, 200); assert.equal(fallo.body.acierto, false); assert.equal(fallo.body.progreso.errores, 1);
+
+    const interno = crearJuego(e.contenido.mods[1]!, 'u-vip', 'prog', 1);
+    assert.equal(interno.tipo, 'sopa');
+    let ultima: any;
+    for (const ubicacion of interno.ubicaciones) {
+      ultima = (await e.pedir('POST', '/academia/prog/1/juego', 'vip', { ruta: ubicacion.celdas })).body;
+    }
+    assert.equal(ultima.progreso.completado, true);
+    assert.equal(ultima.progreso.recompensaAcreditada, true);
+    assert.equal(ultima.diamantesGanados, 10);
+    assert.equal(e.premios.has('u-vip|prog|1'), true);
+
+    const recarga = await e.pedir('GET', '/academia/prog/1/juego');
+    assert.equal(recarga.body.progreso.completado, true);
+    assert.equal(recarga.body.progreso.resueltos.length, interno.total);
+    const repetida = await e.pedir('POST', '/academia/prog/1/juego', 'vip', { ruta: interno.ubicaciones[0].celdas });
+    assert.equal(repetida.body.diamantesGanados, 0);
+    assert.equal(e.premios.size, 1);
+    assert.equal((await e.pedir('GET', '/academia/progreso')).body.prog.modulos['1'].juego.completado, true);
+  });
+
+  test('la acreditación al libro mayor es transaccional e idempotente', async () => {
+    const db = new MemoryFirestore();
+    const puntos = new PuntosService(db, () => new Date('2026-10-30T12:00:00.000Z'));
+    const primera = await puntos.acreditarJuegoAcademia('u-vip', 'prog', 1);
+    const segunda = await puntos.acreditarJuegoAcademia('u-vip', 'prog', 1);
+    assert.deepEqual(primera, { diamantes: 10, repetida: false, saldo: 360 });
+    assert.deepEqual(segunda, { diamantes: 10, repetida: true, saldo: 360 });
+    assert.equal(db.crudo('v2_puntos/u-vip')?.experiencia, 10);
+    assert.equal(db.escrituras.filter((x) => x.ruta.includes('__academia__prog__1__j2')).length, 1);
   });
 });
 

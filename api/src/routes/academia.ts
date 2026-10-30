@@ -28,6 +28,17 @@ export function rutaAcademia(svc: AcademiaService, requireUser: RequestHandler):
     res.json(await svc.marcarTema(req.usuario!, req.params.programa, req.params.n, cuerpo.tema));
   }));
 
+  // GET no entrega soluciones; POST valida una selección y fusiona el avance confirmado.
+  r.get('/:programa/:n/juego', requireUser, asyncHandler(async (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.json(await svc.juego(req.usuario!, req.params.programa, req.params.n));
+  }));
+
+  r.post('/:programa/:n/juego', requireUser, asyncHandler(async (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.json(await svc.registrarJuego(req.usuario!, req.params.programa, req.params.n, req.body));
+  }));
+
   // GET /academia/:programa/:n/examen — preguntas al azar del banco, SIN respuestas.
   r.get('/:programa/:n/examen', requireUser, asyncHandler(async (req, res) => {
     res.json(await svc.emitirExamen(req.usuario!, req.params.programa, req.params.n));

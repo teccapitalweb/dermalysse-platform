@@ -14,6 +14,7 @@ Decisión del propietario (15 de octubre de 2026): Dermalysse incorpora una **Ac
 - Freemium: el módulo 1 de cada programa es gratis; el resto requiere VIP.
 - Calendario de lanzamiento (decisión del propietario, 15 de octubre de 2026): un programa puede abrir sus módulos por fechas. *Fundamentos de la piel* abre el módulo 1 el **jueves 22 de octubre de 2026** y uno nuevo cada 7 días (módulo 12: 7 de enero de 2027), a las 00:00 de la Ciudad de México. Antes de su fecha, el módulo se ve como «Disponible el … · faltan N días» y no muestra contenido; la fecha se revisa antes que borrador, VIP y desbloqueo. Si las imágenes están listas antes, el administrador mueve la fecha de inicio en `/admin/academia` («Liberar el módulo 1 hoy» o una fecha elegida) y todo el calendario se recorre; «Volver a la fecha del catálogo» lo restablece. Campo `lanzamiento` del catálogo: ver `docs/ACADEMIA-FORMATO.md` §1.
 - El examen lo emite y califica el servidor. Las respuestas correctas nunca viajan antes de responder y, al reprobar, no se revelan; tras reprobar hay una espera de 3 minutos. Para recibir el examen hay que haber leído todos los temas.
+- Los minijuegos se presentan como **Laboratorio Dermalysse**: reto estable, validación por la API, avance sincronizado entre dispositivos y 10 Diamantes + 10 XP en la primera finalización de cada módulo. La vista previa administrativa y el modo local no acreditan premios reales.
 
 ## 3. Catálogo inicial
 

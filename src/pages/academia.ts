@@ -7,10 +7,13 @@ import {
   programa as getPrograma, cargarCatalogo, cargarModulo, avanceModulo, moduloAprobado, moduloDesbloqueado,
   temasLeidos, resumenPrograma, marcarTemaLeido, marcarJuego, juegoCompletado, emitirExamen, calificarExamen,
   esAdminAcademia, puedeVip, modoRevisorDemo, moduloProgramado, infoModulo, fechaLanzamiento, cuentaLanzamiento, textoLanzamiento,
-  type ModuloCatalogo, type Modulo, type Programa, type PreguntaA, type ResultadoExamen,
+  academiaUsaApi, cargarJuegoRemoto, enviarJugadaRemota,
+  type JuegoAcademia, type ModuloCatalogo, type Modulo, type Programa, type PreguntaA, type ResultadoExamen,
 } from '../core/academia';
-import { bloques, esc, figura, hash, minijuegoHTML, montarInteraccion, verificacion } from '../ui/academia-bloques';
+import { bloques, esc, figura, hash, montarInteraccion, verificacion } from '../ui/academia-bloques';
+import { juegoLocal, laboratorioHTML, montarLaboratorio } from '../ui/academia-juegos';
 import { celebrar } from '../ui/celebracion';
+import { actualizarPuntosShell, invalidarPanelPuntos } from '../core/puntos';
 
 const ic = (n: string) => `<i data-lucide="${n}" class="i" aria-hidden="true"></i>`;
 // Cada área usa un tono de la paleta Dermalysse (definidos en academia.css, claro y oscuro, con contraste AA).
@@ -102,6 +105,7 @@ function errorHTML(e: unknown, p?: Programa, n?: number) {
       p && n ? `<a class="btn btn--brand" href="${ruta(p.id, n)}">Ver los temas ${ic('arrow-right')}</a>` : '');
   }
   if (codigo === 'espera_examen') return aviso('timer', 'Un respiro antes de reintentar', esc(err?.message || 'Repasa los temas y vuelve a intentarlo en unos minutos.'));
+  if (codigo === 'juego_no_disponible') return aviso('flask-conical', 'Laboratorio en preparación', esc(err?.message || 'Este módulo todavía no tiene una práctica interactiva.'));
   if (codigo === 'examen_no_emitido' || codigo === 'examen_desactualizado') return aviso('rotate-ccw', 'Inicia el examen de nuevo', esc(err?.message || 'Pide un examen nuevo para continuar.'));
   if (codigo === 'no-encontrado' || codigo === '404') {
     return aviso('search', 'No encontramos este contenido', 'Revisa el enlace o vuelve al catálogo de la Academia.', `<a class="btn btn--secondary" href="#/academia">${ic('arrow-left')}Ir a la Academia</a>`);
@@ -355,19 +359,31 @@ export async function academiaTema(params: Record<string, string>) {
 }
 
 // ═════════ Minijuego ═════════
+let laboratorioActual: { p: string; n: number; juego: JuegoAcademia; remoto: boolean; validar: (entrada: Record<string, unknown>) => Promise<JuegoAcademia> } | null = null;
 export async function academiaJuego(params: Record<string, string>) {
   const r = await prepararModulo(params, 'Minijuego');
   if (!r.m) return r.html!;
   const { p, n, m } = r as Listo;
-  const semilla = hash(`${p.id}${n}${Date.now() >> 16}`);
-  const tablero = m.minijuego
-    ? minijuegoHTML(m.minijuego, semilla)
-    : '<p class="ac-juego__ayuda">Este módulo todavía no tiene minijuego.</p>';
+  laboratorioActual = null;
+  if (!m.minijuego) return envolver(`${migasMod(p, n, 'Laboratorio')}${errorHTML({ codigo: 'juego_no_disponible' }, p, n)}`);
+  try {
+    if (academiaUsaApi()) {
+      const juego = await cargarJuegoRemoto(p.id, n);
+      laboratorioActual = { p: p.id, n, juego, remoto: true, validar: (entrada) => enviarJugadaRemota(p.id, n, entrada) };
+    } else {
+      const local = juegoLocal(m.minijuego, hash(`${p.id}|${n}|laboratorio-v2`));
+      laboratorioActual = { p: p.id, n, juego: local.juego, remoto: false, validar: local.validar };
+    }
+  } catch (e) {
+    return envolver(`${migasMod(p, n, 'Laboratorio')}${errorHTML(e, p, n)}`);
+  }
+  const lab = laboratorioActual;
+  const completado = lab.juego.progreso.completado;
   return `<section class="ac ac-juego" data-tono="${area(p.area).tono}" data-ac-juego="${esc(p.id)}|${n}">
-    ${migasMod(p, n, 'Minijuego')}
-    <header class="ac-juego__head"><span class="ac-pub ac-pub--fuerte">${ic('puzzle')} Minijuego del módulo ${n} · ${JUEGOS[m.minijuego?.tipo ?? '']?.[1] ?? 'Práctica'}</span><h1>${esc(m.minijuego?.titulo || 'Minijuego')}</h1><p class="ac-lead">Repasa el vocabulario del módulo antes del examen. Es práctica: no cuenta para tu calificación.</p></header>
-    <div class="ac-juego__tablero">${tablero}</div>
-    <div class="ac-juego__fin" data-ac-juego-fin role="status" hidden><span class="ac-juego__sello">${ic('trophy')}</span><div><strong>¡Completado!</strong><p>Ya repasaste el vocabulario del módulo. Ahora sí, al examen.</p></div><a class="btn btn--secondary" href="${ruta(p.id, n, 'examen')}">Ir al examen ${ic('arrow-right')}</a></div>
+    ${migasMod(p, n, 'Laboratorio')}
+    <header class="ac-juego__head"><span class="ac-pub ac-pub--fuerte">${ic('flask-conical')} Laboratorio del módulo ${n} · ${JUEGOS[m.minijuego.tipo]?.[1] ?? 'Práctica'}</span><h1>Convierte lo aprendido en dominio</h1><p class="ac-lead">Una práctica breve, visual y guardada. La precisión importa más que la velocidad.</p></header>
+    <div class="ac-juego__tablero">${laboratorioHTML(lab.juego, lab.remoto)}</div>
+    <div class="ac-juego__fin" data-ac-juego-fin role="status" ${completado ? '' : 'hidden'}><span class="ac-juego__sello">${ic('trophy')}</span><div><strong>¡Laboratorio completado!</strong><p data-ac-juego-premio>${lab.remoto ? (lab.juego.progreso.recompensaAcreditada ? 'La recompensa de esta práctica ya está en tu monedero.' : 'Tu finalización quedó sincronizada.') : 'Vista previa local: no acredita Diamantes reales.'}</p></div><a class="btn btn--secondary" href="${ruta(p.id, n, 'examen')}">Ir al examen ${ic('arrow-right')}</a></div>
     <footer class="ac-art__pie"><a class="btn btn--secondary" href="${ruta(p.id, n)}">${ic('arrow-left')} Volver al módulo</a><a class="btn btn--secondary" href="${ruta(p.id, n, 'examen')}">Ir al examen ${ic('arrow-right')}</a></footer>
   </section>`;
 }
@@ -528,17 +544,25 @@ export function montarAcademia() {
     root.querySelector('[data-ac-terminar]')?.addEventListener('click', () => { void marcar(); }, sig);
   }
 
-  montarInteraccion(root, {
-    signal: ab.signal,
-    alCompletarJuego: () => {
-      if (!root.matches('[data-ac-juego]')) return;
-      const [pid, n] = root.dataset.acJuego!.split('|');
-      marcarJuego(pid, Number(n));
+  montarInteraccion(root, { signal: ab.signal });
+  if (root.matches('[data-ac-juego]') && laboratorioActual) {
+    const lab = laboratorioActual;
+    montarLaboratorio(root, lab.juego, lab.validar, (juego) => {
+      marcarJuego(lab.p, lab.n);
       const fin = root.querySelector<HTMLElement>('[data-ac-juego-fin]');
+      const premio = root.querySelector<HTMLElement>('[data-ac-juego-premio]');
+      if (premio) {
+        premio.textContent = lab.remoto
+          ? juego.diamantesGanados
+            ? `Ganaste ${juego.diamantesGanados} Diamantes Dermalysse. Ya aparecen en tu monedero.`
+            : 'Práctica validada. La recompensa de primera finalización ya estaba acreditada.'
+          : 'Vista previa local completada: la demostración no modifica Diamantes reales.';
+      }
+      if (juego.diamantesGanados) { invalidarPanelPuntos(); void actualizarPuntosShell(); }
       if (fin) { fin.hidden = false; fin.scrollIntoView({ behavior: suave, block: 'center' }); }
-      celebrar('normal');
-    },
-  });
+      celebrar('grande');
+    }, ab.signal);
+  }
 
   const mostrarError = (exRoot: HTMLElement, err: unknown, pid: string, n: number) => {
     const caja = exRoot.querySelector<HTMLElement>('[data-ac-ex-error]');

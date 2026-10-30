@@ -13,6 +13,7 @@ import { segmento } from '../adapters/firestore/v2.js';
 import { leerMetricasVip } from '../adapters/firestore/metricasVip.js';
 import { CodedError, NotFoundError } from './errors.js';
 import { otorgarDiasVipEnTx } from './vip.js';
+import { DIAMANTES_JUEGO_ACADEMIA } from './academiaJuegos.js';
 import type { Usuario } from '../domain/types.js';
 
 export const COLECCION_PUNTOS = 'v2_puntos';
@@ -647,6 +648,36 @@ const idMovimiento = (uid: string, tipo: string, desde: number, hasta: number) =
 
 export class PuntosService {
   constructor(private readonly db: FirestorePort, private readonly ahora: () => Date) {}
+
+  /** Premio educativo fijo e idempotente por la primera finalización validada de un minijuego. */
+  async acreditarJuegoAcademia(uidCrudo: string, programaCrudo: string, n: number): Promise<{ diamantes: number; repetida: boolean; saldo: number }> {
+    const uid = segmento(uidCrudo), programa = segmento(programaCrudo);
+    if (!Number.isInteger(n) || n < 1 || n > 99) throw new CodedError(400, 'puntos/academia-invalida', 'El módulo de Academia no es válido.');
+    await this.sincronizar(uid);
+    const fecha = this.ahora().toISOString();
+    const movimientoId = segmento(`${uid}__academia__${programa}__${n}__j2`);
+    return this.db.runTransaction(async (tx) => {
+      const resumenRuta = rutaResumen(uid);
+      const movimientoRuta = `${COLECCION_MOVIMIENTOS}/${movimientoId}`;
+      const [resumenDoc, movimientoDoc] = await Promise.all([tx.get(resumenRuta), tx.get(movimientoRuta)]);
+      const resumen = resumenDesdeDoc(uid, resumenDoc.data());
+      if (movimientoDoc.exists) return { diamantes: DIAMANTES_JUEGO_ACADEMIA, repetida: true, saldo: resumen.saldo };
+      const nuevo: ResumenGuardado = {
+        ...resumen,
+        saldo: resumen.saldo + DIAMANTES_JUEGO_ACADEMIA,
+        experiencia: resumen.experiencia + DIAMANTES_JUEGO_ACADEMIA,
+        ganados: resumen.ganados + DIAMANTES_JUEGO_ACADEMIA,
+        actualizado: fecha,
+      };
+      tx.set(resumenRuta, { ...nuevo });
+      tx.set(movimientoRuta, {
+        uid, tipo: 'ganado', puntos: DIAMANTES_JUEGO_ACADEMIA, concepto: 'Laboratorio de Academia',
+        detalle: `Primera finalización validada · ${programa} · módulo ${n}`, fecha,
+        referencia: `academia:${programa}:${n}:juego-v2`,
+      });
+      return { diamantes: DIAMANTES_JUEGO_ACADEMIA, repetida: false, saldo: nuevo.saldo };
+    });
+  }
 
   /** Vista operativa para administración. No reconcilia cuentas ni acredita premios por el solo hecho de consultarla. */
   async adminResumen(): Promise<ResumenPuntosAdmin> {

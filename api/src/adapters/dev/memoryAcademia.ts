@@ -37,6 +37,30 @@ export class MemoryAcademiaProgressStore implements AcademiaProgressStore {
     a.aprobado = a.aprobado === true; // una reprobación posterior nunca retira la aprobación
     return structuredClone(a);
   }
+
+  async registrarJuego(uid: string, programa: string, n: number, r: {
+    version: string; tipo: 'sopa' | 'crucigrama' | 'memorama'; resueltos: string[]; total: number; acierto: boolean; fecha: string;
+  }): Promise<AvanceModuloAcademia> {
+    const a = this.avance(uid, programa, n);
+    if (!a.juego || a.juego.version !== r.version || a.juego.tipo !== r.tipo) {
+      a.juego = { version: r.version, tipo: r.tipo, resueltos: [], jugadas: 0, errores: 0, completado: false, iniciadoEn: r.fecha, actualizadoEn: r.fecha };
+    }
+    a.juego.resueltos = [...new Set([...a.juego.resueltos, ...r.resueltos])].slice(0, r.total);
+    a.juego.jugadas += 1;
+    if (!r.acierto) a.juego.errores += 1;
+    a.juego.actualizadoEn = r.fecha;
+    if (!a.juego.completado && a.juego.resueltos.length >= r.total) {
+      a.juego.completado = true;
+      a.juego.completadoEn = r.fecha;
+    }
+    return structuredClone(a);
+  }
+
+  async marcarRecompensaJuego(uid: string, programa: string, n: number): Promise<AvanceModuloAcademia> {
+    const a = this.avance(uid, programa, n);
+    if (a.juego?.completado) a.juego.recompensaAcreditada = true;
+    return structuredClone(a);
+  }
 }
 
 export class MemoryAcademiaAttemptStore implements AcademiaAttemptStore {

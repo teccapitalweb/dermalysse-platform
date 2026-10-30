@@ -109,6 +109,14 @@ Minijuego del módulo (uno por módulo). Tipo fijo según el número: **1, 4, 7,
 { "tipo": "memorama", "titulo": "…", "pares": [{ "a": "Concepto", "b": "Pareja" }] }        // 6 a 8
 ```
 
+### Laboratorio Dermalysse v2
+
+- El JSON conserva palabras, respuestas y parejas como fuente editorial privada. La API entrega al cliente únicamente el tablero público y valida cada jugada en el servidor; nunca publica las claves de solución dentro del módulo, el DOM ni la respuesta inicial del juego.
+- El avance se guarda por cuenta y módulo en `v2_academia_progreso/{uid}.modulos.<programa>:<n>.juego`: versión, elementos resueltos, jugadas, errores, puntuación, finalización y recibo de recompensa.
+- Completar por primera vez un minijuego validado acredita **10 Diamantes Dermalysse** y 10 XP. El movimiento `uid__academia__<programa>__<n>__j2` es idempotente; recargar, repetir o abrirlo en otro dispositivo no duplica el premio.
+- La vista previa local permite revisar la experiencia sin afirmar sincronización ni acreditar Diamantes. El administrador puede previsualizar borradores, pero su previsualización no genera recompensas.
+- Los tres tipos deben ser utilizables con teclado, conservar foco visible y adaptarse a teléfono sin provocar desplazamiento horizontal de toda la página.
+
 ## 6. Preguntas
 
 ```jsonc
