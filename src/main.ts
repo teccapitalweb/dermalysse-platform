@@ -31,6 +31,7 @@ import './styles/academia.css';
 import './styles/produccion.css';
 import './styles/responsive.css';
 import './styles/directorio.css';
+import './styles/rompecabezas-clase.css';
 import { createIcons, icons } from 'lucide';
 import { route, startRouter, onRender, onBeforeRender, current, navigate, render, type Page } from './core/router';
 import { shellHTML, marcarNavActivo } from './ui/shell';
@@ -100,6 +101,7 @@ import { paginaCursoGratis, confirmarCursoGratis } from './pages/curso-gratis';
 import { debeElegir } from './core/curso-gratis';
 import { instalarAvisosLogros } from './ui/logro-desbloqueado';
 import { montarCampanaBienvenida } from './ui/campana-bienvenida';
+import { montarRompecabezasClase } from './ui/rompecabezas-clase';
 
 let _showQuiz = false;
 let desmontarExperiencia: (() => void) | null = null;
@@ -406,6 +408,7 @@ onRender(() => {
   if (path.startsWith('/retos/historia')) montarHistoria();
   if (path === '/herramientas') montarHerramientas();
   montarAcademia(); // siempre: desmonta la página anterior y solo conecta si la actual es de la Academia
+  montarRompecabezasClase(() => celebrar('normal'));
   if (shellActual === 'admin' && path === '/admin/academia') montarAdminAcademia(toast, render);
   if (shellActual === 'admin' && path === '/admin/campanas') montarAdminCampanas(toast, render);
   if (path === '/comunidad' && Comunidad.cargando()) Comunidad.cargarListado().then(() => render()).catch((e) => toast(mensajeError(e), 'circle-alert'));

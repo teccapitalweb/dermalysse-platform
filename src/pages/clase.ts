@@ -4,6 +4,8 @@ import { esc, placeholder } from '../ui/partials';
 import { Datos, type Clase } from '../core/datos';
 import { Acceso } from '../core/acceso';
 import { resumenQuiz } from '../core/quiz-clase';
+import { rompecabezasDeClase } from '../core/rompecabezas-clase';
+import { rompecabezasClaseHTML } from '../ui/rompecabezas-clase';
 
 const vacioTab = (icon: string, titulo: string, texto: string, color = 'primary') => `<div class="stack" style="gap:10px;text-align:center;padding:20px 0"><span class="circle-btn" style="width:48px;height:48px;background:var(--${color}-soft);color:var(--${color});margin:0 auto"><i data-lucide="${icon}" class="i"></i></span><strong>${titulo}</strong><p class="muted" style="font-size:var(--fs-sm)">${texto}</p></div>`;
 
@@ -205,6 +207,7 @@ export function clase(params: Record<string, string>) {
   }
   Progreso.abrirClase(c.id, n);
   const api = Datos.modo === 'api';
+  const rompecabezas = rompecabezasDeClase(c.id, n);
 
   // Demo: embed directo (sin ids productivos). API: el servidor firma la URL de Bunny (los videoId
   // solo viven en el servidor) y src/ui/reproductor.ts monta el iframe y reporta el avance.
@@ -243,10 +246,11 @@ export function clase(params: Record<string, string>) {
         ${upnextHTML(c, n)}
       </div>
       <div class="card card--pad stack" data-tabs style="gap:16px">
-        <div class="tabs"><button data-for="temario" class="is-active">Temario</button><button data-for="notas">Notas</button><button data-for="quiz">Quiz</button></div>
+        <div class="tabs lesson-tabs"><button data-for="temario" class="is-active">Temario</button><button data-for="notas">Notas</button><button data-for="quiz">Quiz</button>${rompecabezas ? '<button data-for="rompecabezas">Rompecabezas</button>' : ''}</div>
         <div data-tab="temario" data-clase-temario class="stack" style="gap:10px;font-size:var(--fs-sm)">${temarioHTML(c, n)}</div>
         <div data-tab="notas" hidden class="stack" style="gap:10px">${notasHTML(k, c.id, n)}</div>
         <div data-tab="quiz" hidden class="stack" style="gap:12px">${quizHTML(c.id, n, k)}</div>
+        ${rompecabezas ? `<div data-tab="rompecabezas" hidden>${rompecabezasClaseHTML(rompecabezas)}</div>` : ''}
       </div>
     </div>
   </section>`;

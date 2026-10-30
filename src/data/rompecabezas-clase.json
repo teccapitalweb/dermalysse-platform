@@ -1,0 +1,32 @@
+[
+  {
+    "id": "cabina-tecnologica",
+    "cursoId": "course-uso-de-tecnologias-avanzadas-en-cosmiatria",
+    "claseN": 1,
+    "titulo": "Reconoce una cabina tecnológica",
+    "descripcion": "Reconstruye la escena y observa cómo se organiza un espacio profesional para análisis cosmético.",
+    "imagen": "/juegos/rompecabezas/cabina-tecnologica.png",
+    "alt": "Cabina de cosmetología con equipo de análisis de la piel y productos sin marca",
+    "cierre": "Observa la distribución del equipo, la zona de trabajo y el orden visual antes de volver al video."
+  },
+  {
+    "id": "formulacion-natural",
+    "cursoId": "course-formulacion-de-cosmetica-natural",
+    "claseN": 1,
+    "titulo": "Explora una mesa de formulación",
+    "descripcion": "Ordena las piezas para reconocer ingredientes, recipientes y herramientas de una escena de formulación cosmética.",
+    "imagen": "/juegos/rompecabezas/formulacion-natural.png",
+    "alt": "Mesa de formulación cosmética con ingredientes botánicos, recipientes y utensilios de laboratorio",
+    "cierre": "Compara los recipientes, las materias primas y las herramientas; después identifica cuáles aparecen en la clase."
+  },
+  {
+    "id": "control-regulatorio",
+    "cursoId": "course-regulacion-cosmetica",
+    "claseN": 1,
+    "titulo": "Arma el escenario de control de calidad",
+    "descripcion": "Reconstruye una mesa editorial de documentación, muestreo y revisión de productos cosméticos.",
+    "imagen": "/juegos/rompecabezas/control-regulatorio.png",
+    "alt": "Mesa de control de calidad cosmético con muestras, documentación abstracta y equipo de laboratorio",
+    "cierre": "La imagen representa un flujo educativo de revisión; no sustituye los requisitos vigentes de la autoridad competente."
+  }
+]

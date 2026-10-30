@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "node --test scripts/test-content.mjs scripts/test-produccion.mjs scripts/paridad-sesion.test.mjs scripts/arcade-remoto.test.mjs scripts/directorio-cliente.test.mjs scripts/admin-directorio.test.mjs scripts/pwa.test.mjs",
+    "test": "node --test scripts/test-content.mjs scripts/test-produccion.mjs scripts/paridad-sesion.test.mjs scripts/arcade-remoto.test.mjs scripts/directorio-cliente.test.mjs scripts/admin-directorio.test.mjs scripts/pwa.test.mjs scripts/rompecabezas-clase.test.mjs",
     "academia:validar": "node scripts/academia/validar.mjs",
     "check": "tsc --noEmit",
     "verify": "npm run check && npm run test && npm run typecheck --prefix api && npm test --prefix api && npm run build"
